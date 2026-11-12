@@ -5,31 +5,34 @@
   --font-display: 'Plus Jakarta Sans', system-ui, -apple-system, sans-serif;
   --font-mono: 'JetBrains Mono', monospace;
 
-  --color-obsidian: #02060D;
-  --color-navy-dark: #040E1E;
+  /* Color Palette - Premium Navy, Corporate Blue, Cyan, Sky Blue, Off-White */
   --color-navy: #071D3A;
+  --color-navy-dark: #030F1E;
   --color-navy-light: #0B2952;
-  --color-navy-surface: #0A1C36;
+  --color-navy-surface: #0A1E3C;
   --color-prakvi-blue: #009EDB;
   --color-prakvi-hover: #0088BF;
-  --color-cyan: #00F0FF;
+  --color-cyan: #00D4EA;
   --color-cyan-glow: #38BDF8;
   --color-cyan-soft: #7DD3FC;
-  --color-ice: #E0F2FE;
-  --color-dark: #0F172A;
-  --color-muted: #94A3B8;
+  --color-sky: #DDF4FF;
+  --color-sky-light: #F0F8FF;
+  --color-offwhite: #F7FAFC;
+  --color-dark: #172B45;
+  --color-muted: #57708E;
 }
 
 @layer base {
   html {
-    color-scheme: dark;
-    background-color: #02060D;
+    scroll-behavior: smooth;
+    background-color: #071D3A;
   }
 
   body {
-    background-color: #02060D;
-    color: #F1F5F9;
     font-family: var(--font-sans);
+    background-color: #071D3A;
+    color: #172B45;
+    overflow-x: hidden;
   }
 
   h1, h2, h3, h4, h5, h6 {
@@ -38,70 +41,79 @@
   }
 }
 
-/* Custom scrollbar in premium obsidian & cyan */
+/* Custom scrollbar in corporate navy & cyan */
 ::-webkit-scrollbar {
   width: 8px;
   height: 8px;
 }
 
 ::-webkit-scrollbar-track {
-  background: #02060D;
+  background: #071D3A;
 }
 
 ::-webkit-scrollbar-thumb {
-  background: #0B2548;
+  background: #009EDB;
   border-radius: 4px;
-  border: 1px solid rgba(0, 240, 255, 0.2);
+  border: 1px solid rgba(0, 212, 234, 0.3);
 }
 
 ::-webkit-scrollbar-thumb:hover {
-  background: #009EDB;
+  background: #00D4EA;
 }
 
-/* Futuristic Tech Grids & Subtle Cybernetic Accents */
+/* Tech Grid Patterns */
 .tech-grid {
   background-size: 40px 40px;
   background-image: 
-    linear-gradient(to right, rgba(0, 240, 255, 0.04) 1px, transparent 1px),
-    linear-gradient(to bottom, rgba(0, 240, 255, 0.04) 1px, transparent 1px);
-}
-
-.tech-grid-dense {
-  background-size: 24px 24px;
-  background-image: 
-    linear-gradient(to right, rgba(0, 240, 255, 0.03) 1px, transparent 1px),
-    linear-gradient(to bottom, rgba(0, 240, 255, 0.03) 1px, transparent 1px);
+    linear-gradient(to right, rgba(0, 158, 219, 0.06) 1px, transparent 1px),
+    linear-gradient(to bottom, rgba(0, 158, 219, 0.06) 1px, transparent 1px);
 }
 
 .tech-grid-dark {
   background-size: 48px 48px;
   background-image: 
-    linear-gradient(to right, rgba(56, 189, 248, 0.035) 1px, transparent 1px),
-    linear-gradient(to bottom, rgba(56, 189, 248, 0.035) 1px, transparent 1px);
+    linear-gradient(to right, rgba(0, 212, 234, 0.05) 1px, transparent 1px),
+    linear-gradient(to bottom, rgba(0, 212, 234, 0.05) 1px, transparent 1px);
 }
 
-/* Radiant glow effects */
+.tech-grid-light {
+  background-size: 32px 32px;
+  background-image: 
+    linear-gradient(to right, rgba(0, 158, 219, 0.04) 1px, transparent 1px),
+    linear-gradient(to bottom, rgba(0, 158, 219, 0.04) 1px, transparent 1px);
+}
+
+/* Subtle cyan glow utilities */
 .glow-cyan-sm {
-  box-shadow: 0 0 15px rgba(0, 240, 255, 0.25);
+  box-shadow: 0 0 15px rgba(0, 212, 234, 0.25);
 }
 
 .glow-cyan-md {
-  box-shadow: 0 0 30px rgba(0, 240, 255, 0.3);
+  box-shadow: 0 0 30px rgba(0, 212, 234, 0.3);
 }
 
 .glow-cyan-lg {
-  box-shadow: 0 0 50px rgba(0, 240, 255, 0.25);
+  box-shadow: 0 0 50px rgba(0, 212, 234, 0.25);
 }
 
 .text-glow-cyan {
-  text-shadow: 0 0 20px rgba(0, 240, 255, 0.5);
+  text-shadow: 0 0 20px rgba(0, 212, 234, 0.5);
 }
 
 /* Radial ambient lighting layers */
 .bg-radial-cyan {
-  background: radial-gradient(ellipse 80% 50% at 50% -20%, rgba(0, 240, 255, 0.15), transparent 70%);
+  background: radial-gradient(ellipse 80% 50% at 50% -20%, rgba(0, 212, 234, 0.18), transparent 70%);
 }
 
 .bg-radial-navy {
-  background: radial-gradient(ellipse at center, rgba(11, 41, 82, 0.6) 0%, rgba(2, 6, 13, 1) 100%);
+  background: radial-gradient(ellipse at center, rgba(11, 41, 82, 0.7) 0%, rgba(7, 29, 58, 1) 100%);
+}
+
+/* Premium Card hover utility */
+.premium-card {
+  transition: all 0.25s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+.premium-card:hover {
+  transform: translateY(-4px);
 }

@@ -35,9 +35,11 @@ export const ProductDetailPage: React.FC = () => {
   };
 
   return (
-    <PageTransition className="min-h-screen bg-[#02060D] text-slate-100 pt-20">
-      {/* 1. HERO WITH BLENDED CANVAS */}
-      <section className="bg-gradient-to-b from-[#02060D] via-[#040E1E] to-[#07192F] text-white py-20 relative overflow-hidden border-b border-white/[0.06]">
+    <PageTransition className="min-h-screen overflow-x-hidden pt-20 selection:bg-[#009EDB] selection:text-white">
+      {/* =========================================================================
+          1. HERO (Deep Navy #071D3A)
+         ========================================================================= */}
+      <section className="bg-gradient-to-b from-[#071D3A] via-[#0B2952] to-[#071D3A] text-white py-20 relative overflow-hidden border-b border-white/10">
         <div className="absolute inset-0 tech-grid-dark opacity-35 pointer-events-none" />
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
           <Breadcrumbs
@@ -49,9 +51,9 @@ export const ProductDetailPage: React.FC = () => {
           />
 
           <div className="mt-8 max-w-3xl">
-            <div className="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full bg-white/[0.04] border border-[#00F0FF]/30 backdrop-blur-md mb-4">
-              <span className="w-2 h-2 rounded-full bg-[#00F0FF] shadow-[0_0_8px_#00F0FF]" />
-              <span className="text-xs font-mono font-semibold uppercase tracking-widest text-[#00F0FF]">
+            <div className="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full bg-white/[0.08] border border-[#00D4EA]/30 backdrop-blur-md mb-4">
+              <span className="w-2 h-2 rounded-full bg-[#00D4EA] shadow-[0_0_8px_#00D4EA]" />
+              <span className="text-xs font-mono font-semibold uppercase tracking-widest text-[#00D4EA]">
                 {product.badge || 'Enterprise SaaS Platform'}
               </span>
             </div>
@@ -60,158 +62,148 @@ export const ProductDetailPage: React.FC = () => {
               {product.name}
             </h1>
 
-            <p className="mt-4 text-lg sm:text-xl font-medium text-[#00F0FF]">
+            <p className="mt-4 text-lg sm:text-xl font-medium text-[#00D4EA]">
               {product.tagline}
             </p>
 
-            <p className="mt-4 text-base sm:text-lg text-slate-300 leading-relaxed font-light">
+            <p className="mt-4 text-base sm:text-lg text-slate-200 leading-relaxed font-light">
               {product.fullDesc}
             </p>
 
             <div className="mt-8 flex flex-wrap gap-4">
               <button
                 onClick={() => setIsDemoModalOpen(true)}
-                className="inline-flex items-center gap-2 px-7 py-3.5 rounded-xl text-sm font-bold text-[#02060D] bg-gradient-to-r from-[#00F0FF] to-[#009EDB] hover:from-[#38BDF8] hover:to-[#00F0FF] shadow-[0_0_20px_rgba(0,240,255,0.35)] transition-all"
+                className="inline-flex items-center gap-2 px-7 py-3.5 rounded-xl text-sm font-bold text-[#071D3A] bg-gradient-to-r from-[#00D4EA] to-[#009EDB] hover:from-[#38BDF8] hover:to-[#00D4EA] shadow-[0_0_20px_rgba(0,212,234,0.35)] transition-all"
               >
                 <span>Request Platform Demo</span>
-                <ArrowRight className="w-4 h-4 text-[#02060D]" />
+                <ArrowRight className="w-4 h-4 text-[#071D3A]" />
               </button>
 
               <Link
                 to="/contact"
-                className="inline-flex items-center gap-2 px-7 py-3.5 rounded-xl text-sm font-semibold text-slate-200 bg-white/[0.06] hover:bg-white/[0.1] border border-white/15 hover:border-[#00F0FF]/40 transition-colors"
+                className="inline-flex items-center gap-2 px-7 py-3.5 rounded-xl text-sm font-semibold text-white bg-white/[0.08] hover:bg-white/[0.14] border border-white/20 hover:border-[#00D4EA]/50 transition-colors"
               >
-                <span>Pricing & Deployment Inquiry</span>
+                <span>Speak with an Architect</span>
               </Link>
             </div>
           </div>
         </div>
       </section>
 
-      {/* CONTINUOUS UNIFIED CANVAS: STATS, CAPABILITY & USE CASES */}
-      <div className="bg-[#02060D]">
-        {/* 2. STATS BAR */}
-        <section className="py-12 border-b border-white/[0.06] bg-[#040E1E]/50">
-          <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-            <div className="grid grid-cols-2 md:grid-cols-4 gap-6">
-              {product.stats.map((st, i) => (
-                <div key={i} className="text-center p-6 rounded-2xl bg-[#040E1E] border border-white/10 shadow-lg">
-                  <div className="font-display text-3xl font-extrabold text-[#00F0FF] tabular-nums drop-shadow-[0_0_8px_rgba(0,240,255,0.3)]">{st.value}</div>
-                  <div className="text-xs text-slate-400 font-medium mt-1 font-mono">{st.label}</div>
-                </div>
-              ))}
-            </div>
-          </div>
-        </section>
-
-        {/* 3. CORE FEATURES & ARCHITECTURE (Split Grid) */}
-        <section className="py-20 lg:py-24">
-          <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-            <div className="grid grid-cols-1 lg:grid-cols-12 gap-12 items-center">
-              {/* Features (7 cols) */}
-              <div className="lg:col-span-7 space-y-6">
-                <SectionHeading
-                  badge="Capability Spectrum"
-                  title="Engineered for High-Velocity Execution"
-                  description="Built from the ground up for resilient multi-tenant enterprise scale, low-latency querying, and seamless integration with legacy backbones."
-                  theme="dark"
+      {/* =========================================================================
+          2. CORE FEATURES & ARCHITECTURE METRICS (Off-White #F7FAFC with White Cards)
+         ========================================================================= */}
+      <section className="py-20 bg-[#F7FAFC] text-[#172B45] border-t border-slate-200/80">
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+          <div className="grid grid-cols-1 lg:grid-cols-12 gap-12 items-center">
+            {/* Visual Preview */}
+            <div className="lg:col-span-5">
+              <div className="relative rounded-3xl overflow-hidden shadow-xl border border-slate-200 group">
+                <img
+                  src={product.image}
+                  alt={product.name}
+                  className="w-full h-80 sm:h-96 object-cover group-hover:scale-105 transition-transform duration-700"
                 />
-
-                <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 pt-2">
-                  {product.features.map((feature, i) => (
-                    <div key={i} className="p-4 rounded-xl bg-[#040E1E]/90 border border-white/10 hover:border-[#00F0FF]/30 shadow-md flex items-start gap-3 transition-colors">
-                      <CheckCircle2 className="w-4 h-4 text-[#00F0FF] flex-shrink-0 mt-0.5" />
-                      <span className="text-xs sm:text-sm text-slate-200 font-medium leading-relaxed">
-                        {feature}
-                      </span>
-                    </div>
-                  ))}
-                </div>
+                <div className="absolute inset-0 bg-gradient-to-t from-[#071D3A]/70 via-transparent to-transparent" />
               </div>
+            </div>
 
-              {/* Architecture Highlights (5 cols) */}
-              <div className="lg:col-span-5 p-8 sm:p-10 rounded-3xl bg-[#040E1E]/90 text-white border border-[#00F0FF]/30 shadow-2xl backdrop-blur-xl">
-                <div className="text-xs font-mono font-bold uppercase tracking-wider text-[#00F0FF] mb-2">
-                  Technical Specifications
-                </div>
-                <h3 className="font-display text-2xl font-bold text-white mb-4">
-                  Architecture Blueprint
-                </h3>
-                <ul className="space-y-4 text-xs sm:text-sm text-slate-300 font-light">
-                  {product.architecturePoints.map((point, i) => (
-                    <li key={i} className="flex items-start gap-2.5">
-                      <Server className="w-4 h-4 text-[#00F0FF] flex-shrink-0 mt-0.5" />
-                      <span>{point}</span>
-                    </li>
-                  ))}
-                </ul>
+            {/* Feature List in White Card */}
+            <div className="lg:col-span-7 space-y-6">
+              <SectionHeading
+                badge="Platform Capabilities"
+                title="Engineered for Continuous Enterprise Execution"
+                description="Designed from the ground up for modularity, strict data sovereignty, and high throughput."
+                theme="light"
+              />
 
-                <div className="mt-8 pt-6 border-t border-white/10 flex items-center justify-between text-xs text-slate-400 font-mono">
-                  <span>SOC 2 Type II Audited</span>
-                  <span>TLS 1.3 Encryption</span>
-                </div>
+              <div className="grid grid-cols-1 sm:grid-cols-2 gap-3.5 pt-2">
+                {product.features.map((feat, idx) => (
+                  <div
+                    key={idx}
+                    className="p-4 rounded-xl bg-white border border-slate-200 shadow-sm flex items-start gap-2.5 text-xs sm:text-sm text-[#071D3A] font-medium"
+                  >
+                    <CheckCircle2 className="w-4 h-4 text-[#009EDB] shrink-0 mt-0.5" />
+                    <span>{feat}</span>
+                  </div>
+                ))}
               </div>
             </div>
           </div>
-        </section>
+        </div>
+      </section>
 
-        {/* 4. BUSINESS BENEFITS & USE CASES */}
-        <section className="py-20 lg:py-24 border-t border-white/[0.06] bg-[#07192F]/40">
-          <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-            <div className="grid grid-cols-1 lg:grid-cols-12 gap-12">
-              {/* Business Benefits (6 cols) */}
-              <div className="lg:col-span-6 space-y-6">
-                <SectionHeading
-                  badge="Measurable ROI"
-                  title="Business Impact & Value Realization"
-                  theme="dark"
-                />
-                <div className="space-y-3">
-                  {product.benefits.map((ben, i) => (
-                    <div key={i} className="p-5 rounded-2xl bg-[#040E1E]/90 border border-white/10 hover:border-[#00F0FF]/30 shadow-md flex items-start gap-3 transition-colors">
-                      <div className="w-6 h-6 rounded-full bg-[#00F0FF]/15 text-[#00F0FF] border border-[#00F0FF]/30 flex items-center justify-center font-bold text-xs flex-shrink-0 mt-0.5">
-                        ✓
-                      </div>
-                      <span className="text-sm text-slate-200 leading-relaxed font-light">
-                        {ben}
-                      </span>
-                    </div>
-                  ))}
-                </div>
-              </div>
+      {/* =========================================================================
+          3. ENTERPRISE ARCHITECTURE BLUEPRINT (Deep Navy #071D3A)
+         ========================================================================= */}
+      <section className="py-20 bg-gradient-to-b from-[#071D3A] via-[#0B2952] to-[#071D3A] text-white border-t border-white/10">
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+          <SectionHeading
+            badge="Technical Specification"
+            title="Architectural Standards & Security Blueprint"
+            description="Our software suites conform to strict institutional audit requirements and high-throughput zero-latency workloads."
+            theme="dark"
+            align="center"
+          />
 
-              {/* Targeted Use Cases (6 cols) */}
-              <div className="lg:col-span-6 space-y-6">
-                <SectionHeading
-                  badge="Deployment Scenarios"
-                  title="Industry & Operational Use Cases"
-                  theme="dark"
-                />
-                <div className="space-y-3">
-                  {product.useCases.map((uc, i) => (
-                    <div key={i} className="p-5 rounded-2xl bg-[#040E1E]/90 border border-white/10 hover:border-[#00F0FF]/30 shadow-md transition-colors">
-                      <div className="text-xs font-mono font-bold text-[#00F0FF] mb-1">
-                        SCENARIO 0{i + 1}
-                      </div>
-                      <p className="text-sm text-slate-300 leading-relaxed font-light">
-                        {uc}
-                      </p>
-                    </div>
-                  ))}
+          <div className="mt-14 grid grid-cols-1 md:grid-cols-3 gap-6">
+            {product.architecturePoints.map((point, idx) => (
+              <div
+                key={idx}
+                className="p-7 rounded-2xl bg-[#040E1E]/90 border border-[#00D4EA]/25 text-left shadow-xl"
+              >
+                <div className="w-10 h-10 rounded-xl bg-[#00D4EA]/10 border border-[#00D4EA]/30 text-[#00D4EA] flex items-center justify-center mb-4">
+                  <Server className="w-5 h-5" />
                 </div>
+                <h4 className="font-display text-base font-bold text-white mb-2">
+                  Architecture Layer 0{idx + 1}
+                </h4>
+                <p className="text-xs sm:text-sm text-slate-300 leading-relaxed font-light">
+                  {point}
+                </p>
               </div>
-            </div>
+            ))}
           </div>
-        </section>
-      </div>
+        </div>
+      </section>
 
-      {/* 5. DEMO MODAL */}
+      {/* =========================================================================
+          4. USE CASES & ENTERPRISE OUTCOMES (Off-White #F7FAFC)
+         ========================================================================= */}
+      <section className="py-20 bg-[#F7FAFC] text-[#172B45] border-t border-slate-200/80">
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+          <SectionHeading
+            badge="Deployment Context"
+            title="Common Enterprise Use Cases"
+            description="How multinational corporations leverage this platform to replace fragmented legacy tooling."
+            theme="light"
+          />
+
+          <div className="mt-10 grid grid-cols-1 md:grid-cols-3 gap-6">
+            {product.useCases.map((uc, idx) => (
+              <div
+                key={idx}
+                className="p-6 rounded-2xl bg-white border border-slate-200 shadow-sm hover:shadow-md transition-shadow"
+              >
+                <div className="text-xs font-mono font-bold text-[#009EDB] mb-2">
+                  Use Case 0{idx + 1}
+                </div>
+                <p className="text-sm text-[#071D3A] font-semibold leading-relaxed">
+                  {uc}
+                </p>
+              </div>
+            ))}
+          </div>
+        </div>
+      </section>
+
+      {/* DEMO MODAL */}
       {isDemoModalOpen && (
-        <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/80 backdrop-blur-md animate-fade-in">
-          <div className="bg-[#040E1E] rounded-3xl max-w-md w-full p-6 sm:p-8 shadow-2xl relative border border-[#00F0FF]/30 text-white">
+        <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/60 backdrop-blur-md animate-fade-in">
+          <div className="bg-white rounded-3xl max-w-md w-full p-6 sm:p-8 shadow-2xl relative border border-slate-200 text-[#172B45]">
             <button
               onClick={() => setIsDemoModalOpen(false)}
-              className="absolute top-4 right-4 p-2 text-slate-400 hover:text-white rounded-xl hover:bg-white/[0.08] transition-colors"
+              className="absolute top-4 right-4 p-2 text-slate-400 hover:text-slate-800 rounded-xl hover:bg-slate-100 transition-colors"
               aria-label="Close modal"
             >
               <X className="w-5 h-5" />
@@ -219,52 +211,51 @@ export const ProductDetailPage: React.FC = () => {
 
             {isSubmitted ? (
               <div className="py-8 text-center space-y-4">
-                <div className="w-14 h-14 rounded-full bg-[#00F0FF]/15 border border-[#00F0FF]/40 text-[#00F0FF] flex items-center justify-center mx-auto shadow-[0_0_20px_rgba(0,240,255,0.4)]">
+                <div className="w-14 h-14 rounded-full bg-[#DDF4FF] border border-[#009EDB]/40 text-[#009EDB] flex items-center justify-center mx-auto">
                   <CheckCircle2 className="w-8 h-8" />
                 </div>
-                <h3 className="font-display text-2xl font-bold text-white">
-                  Demo Request Confirmed!
+                <h3 className="font-display text-2xl font-bold text-[#071D3A]">
+                  Session Scheduled!
                 </h3>
-                <p className="text-xs sm:text-sm text-slate-300 max-w-xs mx-auto leading-relaxed font-light">
-                  We have queued your demo invitation for <strong>{product.name}</strong>. A solutions architect will reach out to <strong>{email}</strong> within 1 business day.
+                <p className="text-xs sm:text-sm text-[#57708E] max-w-xs mx-auto leading-relaxed">
+                  We've sent an invitation and technical overview to <strong>{email}</strong>.
                 </p>
               </div>
             ) : (
-              <div>
-                <h3 className="font-display text-xl font-bold text-white mb-1">
-                  Schedule Demo: {product.name}
+              <form onSubmit={handleDemo} className="space-y-4">
+                <div className="text-xs font-mono font-bold uppercase tracking-wider text-[#009EDB]">
+                  Live Technical Walkthrough
+                </div>
+                <h3 className="font-display text-2xl font-extrabold text-[#071D3A]">
+                  Demo {product.name}
                 </h3>
-                <p className="text-xs text-slate-400 mb-6 font-light">
-                  See how {product.name} optimizes workflows in your enterprise stack.
+                <p className="text-xs text-[#57708E] leading-relaxed">
+                  Provide your enterprise work email to receive sandbox credentials and access to the interactive architecture blueprint.
                 </p>
 
-                <form onSubmit={handleDemo} className="space-y-4">
-                  <div>
-                    <label className="block text-xs font-semibold text-slate-300 mb-1">
-                      Corporate Work Email *
-                    </label>
-                    <input
-                      type="email"
-                      required
-                      value={email}
-                      onChange={(e) => setEmail(e.target.value)}
-                      placeholder="executive@company.com"
-                      className="w-full px-4 py-2.5 rounded-xl bg-[#02060D] border border-white/15 text-sm text-white placeholder-slate-500 focus:outline-none focus:border-[#00F0FF] focus:ring-1 focus:ring-[#00F0FF]"
-                    />
-                  </div>
+                <div className="pt-2">
+                  <label className="block text-xs font-semibold text-[#071D3A] mb-1">
+                    Work Email *
+                  </label>
+                  <input
+                    type="email"
+                    required
+                    value={email}
+                    onChange={(e) => setEmail(e.target.value)}
+                    placeholder="architect@company.com"
+                    className="w-full px-3.5 py-2.5 rounded-xl bg-slate-50 border border-slate-300 text-[#071D3A] placeholder:text-slate-400 text-sm focus:outline-none focus:border-[#009EDB] focus:ring-1 focus:ring-[#009EDB]"
+                  />
+                </div>
 
+                <div className="pt-2">
                   <button
                     type="submit"
-                    className="w-full py-3 rounded-xl text-sm font-bold text-[#02060D] bg-gradient-to-r from-[#00F0FF] to-[#009EDB] hover:from-[#38BDF8] hover:to-[#00F0FF] shadow-[0_0_15px_rgba(0,240,255,0.4)] transition-all active:scale-95"
+                    className="w-full py-3.5 px-4 rounded-xl text-sm font-bold text-white bg-[#071D3A] hover:bg-[#009EDB] shadow-md transition-all"
                   >
-                    Confirm Demo Booking
+                    Request Platform Sandbox
                   </button>
-
-                  <p className="text-[10px] text-center text-slate-500 font-mono">
-                    Prototype demo confirmation • No persistent storage
-                  </p>
-                </form>
-              </div>
+                </div>
+              </form>
             )}
           </div>
         </div>
@@ -272,10 +263,8 @@ export const ProductDetailPage: React.FC = () => {
 
       {/* CTA */}
       <CTASection
-        title={`Deploy ${product.name} in Your Enterprise`}
-        subtitle="Talk to our product specialists to discuss sandbox access, multi-tenant deployment options, and custom API integrations."
-        primaryButtonText="Schedule Platform Walkthrough"
-        primaryButtonLink="/contact"
+        title={`Accelerate Your Operations with ${product.name}`}
+        subtitle="Schedule a deep-dive consultation with our solution architects to review custom integrations and licensing models."
       />
     </PageTransition>
   );

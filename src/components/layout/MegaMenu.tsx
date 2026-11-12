@@ -1,6 +1,7 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
 import { motion, AnimatePresence } from 'motion/react';
+import { navigationData } from '../../data/navigationData';
 import {
   User,
   Smartphone,
@@ -22,7 +23,6 @@ import {
   Handshake,
   Contact,
   ArrowRight,
-  ShieldCheck,
 } from 'lucide-react';
 
 interface MegaMenuProps {
@@ -30,7 +30,34 @@ interface MegaMenuProps {
   onClose: () => void;
 }
 
+// Map string icon names to Lucide icon components
+const iconMap: Record<string, React.FC<{ className?: string }>> = {
+  User,
+  Smartphone,
+  BarChart3,
+  Truck,
+  Users,
+  Plug,
+  Cloud,
+  PieChart,
+  Server,
+  Receipt,
+  Layers,
+  Headphones,
+  CheckSquare,
+  PenTool,
+  Code2,
+  Megaphone,
+  Database,
+  Handshake,
+  Contact,
+};
+
 export const MegaMenu: React.FC<MegaMenuProps> = ({ isOpen, onClose }) => {
+  const midPoint = Math.ceil(navigationData.enterpriseSolutions.length / 2);
+  const leftEnterprise = navigationData.enterpriseSolutions.slice(0, midPoint);
+  const rightEnterprise = navigationData.enterpriseSolutions.slice(midPoint);
+
   return (
     <AnimatePresence>
       {isOpen && (
@@ -39,266 +66,78 @@ export const MegaMenu: React.FC<MegaMenuProps> = ({ isOpen, onClose }) => {
           animate={{ opacity: 1, y: 0 }}
           exit={{ opacity: 0, y: -6 }}
           transition={{ duration: 0.18, ease: 'easeOut' }}
-          className="absolute top-full left-0 w-full bg-[#040E1E]/96 text-slate-100 shadow-[0_25px_60px_rgba(0,10,25,0.95)] border-b border-x border-[#00F0FF]/20 backdrop-blur-2xl z-50 rounded-b-3xl overflow-hidden"
+          className="absolute top-full left-0 w-full bg-[#071D3A]/98 text-slate-100 shadow-[0_25px_60px_rgba(3,15,30,0.95)] border-b border-x border-[#009EDB]/30 backdrop-blur-2xl z-50 rounded-b-3xl overflow-hidden"
           onMouseLeave={onClose}
         >
           {/* Subtle glowing cyan top border highlight */}
-          <div className="h-[1px] w-full bg-gradient-to-r from-transparent via-[#00F0FF]/60 to-transparent" />
+          <div className="h-[1px] w-full bg-gradient-to-r from-transparent via-[#00D4EA]/60 to-transparent" />
 
           <div className="max-w-7xl mx-auto px-6 py-8 lg:px-8">
             <div className="grid grid-cols-1 lg:grid-cols-12 gap-8">
               {/* Column 1: Enterprise Solutions (6 cols, 2 subcolumns) */}
               <div className="lg:col-span-6 pr-0 lg:pr-4">
                 <div className="pb-3 border-b border-white/10 mb-4 flex items-center justify-between">
-                  <div className="flex items-center gap-2">
-                    <h3 className="font-display text-sm font-bold text-white tracking-tight">
-                      Enterprise Solutions
-                    </h3>
-                  </div>
-                  <span className="text-[11px] font-mono text-[#00F0FF] bg-[#00F0FF]/10 px-2 py-0.5 rounded-full border border-[#00F0FF]/20">
-                    13 Practices
+                  <h3 className="font-display text-sm font-bold text-white tracking-tight">
+                    Enterprise Solutions
+                  </h3>
+                  <span className="text-[11px] font-mono text-[#00D4EA] bg-[#00D4EA]/10 px-2.5 py-0.5 rounded-full border border-[#00D4EA]/30">
+                    {navigationData.enterpriseSolutions.length} Practices
                   </span>
                 </div>
 
                 <div className="grid grid-cols-1 sm:grid-cols-2 gap-x-6 gap-y-3.5">
                   {/* Left Subcolumn */}
-                  <div className="space-y-3">
-                    <Link
-                      to="/services/staffing"
-                      onClick={onClose}
-                      className="group flex items-start gap-3 p-1.5 rounded-xl hover:bg-white/[0.04] transition-all"
-                    >
-                      <div className="w-8 h-8 rounded-lg bg-[#00F0FF]/10 border border-[#00F0FF]/30 text-[#00F0FF] flex items-center justify-center shrink-0 group-hover:bg-[#00F0FF]/25 group-hover:border-[#00F0FF] group-hover:shadow-[0_0_15px_rgba(0,240,255,0.4)] transition-all">
-                        <User className="w-4 h-4" />
-                      </div>
-                      <div>
-                        <div className="font-semibold text-xs sm:text-sm text-slate-100 group-hover:text-[#00F0FF] transition-colors leading-tight">
-                          Staffing
-                        </div>
-                        <div className="text-[11px] text-slate-400 leading-snug mt-0.5">
-                          Professional workforce sourcing
-                        </div>
-                      </div>
-                    </Link>
-
-                    <Link
-                      to="/services/business-intelligence"
-                      onClick={onClose}
-                      className="group flex items-start gap-3 p-1.5 rounded-xl hover:bg-white/[0.04] transition-all"
-                    >
-                      <div className="w-8 h-8 rounded-lg bg-[#00F0FF]/10 border border-[#00F0FF]/30 text-[#00F0FF] flex items-center justify-center shrink-0 group-hover:bg-[#00F0FF]/25 group-hover:border-[#00F0FF] group-hover:shadow-[0_0_15px_rgba(0,240,255,0.4)] transition-all">
-                        <BarChart3 className="w-4 h-4" />
-                      </div>
-                      <div>
-                        <div className="font-semibold text-xs sm:text-sm text-slate-100 group-hover:text-[#00F0FF] transition-colors leading-tight">
-                          Business Intelligence
-                        </div>
-                        <div className="text-[11px] text-slate-400 leading-snug mt-0.5">
-                          Insights through data analytics
-                        </div>
-                      </div>
-                    </Link>
-
-                    <Link
-                      to="/services/workforce-solution"
-                      onClick={onClose}
-                      className="group flex items-start gap-3 p-1.5 rounded-xl hover:bg-white/[0.04] transition-all"
-                    >
-                      <div className="w-8 h-8 rounded-lg bg-[#00F0FF]/10 border border-[#00F0FF]/30 text-[#00F0FF] flex items-center justify-center shrink-0 group-hover:bg-[#00F0FF]/25 group-hover:border-[#00F0FF] group-hover:shadow-[0_0_15px_rgba(0,240,255,0.4)] transition-all">
-                        <Users className="w-4 h-4" />
-                      </div>
-                      <div>
-                        <div className="font-semibold text-xs sm:text-sm text-slate-100 group-hover:text-[#00F0FF] transition-colors leading-tight">
-                          Workforce Solution
-                        </div>
-                        <div className="text-[11px] text-slate-400 leading-snug mt-0.5">
-                          Optimize human capital management
-                        </div>
-                      </div>
-                    </Link>
-
-                    <Link
-                      to="/services/cloud-services"
-                      onClick={onClose}
-                      className="group flex items-start gap-3 p-1.5 rounded-xl hover:bg-white/[0.04] transition-all"
-                    >
-                      <div className="w-8 h-8 rounded-lg bg-[#00F0FF]/10 border border-[#00F0FF]/30 text-[#00F0FF] flex items-center justify-center shrink-0 group-hover:bg-[#00F0FF]/25 group-hover:border-[#00F0FF] group-hover:shadow-[0_0_15px_rgba(0,240,255,0.4)] transition-all">
-                        <Cloud className="w-4 h-4" />
-                      </div>
-                      <div>
-                        <div className="font-semibold text-xs sm:text-sm text-slate-100 group-hover:text-[#00F0FF] transition-colors leading-tight">
-                          Cloud Services
-                        </div>
-                        <div className="text-[11px] text-slate-400 leading-snug mt-0.5">
-                          Scalable cloud infrastructure
-                        </div>
-                      </div>
-                    </Link>
-
-                    <Link
-                      to="/services/infrastructure-management"
-                      onClick={onClose}
-                      className="group flex items-start gap-3 p-1.5 rounded-xl hover:bg-white/[0.04] transition-all"
-                    >
-                      <div className="w-8 h-8 rounded-lg bg-[#00F0FF]/10 border border-[#00F0FF]/30 text-[#00F0FF] flex items-center justify-center shrink-0 group-hover:bg-[#00F0FF]/25 group-hover:border-[#00F0FF] group-hover:shadow-[0_0_15px_rgba(0,240,255,0.4)] transition-all">
-                        <Server className="w-4 h-4" />
-                      </div>
-                      <div>
-                        <div className="font-semibold text-xs sm:text-sm text-slate-100 group-hover:text-[#00F0FF] transition-colors leading-tight">
-                          Infrastructure Management
-                        </div>
-                        <div className="text-[11px] text-slate-400 leading-snug mt-0.5">
-                          Secure and maintain IT systems
-                        </div>
-                      </div>
-                    </Link>
-
-                    <Link
-                      to="/services/enterprise-architecture"
-                      onClick={onClose}
-                      className="group flex items-start gap-3 p-1.5 rounded-xl hover:bg-white/[0.04] transition-all"
-                    >
-                      <div className="w-8 h-8 rounded-lg bg-[#00F0FF]/10 border border-[#00F0FF]/30 text-[#00F0FF] flex items-center justify-center shrink-0 group-hover:bg-[#00F0FF]/25 group-hover:border-[#00F0FF] group-hover:shadow-[0_0_15px_rgba(0,240,255,0.4)] transition-all">
-                        <Layers className="w-4 h-4" />
-                      </div>
-                      <div>
-                        <div className="font-semibold text-xs sm:text-sm text-slate-100 group-hover:text-[#00F0FF] transition-colors leading-tight">
-                          Enterprise Architecture
-                        </div>
-                        <div className="text-[11px] text-slate-400 leading-snug mt-0.5">
-                          Align tech with business goals
-                        </div>
-                      </div>
-                    </Link>
-
-                    <Link
-                      to="/services/project-management"
-                      onClick={onClose}
-                      className="group flex items-start gap-3 p-1.5 rounded-xl hover:bg-white/[0.04] transition-all"
-                    >
-                      <div className="w-8 h-8 rounded-lg bg-[#00F0FF]/10 border border-[#00F0FF]/30 text-[#00F0FF] flex items-center justify-center shrink-0 group-hover:bg-[#00F0FF]/25 group-hover:border-[#00F0FF] group-hover:shadow-[0_0_15px_rgba(0,240,255,0.4)] transition-all">
-                        <CheckSquare className="w-4 h-4" />
-                      </div>
-                      <div>
-                        <div className="font-semibold text-xs sm:text-sm text-slate-100 group-hover:text-[#00F0FF] transition-colors leading-tight">
-                          Project Management
-                        </div>
-                        <div className="text-[11px] text-slate-400 leading-snug mt-0.5">
-                          End-to-end project execution
-                        </div>
-                      </div>
-                    </Link>
+                  <div className="space-y-2.5">
+                    {leftEnterprise.map((item) => {
+                      const IconComp = iconMap[item.iconName] || Layers;
+                      return (
+                        <Link
+                          key={item.id}
+                          to={item.path}
+                          onClick={onClose}
+                          className="group flex items-start gap-3 p-1.5 rounded-xl hover:bg-white/[0.06] transition-all"
+                        >
+                          <div className="w-8 h-8 rounded-lg bg-[#009EDB]/15 border border-[#00D4EA]/30 text-[#00D4EA] flex items-center justify-center shrink-0 group-hover:bg-[#009EDB] group-hover:text-white transition-all">
+                            <IconComp className="w-4 h-4" />
+                          </div>
+                          <div>
+                            <div className="font-semibold text-xs sm:text-sm text-slate-100 group-hover:text-[#00D4EA] transition-colors leading-tight">
+                              {item.title}
+                            </div>
+                            <div className="text-[11px] text-slate-300 leading-snug mt-0.5">
+                              {item.description}
+                            </div>
+                          </div>
+                        </Link>
+                      );
+                    })}
                   </div>
 
                   {/* Right Subcolumn */}
-                  <div className="space-y-3">
-                    <Link
-                      to="/services/mobility-practice"
-                      onClick={onClose}
-                      className="group flex items-start gap-3 p-1.5 rounded-xl hover:bg-white/[0.04] transition-all"
-                    >
-                      <div className="w-8 h-8 rounded-lg bg-[#00F0FF]/10 border border-[#00F0FF]/30 text-[#00F0FF] flex items-center justify-center shrink-0 group-hover:bg-[#00F0FF]/25 group-hover:border-[#00F0FF] group-hover:shadow-[0_0_15px_rgba(0,240,255,0.4)] transition-all">
-                        <Smartphone className="w-4 h-4" />
-                      </div>
-                      <div>
-                        <div className="font-semibold text-xs sm:text-sm text-slate-100 group-hover:text-[#00F0FF] transition-colors leading-tight">
-                          Mobility Practice (BYOD & CYOD)
-                        </div>
-                        <div className="text-[11px] text-slate-400 leading-snug mt-0.5">
-                          Flexible enterprise mobility
-                        </div>
-                      </div>
-                    </Link>
-
-                    <Link
-                      to="/services/supply-chain-management"
-                      onClick={onClose}
-                      className="group flex items-start gap-3 p-1.5 rounded-xl hover:bg-white/[0.04] transition-all"
-                    >
-                      <div className="w-8 h-8 rounded-lg bg-[#00F0FF]/10 border border-[#00F0FF]/30 text-[#00F0FF] flex items-center justify-center shrink-0 group-hover:bg-[#00F0FF]/25 group-hover:border-[#00F0FF] group-hover:shadow-[0_0_15px_rgba(0,240,255,0.4)] transition-all">
-                        <Truck className="w-4 h-4" />
-                      </div>
-                      <div>
-                        <div className="font-semibold text-xs sm:text-sm text-slate-100 group-hover:text-[#00F0FF] transition-colors leading-tight">
-                          Supply Chain Management
-                        </div>
-                        <div className="text-[11px] text-slate-400 leading-snug mt-0.5">
-                          Streamline operations & logistics
-                        </div>
-                      </div>
-                    </Link>
-
-                    <Link
-                      to="/services/system-integration"
-                      onClick={onClose}
-                      className="group flex items-start gap-3 p-1.5 rounded-xl hover:bg-white/[0.04] transition-all"
-                    >
-                      <div className="w-8 h-8 rounded-lg bg-[#00F0FF]/10 border border-[#00F0FF]/30 text-[#00F0FF] flex items-center justify-center shrink-0 group-hover:bg-[#00F0FF]/25 group-hover:border-[#00F0FF] group-hover:shadow-[0_0_15px_rgba(0,240,255,0.4)] transition-all">
-                        <Plug className="w-4 h-4" />
-                      </div>
-                      <div>
-                        <div className="font-semibold text-xs sm:text-sm text-slate-100 group-hover:text-[#00F0FF] transition-colors leading-tight">
-                          System Integration
-                        </div>
-                        <div className="text-[11px] text-slate-400 leading-snug mt-0.5">
-                          Unified tech environment
-                        </div>
-                      </div>
-                    </Link>
-
-                    <Link
-                      to="/services/business-analytics"
-                      onClick={onClose}
-                      className="group flex items-start gap-3 p-1.5 rounded-xl hover:bg-white/[0.04] transition-all"
-                    >
-                      <div className="w-8 h-8 rounded-lg bg-[#00F0FF]/10 border border-[#00F0FF]/30 text-[#00F0FF] flex items-center justify-center shrink-0 group-hover:bg-[#00F0FF]/25 group-hover:border-[#00F0FF] group-hover:shadow-[0_0_15px_rgba(0,240,255,0.4)] transition-all">
-                        <PieChart className="w-4 h-4" />
-                      </div>
-                      <div>
-                        <div className="font-semibold text-xs sm:text-sm text-slate-100 group-hover:text-[#00F0FF] transition-colors leading-tight">
-                          Business Analytics
-                        </div>
-                        <div className="text-[11px] text-slate-400 leading-snug mt-0.5">
-                          Strategic data-driven decisions
-                        </div>
-                      </div>
-                    </Link>
-
-                    <Link
-                      to="/services/accounting"
-                      onClick={onClose}
-                      className="group flex items-start gap-3 p-1.5 rounded-xl hover:bg-white/[0.04] transition-all"
-                    >
-                      <div className="w-8 h-8 rounded-lg bg-[#00F0FF]/10 border border-[#00F0FF]/30 text-[#00F0FF] flex items-center justify-center shrink-0 group-hover:bg-[#00F0FF]/25 group-hover:border-[#00F0FF] group-hover:shadow-[0_0_15px_rgba(0,240,255,0.4)] transition-all">
-                        <Receipt className="w-4 h-4" />
-                      </div>
-                      <div>
-                        <div className="font-semibold text-xs sm:text-sm text-slate-100 group-hover:text-[#00F0FF] transition-colors leading-tight">
-                          Accounting
-                        </div>
-                        <div className="text-[11px] text-slate-400 leading-snug mt-0.5">
-                          Manage finance and compliance
-                        </div>
-                      </div>
-                    </Link>
-
-                    <Link
-                      to="/services/it-consulting"
-                      onClick={onClose}
-                      className="group flex items-start gap-3 p-1.5 rounded-xl hover:bg-white/[0.04] transition-all"
-                    >
-                      <div className="w-8 h-8 rounded-lg bg-[#00F0FF]/10 border border-[#00F0FF]/30 text-[#00F0FF] flex items-center justify-center shrink-0 group-hover:bg-[#00F0FF]/25 group-hover:border-[#00F0FF] group-hover:shadow-[0_0_15px_rgba(0,240,255,0.4)] transition-all">
-                        <Headphones className="w-4 h-4" />
-                      </div>
-                      <div>
-                        <div className="font-semibold text-xs sm:text-sm text-slate-100 group-hover:text-[#00F0FF] transition-colors leading-tight">
-                          IT Consulting
-                        </div>
-                        <div className="text-[11px] text-slate-400 leading-snug mt-0.5">
-                          Expert technology guidance
-                        </div>
-                      </div>
-                    </Link>
+                  <div className="space-y-2.5">
+                    {rightEnterprise.map((item) => {
+                      const IconComp = iconMap[item.iconName] || Layers;
+                      return (
+                        <Link
+                          key={item.id}
+                          to={item.path}
+                          onClick={onClose}
+                          className="group flex items-start gap-3 p-1.5 rounded-xl hover:bg-white/[0.06] transition-all"
+                        >
+                          <div className="w-8 h-8 rounded-lg bg-[#009EDB]/15 border border-[#00D4EA]/30 text-[#00D4EA] flex items-center justify-center shrink-0 group-hover:bg-[#009EDB] group-hover:text-white transition-all">
+                            <IconComp className="w-4 h-4" />
+                          </div>
+                          <div>
+                            <div className="font-semibold text-xs sm:text-sm text-slate-100 group-hover:text-[#00D4EA] transition-colors leading-tight">
+                              {item.title}
+                            </div>
+                            <div className="text-[11px] text-slate-300 leading-snug mt-0.5">
+                              {item.description}
+                            </div>
+                          </div>
+                        </Link>
+                      );
+                    })}
                   </div>
                 </div>
               </div>
@@ -309,83 +148,35 @@ export const MegaMenu: React.FC<MegaMenuProps> = ({ isOpen, onClose }) => {
                   <h3 className="font-display text-sm font-bold text-white tracking-tight">
                     Business Solutions
                   </h3>
-                  <span className="text-[11px] font-mono text-[#00F0FF] bg-[#00F0FF]/10 px-2 py-0.5 rounded-full border border-[#00F0FF]/20">
-                    4 Solutions
+                  <span className="text-[11px] font-mono text-[#00D4EA] bg-[#00D4EA]/10 px-2.5 py-0.5 rounded-full border border-[#00D4EA]/30">
+                    {navigationData.businessSolutions.length} Solutions
                   </span>
                 </div>
 
                 <div className="space-y-3">
-                  <Link
-                    to="/services/web-design"
-                    onClick={onClose}
-                    className="group flex items-start gap-3 p-1.5 rounded-xl hover:bg-white/[0.04] transition-all"
-                  >
-                    <div className="w-8 h-8 rounded-lg bg-[#00F0FF]/10 border border-[#00F0FF]/30 text-[#00F0FF] flex items-center justify-center shrink-0 group-hover:bg-[#00F0FF]/25 group-hover:border-[#00F0FF] group-hover:shadow-[0_0_15px_rgba(0,240,255,0.4)] transition-all">
-                      <PenTool className="w-4 h-4" />
-                    </div>
-                    <div>
-                      <div className="font-semibold text-xs sm:text-sm text-slate-100 group-hover:text-[#00F0FF] transition-colors leading-tight">
-                        Web Design
-                      </div>
-                      <div className="text-[11px] text-slate-400 leading-snug mt-0.5">
-                        Creative, responsive UI/UX
-                      </div>
-                    </div>
-                  </Link>
-
-                  <Link
-                    to="/services/enterprise-solution"
-                    onClick={onClose}
-                    className="group flex items-start gap-3 p-1.5 rounded-xl hover:bg-white/[0.04] transition-all"
-                  >
-                    <div className="w-8 h-8 rounded-lg bg-[#00F0FF]/10 border border-[#00F0FF]/30 text-[#00F0FF] flex items-center justify-center shrink-0 group-hover:bg-[#00F0FF]/25 group-hover:border-[#00F0FF] group-hover:shadow-[0_0_15px_rgba(0,240,255,0.4)] transition-all">
-                      <Code2 className="w-4 h-4" />
-                    </div>
-                    <div>
-                      <div className="font-semibold text-xs sm:text-sm text-slate-100 group-hover:text-[#00F0FF] transition-colors leading-tight">
-                        Enterprise Solution
-                      </div>
-                      <div className="text-[11px] text-slate-400 leading-snug mt-0.5">
-                        Web development
-                      </div>
-                    </div>
-                  </Link>
-
-                  <Link
-                    to="/services/digital-marketing"
-                    onClick={onClose}
-                    className="group flex items-start gap-3 p-1.5 rounded-xl hover:bg-white/[0.04] transition-all"
-                  >
-                    <div className="w-8 h-8 rounded-lg bg-[#00F0FF]/10 border border-[#00F0FF]/30 text-[#00F0FF] flex items-center justify-center shrink-0 group-hover:bg-[#00F0FF]/25 group-hover:border-[#00F0FF] group-hover:shadow-[0_0_15px_rgba(0,240,255,0.4)] transition-all">
-                      <Megaphone className="w-4 h-4" />
-                    </div>
-                    <div>
-                      <div className="font-semibold text-xs sm:text-sm text-slate-100 group-hover:text-[#00F0FF] transition-colors leading-tight">
-                        Digital Marketing
-                      </div>
-                      <div className="text-[11px] text-slate-400 leading-snug mt-0.5">
-                        SEO, SEM, and branding
-                      </div>
-                    </div>
-                  </Link>
-
-                  <Link
-                    to="/services/mobile-app-development"
-                    onClick={onClose}
-                    className="group flex items-start gap-3 p-1.5 rounded-xl hover:bg-white/[0.04] transition-all"
-                  >
-                    <div className="w-8 h-8 rounded-lg bg-[#00F0FF]/10 border border-[#00F0FF]/30 text-[#00F0FF] flex items-center justify-center shrink-0 group-hover:bg-[#00F0FF]/25 group-hover:border-[#00F0FF] group-hover:shadow-[0_0_15px_rgba(0,240,255,0.4)] transition-all">
-                      <Smartphone className="w-4 h-4" />
-                    </div>
-                    <div>
-                      <div className="font-semibold text-xs sm:text-sm text-slate-100 group-hover:text-[#00F0FF] transition-colors leading-tight">
-                        Mobile App Development
-                      </div>
-                      <div className="text-[11px] text-slate-400 leading-snug mt-0.5">
-                        iOS & Android custom apps
-                      </div>
-                    </div>
-                  </Link>
+                  {navigationData.businessSolutions.map((item) => {
+                    const IconComp = iconMap[item.iconName] || PenTool;
+                    return (
+                      <Link
+                        key={item.id}
+                        to={item.path}
+                        onClick={onClose}
+                        className="group flex items-start gap-3 p-1.5 rounded-xl hover:bg-white/[0.06] transition-all"
+                      >
+                        <div className="w-8 h-8 rounded-lg bg-[#009EDB]/15 border border-[#00D4EA]/30 text-[#00D4EA] flex items-center justify-center shrink-0 group-hover:bg-[#009EDB] group-hover:text-white transition-all">
+                          <IconComp className="w-4 h-4" />
+                        </div>
+                        <div>
+                          <div className="font-semibold text-xs sm:text-sm text-slate-100 group-hover:text-[#00D4EA] transition-colors leading-tight">
+                            {item.title}
+                          </div>
+                          <div className="text-[11px] text-slate-300 leading-snug mt-0.5">
+                            {item.description}
+                          </div>
+                        </div>
+                      </Link>
+                    );
+                  })}
                 </div>
               </div>
 
@@ -395,94 +186,46 @@ export const MegaMenu: React.FC<MegaMenuProps> = ({ isOpen, onClose }) => {
                   <h3 className="font-display text-sm font-bold text-white tracking-tight">
                     Products
                   </h3>
-                  <span className="text-[11px] font-mono text-[#00F0FF] bg-[#00F0FF]/10 px-2 py-0.5 rounded-full border border-[#00F0FF]/20">
-                    4 Platforms
+                  <span className="text-[11px] font-mono text-[#00D4EA] bg-[#00D4EA]/10 px-2.5 py-0.5 rounded-full border border-[#00D4EA]/30">
+                    {navigationData.products.length} Platforms
                   </span>
                 </div>
 
                 <div className="space-y-3">
-                  <Link
-                    to="/products/data-analytics"
-                    onClick={onClose}
-                    className="group flex items-start gap-3 p-1.5 rounded-xl hover:bg-white/[0.04] transition-all"
-                  >
-                    <div className="w-8 h-8 rounded-lg bg-[#00F0FF]/10 border border-[#00F0FF]/30 text-[#00F0FF] flex items-center justify-center shrink-0 group-hover:bg-[#00F0FF]/25 group-hover:border-[#00F0FF] group-hover:shadow-[0_0_15px_rgba(0,240,255,0.4)] transition-all">
-                      <Database className="w-4 h-4" />
-                    </div>
-                    <div>
-                      <div className="font-semibold text-xs sm:text-sm text-slate-100 group-hover:text-[#00F0FF] transition-colors leading-tight">
-                        Data Analytics
-                      </div>
-                      <div className="text-[11px] text-slate-400 leading-snug mt-0.5">
-                        Business intelligence tools
-                      </div>
-                    </div>
-                  </Link>
-
-                  <Link
-                    to="/products/hr-management-system"
-                    onClick={onClose}
-                    className="group flex items-start gap-3 p-1.5 rounded-xl hover:bg-white/[0.04] transition-all"
-                  >
-                    <div className="w-8 h-8 rounded-lg bg-[#00F0FF]/10 border border-[#00F0FF]/30 text-[#00F0FF] flex items-center justify-center shrink-0 group-hover:bg-[#00F0FF]/25 group-hover:border-[#00F0FF] group-hover:shadow-[0_0_15px_rgba(0,240,255,0.4)] transition-all">
-                      <Users className="w-4 h-4" />
-                    </div>
-                    <div>
-                      <div className="font-semibold text-xs sm:text-sm text-slate-100 group-hover:text-[#00F0FF] transition-colors leading-tight">
-                        HR Management System
-                      </div>
-                      <div className="text-[11px] text-slate-400 leading-snug mt-0.5">
-                        Employee lifecycle automation
-                      </div>
-                    </div>
-                  </Link>
-
-                  <Link
-                    to="/products/vendor-management"
-                    onClick={onClose}
-                    className="group flex items-start gap-3 p-1.5 rounded-xl hover:bg-white/[0.04] transition-all"
-                  >
-                    <div className="w-8 h-8 rounded-lg bg-[#00F0FF]/10 border border-[#00F0FF]/30 text-[#00F0FF] flex items-center justify-center shrink-0 group-hover:bg-[#00F0FF]/25 group-hover:border-[#00F0FF] group-hover:shadow-[0_0_15px_rgba(0,240,255,0.4)] transition-all">
-                      <Handshake className="w-4 h-4" />
-                    </div>
-                    <div>
-                      <div className="font-semibold text-xs sm:text-sm text-slate-100 group-hover:text-[#00F0FF] transition-colors leading-tight">
-                        Vendor Management
-                      </div>
-                      <div className="text-[11px] text-slate-400 leading-snug mt-0.5">
-                        Partner onboarding & tracking
-                      </div>
-                    </div>
-                  </Link>
-
-                  <Link
-                    to="/products/relationship-management"
-                    onClick={onClose}
-                    className="group flex items-start gap-3 p-1.5 rounded-xl hover:bg-white/[0.04] transition-all"
-                  >
-                    <div className="w-8 h-8 rounded-lg bg-[#00F0FF]/10 border border-[#00F0FF]/30 text-[#00F0FF] flex items-center justify-center shrink-0 group-hover:bg-[#00F0FF]/25 group-hover:border-[#00F0FF] group-hover:shadow-[0_0_15px_rgba(0,240,255,0.4)] transition-all">
-                      <Contact className="w-4 h-4" />
-                    </div>
-                    <div>
-                      <div className="font-semibold text-xs sm:text-sm text-slate-100 group-hover:text-[#00F0FF] transition-colors leading-tight">
-                        Relationship Management
-                      </div>
-                      <div className="text-[11px] text-slate-400 leading-snug mt-0.5">
-                        Client and contact CRM tools
-                      </div>
-                    </div>
-                  </Link>
+                  {navigationData.products.map((item) => {
+                    const IconComp = iconMap[item.iconName] || Database;
+                    return (
+                      <Link
+                        key={item.id}
+                        to={item.path}
+                        onClick={onClose}
+                        className="group flex items-start gap-3 p-1.5 rounded-xl hover:bg-white/[0.06] transition-all"
+                      >
+                        <div className="w-8 h-8 rounded-lg bg-[#009EDB]/15 border border-[#00D4EA]/30 text-[#00D4EA] flex items-center justify-center shrink-0 group-hover:bg-[#009EDB] group-hover:text-white transition-all">
+                          <IconComp className="w-4 h-4" />
+                        </div>
+                        <div>
+                          <div className="font-semibold text-xs sm:text-sm text-slate-100 group-hover:text-[#00D4EA] transition-colors leading-tight">
+                            {item.title}
+                          </div>
+                          <div className="text-[11px] text-slate-300 leading-snug mt-0.5">
+                            {item.description}
+                          </div>
+                        </div>
+                      </Link>
+                    );
+                  })}
                 </div>
               </div>
             </div>
 
-            {/* Bottom bar linking to full catalog with glowing cyan hover */}
-            <div className="mt-8 pt-4 border-t border-white/10 flex flex-wrap items-center justify-between text-xs text-slate-400">
+            {/* Bottom bar linking to full catalog */}
+            <div className="mt-8 pt-4 border-t border-white/10 flex flex-wrap items-center justify-between text-xs text-slate-300">
               <div className="flex items-center gap-6">
                 <Link
                   to="/services"
                   onClick={onClose}
-                  className="font-semibold text-[#00F0FF] hover:text-[#7DD3FC] flex items-center gap-1.5 transition-colors"
+                  className="font-semibold text-[#00D4EA] hover:text-[#7DD3FC] flex items-center gap-1.5 transition-colors"
                 >
                   <span>Explore All Services & Frameworks</span>
                   <ArrowRight className="w-3.5 h-3.5" />
@@ -496,7 +239,7 @@ export const MegaMenu: React.FC<MegaMenuProps> = ({ isOpen, onClose }) => {
                 </Link>
               </div>
 
-              <div className="text-[11px] text-slate-500 font-mono">
+              <div className="text-[11px] text-slate-400 font-mono">
                 Prakvi Techno Solutions Private Limited • Enterprise Architecture
               </div>
             </div>

@@ -57,7 +57,7 @@ export default function App() {
   return (
     <BrowserRouter>
       <ScrollToTop />
-      <div className="flex flex-col min-h-screen bg-[#02060D] text-slate-100 selection:bg-[#00F0FF] selection:text-[#02060D]">
+      <div className="flex flex-col min-h-screen bg-[#071D3A] text-slate-900 selection:bg-[#009EDB] selection:text-white">
         <Header />
         <main className="flex-1 flex flex-col w-full relative">
           <AnimatedRoutes />
