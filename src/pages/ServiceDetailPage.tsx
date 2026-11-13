@@ -48,19 +48,17 @@ export const ServiceDetailPage: React.FC = () => {
 
   return (
     <PageTransition>
-      <div className="overflow-x-hidden pt-20 selection:bg-[#009EDB] selection:text-white">
-        {/* =========================================================================
-            1. SERVICE SPECIFIC HERO (Deep Navy #071D3A)
-           ========================================================================= */}
-        <section className="bg-gradient-to-b from-[#071D3A] via-[#0B2952] to-[#071D3A] text-white py-20 relative overflow-hidden border-b border-white/10">
+      <div className="overflow-x-hidden pt-20 selection:bg-accent selection:text-white">
+
+        <section className="bg-gradient-to-b from-canvas via-surface to-canvas text-foreground py-section relative overflow-hidden">
           <div className="absolute inset-0 z-0 opacity-25">
             <img
               src={service.featuredImage}
               alt={service.title}
               className="w-full h-full object-cover object-center"
             />
-            <div className="absolute inset-0 bg-gradient-to-r from-[#071D3A] via-[#071D3A]/90 to-[#071D3A]/70" />
-            <div className="absolute inset-0 bg-gradient-to-t from-[#071D3A] via-transparent to-[#071D3A]/80" />
+            <div className="absolute inset-0 bg-gradient-to-r from-canvas via-canvas/90 to-canvas/70" />
+            <div className="absolute inset-0 bg-gradient-to-t from-canvas via-transparent to-canvas/80" />
           </div>
 
           <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
@@ -73,36 +71,36 @@ export const ServiceDetailPage: React.FC = () => {
             />
 
             <div className="mt-8 max-w-3xl">
-              <div className="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full bg-white/[0.08] border border-[#00D4EA]/30 backdrop-blur-md mb-4">
-                <span className="w-2 h-2 rounded-full bg-[#00D4EA] shadow-[0_0_8px_#00D4EA]" />
-                <span className="text-xs font-mono font-semibold uppercase tracking-widest text-[#00D4EA]">
+              <div className="mb-4 inline-flex items-center gap-2 rounded-full border border-accent/25 bg-white/[0.04] px-3.5 py-1.5">
+                <span className="w-2 h-2 rounded-full bg-accent shadow-accent" />
+                <span className="text-xs font-mono font-semibold uppercase tracking-widest text-accent">
                   {service.badge || 'Enterprise Practice'}
                 </span>
               </div>
 
-              <h1 className="font-display text-4xl sm:text-5xl lg:text-6xl font-extrabold text-white tracking-tight leading-tight text-balance">
+              <h1 className="font-display text-4xl sm:text-5xl lg:text-6xl font-extrabold text-foreground tracking-tight leading-tight text-balance">
                 {service.title}
               </h1>
 
-              <p className="mt-4 text-lg sm:text-xl font-medium text-[#00D4EA]">
+              <p className="mt-4 text-lg sm:text-xl font-medium text-accent">
                 {service.tagline}
               </p>
 
-              <p className="mt-4 text-base sm:text-lg text-slate-200 leading-relaxed text-balance font-light">
+              <p className="mt-4 text-base sm:text-lg text-muted leading-relaxed text-balance font-light">
                 {service.fullDesc}
               </p>
 
               <div className="mt-8 flex flex-wrap gap-4">
                 <Link
                   to="/contact"
-                  className="inline-flex items-center gap-2 px-7 py-3.5 rounded-xl text-sm font-bold text-[#071D3A] bg-gradient-to-r from-[#00D4EA] to-[#009EDB] hover:from-[#38BDF8] hover:to-[#00D4EA] shadow-[0_0_20px_rgba(0,212,234,0.35)] transition-all"
+                  className="btn-primary"
                 >
                   <span>Consult with practice lead</span>
-                  <ArrowRight className="w-4 h-4 text-[#071D3A]" />
+                  <ArrowRight className="w-4 h-4 text-foreground" />
                 </Link>
                 <a
                   href="#capabilities"
-                  className="inline-flex items-center gap-2 px-7 py-3.5 rounded-xl text-sm font-semibold text-white bg-white/[0.08] hover:bg-white/[0.14] border border-white/20 hover:border-[#00D4EA]/50 transition-colors"
+                  className="btn-secondary"
                 >
                   <span>Explore capabilities</span>
                 </a>
@@ -111,36 +109,34 @@ export const ServiceDetailPage: React.FC = () => {
           </div>
         </section>
 
-        {/* =========================================================================
-            2. THE BUSINESS CHALLENGE & HOW PRAKVI HELPS (Off-White #F7FAFC)
-           ========================================================================= */}
-        <section className="py-20 bg-[#F7FAFC] text-[#172B45] border-t border-slate-200/80">
+
+        <section className="py-section bg-canvas text-foreground">
           <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
             <div className="grid grid-cols-1 md:grid-cols-2 gap-8 lg:gap-10">
               {/* The Challenge */}
-              <div className="p-8 sm:p-10 rounded-3xl bg-white border border-rose-200 shadow-md">
-                <div className="flex items-center gap-2 text-rose-600 text-xs font-mono font-bold uppercase tracking-wider mb-3">
+              <div className="p-8 sm:p-10 rounded-3xl glass-panel border border-rose-200 ">
+                <div className="flex items-center gap-2 text-rose-300 text-xs font-mono font-bold uppercase tracking-wider mb-3">
                   <AlertCircle className="w-4 h-4" />
                   <span>The Enterprise Challenge</span>
                 </div>
-                <h3 className="font-display text-xl sm:text-2xl font-bold text-[#071D3A] mb-3">
+                <h3 className="font-display text-xl sm:text-2xl font-bold text-foreground mb-3">
                   Navigating Complexity & Risk
                 </h3>
-                <p className="text-sm sm:text-base text-[#57708E] leading-relaxed">
+                <p className="text-sm sm:text-base text-muted leading-relaxed">
                   {service.businessChallenge}
                 </p>
               </div>
 
               {/* How Prakvi Helps */}
-              <div className="p-8 sm:p-10 rounded-3xl bg-white border border-[#009EDB]/30 shadow-md">
-                <div className="flex items-center gap-2 text-[#009EDB] text-xs font-mono font-bold uppercase tracking-wider mb-3">
+              <div className="p-8 sm:p-10 rounded-3xl glass-panel border border-accent/30 ">
+                <div className="flex items-center gap-2 text-accent text-xs font-mono font-bold uppercase tracking-wider mb-3">
                   <CheckCircle2 className="w-4 h-4" />
                   <span>The Prakvi Strategic Approach</span>
                 </div>
-                <h3 className="font-display text-xl sm:text-2xl font-bold text-[#071D3A] mb-3">
+                <h3 className="font-display text-xl sm:text-2xl font-bold text-foreground mb-3">
                   Engineered for Measurable Impact
                 </h3>
-                <p className="text-sm sm:text-base text-[#57708E] leading-relaxed">
+                <p className="text-sm sm:text-base text-muted leading-relaxed">
                   {service.howWeHelp}
                 </p>
               </div>
@@ -148,11 +144,9 @@ export const ServiceDetailPage: React.FC = () => {
           </div>
         </section>
 
-        {/* =========================================================================
-            SPECIAL: STAFFING RECRUITMENT TIMELINE & PRESERVED SECTORS
-           ========================================================================= */}
+
         {isStaffingPage && (
-          <section className="py-20 border-t border-slate-200/80 bg-white text-[#172B45]">
+          <section className="py-section bg-surface text-foreground">
             <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
               <SectionHeading
                 badge="Recruitment Governance"
@@ -166,20 +160,20 @@ export const ServiceDetailPage: React.FC = () => {
                 {service.deliverySteps.map((step, idx) => (
                   <div
                     key={idx}
-                    className="p-6 rounded-2xl bg-[#F7FAFC] border border-slate-200 shadow-sm hover:shadow-md relative flex flex-col justify-between transition-all group"
+                    className="p-6 rounded-2xl bg-canvas border border-line shadow-sm hover:shadow-md relative flex flex-col justify-between transition-all group"
                   >
                     <div>
-                      <div className="w-9 h-9 rounded-xl bg-[#DDF4FF] border border-[#009EDB]/30 text-[#009EDB] font-mono font-bold text-xs flex items-center justify-center mb-4">
+                      <div className="w-9 h-9 rounded-xl bg-surface border border-accent/30 text-accent font-mono font-bold text-xs flex items-center justify-center mb-4">
                         {step.step}
                       </div>
-                      <h4 className="font-display text-sm font-bold text-[#071D3A] mb-2">
+                      <h4 className="font-display text-sm font-bold text-foreground mb-2">
                         {step.title}
                       </h4>
-                      <p className="text-xs text-[#57708E] leading-relaxed">
+                      <p className="text-xs text-muted leading-relaxed">
                         {step.description}
                       </p>
                     </div>
-                    <div className="mt-5 pt-3 border-t border-slate-200 text-[10px] font-mono text-[#009EDB] font-semibold">
+                    <div className="mt-5 pt-3 border-t border-line text-[10px] font-mono text-accent font-semibold">
                       Phase 0{idx + 1}
                     </div>
                   </div>
@@ -187,12 +181,12 @@ export const ServiceDetailPage: React.FC = () => {
               </div>
 
               {/* Preserved Specialized Staffing Verticals Highlight */}
-              <div className="mt-16 pt-12 border-t border-slate-200">
+              <div className="mt-16 pt-12 border-t border-line">
                 <div className="text-center max-w-2xl mx-auto mb-8">
-                  <div className="text-xs font-mono font-bold uppercase text-[#009EDB] tracking-wider mb-2">
+                  <div className="text-xs font-mono font-bold uppercase text-accent tracking-wider mb-2">
                     Comprehensive Sourcing Verticals
                   </div>
-                  <h3 className="font-display text-2xl font-bold text-[#071D3A]">
+                  <h3 className="font-display text-2xl font-bold text-foreground">
                     Healthcare, Technology & Executive Search
                   </h3>
                 </div>
@@ -210,9 +204,9 @@ export const ServiceDetailPage: React.FC = () => {
                   ].map((item, idx) => (
                     <div
                       key={idx}
-                      className="p-4 rounded-xl bg-slate-50 border border-slate-200 flex items-center gap-2.5 text-[#071D3A] font-medium"
+                      className="p-4 rounded-xl bg-surface border border-line flex items-center gap-2.5 text-foreground font-medium"
                     >
-                      <CheckCircle2 className="w-4 h-4 text-[#009EDB] shrink-0" />
+                      <CheckCircle2 className="w-4 h-4 text-accent shrink-0" />
                       <span>{item}</span>
                     </div>
                   ))}
@@ -222,11 +216,9 @@ export const ServiceDetailPage: React.FC = () => {
           </section>
         )}
 
-        {/* =========================================================================
-            SPECIAL: MOBILITY PRACTICE INTERACTIVE TABS
-           ========================================================================= */}
+
         {isMobilityPage && (
-          <section className="py-20 border-t border-slate-200/80 bg-white text-[#172B45]">
+          <section className="py-section bg-surface text-foreground">
             <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
               <SectionHeading
                 badge="Interactive Mobility Workbench"
@@ -251,8 +243,8 @@ export const ServiceDetailPage: React.FC = () => {
                       onClick={() => setMobilityTab(tab.id as any)}
                       className={`flex items-center gap-2 px-5 py-3 rounded-xl text-xs sm:text-sm font-semibold transition-all ${
                         mobilityTab === tab.id
-                          ? 'bg-[#071D3A] text-white shadow-md font-bold'
-                          : 'bg-slate-100 text-slate-600 hover:text-[#071D3A] hover:bg-slate-200'
+                          ? 'bg-accent/10 text-accent ring-1 ring-accent/40 font-bold'
+                          : 'bg-surface text-muted hover:text-foreground hover:bg-surface'
                       }`}
                     >
                       <IconComp className="w-4 h-4" />
@@ -263,43 +255,43 @@ export const ServiceDetailPage: React.FC = () => {
               </div>
 
               {/* Tab Content Display */}
-              <div className="mt-8 p-8 rounded-3xl bg-[#F7FAFC] border border-slate-200">
+              <div className="mt-8 p-8 rounded-3xl bg-canvas border border-line">
                 {mobilityTab === 'byod' && (
                   <div className="space-y-4">
-                    <h4 className="text-xl font-bold font-display text-[#071D3A]">
+                    <h4 className="text-xl font-bold font-display text-foreground">
                       Bring Your Own Device (BYOD) Containerization
                     </h4>
-                    <p className="text-sm text-[#57708E] leading-relaxed">
+                    <p className="text-sm text-muted leading-relaxed">
                       Our BYOD architecture enables employees to access corporate intranets and applications using personal smartphones and laptops without sacrificing personal privacy or enterprise security. Work data resides inside encrypted hardware partitions.
                     </p>
                   </div>
                 )}
                 {mobilityTab === 'cyod' && (
                   <div className="space-y-4">
-                    <h4 className="text-xl font-bold font-display text-[#071D3A]">
+                    <h4 className="text-xl font-bold font-display text-foreground">
                       Choose Your Own Device (CYOD) Corporate Catalog
                     </h4>
-                    <p className="text-sm text-[#57708E] leading-relaxed">
+                    <p className="text-sm text-muted leading-relaxed">
                       Standardize enterprise procurement while giving employees autonomy from an audited catalog of pre-configured, tamper-resistant devices with automated zero-touch enrollment.
                     </p>
                   </div>
                 )}
                 {mobilityTab === 'security' && (
                   <div className="space-y-4">
-                    <h4 className="text-xl font-bold font-display text-[#071D3A]">
+                    <h4 className="text-xl font-bold font-display text-foreground">
                       Zero-Trust Network Access & Remote Wipe
                     </h4>
-                    <p className="text-sm text-[#57708E] leading-relaxed">
+                    <p className="text-sm text-muted leading-relaxed">
                       Continuous endpoint compliance checks, selective remote corporate data wipe upon termination, micro-VPN tunneling, and per-app VPN routing prevent data leakage.
                     </p>
                   </div>
                 )}
                 {mobilityTab === 'tools' && (
                   <div className="space-y-4">
-                    <h4 className="text-xl font-bold font-display text-[#071D3A]">
+                    <h4 className="text-xl font-bold font-display text-foreground">
                       Multi-Platform MDM/MAM Toolchain Support
                     </h4>
-                    <p className="text-sm text-[#57708E] leading-relaxed">
+                    <p className="text-sm text-muted leading-relaxed">
                       Certified integration and policy management across Microsoft Intune, VMware Workspace ONE, Jamf Pro, and Google Workspace Endpoint Management.
                     </p>
                   </div>
@@ -309,10 +301,8 @@ export const ServiceDetailPage: React.FC = () => {
           </section>
         )}
 
-        {/* =========================================================================
-            4. CAPABILITIES GRID
-           ========================================================================= */}
-        <section id="capabilities" className="py-20 bg-[#F7FAFC] text-[#172B45] border-t border-slate-200/80">
+
+        <section id="capabilities" className="py-section bg-canvas text-foreground">
           <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
             <SectionHeading
               badge="Practice Matrix"
@@ -325,17 +315,17 @@ export const ServiceDetailPage: React.FC = () => {
               {service.capabilities.map((cap, idx) => (
                 <div
                   key={idx}
-                  className="p-6 rounded-2xl bg-white border border-slate-200/90 shadow-sm hover:shadow-lg transition-all"
+                  className="p-6 rounded-2xl glass-panel border border-line  hover:shadow-accent transition-all"
                 >
                   <div className="flex items-center gap-3 mb-3">
-                    <div className="w-8 h-8 rounded-lg bg-[#DDF4FF] border border-[#009EDB]/30 flex items-center justify-center text-[#009EDB]">
+                    <div className="w-8 h-8 rounded-lg bg-surface border border-accent/30 flex items-center justify-center text-accent">
                       <CheckCircle2 className="w-4 h-4" />
                     </div>
-                    <h4 className="font-display text-base font-bold text-[#071D3A]">
+                    <h4 className="font-display text-base font-bold text-foreground">
                       {cap.title}
                     </h4>
                   </div>
-                  <p className="text-xs sm:text-sm text-[#57708E] leading-relaxed">
+                  <p className="text-xs sm:text-sm text-muted leading-relaxed">
                     {cap.description}
                   </p>
                 </div>
@@ -344,10 +334,8 @@ export const ServiceDetailPage: React.FC = () => {
           </div>
         </section>
 
-        {/* =========================================================================
-            5. BUSINESS OUTCOMES & METRICS (Deep Navy #071D3A)
-           ========================================================================= */}
-        <section className="py-20 bg-gradient-to-b from-[#071D3A] via-[#0B2952] to-[#071D3A] text-white border-t border-white/10">
+
+        <section className="py-section bg-gradient-to-b from-canvas via-surface to-canvas text-foreground">
           <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
             <SectionHeading
               badge="Business Outcomes"
@@ -361,15 +349,15 @@ export const ServiceDetailPage: React.FC = () => {
               {service.businessBenefits.map((b, idx) => (
                 <div
                   key={idx}
-                  className="p-8 rounded-2xl bg-[#040E1E]/90 border border-[#00D4EA]/25 text-center shadow-xl"
+                  className="p-8 rounded-2xl bg-canvas/90 border border-accent/25 text-center shadow-xl"
                 >
                   {b.metric && (
-                    <div className="text-3xl sm:text-4xl font-extrabold font-display text-[#00D4EA] mb-3">
+                    <div className="text-3xl sm:text-4xl font-extrabold font-display text-accent mb-3">
                       {b.metric}
                     </div>
                   )}
-                  <h4 className="font-display text-lg font-bold text-white mb-2">{b.title}</h4>
-                  <p className="text-xs sm:text-sm text-slate-300 leading-relaxed font-light">
+                  <h4 className="font-display text-lg font-bold text-foreground mb-2">{b.title}</h4>
+                  <p className="text-xs sm:text-sm text-muted leading-relaxed font-light">
                     {b.description}
                   </p>
                 </div>
@@ -378,10 +366,8 @@ export const ServiceDetailPage: React.FC = () => {
           </div>
         </section>
 
-        {/* =========================================================================
-            6. FREQUENTLY ASKED QUESTIONS (Off-White #F7FAFC)
-           ========================================================================= */}
-        <section className="py-20 bg-[#F7FAFC] text-[#172B45] border-t border-slate-200/80">
+
+        <section className="py-section bg-canvas text-foreground">
           <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8">
             <SectionHeading
               badge="Frequently Asked Questions"
@@ -394,21 +380,21 @@ export const ServiceDetailPage: React.FC = () => {
               {service.faqs.map((faq, idx) => (
                 <div
                   key={idx}
-                  className="rounded-2xl bg-white border border-slate-200 overflow-hidden shadow-sm"
+                  className="rounded-2xl glass-panel border border-line overflow-hidden "
                 >
                   <button
                     onClick={() => toggleFaq(idx)}
-                    className="w-full flex items-center justify-between p-5 sm:p-6 text-left font-semibold text-sm sm:text-base text-[#071D3A] hover:text-[#009EDB] transition-colors focus:outline-none"
+                    className="w-full flex items-center justify-between p-5 sm:p-6 text-left font-semibold text-sm sm:text-base text-foreground hover:text-accent transition-colors focus:outline-none"
                   >
                     <span>{faq.question}</span>
                     <ChevronDown
-                      className={`w-5 h-5 text-[#009EDB] transition-transform duration-200 shrink-0 ml-4 ${
+                      className={`w-5 h-5 text-accent transition-transform duration-200 shrink-0 ml-4 ${
                         openFaqIndex === idx ? 'rotate-180' : ''
                       }`}
                     />
                   </button>
                   {openFaqIndex === idx && (
-                    <div className="px-5 sm:px-6 pb-6 pt-1 text-xs sm:text-sm text-[#57708E] leading-relaxed border-t border-slate-100">
+                    <div className="px-5 sm:px-6 pb-6 pt-1 text-xs sm:text-sm text-muted leading-relaxed border-t border-line">
                       {faq.answer}
                     </div>
                   )}

@@ -46,6 +46,8 @@ export const HeroScene: React.FC = () => {
     const container = containerRef.current;
     if (!container) return;
 
+    const reducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)');
+
     // Detect software rendering
     const isSoftwareGl = (() => {
       try {
@@ -67,7 +69,7 @@ export const HeroScene: React.FC = () => {
 
     // 1. Scene, Camera, Renderer
     const scene = new THREE.Scene();
-    scene.fog = new THREE.FogExp2(0x071d3a, 0.035);
+    scene.fog = new THREE.FogExp2(0x080d19, 0.035);
 
     const camera = new THREE.PerspectiveCamera(40, width / height, 0.1, 100);
     camera.position.set(0, 0.1, 4.5);
@@ -90,15 +92,15 @@ export const HeroScene: React.FC = () => {
     keyLight.position.set(5, 5, 4);
     scene.add(keyLight);
 
-    const cyanRim = new THREE.DirectionalLight(0x00f0ff, 3.2);
+    const cyanRim = new THREE.DirectionalLight(0x00aeef, 3.2);
     cyanRim.position.set(-5, -2, -3);
     scene.add(cyanRim);
 
-    const secondaryCyan = new THREE.DirectionalLight(0x38bdf8, 2.0);
+    const secondaryCyan = new THREE.DirectionalLight(0x16b8f3, 2.0);
     secondaryCyan.position.set(3, -4, 2);
     scene.add(secondaryCyan);
 
-    const hemiLight = new THREE.HemisphereLight(0x00f0ff, 0x02060d, 0.9);
+    const hemiLight = new THREE.HemisphereLight(0x00aeef, 0x02060d, 0.9);
     scene.add(hemiLight);
 
     // Root Globe Group
@@ -113,7 +115,7 @@ export const HeroScene: React.FC = () => {
     // 3. Inner Dark Obsidian Core Sphere
     const coreGeo = new THREE.SphereGeometry(GLOBE_RADIUS * 0.98, 48, 48);
     const coreMat = new THREE.MeshPhysicalMaterial({
-      color: 0x030d1e,
+      color: 0x080d19,
       roughness: 0.15,
       metalness: 0.85,
       clearcoat: 1.0,
@@ -128,8 +130,8 @@ export const HeroScene: React.FC = () => {
     const DOTS_COUNT = 1600;
     const dotPositions = new Float32Array(DOTS_COUNT * 3);
     const dotColors = new Float32Array(DOTS_COUNT * 3);
-    const colorCyan = new THREE.Color(0x00f0ff);
-    const colorSky = new THREE.Color(0x38bdf8);
+    const colorCyan = new THREE.Color(0x00aeef);
+    const colorSky = new THREE.Color(0x16b8f3);
     const colorIce = new THREE.Color(0xe0f7fe);
 
     const phiSpan = Math.PI * (3 - Math.sqrt(5)); // Golden ratio angle
@@ -176,7 +178,7 @@ export const HeroScene: React.FC = () => {
       const r = Math.sqrt(1 - latRatio * latRatio) * GLOBE_RADIUS;
       const ringGeo = new THREE.RingGeometry(r - 0.003, r + 0.003, 64);
       const ringMat = new THREE.MeshBasicMaterial({
-        color: 0x00f0ff,
+        color: 0x00aeef,
         transparent: true,
         opacity: 0.12,
         side: THREE.DoubleSide,
@@ -190,7 +192,7 @@ export const HeroScene: React.FC = () => {
     // Outer Geodesic subtle lattice
     const cageGeo = new THREE.IcosahedronGeometry(GLOBE_RADIUS * 1.05, 2);
     const cageMat = new THREE.MeshBasicMaterial({
-      color: 0x009edb,
+      color: 0x087fc1,
       wireframe: true,
       transparent: true,
       opacity: 0.14,
@@ -210,7 +212,7 @@ export const HeroScene: React.FC = () => {
 
     const hubRingGeo = new THREE.RingGeometry(0.038, 0.052, 24);
     const hubRingMat = new THREE.MeshBasicMaterial({
-      color: 0x00f0ff,
+      color: 0x00aeef,
       side: THREE.DoubleSide,
       transparent: true,
       opacity: 0.8,
@@ -265,7 +267,7 @@ export const HeroScene: React.FC = () => {
       const points = curve.getPoints(50);
       const arcGeo = new THREE.BufferGeometry().setFromPoints(points);
       const arcMat = new THREE.LineBasicMaterial({
-        color: 0x00f0ff,
+        color: 0x00aeef,
         transparent: true,
         opacity: 0.35,
         linewidth: 1,
@@ -280,7 +282,7 @@ export const HeroScene: React.FC = () => {
     const PACKETS_COUNT = hubConnections.length * 2;
     const packetGeo = new THREE.SphereGeometry(0.018, 12, 12);
     const packetMat = new THREE.MeshBasicMaterial({
-      color: 0x00f0ff,
+      color: 0x00aeef,
     });
     const packetMeshGroup = new THREE.Group();
     globeGroup.add(packetMeshGroup);
@@ -343,7 +345,7 @@ export const HeroScene: React.FC = () => {
     const dustGeo = new THREE.BufferGeometry();
     dustGeo.setAttribute('position', new THREE.BufferAttribute(dustPositions, 3));
     const dustMat = new THREE.PointsMaterial({
-      color: 0x38bdf8,
+      color: 0x16b8f3,
       size: 0.02,
       transparent: true,
       opacity: 0.5,
@@ -357,7 +359,7 @@ export const HeroScene: React.FC = () => {
       const rect = container.getBoundingClientRect();
       const x = ((e.clientX - rect.left) / rect.width) * 2 - 1;
       const y = -(((e.clientY - rect.top) / rect.height) * 2 - 1);
-      _mouseTarget.set(x * 0.35, y * 0.25);
+      if (!reducedMotion.matches) _mouseTarget.set(x * 0.35, y * 0.25);
     };
     window.addEventListener('mousemove', handlePointerMove);
 
@@ -366,7 +368,7 @@ export const HeroScene: React.FC = () => {
     const clock = new THREE.Clock();
 
     function renderLoop() {
-      const delta = Math.min(clock.getDelta(), 0.1);
+      const delta = reducedMotion.matches ? 0 : Math.min(clock.getDelta(), 0.1);
       const elapsedTime = clock.getElapsedTime();
 
       // Mouse damping

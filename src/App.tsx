@@ -3,9 +3,10 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
-import React, { useEffect } from 'react';
+import React from 'react';
 import { BrowserRouter, Routes, Route, useLocation } from 'react-router-dom';
-import { AnimatePresence } from 'motion/react';
+import { AnimatePresence, MotionConfig } from 'motion/react';
+import { SmoothScroll, resetRouteScroll } from './components/layout/SmoothScroll';
 import { Header } from './components/layout/Header';
 import { Footer } from './components/layout/Footer';
 import { HomePage } from './pages/HomePage';
@@ -15,27 +16,17 @@ import { ServiceDetailPage } from './pages/ServiceDetailPage';
 import { ProductsPage } from './pages/ProductsPage';
 import { ProductDetailPage } from './pages/ProductDetailPage';
 import { CareersPage } from './pages/CareersPage';
+import { CaseStudiesPage } from './pages/CaseStudiesPage';
 import { InsightsPage } from './pages/InsightsPage';
 import { InsightDetailPage } from './pages/InsightDetailPage';
 import { ContactPage } from './pages/ContactPage';
 import { NotFoundPage } from './pages/NotFoundPage';
 
-// Scroll to top upon standard route transition
-function ScrollToTop() {
-  const { pathname } = useLocation();
-
-  useEffect(() => {
-    window.scrollTo({ top: 0, left: 0, behavior: 'instant' });
-  }, [pathname]);
-
-  return null;
-}
-
 function AnimatedRoutes() {
   const location = useLocation();
 
   return (
-    <AnimatePresence mode="wait" initial={false}>
+    <AnimatePresence mode="wait" initial={false} onExitComplete={resetRouteScroll}>
       <Routes location={location} key={location.pathname}>
         <Route path="/" element={<HomePage />} />
         <Route path="/about" element={<AboutPage />} />
@@ -44,6 +35,7 @@ function AnimatedRoutes() {
         <Route path="/products" element={<ProductsPage />} />
         <Route path="/products/:slug" element={<ProductDetailPage />} />
         <Route path="/careers" element={<CareersPage />} />
+        <Route path="/case-studies" element={<CaseStudiesPage />} />
         <Route path="/insights" element={<InsightsPage />} />
         <Route path="/insights/:slug" element={<InsightDetailPage />} />
         <Route path="/contact" element={<ContactPage />} />
@@ -55,15 +47,18 @@ function AnimatedRoutes() {
 
 export default function App() {
   return (
+    <MotionConfig reducedMotion="user">
     <BrowserRouter>
-      <ScrollToTop />
-      <div className="flex flex-col min-h-screen bg-[#071D3A] text-slate-900 selection:bg-[#009EDB] selection:text-white">
+      <SmoothScroll />
+      <div className="flex flex-col min-h-screen bg-canvas text-foreground selection:bg-accent selection:text-white">
+        <a href="#main-content" className="skip-link">Skip to content</a>
         <Header />
-        <main className="flex-1 flex flex-col w-full relative">
+        <main id="main-content" className="flex-1 flex flex-col w-full relative">
           <AnimatedRoutes />
         </main>
         <Footer />
       </div>
     </BrowserRouter>
+    </MotionConfig>
   );
 }

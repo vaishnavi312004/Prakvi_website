@@ -1,324 +1,98 @@
-import React, { useState, useEffect } from 'react';
-import { NavLink, useLocation, Link } from 'react-router-dom';
+import React, { useEffect, useRef, useState } from 'react';
+import { Link, useLocation } from 'react-router-dom';
+import { ArrowRight, ChevronDown, Menu, Search, X } from 'lucide-react';
 import { PrakviLogo } from '../common/PrakviLogo';
-import { MegaMenu } from './MegaMenu';
+import { ButtonLink } from '../ui/Button';
 import { navigationData } from '../../data/navigationData';
-import {
-  Menu,
-  X,
-  ChevronDown,
-  ArrowRight,
-  PhoneCall,
-} from 'lucide-react';
+
+const groups = [
+  { label: 'Who We Are', links: [{ title: 'About Us', path: '/about' }, { title: 'Insights', path: '/insights' }] },
+  { label: 'What We Do', links: [{ title: 'All Services', path: '/services' }, ...navigationData.enterpriseSolutions, ...navigationData.businessSolutions, { title: 'Our Products', path: '/products' }, ...navigationData.products] },
+  { label: 'How We Help', links: [{ title: 'Case Studies', path: '/case-studies' }, { title: 'Blogs', path: '/insights' }] },
+];
+const searchableLinks = [
+  { title: 'Home', path: '/' }, { title: 'About Us', path: '/about' },
+  { title: 'Services', path: '/services' }, { title: 'Products', path: '/products' },
+  { title: 'Careers', path: '/careers' }, { title: 'Blogs', path: '/insights' }, { title: 'Case Studies', path: '/case-studies' },
+  { title: 'Contact', path: '/contact' }, ...navigationData.enterpriseSolutions,
+  ...navigationData.businessSolutions, ...navigationData.products,
+];
 
 export const Header: React.FC = () => {
-  const [isScrolled, setIsScrolled] = useState(false);
-  const [isMegaMenuOpen, setIsMegaMenuOpen] = useState(false);
-  const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
-  const [mobileAccordion, setMobileAccordion] = useState<string | null>(null);
+  const [openGroup, setOpenGroup] = useState<string | null>(null);
+  const [mobileOpen, setMobileOpen] = useState(false);
+  const [query, setQuery] = useState('');
+  const headerRef = useRef<HTMLElement>(null);
+  const { pathname } = useLocation();
+  const results = query.trim() ? searchableLinks.filter(item => item.title.toLowerCase().includes(query.trim().toLowerCase())).slice(0, 6) : [];
 
-  const location = useLocation();
-
+  useEffect(() => { setOpenGroup(null); setMobileOpen(false); setQuery(''); }, [pathname]);
   useEffect(() => {
-    const handleScroll = () => {
-      setIsScrolled(window.scrollY > 20);
+    const onKey = (event: KeyboardEvent) => {
+      if (event.key === 'Escape') {
+        const focused = document.activeElement;
+        if (focused instanceof HTMLElement && focused.closest('.header-dropdown')) {
+          focused.closest('.header-dropdown-group')?.querySelector<HTMLButtonElement>('button')?.focus();
+        }
+        setOpenGroup(null); setMobileOpen(false); setQuery(''); }
     };
-
-    window.addEventListener('scroll', handleScroll, { passive: true });
-    handleScroll();
-    return () => window.removeEventListener('scroll', handleScroll);
+    const onPointer = (event: PointerEvent) => {
+      if (!headerRef.current?.contains(event.target as Node)) { setOpenGroup(null); setQuery(''); setMobileOpen(false); }
+    };
+    document.addEventListener('keydown', onKey);
+    document.addEventListener('pointerdown', onPointer);
+    return () => { document.removeEventListener('keydown', onKey); document.removeEventListener('pointerdown', onPointer); };
   }, []);
 
-  useEffect(() => {
-    setIsMegaMenuOpen(false);
-    setIsMobileMenuOpen(false);
-  }, [location.pathname]);
-
-  useEffect(() => {
-    const handleKeyDown = (e: KeyboardEvent) => {
-      if (e.key === 'Escape') {
-        setIsMegaMenuOpen(false);
-        setIsMobileMenuOpen(false);
-      }
-    };
-    window.addEventListener('keydown', handleKeyDown);
-    return () => window.removeEventListener('keydown', handleKeyDown);
-  }, []);
-
-  const toggleMobileAccordion = (section: string) => {
-    setMobileAccordion(mobileAccordion === section ? null : section);
-  };
-
-  const navLinkClass = ({ isActive }: { isActive: boolean }) =>
-    `relative px-3.5 py-2 text-sm font-medium transition-all focus:outline-none focus-visible:ring-2 focus-visible:ring-[#00D4EA] rounded-lg ${
-      isActive
-        ? 'text-[#00D4EA] font-semibold drop-shadow-[0_0_8px_rgba(0,212,234,0.4)]'
-        : 'text-slate-200 hover:text-white hover:bg-white/[0.06]'
-    }`;
-
-  const headerBgClass = isScrolled
-    ? 'bg-[#071D3A]/92 border-b border-[#009EDB]/25 backdrop-blur-xl shadow-[0_10px_35px_rgba(3,15,30,0.6)]'
-    : 'bg-[#071D3A]/80 border-b border-white/10 backdrop-blur-md';
+  const search = (mobile = false) => (
+    <div className={`relative ${mobile ? 'w-full' : 'w-[180px] shrink-0'}`}>
+      <form role="search" onSubmit={event => { event.preventDefault(); }} className="site-search">
+        <Search className="h-4 w-4 shrink-0 text-muted" aria-hidden="true" />
+        <input aria-label="Search the website" placeholder="Search..." value={query}
+          onFocus={() => setOpenGroup(null)} onChange={event => setQuery(event.target.value)}
+          className="min-w-0 w-full bg-transparent text-xs text-white outline-none placeholder:text-subtle" />
+      </form>
+      {query.trim() && <div className="absolute right-0 top-full z-20 mt-2 w-full min-w-[240px] rounded-xl border border-white/15 bg-surface p-2 shadow-xl" aria-live="polite">
+        {results.length ? results.map(item => <Link key={item.path} to={item.path} aria-current={pathname === item.path ? 'page' : undefined} onClick={() => setQuery('')} className="block rounded-lg px-3 py-2 text-sm text-muted hover:bg-white/10 focus-visible:bg-white/10">{item.title}</Link>) : <p className="px-3 py-2 text-sm text-muted">No matching pages found.</p>}
+      </div>}
+    </div>
+  );
 
   return (
-    <header
-      className={`fixed top-0 left-0 w-full z-50 transition-all duration-300 ${headerBgClass}`}
-      role="banner"
-    >
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-        <div className="flex items-center justify-between h-20">
-          {/* Official Brand Logo */}
-          <div className="flex-shrink-0">
-            <PrakviLogo variant="light" size="md" />
-          </div>
-
-          {/* Desktop Navigation Links (Dynamic from navigationData) */}
-          <nav
-            className="hidden lg:flex items-center space-x-1"
-            aria-label="Primary Navigation"
-          >
-            {navigationData.mainNav.map((item) => {
-              if (item.hasDropdown) {
-                return (
-                  <div
-                    key={item.label}
-                    className="relative"
-                    onMouseEnter={() => setIsMegaMenuOpen(true)}
-                  >
-                    <button
-                      onClick={() => setIsMegaMenuOpen(!isMegaMenuOpen)}
-                      aria-expanded={isMegaMenuOpen}
-                      aria-haspopup="true"
-                      className={`flex items-center gap-1.5 px-3.5 py-2 text-sm font-medium transition-all focus:outline-none focus-visible:ring-2 focus-visible:ring-[#00D4EA] rounded-lg ${
-                        location.pathname.startsWith('/services') || isMegaMenuOpen
-                          ? 'text-[#00D4EA] font-semibold drop-shadow-[0_0_8px_rgba(0,212,234,0.4)]'
-                          : 'text-slate-200 hover:text-white hover:bg-white/[0.06]'
-                      }`}
-                    >
-                      <span>{item.label}</span>
-                      <ChevronDown
-                        className={`w-4 h-4 transition-transform duration-200 ${
-                          isMegaMenuOpen ? 'rotate-180 text-[#00D4EA]' : 'text-slate-400'
-                        }`}
-                      />
-                    </button>
-                    {location.pathname.startsWith('/services') && (
-                      <span className="absolute bottom-0 left-3 right-3 h-0.5 bg-[#00D4EA] rounded-full shadow-[0_0_8px_#00D4EA] pointer-events-none" />
-                    )}
-                  </div>
-                );
-              }
-
-              return (
-                <NavLink key={item.path} to={item.path} end={item.path === '/'} className={navLinkClass}>
-                  {({ isActive }) => (
-                    <>
-                      <span>{item.label}</span>
-                      {isActive && (
-                        <span className="absolute bottom-0 left-3 right-3 h-0.5 bg-[#00D4EA] rounded-full shadow-[0_0_8px_#00D4EA]" />
-                      )}
-                    </>
-                  )}
-                </NavLink>
-              );
-            })}
+    <header ref={headerRef} className="site-header fixed inset-x-0 top-0 z-50 text-white" onMouseLeave={() => setOpenGroup(null)}>
+      <div className="mx-auto flex h-20 max-w-[1440px] items-center justify-between gap-5 px-4 sm:px-6 xl:px-10">
+        <PrakviLogo size="sm" />
+        <div className="hidden min-[1200px]:flex items-center gap-5 xl:gap-7">
+          <nav aria-label="Primary navigation" className="flex items-center gap-2 xl:gap-4">
+            {groups.map((group, index) => <div className="header-dropdown-group relative" key={group.label}
+              onMouseLeave={() => setOpenGroup(current => current === group.label ? null : current)}
+              onBlur={event => { if (!event.currentTarget.contains(event.relatedTarget as Node | null)) setOpenGroup(current => current === group.label ? null : current); }}>
+              <button data-active={group.links.some(item => item.path !== '/contact' && (pathname === item.path || pathname.startsWith(item.path + '/')))} aria-expanded={openGroup === group.label} aria-controls={`header-group-${index}`} onMouseEnter={() => setOpenGroup(group.label)} onClick={() => setOpenGroup(openGroup === group.label ? null : group.label)} className="flex items-center gap-2 rounded px-2 py-3 text-[13px] font-bold uppercase tracking-[0.025em] text-muted transition-colors hover:text-white focus-visible:outline-2 focus-visible:outline-accent">
+                {group.label}<ChevronDown className={`h-3 w-3 transition-transform ${openGroup === group.label ? 'rotate-180' : ''}`} />
+              </button>
+              {openGroup === group.label && <div id={`header-group-${index}`} className="header-dropdown absolute left-0 top-full z-50 w-[260px] rounded-2xl p-2 shadow-xl">
+                <div className="px-2 pb-1 pt-0.5 text-[10px] font-bold uppercase tracking-widest text-subtle">Menu</div>
+                <div data-lenis-prevent className="header-dropdown-scroll max-h-[min(340px,calc(100dvh-120px))] overflow-y-auto overscroll-contain pr-2">
+                {group.links.map(item => <Link key={item.path} to={item.path} aria-current={pathname === item.path ? 'page' : undefined} onClick={() => setOpenGroup(null)} className="header-dropdown-link block rounded-lg px-2 py-1.5 text-[13px] font-semibold leading-snug text-slate-200">{item.title}</Link>)}
+                </div>
+              </div>}
+            </div>)}
+            <Link to="/careers" onMouseEnter={() => setOpenGroup(null)} aria-current={pathname === '/careers' ? 'page' : undefined} className="px-2 py-3 text-[13px] font-bold uppercase tracking-[0.025em] text-muted hover:text-white">Careers</Link>
           </nav>
-
-          {/* Header Action Button (Desktop: Glowing Cyan / Corporate Blue) */}
-          <div className="hidden lg:flex items-center gap-4">
-            <Link
-              to={navigationData.headerCta.path}
-              className="group relative inline-flex items-center gap-2 px-5 py-2.5 rounded-xl text-sm font-bold text-[#071D3A] bg-gradient-to-r from-[#00D4EA] to-[#009EDB] hover:from-[#38BDF8] hover:to-[#00D4EA] shadow-[0_0_20px_rgba(0,212,234,0.35)] hover:shadow-[0_0_28px_rgba(0,212,234,0.55)] transition-all active:scale-95 focus:outline-none focus-visible:ring-2 focus-visible:ring-white"
-            >
-              <span>{navigationData.headerCta.label}</span>
-              <ArrowRight className="w-4 h-4 text-[#071D3A] group-hover:translate-x-1 transition-transform" />
-            </Link>
-          </div>
-
-          {/* Mobile Navigation Toggle */}
-          <div className="flex lg:hidden items-center gap-3">
-            <Link
-              to={navigationData.headerCta.path}
-              className="px-3 py-1.5 rounded-lg text-xs font-bold text-[#071D3A] bg-gradient-to-r from-[#00D4EA] to-[#009EDB] shadow-sm transition-all"
-            >
-              {navigationData.headerCta.label}
-            </Link>
-            <button
-              onClick={() => setIsMobileMenuOpen(!isMobileMenuOpen)}
-              aria-label={isMobileMenuOpen ? 'Close mobile menu' : 'Open mobile menu'}
-              aria-expanded={isMobileMenuOpen}
-              className="p-2 rounded-xl text-slate-200 hover:text-white hover:bg-white/[0.08] transition-colors focus:outline-none focus-visible:ring-2 focus-visible:ring-[#00D4EA]"
-            >
-              {isMobileMenuOpen ? <X className="w-6 h-6 text-[#00D4EA]" /> : <Menu className="w-6 h-6" />}
-            </button>
-          </div>
+          {search()}
+          <ButtonLink to="/contact">Let’s Talk<ArrowRight aria-hidden="true" style={{ width: 12, height: 12 }} /></ButtonLink>
         </div>
+        <button onClick={() => setMobileOpen(!mobileOpen)} aria-label={mobileOpen ? 'Close navigation' : 'Open navigation'} aria-expanded={mobileOpen} aria-controls="mobile-navigation" className="rounded-lg p-2 text-muted min-[1200px]:hidden focus-visible:outline-2 focus-visible:outline-accent">{mobileOpen ? <X /> : <Menu />}</button>
       </div>
-
-      {/* Services Mega Menu Overlay */}
-      <MegaMenu
-        isOpen={isMegaMenuOpen}
-        onClose={() => setIsMegaMenuOpen(false)}
-      />
-
-      {/* Mobile Drawer Navigation (Accessible Accordion) in Deep Corporate Navy */}
-      {isMobileMenuOpen && (
-        <div className="lg:hidden fixed inset-x-0 top-20 bottom-0 bg-[#071D3A]/98 border-t border-[#009EDB]/25 backdrop-blur-2xl overflow-y-auto px-6 py-6 text-white space-y-4">
-          <NavLink
-            to="/"
-            end
-            onClick={() => setIsMobileMenuOpen(false)}
-            className="block py-2.5 text-base font-semibold border-b border-white/10 hover:text-[#00D4EA]"
-          >
-            Home
-          </NavLink>
-
-          <NavLink
-            to="/about"
-            onClick={() => setIsMobileMenuOpen(false)}
-            className="block py-2.5 text-base font-semibold border-b border-white/10 hover:text-[#00D4EA]"
-          >
-            About Us
-          </NavLink>
-
-          {/* Services Mobile Accordion */}
-          <div className="border-b border-white/10 py-2">
-            <button
-              onClick={() => toggleMobileAccordion('services')}
-              className="w-full flex items-center justify-between text-base font-semibold py-1 hover:text-[#00D4EA] focus:outline-none"
-            >
-              <span>Services</span>
-              <ChevronDown
-                className={`w-4 h-4 transition-transform ${
-                  mobileAccordion === 'services' ? 'rotate-180 text-[#00D4EA]' : ''
-                }`}
-              />
-            </button>
-
-            {mobileAccordion === 'services' && (
-              <div className="mt-3 pl-3 space-y-4 border-l-2 border-[#00D4EA]/40 text-sm text-slate-300">
-                <Link
-                  to="/services"
-                  onClick={() => setIsMobileMenuOpen(false)}
-                  className="block font-semibold text-[#00D4EA] py-1"
-                >
-                  All Services Overview →
-                </Link>
-
-                {/* Enterprise Solutions Section */}
-                <div className="pt-1">
-                  <div className="text-[11px] font-mono uppercase tracking-wider text-[#00D4EA] font-bold mb-1.5">
-                    Enterprise Solutions ({navigationData.enterpriseSolutions.length})
-                  </div>
-                  <div className="space-y-1.5 pl-1.5">
-                    {navigationData.enterpriseSolutions.map((item) => (
-                      <Link
-                        key={item.id}
-                        to={item.path}
-                        onClick={() => setIsMobileMenuOpen(false)}
-                        className="block hover:text-[#00D4EA] py-0.5 text-xs text-slate-200"
-                      >
-                        {item.title}
-                      </Link>
-                    ))}
-                  </div>
-                </div>
-
-                {/* Business Solutions Section */}
-                <div className="pt-2 border-t border-white/10">
-                  <div className="text-[11px] font-mono uppercase tracking-wider text-[#00D4EA] font-bold mb-1.5">
-                    Business Solutions ({navigationData.businessSolutions.length})
-                  </div>
-                  <div className="space-y-1.5 pl-1.5">
-                    {navigationData.businessSolutions.map((item) => (
-                      <Link
-                        key={item.id}
-                        to={item.path}
-                        onClick={() => setIsMobileMenuOpen(false)}
-                        className="block hover:text-[#00D4EA] py-0.5 text-xs text-slate-200"
-                      >
-                        {item.title}
-                      </Link>
-                    ))}
-                  </div>
-                </div>
-              </div>
-            )}
-          </div>
-
-          {/* Products Mobile Accordion */}
-          <div className="border-b border-white/10 py-2">
-            <button
-              onClick={() => toggleMobileAccordion('products')}
-              className="w-full flex items-center justify-between text-base font-semibold py-1 hover:text-[#00D4EA] focus:outline-none"
-            >
-              <span>Products</span>
-              <ChevronDown
-                className={`w-4 h-4 transition-transform ${
-                  mobileAccordion === 'products' ? 'rotate-180 text-[#00D4EA]' : ''
-                }`}
-              />
-            </button>
-
-            {mobileAccordion === 'products' && (
-              <div className="mt-3 pl-3 space-y-2 border-l-2 border-[#00D4EA]/40 text-sm text-slate-300">
-                <Link
-                  to="/products"
-                  onClick={() => setIsMobileMenuOpen(false)}
-                  className="block font-semibold text-[#00D4EA] py-1"
-                >
-                  All Products Overview →
-                </Link>
-                {navigationData.products.map((item) => (
-                  <Link
-                    key={item.id}
-                    to={item.path}
-                    onClick={() => setIsMobileMenuOpen(false)}
-                    className="block hover:text-[#00D4EA] py-0.5 text-xs text-slate-200"
-                  >
-                    {item.title}
-                  </Link>
-                ))}
-              </div>
-            )}
-          </div>
-
-          <NavLink
-            to="/careers"
-            onClick={() => setIsMobileMenuOpen(false)}
-            className="block py-2.5 text-base font-semibold border-b border-white/10 hover:text-[#00D4EA]"
-          >
-            Careers & Job Portal
-          </NavLink>
-
-          <NavLink
-            to="/insights"
-            onClick={() => setIsMobileMenuOpen(false)}
-            className="block py-2.5 text-base font-semibold border-b border-white/10 hover:text-[#00D4EA]"
-          >
-            Insights & Thought Leadership
-          </NavLink>
-
-          <NavLink
-            to="/contact"
-            onClick={() => setIsMobileMenuOpen(false)}
-            className="block py-2.5 text-base font-semibold border-b border-white/10 hover:text-[#00D4EA]"
-          >
-            Contact & Office Hubs
-          </NavLink>
-
-          <div className="pt-6">
-            <Link
-              to="/contact"
-              onClick={() => setIsMobileMenuOpen(false)}
-              className="w-full flex items-center justify-center gap-2 py-3.5 px-4 rounded-xl bg-gradient-to-r from-[#00D4EA] to-[#009EDB] text-[#071D3A] font-bold text-center shadow-[0_0_15px_rgba(0,212,234,0.35)] transition-all"
-            >
-              <PhoneCall className="w-4 h-4" />
-              <span>Start an Enterprise Consultation</span>
-            </Link>
-          </div>
-        </div>
-      )}
+      {mobileOpen && <nav data-lenis-prevent id="mobile-navigation" aria-label="Mobile navigation" className="max-h-[calc(100dvh-5rem)] overflow-y-auto border-t border-white/10 bg-canvas px-6 py-5 min-[1200px]:hidden">
+        {search(true)}
+        {groups.map((group, index) => <div key={group.label} className="border-b border-white/10">
+          <button onClick={() => setOpenGroup(openGroup === group.label ? null : group.label)} aria-expanded={openGroup === group.label} aria-controls={`mobile-group-${index}`} className="flex w-full items-center justify-between py-5 text-sm font-bold uppercase text-muted">{group.label}<ChevronDown className={`h-4 w-4 ${openGroup === group.label ? 'rotate-180' : ''}`} /></button>
+          {openGroup === group.label && <div data-lenis-prevent id={`mobile-group-${index}`} className="header-dropdown header-dropdown-scroll max-h-[340px] overflow-y-auto rounded-xl p-2 mb-4 space-y-1">{group.links.map(item => <Link key={item.path} to={item.path} aria-current={pathname === item.path ? 'page' : undefined} className="block rounded px-3 py-2 text-sm text-muted hover:bg-white/10">{item.title}</Link>)}</div>}
+        </div>)}
+        <Link to="/careers" className="block py-5 text-sm font-bold uppercase text-muted">Careers</Link>
+        <ButtonLink to="/contact">Let’s Talk<ArrowRight aria-hidden="true" style={{ width: 12, height: 12 }} /></ButtonLink>
+      </nav>}
     </header>
   );
 };

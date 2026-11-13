@@ -35,7 +35,7 @@ export const HeroVideo: React.FC<HeroVideoProps> = ({
 
   return (
     <div
-      className={`relative w-full h-full overflow-hidden bg-[#071D3A] select-none rounded-2xl ${className}`}
+      className={`relative w-full h-full overflow-hidden bg-canvas select-none rounded-2xl ${className}`}
     >
       {/* High-Fidelity Poster / Fallback Image (Always present to eliminate layout shift) */}
       <img
@@ -68,7 +68,7 @@ export const HeroVideo: React.FC<HeroVideoProps> = ({
 
       {/* Cinematic Enterprise Navy/Blue Gradient Overlay */}
       <div
-        className="absolute inset-0 bg-gradient-to-t from-[#071D3A] via-[#071D3A]/40 to-transparent pointer-events-none"
+        className="absolute inset-0 bg-gradient-to-t from-canvas via-canvas/40 to-transparent pointer-events-none"
         style={{ opacity: overlayOpacity }}
       />
 
@@ -76,13 +76,13 @@ export const HeroVideo: React.FC<HeroVideoProps> = ({
       <div className="absolute inset-0 tech-grid-dark opacity-30 pointer-events-none" />
 
       {/* Subtle Cyan Corner Highlight */}
-      <div className="absolute top-0 right-0 w-32 h-32 bg-[#00D4EA]/15 rounded-full blur-2xl pointer-events-none" />
+      <div className="absolute top-0 right-0 w-32 h-32 bg-accent/15 rounded-full blur-2xl pointer-events-none" />
 
       {/* Optional Caption Badge */}
       {showCaption && (
         <div className="absolute bottom-4 left-4 right-4 z-10 pointer-events-none">
-          <div className="inline-flex items-center gap-2 px-3 py-1.5 rounded-xl bg-[#071D3A]/85 border border-[#00D4EA]/30 backdrop-blur-md text-[11px] font-mono text-slate-200">
-            <span className="w-1.5 h-1.5 rounded-full bg-[#00D4EA] animate-pulse" />
+          <div className="btn-primary">
+            <span className="w-1.5 h-1.5 rounded-full bg-accent animate-pulse" />
             <span className="truncate">{config.caption}</span>
           </div>
         </div>

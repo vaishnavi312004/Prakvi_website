@@ -37,76 +37,72 @@ export const InsightsPage: React.FC = () => {
   const featuredArticle = insightsData[0];
 
   return (
-    <PageTransition className="min-h-screen overflow-x-hidden pt-20 selection:bg-[#009EDB] selection:text-white">
-      {/* =========================================================================
-          1. HERO (Deep Navy #071D3A)
-         ========================================================================= */}
-      <section className="bg-gradient-to-b from-[#071D3A] via-[#0B2952] to-[#071D3A] text-white py-20 relative overflow-hidden border-b border-white/10">
+    <PageTransition className="min-h-screen overflow-x-hidden pt-20 selection:bg-accent selection:text-white">
+
+      <section className="bg-gradient-to-b from-canvas via-surface to-canvas text-foreground py-section relative overflow-hidden">
         <div className="absolute inset-0 tech-grid-dark opacity-35 pointer-events-none" />
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
           <Breadcrumbs items={[{ label: 'Insights & Research' }]} variant="light" />
 
           <div className="mt-8 max-w-3xl">
-            <div className="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full bg-white/[0.08] border border-[#00D4EA]/30 backdrop-blur-md mb-4">
-              <span className="w-2 h-2 rounded-full bg-[#00D4EA] shadow-[0_0_8px_#00D4EA]" />
-              <span className="text-xs font-mono font-semibold uppercase tracking-widest text-[#00D4EA]">
+            <div className="mb-4 inline-flex items-center gap-2 rounded-full border border-accent/25 bg-white/[0.04] px-3.5 py-1.5">
+              <span className="w-2 h-2 rounded-full bg-accent shadow-accent" />
+              <span className="text-xs font-mono font-semibold uppercase tracking-widest text-accent">
                 Executive Research & Thought Leadership
               </span>
             </div>
 
-            <h1 className="font-display text-4xl sm:text-5xl lg:text-6xl font-extrabold text-white tracking-tight leading-tight">
+            <h1 className="font-display text-4xl sm:text-5xl lg:text-6xl font-extrabold text-foreground tracking-tight leading-tight">
               Technology Architecture & Strategic Perspectives.
             </h1>
 
-            <p className="mt-6 text-base sm:text-xl text-slate-200 leading-relaxed font-light">
+            <p className="mt-6 text-base sm:text-xl text-muted leading-relaxed font-light">
               In-depth analysis, architectural patterns, and strategic guidance curated by Prakvi’s practice leaders across cloud, AI, endpoint security, and workforce innovation.
             </p>
           </div>
         </div>
       </section>
 
-      {/* =========================================================================
-          2. FEATURED ARTICLE SPOTLIGHT (Off-White #F7FAFC)
-         ========================================================================= */}
-      <div className="bg-[#F7FAFC] text-[#172B45]">
+
+      <div className="bg-canvas text-foreground">
         {featuredArticle && selectedCategory === 'All' && !searchTerm && (
-          <section className="py-16 border-b border-slate-200">
+          <section className="py-16">
             <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-              <div className="p-8 sm:p-12 rounded-3xl bg-white border border-slate-200/90 shadow-xl grid grid-cols-1 lg:grid-cols-12 gap-10 items-center">
+              <div className="p-8 sm:p-12 rounded-3xl glass-panel border border-line  grid grid-cols-1 lg:grid-cols-12 gap-10 items-center">
                 <div className="lg:col-span-7 space-y-5">
                   <div className="flex items-center gap-3">
-                    <span className="text-xs font-mono font-bold text-[#009EDB] uppercase tracking-wider">
+                    <span className="text-xs font-mono font-bold text-accent uppercase tracking-wider">
                       Featured Insight
                     </span>
-                    <span className="text-slate-300">•</span>
-                    <span className="text-xs text-slate-500 font-mono">
+                    <span className="text-muted">•</span>
+                    <span className="text-xs text-subtle font-mono">
                       {featuredArticle.category}
                     </span>
                   </div>
 
-                  <h2 className="font-display text-2xl sm:text-4xl font-extrabold text-[#071D3A] leading-tight">
+                  <h2 className="font-display text-2xl sm:text-4xl font-extrabold text-foreground leading-tight">
                     <Link
                       to={`/insights/${featuredArticle.slug}`}
-                      className="hover:text-[#009EDB] transition-colors"
+                      className="hover:text-accent transition-colors"
                     >
                       {featuredArticle.title}
                     </Link>
                   </h2>
 
-                  <p className="text-sm sm:text-base text-[#57708E] leading-relaxed">
+                  <p className="text-sm sm:text-base text-muted leading-relaxed">
                     {featuredArticle.summary}
                   </p>
 
-                  <div className="pt-2 flex items-center justify-between border-t border-slate-100">
+                  <div className="pt-2 flex items-center justify-between border-t border-line">
                     <div className="flex items-center gap-3">
-                      <div className="w-10 h-10 rounded-full bg-[#DDF4FF] border border-[#009EDB]/30 flex items-center justify-center font-bold text-xs text-[#009EDB]">
+                      <div className="w-10 h-10 rounded-full bg-surface border border-accent/30 flex items-center justify-center font-bold text-xs text-accent">
                         {featuredArticle.author.name[0]}
                       </div>
                       <div>
-                        <div className="text-xs font-bold text-[#071D3A]">
+                        <div className="text-xs font-bold text-foreground">
                           {featuredArticle.author.name}
                         </div>
-                        <div className="text-[11px] text-slate-500">
+                        <div className="text-[11px] text-subtle">
                           {featuredArticle.author.role}
                         </div>
                       </div>
@@ -114,7 +110,7 @@ export const InsightsPage: React.FC = () => {
 
                     <Link
                       to={`/insights/${featuredArticle.slug}`}
-                      className="inline-flex items-center gap-2 px-6 py-2.5 rounded-xl text-xs font-bold text-white bg-[#071D3A] hover:bg-[#009EDB] shadow-md transition-all"
+                      className="btn-primary"
                     >
                       <span>Read Full Analysis</span>
                       <ArrowRight className="w-3.5 h-3.5" />
@@ -123,13 +119,13 @@ export const InsightsPage: React.FC = () => {
                 </div>
 
                 <div className="lg:col-span-5">
-                  <div className="relative rounded-2xl overflow-hidden shadow-lg border border-slate-200 group">
+                  <div className="relative rounded-2xl overflow-hidden shadow-lg border border-line group">
                     <img
                       src={featuredArticle.featuredImage}
                       alt={featuredArticle.title}
                       className="w-full h-80 object-cover group-hover:scale-105 transition-transform duration-700"
                     />
-                    <div className="absolute inset-0 bg-gradient-to-t from-[#071D3A]/60 via-transparent to-transparent" />
+                    <div className="absolute inset-0 bg-gradient-to-t from-canvas/60 via-transparent to-transparent" />
                   </div>
                 </div>
               </div>
@@ -137,10 +133,8 @@ export const InsightsPage: React.FC = () => {
           </section>
         )}
 
-        {/* =========================================================================
-            3. ARTICLES GRID & CATEGORY FILTER
-           ========================================================================= */}
-        <section className="py-20">
+
+        <section className="py-section">
           <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
             <div className="flex flex-col md:flex-row md:items-center justify-between gap-6 mb-12">
               {/* Category Pills (Interactive buttons) */}
@@ -151,8 +145,8 @@ export const InsightsPage: React.FC = () => {
                     onClick={() => setSelectedCategory(cat)}
                     className={`px-4 py-2 rounded-xl text-xs font-semibold transition-all ${
                       selectedCategory === cat
-                        ? 'bg-[#071D3A] text-white shadow-sm font-bold'
-                        : 'bg-white text-slate-600 hover:text-[#071D3A] border border-slate-200'
+                        ? 'bg-accent/10 text-accent ring-1 ring-accent/40 font-bold'
+                        : 'bg-surface text-muted hover:text-foreground border border-line'
                     }`}
                   >
                     {cat}
@@ -162,13 +156,13 @@ export const InsightsPage: React.FC = () => {
 
               {/* Keyword Search */}
               <div className="relative w-full md:w-72">
-                <Search className="w-4 h-4 text-slate-400 absolute left-3.5 top-3" />
+                <Search className="w-4 h-4 text-muted absolute left-3.5 top-3" />
                 <input
                   type="text"
                   value={searchTerm}
                   onChange={(e) => setSearchTerm(e.target.value)}
                   placeholder="Filter articles..."
-                  className="w-full pl-10 pr-4 py-2 rounded-xl bg-white border border-slate-300 text-xs text-[#071D3A] placeholder-slate-400 focus:outline-none focus:border-[#009EDB] focus:ring-1 focus:ring-[#009EDB]"
+                  className="w-full pl-10 pr-4 py-2 rounded-xl bg-surface border border-line text-xs text-foreground placeholder-slate-400 focus:outline-none focus:border-accent focus:ring-1 focus:ring-accent"
                 />
               </div>
             </div>
@@ -178,46 +172,46 @@ export const InsightsPage: React.FC = () => {
               {filteredArticles.map((article) => (
                 <article
                   key={article.id}
-                  className="group flex flex-col bg-white rounded-3xl border border-slate-200/90 hover:border-[#009EDB]/40 overflow-hidden shadow-sm hover:shadow-xl transition-all"
+                  className="group flex flex-col glass-panel rounded-3xl border border-line hover:border-accent/40 overflow-hidden  hover:shadow-accent transition-all"
                 >
-                  <div className="relative h-48 overflow-hidden bg-slate-100">
+                  <div className="relative h-48 overflow-hidden bg-surface">
                     <img
                       src={article.featuredImage}
                       alt={article.title}
                       className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-700"
                       loading="lazy"
                     />
-                    <div className="absolute top-3 left-3 px-3 py-1 rounded-full bg-white/90 border border-slate-200 text-[11px] font-mono font-semibold text-[#071D3A] backdrop-blur-md">
+                    <div className="absolute top-3 left-3 px-3 py-1 rounded-full bg-surface/95 border border-line text-[11px] font-mono font-semibold text-foreground backdrop-blur-md">
                       {article.category}
                     </div>
                   </div>
 
                   <div className="p-6 flex-1 flex flex-col justify-between space-y-4">
                     <div>
-                      <div className="flex items-center gap-2 text-xs text-slate-500 mb-2 font-mono">
+                      <div className="flex items-center gap-2 text-xs text-subtle mb-2 font-mono">
                         <span>{article.publishedDate}</span>
                         <span>•</span>
                         <span>{article.readTime}</span>
                       </div>
 
-                      <h3 className="font-display text-lg font-bold text-[#071D3A] group-hover:text-[#009EDB] transition-colors line-clamp-2">
+                      <h3 className="font-display text-lg font-bold text-foreground group-hover:text-accent transition-colors line-clamp-2">
                         <Link to={`/insights/${article.slug}`}>
                           {article.title}
                         </Link>
                       </h3>
 
-                      <p className="mt-2 text-xs sm:text-sm text-[#57708E] line-clamp-2 leading-relaxed">
+                      <p className="mt-2 text-xs sm:text-sm text-muted line-clamp-2 leading-relaxed">
                         {article.summary}
                       </p>
                     </div>
 
-                    <div className="pt-4 border-t border-slate-100 flex items-center justify-between">
-                      <span className="text-xs font-semibold text-slate-600">
+                    <div className="pt-4 border-t border-line flex items-center justify-between">
+                      <span className="text-xs font-semibold text-muted">
                         {article.author.name}
                       </span>
                       <Link
                         to={`/insights/${article.slug}`}
-                        className="text-xs font-bold text-[#009EDB] flex items-center gap-1 group-hover:translate-x-1 transition-transform"
+                        className="text-xs font-bold text-accent flex items-center gap-1 group-hover:translate-x-1 transition-transform"
                       >
                         <span>Read article</span>
                         <ArrowRight className="w-3.5 h-3.5" />

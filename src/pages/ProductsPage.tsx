@@ -30,47 +30,43 @@ export const ProductsPage: React.FC = () => {
 
   return (
     <PageTransition>
-      <div className="overflow-x-hidden pt-20 selection:bg-[#009EDB] selection:text-white">
-        {/* =========================================================================
-            1. HERO (Deep Navy #071D3A)
-           ========================================================================= */}
-        <section className="bg-gradient-to-b from-[#071D3A] via-[#0B2952] to-[#071D3A] text-white py-20 relative overflow-hidden border-b border-white/10">
+      <div className="overflow-x-hidden pt-20 selection:bg-accent selection:text-white">
+
+        <section className="bg-gradient-to-b from-canvas via-surface to-canvas text-foreground py-section relative overflow-hidden">
           <div className="absolute inset-0 z-0 opacity-25">
             <img
-              src="/src/assets/images/hero_enterprise_cinematic_1794479542547.jpg"
+              src="/img/hero_enterprise_cinematic_1794479542547.jpg"
               alt="Prakvi Enterprise SaaS Suites"
               className="w-full h-full object-cover object-center"
             />
-            <div className="absolute inset-0 bg-gradient-to-r from-[#071D3A] via-[#071D3A]/90 to-[#071D3A]/70" />
-            <div className="absolute inset-0 bg-gradient-to-t from-[#071D3A] via-transparent to-[#071D3A]/80" />
+            <div className="absolute inset-0 bg-gradient-to-r from-canvas via-canvas/90 to-canvas/70" />
+            <div className="absolute inset-0 bg-gradient-to-t from-canvas via-transparent to-canvas/80" />
           </div>
 
           <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
             <Breadcrumbs items={[{ label: 'Products' }]} variant="light" />
 
             <div className="mt-8 max-w-3xl">
-              <div className="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full bg-white/[0.08] border border-[#00D4EA]/30 backdrop-blur-md mb-5">
-                <span className="w-2 h-2 rounded-full bg-[#00D4EA] shadow-[0_0_8px_#00D4EA]" />
-                <span className="text-xs font-mono font-semibold uppercase tracking-widest text-[#00D4EA]">
+              <div className="mb-4 inline-flex items-center gap-2 rounded-full border border-accent/25 bg-white/[0.04] px-3.5 py-1.5">
+                <span className="w-2 h-2 rounded-full bg-accent shadow-accent" />
+                <span className="text-xs font-mono font-semibold uppercase tracking-widest text-accent">
                   Enterprise SaaS Suites
                 </span>
               </div>
 
-              <h1 className="font-display text-4xl sm:text-5xl lg:text-6xl font-extrabold text-white tracking-tight leading-tight text-balance">
+              <h1 className="font-display text-4xl sm:text-5xl lg:text-6xl font-extrabold text-foreground tracking-tight leading-tight text-balance">
                 Mission-Critical Enterprise SaaS Platforms.
               </h1>
 
-              <p className="mt-6 text-base sm:text-xl text-slate-200 leading-relaxed text-balance font-light">
+              <p className="mt-6 text-base sm:text-xl text-muted leading-relaxed text-balance font-light">
                 Purpose-built software platforms engineered to eliminate operational silos across real-time business intelligence, human resource lifecycles, third-party vendor procurement, and high-velocity B2B sales pipelines.
               </p>
             </div>
           </div>
         </section>
 
-        {/* =========================================================================
-            2. PRODUCT SHOWCASE GRID (Clean Off-White #F7FAFC with White Cards)
-           ========================================================================= */}
-        <section className="py-20 lg:py-24 bg-[#F7FAFC] text-[#172B45] border-t border-slate-200/80">
+
+        <section className="py-section lg:py-section bg-canvas text-foreground">
           <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
             <SectionHeading
               badge="Product Portfolio"
@@ -85,43 +81,43 @@ export const ProductsPage: React.FC = () => {
                 return (
                   <div
                     key={product.id}
-                    className={`grid grid-cols-1 lg:grid-cols-12 gap-10 items-center p-8 sm:p-12 rounded-3xl bg-white border border-slate-200/90 shadow-md hover:shadow-xl transition-all ${
+                    className={`grid grid-cols-1 lg:grid-cols-12 gap-10 items-center p-8 sm:p-12 rounded-3xl glass-panel glass-card transition-all ${
                       isEven ? '' : 'lg:flex-row-reverse'
                     }`}
                   >
                     {/* Left Column: Product Info (7 cols) */}
                     <div className={`lg:col-span-7 space-y-5 ${isEven ? '' : 'lg:order-2'}`}>
-                      <div className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-[#DDF4FF] border border-[#009EDB]/30 text-xs font-mono font-semibold text-[#009EDB]">
+                      <div className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-surface border border-accent/30 text-xs font-mono font-semibold text-accent">
                         {product.badge || 'Enterprise Suite'}
                       </div>
 
-                      <h2 className="font-display text-2xl sm:text-4xl font-extrabold text-[#071D3A]">
+                      <h2 className="font-display text-2xl sm:text-4xl font-extrabold text-foreground">
                         {product.name}
                       </h2>
 
-                      <p className="text-sm font-semibold text-[#009EDB]">
+                      <p className="text-sm font-semibold text-accent">
                         {product.tagline}
                       </p>
 
-                      <p className="text-sm sm:text-base text-[#57708E] leading-relaxed">
+                      <p className="text-sm sm:text-base text-muted leading-relaxed">
                         {product.shortDesc}
                       </p>
 
                       {/* Stats cells in soft sky blue */}
                       <div className="grid grid-cols-2 sm:grid-cols-4 gap-3 py-1">
                         {product.stats.map((st, i) => (
-                          <div key={i} className="p-3.5 bg-slate-50 rounded-xl border border-slate-200 text-center">
-                            <div className="font-display text-lg font-bold text-[#071D3A] tabular-nums">{st.value}</div>
-                            <div className="text-[10px] text-slate-500 font-mono mt-0.5">{st.label}</div>
+                          <div key={i} className="p-3.5 bg-surface rounded-xl border border-line text-center">
+                            <div className="font-display text-lg font-bold text-foreground tabular-nums">{st.value}</div>
+                            <div className="text-[10px] text-subtle font-mono mt-0.5">{st.label}</div>
                           </div>
                         ))}
                       </div>
 
                       {/* Top 3 Features */}
-                      <div className="space-y-2 pt-1 text-xs text-slate-800">
+                      <div className="space-y-2 pt-1 text-xs text-foreground">
                         {product.features.slice(0, 3).map((feat, i) => (
-                          <div key={i} className="flex items-start gap-2.5 p-2 rounded-lg bg-slate-50 border border-slate-200/60">
-                            <CheckCircle2 className="w-4 h-4 text-[#009EDB] shrink-0 mt-0.5" />
+                          <div key={i} className="flex items-start gap-2.5 p-2 rounded-lg bg-surface border border-line">
+                            <CheckCircle2 className="w-4 h-4 text-accent shrink-0 mt-0.5" />
                             <span>{feat}</span>
                           </div>
                         ))}
@@ -131,7 +127,7 @@ export const ProductsPage: React.FC = () => {
                       <div className="pt-3 flex flex-wrap items-center gap-4">
                         <Link
                           to={`/products/${product.slug}`}
-                          className="inline-flex items-center gap-2 px-6 py-3 rounded-xl text-sm font-bold text-white bg-[#071D3A] hover:bg-[#009EDB] shadow-md transition-all"
+                          className="btn-primary"
                         >
                           <span>Platform Specs</span>
                           <ArrowRight className="w-4 h-4" />
@@ -139,7 +135,7 @@ export const ProductsPage: React.FC = () => {
 
                         <button
                           onClick={() => setDemoModalProduct(product.name)}
-                          className="inline-flex items-center gap-2 px-6 py-3 rounded-xl text-sm font-semibold text-[#071D3A] bg-white border border-slate-300 hover:border-[#009EDB] shadow-sm transition-colors"
+                          className="btn-secondary"
                         >
                           <span>Request Custom Demo</span>
                         </button>
@@ -148,19 +144,19 @@ export const ProductsPage: React.FC = () => {
 
                     {/* Right Column: Platform Preview (5 cols) */}
                     <div className={`lg:col-span-5 ${isEven ? '' : 'lg:order-1'}`}>
-                      <div className="relative rounded-2xl overflow-hidden shadow-xl border border-slate-200 group">
+                      <div className="relative rounded-2xl overflow-hidden shadow-xl border border-line group">
                         <img
                           src={product.image}
                           alt={product.name}
                           className="w-full h-80 object-cover group-hover:scale-105 transition-transform duration-700"
                           loading="lazy"
                         />
-                        <div className="absolute inset-0 bg-gradient-to-t from-[#071D3A]/70 via-transparent to-transparent" />
-                        <div className="absolute bottom-4 left-4 right-4 p-4 rounded-xl bg-white/95 border border-slate-200 text-[#071D3A] text-xs backdrop-blur-md shadow-lg">
-                          <span className="font-mono text-[#009EDB] uppercase tracking-wider block text-[10px] font-bold">
+                        <div className="absolute inset-0 bg-gradient-to-t from-canvas/70 via-transparent to-transparent" />
+                        <div className="absolute bottom-4 left-4 right-4 p-4 rounded-xl bg-surface/95 border border-line text-foreground text-xs backdrop-blur-md shadow-lg">
+                          <span className="font-mono text-accent uppercase tracking-wider block text-[10px] font-bold">
                             Governance
                           </span>
-                          <span className="font-semibold text-[#071D3A] mt-0.5 block">
+                          <span className="font-semibold text-foreground mt-0.5 block">
                             SOC 2 & ISO 27001 Ready • Multi-Tenant
                           </span>
                         </div>
@@ -175,11 +171,11 @@ export const ProductsPage: React.FC = () => {
 
         {/* 3. REQUEST DEMO MODAL */}
         {demoModalProduct && (
-          <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/60 backdrop-blur-md animate-fade-in">
-            <div className="bg-white rounded-3xl max-w-md w-full p-6 sm:p-8 shadow-2xl relative border border-slate-200 text-[#172B45]">
+          <div data-lenis-prevent className="fixed inset-0 z-[60] flex items-center justify-center overflow-y-auto p-4 bg-canvas/80 backdrop-blur-md animate-fade-in">
+            <div data-lenis-prevent className="glass-panel max-h-[calc(100dvh-2rem)] overflow-y-auto rounded-3xl max-w-md w-full p-6 sm:p-8  relative border border-line text-foreground">
               <button
                 onClick={() => setDemoModalProduct(null)}
-                className="absolute top-4 right-4 p-2 text-slate-400 hover:text-slate-800 rounded-xl hover:bg-slate-100 transition-colors"
+                className="absolute top-4 right-4 p-2 text-muted hover:text-foreground rounded-xl hover:bg-surface transition-colors"
                 aria-label="Close modal"
               >
                 <X className="w-5 h-5" />
@@ -187,34 +183,34 @@ export const ProductsPage: React.FC = () => {
 
               {demoSubmitted ? (
                 <div className="py-8 text-center space-y-4">
-                  <div className="w-14 h-14 rounded-full bg-[#DDF4FF] border border-[#009EDB]/40 text-[#009EDB] flex items-center justify-center mx-auto shadow-sm">
+                  <div className="w-14 h-14 rounded-full bg-surface border border-accent/40 text-accent flex items-center justify-center mx-auto shadow-sm">
                     <CheckCircle2 className="w-8 h-8" />
                   </div>
-                  <h3 className="font-display text-2xl font-bold text-[#071D3A]">
+                  <h3 className="font-display text-2xl font-bold text-foreground">
                     Demo Request Received!
                   </h3>
-                  <p className="text-xs sm:text-sm text-[#57708E] max-w-xs mx-auto leading-relaxed">
+                  <p className="text-xs sm:text-sm text-muted max-w-xs mx-auto leading-relaxed">
                     Thank you, <strong>{demoName}</strong>. Our enterprise solutions engineering team will contact <strong>{demoEmail}</strong> to schedule your customized walkthrough of {demoModalProduct}.
                   </p>
-                  <div className="text-[10px] font-mono text-slate-400">
+                  <div className="text-[10px] font-mono text-muted">
                     A verification receipt has been logged.
                   </div>
                 </div>
               ) : (
                 <form onSubmit={handleDemoSubmit} className="space-y-4">
-                  <div className="text-xs font-mono font-bold uppercase tracking-wider text-[#009EDB]">
+                  <div className="text-xs font-mono font-bold uppercase tracking-wider text-accent">
                     Live Architecture Walkthrough
                   </div>
-                  <h3 className="font-display text-2xl font-extrabold text-[#071D3A]">
+                  <h3 className="font-display text-2xl font-extrabold text-foreground">
                     Request Demo: {demoModalProduct}
                   </h3>
-                  <p className="text-xs text-[#57708E] leading-relaxed">
+                  <p className="text-xs text-muted leading-relaxed">
                     Please provide your corporate details to coordinate a technical sandbox session with our platform architects.
                   </p>
 
                   <div className="space-y-3 pt-2">
                     <div>
-                      <label className="block text-xs font-semibold text-[#071D3A] mb-1">
+                      <label className="block text-xs font-semibold text-foreground mb-1">
                         Full Name *
                       </label>
                       <input
@@ -223,12 +219,12 @@ export const ProductsPage: React.FC = () => {
                         value={demoName}
                         onChange={(e) => setDemoName(e.target.value)}
                         placeholder="e.g. Alex Morgan"
-                        className="w-full px-3.5 py-2.5 rounded-xl bg-slate-50 border border-slate-300 text-[#071D3A] placeholder:text-slate-400 text-sm focus:outline-none focus:border-[#009EDB] focus:ring-1 focus:ring-[#009EDB]"
+                        className="w-full px-3.5 py-2.5 rounded-xl bg-surface border border-line text-foreground placeholder:text-muted text-sm focus:outline-none focus:border-accent focus:ring-1 focus:ring-accent"
                       />
                     </div>
 
                     <div>
-                      <label className="block text-xs font-semibold text-[#071D3A] mb-1">
+                      <label className="block text-xs font-semibold text-foreground mb-1">
                         Work Email *
                       </label>
                       <input
@@ -237,7 +233,7 @@ export const ProductsPage: React.FC = () => {
                         value={demoEmail}
                         onChange={(e) => setDemoEmail(e.target.value)}
                         placeholder="alex@enterprise.com"
-                        className="w-full px-3.5 py-2.5 rounded-xl bg-slate-50 border border-slate-300 text-[#071D3A] placeholder:text-slate-400 text-sm focus:outline-none focus:border-[#009EDB] focus:ring-1 focus:ring-[#009EDB]"
+                        className="w-full px-3.5 py-2.5 rounded-xl bg-surface border border-line text-foreground placeholder:text-muted text-sm focus:outline-none focus:border-accent focus:ring-1 focus:ring-accent"
                       />
                     </div>
                   </div>
@@ -245,7 +241,7 @@ export const ProductsPage: React.FC = () => {
                   <div className="pt-2">
                     <button
                       type="submit"
-                      className="w-full py-3.5 px-4 rounded-xl text-sm font-bold text-white bg-[#071D3A] hover:bg-[#009EDB] shadow-md transition-all"
+                      className="w-full btn-primary"
                     >
                       Schedule Technical Walkthrough
                     </button>

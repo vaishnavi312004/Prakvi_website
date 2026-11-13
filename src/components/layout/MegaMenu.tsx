@@ -66,11 +66,11 @@ export const MegaMenu: React.FC<MegaMenuProps> = ({ isOpen, onClose }) => {
           animate={{ opacity: 1, y: 0 }}
           exit={{ opacity: 0, y: -6 }}
           transition={{ duration: 0.18, ease: 'easeOut' }}
-          className="absolute top-full left-0 w-full bg-[#071D3A]/98 text-slate-100 shadow-[0_25px_60px_rgba(3,15,30,0.95)] border-b border-x border-[#009EDB]/30 backdrop-blur-2xl z-50 rounded-b-3xl overflow-hidden"
+          className="absolute top-full left-0 w-full bg-canvas/98 text-foreground shadow-[0_25px_60px_rgba(3,15,30,0.95)] border-b border-x border-accent/30 backdrop-blur-2xl z-50 rounded-b-3xl overflow-hidden"
           onMouseLeave={onClose}
         >
           {/* Subtle glowing cyan top border highlight */}
-          <div className="h-[1px] w-full bg-gradient-to-r from-transparent via-[#00D4EA]/60 to-transparent" />
+          <div className="h-[1px] w-full bg-gradient-to-r from-transparent via-accent/60 to-transparent" />
 
           <div className="max-w-7xl mx-auto px-6 py-8 lg:px-8">
             <div className="grid grid-cols-1 lg:grid-cols-12 gap-8">
@@ -80,7 +80,7 @@ export const MegaMenu: React.FC<MegaMenuProps> = ({ isOpen, onClose }) => {
                   <h3 className="font-display text-sm font-bold text-white tracking-tight">
                     Enterprise Solutions
                   </h3>
-                  <span className="text-[11px] font-mono text-[#00D4EA] bg-[#00D4EA]/10 px-2.5 py-0.5 rounded-full border border-[#00D4EA]/30">
+                  <span className="text-[11px] font-mono text-accent bg-accent/10 px-2.5 py-0.5 rounded-full border border-accent/30">
                     {navigationData.enterpriseSolutions.length} Practices
                   </span>
                 </div>
@@ -97,14 +97,14 @@ export const MegaMenu: React.FC<MegaMenuProps> = ({ isOpen, onClose }) => {
                           onClick={onClose}
                           className="group flex items-start gap-3 p-1.5 rounded-xl hover:bg-white/[0.06] transition-all"
                         >
-                          <div className="w-8 h-8 rounded-lg bg-[#009EDB]/15 border border-[#00D4EA]/30 text-[#00D4EA] flex items-center justify-center shrink-0 group-hover:bg-[#009EDB] group-hover:text-white transition-all">
+                          <div className="w-8 h-8 rounded-lg bg-accent/15 border border-accent/30 text-accent flex items-center justify-center shrink-0 group-hover:bg-accent group-hover:text-white transition-all">
                             <IconComp className="w-4 h-4" />
                           </div>
                           <div>
-                            <div className="font-semibold text-xs sm:text-sm text-slate-100 group-hover:text-[#00D4EA] transition-colors leading-tight">
+                            <div className="font-semibold text-xs sm:text-sm text-foreground group-hover:text-accent transition-colors leading-tight">
                               {item.title}
                             </div>
-                            <div className="text-[11px] text-slate-300 leading-snug mt-0.5">
+                            <div className="text-[11px] text-muted leading-snug mt-0.5">
                               {item.description}
                             </div>
                           </div>
@@ -124,14 +124,14 @@ export const MegaMenu: React.FC<MegaMenuProps> = ({ isOpen, onClose }) => {
                           onClick={onClose}
                           className="group flex items-start gap-3 p-1.5 rounded-xl hover:bg-white/[0.06] transition-all"
                         >
-                          <div className="w-8 h-8 rounded-lg bg-[#009EDB]/15 border border-[#00D4EA]/30 text-[#00D4EA] flex items-center justify-center shrink-0 group-hover:bg-[#009EDB] group-hover:text-white transition-all">
+                          <div className="w-8 h-8 rounded-lg bg-accent/15 border border-accent/30 text-accent flex items-center justify-center shrink-0 group-hover:bg-accent group-hover:text-white transition-all">
                             <IconComp className="w-4 h-4" />
                           </div>
                           <div>
-                            <div className="font-semibold text-xs sm:text-sm text-slate-100 group-hover:text-[#00D4EA] transition-colors leading-tight">
+                            <div className="font-semibold text-xs sm:text-sm text-foreground group-hover:text-accent transition-colors leading-tight">
                               {item.title}
                             </div>
-                            <div className="text-[11px] text-slate-300 leading-snug mt-0.5">
+                            <div className="text-[11px] text-muted leading-snug mt-0.5">
                               {item.description}
                             </div>
                           </div>
@@ -148,7 +148,7 @@ export const MegaMenu: React.FC<MegaMenuProps> = ({ isOpen, onClose }) => {
                   <h3 className="font-display text-sm font-bold text-white tracking-tight">
                     Business Solutions
                   </h3>
-                  <span className="text-[11px] font-mono text-[#00D4EA] bg-[#00D4EA]/10 px-2.5 py-0.5 rounded-full border border-[#00D4EA]/30">
+                  <span className="text-[11px] font-mono text-accent bg-accent/10 px-2.5 py-0.5 rounded-full border border-accent/30">
                     {navigationData.businessSolutions.length} Solutions
                   </span>
                 </div>
@@ -163,14 +163,14 @@ export const MegaMenu: React.FC<MegaMenuProps> = ({ isOpen, onClose }) => {
                         onClick={onClose}
                         className="group flex items-start gap-3 p-1.5 rounded-xl hover:bg-white/[0.06] transition-all"
                       >
-                        <div className="w-8 h-8 rounded-lg bg-[#009EDB]/15 border border-[#00D4EA]/30 text-[#00D4EA] flex items-center justify-center shrink-0 group-hover:bg-[#009EDB] group-hover:text-white transition-all">
+                        <div className="w-8 h-8 rounded-lg bg-accent/15 border border-accent/30 text-accent flex items-center justify-center shrink-0 group-hover:bg-accent group-hover:text-white transition-all">
                           <IconComp className="w-4 h-4" />
                         </div>
                         <div>
-                          <div className="font-semibold text-xs sm:text-sm text-slate-100 group-hover:text-[#00D4EA] transition-colors leading-tight">
+                          <div className="font-semibold text-xs sm:text-sm text-foreground group-hover:text-accent transition-colors leading-tight">
                             {item.title}
                           </div>
-                          <div className="text-[11px] text-slate-300 leading-snug mt-0.5">
+                          <div className="text-[11px] text-muted leading-snug mt-0.5">
                             {item.description}
                           </div>
                         </div>
@@ -186,7 +186,7 @@ export const MegaMenu: React.FC<MegaMenuProps> = ({ isOpen, onClose }) => {
                   <h3 className="font-display text-sm font-bold text-white tracking-tight">
                     Products
                   </h3>
-                  <span className="text-[11px] font-mono text-[#00D4EA] bg-[#00D4EA]/10 px-2.5 py-0.5 rounded-full border border-[#00D4EA]/30">
+                  <span className="text-[11px] font-mono text-accent bg-accent/10 px-2.5 py-0.5 rounded-full border border-accent/30">
                     {navigationData.products.length} Platforms
                   </span>
                 </div>
@@ -201,14 +201,14 @@ export const MegaMenu: React.FC<MegaMenuProps> = ({ isOpen, onClose }) => {
                         onClick={onClose}
                         className="group flex items-start gap-3 p-1.5 rounded-xl hover:bg-white/[0.06] transition-all"
                       >
-                        <div className="w-8 h-8 rounded-lg bg-[#009EDB]/15 border border-[#00D4EA]/30 text-[#00D4EA] flex items-center justify-center shrink-0 group-hover:bg-[#009EDB] group-hover:text-white transition-all">
+                        <div className="w-8 h-8 rounded-lg bg-accent/15 border border-accent/30 text-accent flex items-center justify-center shrink-0 group-hover:bg-accent group-hover:text-white transition-all">
                           <IconComp className="w-4 h-4" />
                         </div>
                         <div>
-                          <div className="font-semibold text-xs sm:text-sm text-slate-100 group-hover:text-[#00D4EA] transition-colors leading-tight">
+                          <div className="font-semibold text-xs sm:text-sm text-foreground group-hover:text-accent transition-colors leading-tight">
                             {item.title}
                           </div>
-                          <div className="text-[11px] text-slate-300 leading-snug mt-0.5">
+                          <div className="text-[11px] text-muted leading-snug mt-0.5">
                             {item.description}
                           </div>
                         </div>
@@ -220,12 +220,12 @@ export const MegaMenu: React.FC<MegaMenuProps> = ({ isOpen, onClose }) => {
             </div>
 
             {/* Bottom bar linking to full catalog */}
-            <div className="mt-8 pt-4 border-t border-white/10 flex flex-wrap items-center justify-between text-xs text-slate-300">
+            <div className="mt-8 pt-4 border-t border-white/10 flex flex-wrap items-center justify-between text-xs text-muted">
               <div className="flex items-center gap-6">
                 <Link
                   to="/services"
                   onClick={onClose}
-                  className="font-semibold text-[#00D4EA] hover:text-[#7DD3FC] flex items-center gap-1.5 transition-colors"
+                  className="font-semibold text-accent hover:text-highlight flex items-center gap-1.5 transition-colors"
                 >
                   <span>Explore All Services & Frameworks</span>
                   <ArrowRight className="w-3.5 h-3.5" />
@@ -239,7 +239,7 @@ export const MegaMenu: React.FC<MegaMenuProps> = ({ isOpen, onClose }) => {
                 </Link>
               </div>
 
-              <div className="text-[11px] text-slate-400 font-mono">
+              <div className="text-[11px] text-muted font-mono">
                 Prakvi Techno Solutions Private Limited • Enterprise Architecture
               </div>
             </div>

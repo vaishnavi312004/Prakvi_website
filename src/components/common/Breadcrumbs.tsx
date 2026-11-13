@@ -14,8 +14,8 @@ interface BreadcrumbsProps {
 
 export const Breadcrumbs: React.FC<BreadcrumbsProps> = ({ items, variant = 'light' }) => {
   const isLight = variant === 'light';
-  const textColor = isLight ? 'text-slate-300' : 'text-[#57708E]';
-  const activeColor = isLight ? 'text-[#00D4EA] font-semibold' : 'text-[#071D3A] font-semibold';
+  const textColor = isLight ? 'text-muted' : 'text-muted';
+  const activeColor = isLight ? 'text-accent font-semibold' : 'text-foreground font-semibold';
 
   return (
     <nav aria-label="Breadcrumb" className="py-3">
@@ -23,7 +23,7 @@ export const Breadcrumbs: React.FC<BreadcrumbsProps> = ({ items, variant = 'ligh
         <li className="flex items-center">
           <Link
             to="/"
-            className={`flex items-center gap-1 ${textColor} hover:text-[#00D4EA] transition-colors`}
+            className={`flex items-center gap-1 ${textColor} hover:text-accent transition-colors`}
           >
             <Home className="w-3.5 h-3.5" />
             <span className="sr-only">Home</span>
@@ -37,7 +37,7 @@ export const Breadcrumbs: React.FC<BreadcrumbsProps> = ({ items, variant = 'ligh
               {item.path && !isLast ? (
                 <Link
                   to={item.path}
-                  className={`${textColor} hover:text-[#00D4EA] transition-colors`}
+                  className={`${textColor} hover:text-accent transition-colors`}
                 >
                   {item.label}
                 </Link>

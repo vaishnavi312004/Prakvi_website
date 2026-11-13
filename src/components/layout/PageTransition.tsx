@@ -9,14 +9,14 @@ interface PageTransitionProps {
 export const PageTransition: React.FC<PageTransitionProps> = ({ children, className = '' }) => {
   return (
     <motion.div
-      initial={{ opacity: 0, y: 10 }}
-      animate={{ opacity: 1, y: 0 }}
-      exit={{ opacity: 0, y: -8 }}
+      initial={{ opacity: 0 }}
+      animate={{ opacity: 1 }}
+      exit={{ opacity: 0 }}
       transition={{
-        duration: 0.28,
+        duration: 0.35,
         ease: [0.22, 1, 0.36, 1],
       }}
-      className={`w-full flex-1 ${className}`}
+      className={`theme-light w-full flex-1 ${className}`}
     >
       {children}
     </motion.div>

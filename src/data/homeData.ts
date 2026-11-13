@@ -184,6 +184,6 @@ export const homeData = {
       label: 'Our Culture & Values',
       path: '/about',
     },
-    image: '/src/assets/images/careers_culture_team_1794479543837.jpg',
+    image: '/img/careers_culture_team_1794479543837.jpg',
   },
 };
