@@ -1,6 +1,6 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
-import { Facebook, Twitter, Linkedin, Instagram } from 'lucide-react';
+import { Facebook, Twitter, Linkedin, Instagram, Phone, Mail, MapPin } from 'lucide-react';
 import { PrakviLogo } from '../common/PrakviLogo';
 import { companyData } from '../../data/companyData';
 
@@ -12,41 +12,103 @@ const socialLinks = [
 ];
 
 export const Footer: React.FC = () => (
-  <footer className="compact-footer bg-[#2D3748] text-white" role="contentinfo">
-    <div className="mx-auto max-w-6xl px-5 sm:px-6 lg:px-8">
-      <div className="grid grid-cols-2 gap-x-8 gap-y-7 py-8 sm:grid-cols-[1.5fr_1fr_1fr] sm:gap-12 sm:py-9">
-        <div className="col-span-2 sm:col-span-1">
-          <PrakviLogo size="sm" className="[&_img]:brightness-0 [&_img]:invert" />
-          <p className="mt-3 max-w-xs text-sm leading-relaxed text-[#BAC6D7]">Leading provider of innovative IT solutions for modern businesses.</p>
-          <div className="mt-4 flex items-center gap-2.5">
+  <footer
+    className="border-t border-line bg-surface/70 backdrop-blur-xl text-foreground"
+    role="contentinfo"
+  >
+    <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
+      <div className="grid grid-cols-1 gap-10 py-12 md:grid-cols-12">
+        {/* Brand Column */}
+        <div className="md:col-span-4 space-y-4">
+          <PrakviLogo size="sm" />
+          <p className="max-w-xs text-sm leading-relaxed text-muted">
+            {companyData.tagline}
+          </p>
+          <div className="flex items-center gap-2.5 pt-1">
             {socialLinks.map(({ label, icon: Icon, href }) => (
-              <a key={label} href={href} target="_blank" rel="noreferrer" aria-label={`Prakvi on ${label}`}
-                className="inline-flex h-8 w-8 items-center justify-center rounded-lg bg-white/10 text-[#BAC6D7] transition-colors hover:bg-white/20 hover:text-white">
-                <Icon className="h-3.5 w-3.5" aria-hidden="true" />
+              <a
+                key={label}
+                href={href}
+                target="_blank"
+                rel="noreferrer"
+                aria-label={`Prakvi on ${label}`}
+                className="clay-icon-box inline-flex h-9 w-9 items-center justify-center rounded-xl text-accent hover:scale-105 transition-transform"
+              >
+                <Icon className="h-4 w-4" aria-hidden="true" />
               </a>
             ))}
           </div>
         </div>
-        <nav aria-label="Footer company links">
-          <h2 className="mb-3 text-base font-bold text-white">Company</h2>
-          <ul className="space-y-2 text-sm text-[#BAC6D7]">
-            <li><Link to="/about" className="transition-colors hover:text-white">About Us</Link></li>
-            <li><Link to="/services" className="transition-colors hover:text-white">Services</Link></li>
-            <li><Link to="/contact" className="transition-colors hover:text-white">Contact</Link></li>
+
+        {/* Navigation Links */}
+        <nav aria-label="Footer company links" className="md:col-span-2">
+          <h2 className="mb-3.5 font-display text-sm font-bold uppercase tracking-wider text-foreground">
+            Company
+          </h2>
+          <ul className="space-y-2.5 text-sm text-muted">
+            <li><Link to="/about" className="transition-colors hover:text-accent">About Us</Link></li>
+            <li><Link to="/services" className="transition-colors hover:text-accent">Services</Link></li>
+            <li><Link to="/products" className="transition-colors hover:text-accent">Products</Link></li>
+            <li><Link to="/careers" className="transition-colors hover:text-accent">Careers</Link></li>
+            <li><Link to="/insights" className="transition-colors hover:text-accent">Insights</Link></li>
+            <li><Link to="/contact" className="transition-colors hover:text-accent">Contact</Link></li>
           </ul>
         </nav>
-        <nav aria-label="Footer support links">
-          <h2 className="mb-3 text-base font-bold text-white">Support</h2>
-          <ul className="space-y-2 text-sm text-[#BAC6D7]">
-            <li><Link to="/contact" className="transition-colors hover:text-white">Help Center</Link></li>
-            <li><a href={`mailto:${companyData.contact.primaryEmail}`} className="transition-colors hover:text-white">Contact Support</a></li>
-            <li><a href={`mailto:${companyData.contact.primaryEmail}?subject=Privacy%20inquiry`} className="transition-colors hover:text-white">Privacy Inquiries</a></li>
+
+        {/* Key Practices & Support */}
+        <nav aria-label="Footer solutions and support links" className="md:col-span-3">
+          <h2 className="mb-3.5 font-display text-sm font-bold uppercase tracking-wider text-foreground">
+            Solutions & Support
+          </h2>
+          <ul className="space-y-2.5 text-sm text-muted">
+            <li><Link to="/services/staffing" className="transition-colors hover:text-accent">Staffing Services</Link></li>
+            <li><Link to="/services/cloud-services" className="transition-colors hover:text-accent">Cloud Services</Link></li>
+            <li><Link to="/services/business-intelligence" className="transition-colors hover:text-accent">Business Intelligence</Link></li>
+            <li><Link to="/products/hr-management-system" className="transition-colors hover:text-accent">HR Management System</Link></li>
+            <li><a href={`mailto:${companyData.contact.primaryEmail}`} className="transition-colors hover:text-accent">Contact Support</a></li>
+            <li><a href={`mailto:${companyData.contact.primaryEmail}?subject=Privacy%20inquiry`} className="transition-colors hover:text-accent">Privacy Inquiries</a></li>
           </ul>
         </nav>
+
+        {/* Verified Offices */}
+        <div className="md:col-span-3 space-y-3.5">
+          <h2 className="font-display text-sm font-bold uppercase tracking-wider text-foreground">
+            Offices
+          </h2>
+          <div className="space-y-3 text-xs text-muted leading-relaxed">
+            {companyData.offices.map((office) => (
+              <div key={office.id} className="flex items-start gap-2">
+                <MapPin className="mt-0.5 h-3.5 w-3.5 shrink-0 text-accent" aria-hidden="true" />
+                <div>
+                  <span className="font-semibold text-foreground">{office.name}: </span>
+                  <span>{office.address.join(', ')}</span>
+                </div>
+              </div>
+            ))}
+            <div className="flex items-center gap-2 pt-1">
+              <Phone className="h-3.5 w-3.5 shrink-0 text-accent" aria-hidden="true" />
+              <a href={`tel:${companyData.contact.phone}`} className="font-semibold text-foreground hover:text-accent">
+                {companyData.contact.phone}
+              </a>
+            </div>
+            <div className="flex items-center gap-2">
+              <Mail className="h-3.5 w-3.5 shrink-0 text-accent" aria-hidden="true" />
+              <a href={`mailto:${companyData.contact.primaryEmail}`} className="font-semibold text-foreground hover:text-accent">
+                {companyData.contact.primaryEmail}
+              </a>
+            </div>
+          </div>
+        </div>
       </div>
-      <div className="relative border-t border-white/15 py-4 text-center text-xs leading-relaxed text-[#BAC6D7] sm:px-10">
-        <p className="text-inherit">&copy; 2026 Prakvi Techno Solutions Private Limited. All rights reserved.</p>
-        <p className="mt-1 text-inherit">Developed and Maintained by <span className="text-white">Ampcustech Pvt. Ltd.</span></p>
+
+      {/* Bottom Copyright Bar */}
+      <div className="border-t border-line py-5 text-center text-xs leading-relaxed text-muted sm:flex sm:items-center sm:justify-between sm:text-left">
+        <p className="text-muted">
+          &copy; 2026 Prakvi Techno Solutions Private Limited. All rights reserved.
+        </p>
+        <p className="mt-1 sm:mt-0 text-muted">
+          Developed and Maintained by <span className="font-semibold text-foreground">Ampcustech Pvt. Ltd.</span>
+        </p>
       </div>
     </div>
   </footer>

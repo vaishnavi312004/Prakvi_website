@@ -1,4 +1,5 @@
 import { ServiceItem } from '../types';
+import { generatedImages } from '../assets/images';
 
 export const servicesData: ServiceItem[] = [
   // 1. Staffing
@@ -7,58 +8,130 @@ export const servicesData: ServiceItem[] = [
     slug: 'staffing',
     title: 'Staffing',
     category: 'enterprise',
-    tagline: 'Precision workforce sourcing bridging top technical and clinical talent with high-impact enterprises',
-    shortDesc: 'Professional workforce sourcing across IT engineering, clinical healthcare staffing, contract placement, and executive talent acquisition.',
-    fullDesc: 'Prakvi’s Staffing practice delivers precision-matched technical and clinical personnel. Whether augmenting mission-critical software initiatives, staffing healthcare informatics teams, or placing senior technology leadership, our proprietary vetting and delivery framework accelerates time-to-productivity while ensuring 100% regulatory compliance.',
+    tagline: 'Expert Staffing Solutions for Businesses Across India',
+    shortDesc:
+      'Connect with highly skilled, pre-vetted IT, engineering, and healthcare professionals for permanent, temporary, contract, and executive roles.',
+    fullDesc:
+      'In today’s competitive job market, finding the right talent quickly is vital for business success. Whether you need niche IT specialists, temporary contract staff, executive search, or full recruitment outsourcing, Prakvi delivers. As a leading staffing agency in India, we connect companies with highly skilled, pre-vetted professionals ready to perform from day one. Backed by deep industry expertise, a vast candidate network, and data-driven recruitment, we help startups to large enterprises reduce hiring time, cut recruitment costs, and enhance workforce quality enabling you to focus on growth.',
     iconName: 'Users',
-    badge: 'Enterprise Practice',
-    businessChallenge: 'Severe specialized talent shortages, lengthy 60+ day recruitment cycles, high agency turnover, and compliance overhead threaten project execution timelines.',
-    howWeHelp: 'We deploy an agile sourcing engine combining AI-assisted candidate screening, hands-on architectural interviews by practicing engineers, and rigorous background verification.',
+    badge: 'Staffing Capabilities',
+    offeringsTitle: 'Our Staffing Services',
+    offeringsSubtitle: 'Comprehensive staffing solutions tailored to your evolving workforce needs.',
+    businessChallenge:
+      'Competitive talent markets, lengthy screening cycles, and niche technical or clinical skill shortages can slow down strategic delivery and inflate recruitment costs.',
+    howWeHelp:
+      'We combine deep industry expertise, a pre-vetted candidate network, and data-driven screening to deliver ready-to-perform professionals aligned to your technical and cultural goals.',
     capabilities: [
       {
-        title: 'IT & Software Engineering Staffing',
-        description: 'Elite full-stack engineers, cloud architects, DevOps practitioners, cybersecurity specialists, and data scientists ready for rapid onboarding.',
-        icon: 'Code2',
-      },
-      {
-        title: 'Healthcare & Clinical Staffing',
-        description: 'Licensed clinical specialists, medical billing experts, EHR/EMR implementation engineers, and health informatics professionals.',
+        title: 'Healthcare Staffing Solutions',
+        description:
+          'Provides skilled healthcare professionals across permanent, temporary, and contract positions to support ongoing clinical, project-based, or seasonal needs.',
         icon: 'Stethoscope',
       },
       {
-        title: 'Contract & Contingent Staffing',
-        description: 'Elastic workforce scaling for project surges, seasonal demands, and specialized modernization sprints.',
-        icon: 'Clock',
+        title: 'IT Consulting & Workforce Solutions',
+        description:
+          'Blends technology consulting with deep industry expertise, workforce planning, and scaling tailored to tech projects across industries needing IT and staffing integration.',
+        icon: 'Code2',
       },
       {
-        title: 'Direct Hire & Executive Search',
-        description: 'Dedicated search campaigns for senior directors, VPs, and CXOs capable of leading enterprise digital transformation.',
+        title: 'Permanent & Executive Hiring',
+        description:
+          'Dedicated search and full-time placement for engineering specialists, leadership hiring, and enterprise-wide talent acquisition.',
         icon: 'Briefcase',
+      },
+      {
+        title: 'Contract & Temporary Staffing',
+        description:
+          'Flexible IT contracting, project-based roles, short-term talent, and agile team augmentation aligned with budget and timeline goals.',
+        icon: 'Clock',
       },
     ],
     businessBenefits: [
       {
-        title: '65% Faster Time-to-Fill',
-        description: 'Pre-screened talent repositories enable candidate shortlists within 48 to 72 business hours.',
-        metric: '72hr Shortlist',
+        title: 'Reduced Hiring Time',
+        description: 'Pre-vetted talent pools accelerate candidate shortlisting and day-one productivity.',
+        metric: 'Day-One Ready',
       },
       {
-        title: '98% Retention Rate',
-        description: 'Rigorous cultural and technical alignment guarantees long-term engagement success.',
-        metric: '98% Retention',
+        title: 'Lower Recruitment Cost',
+        description: 'Tailored permanent, contract, and specialized staffing models optimize workforce budgets.',
+        metric: 'Cost-Effective',
+      },
+      {
+        title: 'Multi-Industry Coverage',
+        description: 'Specialized sourcing across Tech & Digital, Engineering, Healthcare & Pharma, Cybersecurity, and Data Science.',
+        metric: '5+ Verticals',
       },
     ],
+    processTitle: 'Why Choose Prakvi for Staffing Solutions?',
+    processSubtitle: 'A proven 5-stage methodology that ensures successful hiring.',
     deliverySteps: [
-      { step: '01', title: 'Talent Profiling', description: 'Collaborative requirements mapping covering technical competencies, culture fit, and timelines.' },
-      { step: '02', title: 'Curated Sourcing', description: 'Targeted outreach across proprietary talent networks and vetted candidate benches.' },
-      { step: '03', title: 'Architect-Led Vetting', description: 'Hands-on technical interviews conducted by experienced practitioners.' },
-      { step: '04', title: 'Deployment & Support', description: 'Smooth day-one onboarding, equipment readiness, and ongoing performance check-ins.' },
+      {
+        step: '01',
+        title: 'Client Needs Analysis',
+        description:
+          'The Prakvi team collaborates closely with clients to understand their specific hiring goals, required skillsets, industry context, and budget constraints.',
+      },
+      {
+        step: '02',
+        title: 'Candidate Sourcing & Screening',
+        description:
+          'Leveraging a broad talent pool and professional networks, we source suitable candidates and screen them via resumes, interviews, and reference checks.',
+      },
+      {
+        step: '03',
+        title: 'Client Shortlisting & Interview Coordination',
+        description:
+          'Qualified candidates are presented to the client. Prakvi coordinates interview logistics, feedback gathering, and follow-up with both parties.',
+      },
+      {
+        step: '04',
+        title: 'Offer & Onboarding Support',
+        description:
+          'Once a candidate is selected, Prakvi assists with contract negotiations, offer letters, and embeds support for onboarding, ensuring a smooth transition into the role.',
+      },
+      {
+        step: '05',
+        title: 'Ongoing Support & Relationship Management',
+        description:
+          'Continued engagement includes monitoring placement success, addressing issues, collecting feedback, and adapting staffing solutions over time.',
+      },
+    ],
+    stackTitle: 'Staffing Capabilities',
+    stackSummary:
+      'Prakvi provides tailored workforce solutions to enhance efficiency, reduce costs, and drive long-term success across industries.',
+    stackTabs: [
+      {
+        label: 'Permanent Hiring',
+        items: ['Executive Search', 'Full-Time Hiring', 'Leadership Hiring', 'Team Augmentation', 'Enterprise Roles', 'Client Partnership'],
+      },
+      {
+        label: 'Contract Staffing',
+        items: ['IT Contracting', 'Temporary Staffing', 'Project-Based Roles', 'Short-Term Talent', 'Support Staff', 'Flexible Contracts'],
+      },
+      {
+        label: 'Specialized Roles',
+        items: ['Tech & Digital', 'Engineering', 'Healthcare & Pharma', 'Cybersecurity', 'Data Science', 'Operations'],
+      },
+      {
+        label: 'Industries Served',
+        items: ['Manufacturing', 'Automotive', 'BFSI', 'IT & Telecom', 'Security Services', 'R&D and Labs'],
+      },
     ],
     faqs: [
-      { question: 'What domains does Prakvi specialize in?', answer: 'We specialize primarily in Enterprise IT, Cloud, Data Engineering, and Healthcare Informatics.' },
-      { question: 'Do you offer contract-to-hire arrangements?', answer: 'Yes, we provide flexible contingent, contract-to-hire, and direct placement models.' },
+      {
+        question: 'What engagement models does Prakvi Staffing support?',
+        answer:
+          'We support permanent full-time hiring, executive search, IT contracting, temporary staffing, project-based teams, and flexible contract engagements.',
+      },
+      {
+        question: 'Which industries does Prakvi serve for staffing?',
+        answer:
+          'Our staffing capabilities span IT & Telecom, Healthcare & Pharma, BFSI, Manufacturing, Automotive, Security Services, and R&D Labs.',
+      },
     ],
-    featuredImage: 'https://images.unsplash.com/photo-1522071820081-009f0129c71c?auto=format&fit=crop&w=1200&q=80',
+    featuredImage: generatedImages.serviceStaffingTeam,
   },
 
   // 2. Mobility Practice (BYOD & CYOD)
@@ -67,57 +140,131 @@ export const servicesData: ServiceItem[] = [
     slug: 'mobility-practice',
     title: 'Mobility Practice (BYOD & CYOD)',
     category: 'enterprise',
-    tagline: 'Unified endpoint security, containerization, and zero-trust mobile enablement for modern distributed teams',
-    shortDesc: 'Flexible enterprise mobility frameworks supporting Bring-Your-Own-Device (BYOD) and Choose-Your-Own-Device (CYOD) with zero-trust security.',
-    fullDesc: 'Modern enterprises must empower employees to work securely from any location on any device. Prakvi’s Mobility Practice establishes enterprise-grade MDM/MAM architectures, containerized corporate workspaces, cryptographic data isolation, and automated device lifecycle management that balance frictionless user experience with strict data sovereignty.',
+    tagline: 'Empowering Businesses with Innovative Mobile Solutions',
+    shortDesc:
+      'Mobile strategy consulting, custom BYOD & CYOD frameworks, MDM/EMM endpoint security, and seamless access to corporate applications.',
+    fullDesc:
+      'The world is mobile-first, and businesses embracing it gain a competitive edge. Prakvi’s Mobility Practice Services in India provide mobile strategy consulting, app development, enterprise mobility solutions, and mobile security to boost engagement, productivity, and digital transformation. From custom mobile apps to BYOD/CYOD frameworks, MDM, and seamless integration, we deliver secure, scalable, and future-ready mobility solutions.',
     iconName: 'Smartphone',
-    badge: 'Zero-Trust Mobile Practice',
-    businessChallenge: 'Mobile workforce fragmentation exposes corporate assets to data leakage, unmanaged OS vulnerabilities, rogue network connections, and compliance violations.',
-    howWeHelp: 'We engineer end-to-end mobility architectures leveraging Microsoft Intune, VMware Workspace ONE, Knox, and Jamf to enforce real-time contextual access control.',
+    badge: 'BYOD & CYOD Practice',
+    offeringsTitle: 'Our Mobility Practice Services',
+    offeringsSubtitle: 'Comprehensive mobility solutions designed to enable secure, efficient, and future-ready workplaces.',
+    businessChallenge:
+      'Supporting personal and corporate mobile devices across distributed teams introduces data exposure risks, inconsistent policies, and fragmented management.',
+    howWeHelp:
+      'We implement tailored BYOD and CYOD policies backed by containerization, Microsoft Intune, Android Enterprise, and Apple Business Manager.',
     capabilities: [
       {
-        title: 'BYOD Containerization',
-        description: 'Isolate sensitive enterprise apps and data inside cryptographic sandboxes without intruding on employee personal privacy.',
-        icon: 'Lock',
+        title: 'Strategy & Implementation',
+        description: 'Customized BYOD & CYOD frameworks for secure and efficient mobility adoption.',
+        icon: 'Compass',
       },
       {
-        title: 'CYOD Device Fleet Provisioning',
-        description: 'Curated catalogs of pre-configured enterprise smartphones, laptops, and tablets with zero-touch enrollment.',
-        icon: 'Laptop',
-      },
-      {
-        title: 'Zero-Trust Mobile Access',
-        description: 'Continuous biometric authentication, geofencing rules, and conditional access policies enforcing compliance.',
+        title: 'Mobile Device & Endpoint Security',
+        description: 'Advanced MDM, EMM, and zero-trust access controls to protect enterprise data.',
         icon: 'Shield',
       },
       {
-        title: 'Automated Device Deprovisioning',
-        description: 'Instant remote wipe of corporate data payloads upon employee offboarding or device loss without erasing personal photos.',
-        icon: 'Trash2',
+        title: 'Policy Development & Compliance',
+        description: 'Tailored policies that balance user flexibility with organizational governance.',
+        icon: 'FileCheck2',
+      },
+      {
+        title: 'Seamless Integration',
+        description: 'Unified and secure access to corporate apps and data across all devices.',
+        icon: 'Plug',
+      },
+      {
+        title: 'Ongoing Support & Optimization',
+        description: 'Continuous monitoring, performance tuning, and proactive security updates.',
+        icon: 'Activity',
       },
     ],
     businessBenefits: [
       {
-        title: '100% Data Loss Prevention',
-        description: 'Encrypted containers prevent copy-paste leaks and unauthorized screenshots of confidential documents.',
-        metric: 'Zero-Leakage',
+        title: 'BYOD Flexibility & Privacy',
+        description: 'Work profiles and containerization separate corporate assets from personal employee data.',
+        metric: 'Containerized',
       },
       {
-        title: '40% Hardware Cost Reduction',
-        description: 'Structured BYOD policies reduce capital equipment expenditure while boosting employee satisfaction.',
-        metric: '40% TCO Savings',
+        title: 'Standardized CYOD Control',
+        description: 'Organization-approved device fleets with zero-touch provisioning and centralized maintenance.',
+        metric: 'Centralized MDM',
+      },
+      {
+        title: 'Continuous Endpoint Governance',
+        description: 'Real-time compliance checks, conditional access, and encrypted application delivery.',
+        metric: 'Zero-Trust Access',
       },
     ],
+    processTitle: 'Why Choose Prakvi’s Mobility Practice?',
+    processSubtitle: 'A proven 7-step methodology that ensures successful mobile governance delivery.',
     deliverySteps: [
-      { step: '01', title: 'Mobility Audit', description: 'Assessing fleet operating systems, endpoint risks, and regulatory compliance standards.' },
-      { step: '02', title: 'Policy Architecture', description: 'Defining BYOD/CYOD governance rules, container parameters, and security baselines.' },
-      { step: '03', title: 'MDM Deployment', description: 'Zero-touch cloud enrollment rollouts across iOS, Android, macOS, and Windows.' },
-      { step: '04', title: '24/7 Threat Monitoring', description: 'Continuous mobile endpoint telemetry and automated anomaly containment.' },
+      {
+        step: '01',
+        title: 'Discovery & Strategy',
+        description:
+          'Prakvi collaborates with you to assess current device usage, workplace roles, security, compliance requirements, and user needs to craft a tailored BYOD/CYOD strategy.',
+      },
+      {
+        step: '02',
+        title: 'Policy Design & Governance',
+        description:
+          'Clear policies are defined covering device eligibility, data ownership, permitted monitoring levels, acceptable use rules, and employee agreements.',
+      },
+      {
+        step: '03',
+        title: 'Device Selection & Enrollment',
+        description:
+          'BYOD employees register approved personal devices while CYOD users pick from organization-approved catalogs, enrolled cleanly into MDM/EMM/UEM solutions.',
+      },
+      {
+        step: '04',
+        title: 'Security & Compliance Controls',
+        description:
+          'We enforce containerization (Android Work Profiles, Knox), conditional access, encryption, patch management, and policy enforcement tools.',
+      },
+      {
+        step: '05',
+        title: 'Training & Change Management',
+        description:
+          'We prepare employees and support teams with training materials, peer support channels, and clear policy documentation to ease adoption.',
+      },
+      {
+        step: '06',
+        title: 'Ongoing Monitoring & Support',
+        description:
+          'Using unified endpoint management tools, we continuously monitor device compliance, app usage, security status, and policy adherence.',
+      },
+      {
+        step: '07',
+        title: 'Review & Optimization',
+        description:
+          'Based on analytics and usage patterns, we iterate policies, device offerings, and configuration standards to align with evolving business needs.',
+      },
+    ],
+    stackTitle: 'Mobility Practice: BYOD and CYOD',
+    stackSummary:
+      'Prakvi’s Mobility Practice specializes in seamless BYOD (Bring Your Own Device) and CYOD (Choose Your Own Device) strategies, helping organizations implement flexible yet secure mobility policies tailored to their needs.',
+    stackTabs: [
+      { label: 'BYOD', items: ['Device Agnostic Access', 'User-Centric Policies', 'Cloud Sync & Management'] },
+      { label: 'CYOD', items: ['Pre-Approved Devices', 'Custom Configuration', 'Centralized Maintenance'] },
+      { label: 'Security', items: ['Secure Access Control', 'Biometric & MFA', 'Data Encryption'] },
+      { label: 'Tools', items: ['Microsoft Intune', 'Mobile Device Management', 'Apple Business Manager', 'Android Enterprise'] },
     ],
     faqs: [
-      { question: 'Can IT administrators view personal employee data under BYOD?', answer: 'No. Our MAM sandboxing strictly isolates corporate data; personal apps, photos, and messages remain completely invisible to administrators.' },
+      {
+        question: 'How does Prakvi balance BYOD convenience with data privacy?',
+        answer:
+          'We deploy containerization such as Android Work Profiles and Samsung Knox alongside clear data ownership policies so corporate apps stay encrypted without touching personal content.',
+      },
+      {
+        question: 'Which UEM and MDM platforms do you support?',
+        answer:
+          'We manage Microsoft Intune, Apple Business Manager, Android Enterprise, and leading MDM/EMM/UEM stacks.',
+      },
     ],
-    featuredImage: 'https://images.unsplash.com/photo-1556761175-5973dc0f32e7?auto=format&fit=crop&w=1200&q=80',
+    featuredImage: generatedImages.serviceMobileDevices3d,
   },
 
   // 3. Business Intelligence
@@ -126,33 +273,142 @@ export const servicesData: ServiceItem[] = [
     slug: 'business-intelligence',
     title: 'Business Intelligence',
     category: 'enterprise',
-    tagline: 'Transforming complex data lakes into actionable executive insights and real-time operational visibility',
-    shortDesc: 'Insights through data analytics, automated executive dashboards, cognitive reporting, and enterprise data warehousing.',
-    fullDesc: 'Prakvi’s Business Intelligence practice helps enterprise leadership make confident, data-driven decisions. We design robust data warehouses, automated ETL pipelines, and interactive visual dashboards that unify fragmented ERP, CRM, and transactional systems into a single source of truth.',
+    tagline: 'Transform Data into Actionable Insights with Prakvi’s Business Intelligence Solutions',
+    shortDesc:
+      'Interactive dashboards, ETL data pipelines, predictive modeling, and real-time enterprise reporting across modern cloud warehouses.',
+    fullDesc:
+      'In today’s data driven economy, businesses generate vast amounts of information, but without the right tools and expertise, it remains untapped potential. At Prakvi, we help organizations across India transform complex datasets into actionable insights with our Business Intelligence (BI) services. From interactive dashboards and advanced analytics to real-time reporting, we deliver tailored BI strategies that drive informed decisions, growth, and competitive advantage.',
     iconName: 'BarChart3',
-    badge: 'Cognitive Analytics',
-    businessChallenge: 'Data trapped in siloed departmental databases leads to contradictory reporting, delayed operational decisions, and missed revenue opportunities.',
-    howWeHelp: 'We implement centralized data modeling, automated analytics workflows, and interactive Power BI, Tableau, and Snowflake architectures.',
+    badge: 'BI Consulting & Analytics',
+    offeringsTitle: 'Additional Services & BI Capabilities',
+    offeringsSubtitle: 'Our comprehensive Business Intelligence solutions are customized to align with your unique business requirements.',
+    businessChallenge:
+      'Valuable operational data often remains trapped in disconnected databases without ETL automation or cohesive executive dashboards.',
+    howWeHelp:
+      'We build end-to-end ETL data pipelines, data warehouses, and self-service BI dashboards across Power BI, Tableau, Looker, Snowflake, and BigQuery.',
     capabilities: [
-      { title: 'Enterprise Data Warehousing', description: 'Scalable Snowflake, BigQuery, and Redshift repositories designed for high-concurrency analytical querying.' },
-      { title: 'Executive Dashboards', description: 'Real-time KPI visualization, automated C-suite reports, and mobile executive scorecards.' },
-      { title: 'Automated ETL/ELT Pipelines', description: 'Fault-tolerant ingestion pipelines connecting legacy databases with cloud analytics engines.' },
-      { title: 'Predictive Trend Analysis', description: 'Statistical forecasting models that anticipate customer churn, revenue variance, and demand shifts.' },
+      {
+        title: 'Data Analytics',
+        description:
+          'Descriptive, diagnostic, predictive, and prescriptive analytics paired with big data processing and self-service BI tools.',
+        icon: 'BarChart2',
+      },
+      {
+        title: 'Business Analytics',
+        description:
+          'Real-time data processing, custom dashboards, reporting, and predictive and prescriptive analysis tailored to leadership KPIs.',
+        icon: 'PieChart',
+      },
+      {
+        title: 'Cloud Services & Data Warehousing',
+        description:
+          '24/7 cloud monitoring, system optimization, and high-availability data warehouses across Snowflake, Redshift, and BigQuery.',
+        icon: 'Cloud',
+      },
+      {
+        title: 'Infrastructure Management',
+        description:
+          'IT asset monitoring, scalability planning, and performance tuning for reliable enterprise BI workloads.',
+        icon: 'Server',
+      },
+      {
+        title: 'Staffing & Workforce Solutions',
+        description:
+          'Flexible contract and full-time staffing for BI developers, data engineers, and analytics specialists.',
+        icon: 'Users',
+      },
+      {
+        title: 'Digital Marketing Intelligence',
+        description:
+          'SEO, content analytics, online campaign attribution, and CMS performance measurement.',
+        icon: 'TrendingUp',
+      },
     ],
     businessBenefits: [
-      { title: '90% Faster Reporting Cycles', description: 'Eliminate manual spreadsheet consolidation with real-time automated data refreshes.', metric: 'Instant KPIs' },
-      { title: 'Single Version of Truth', description: 'Standardized enterprise metrics eliminate conflicting departmental numbers.', metric: 'Unified Data' },
+      {
+        title: 'Real-Time Executive Visibility',
+        description: 'Self-service dashboards turn complex enterprise datasets into clear, instant reports.',
+        metric: 'Live BI',
+      },
+      {
+        title: 'Reliable ETL Automation',
+        description: 'Automated pipelines built with Apache Airflow, Talend, Informatica, and Fivetran ensure clean data.',
+        metric: 'Clean Pipelines',
+      },
+      {
+        title: 'Modern Cloud Stack',
+        description: 'Seamless compatibility with Microsoft SQL Server, Snowflake, BigQuery, Redshift, Power BI, and Tableau.',
+        metric: 'Multi-Cloud BI',
+      },
     ],
+    processTitle: 'Why Choose Prakvi for Business Intelligence?',
+    processSubtitle: 'A proven 7-step methodology that ensures successful BI delivery.',
     deliverySteps: [
-      { step: '01', title: 'Data Inventory', description: 'Cataloging source systems, data quality, and critical decision metrics.' },
-      { step: '02', title: 'Warehouse Modeling', description: 'Designing dimensional data schemas and automated ingestion pipelines.' },
-      { step: '03', title: 'Dashboard Engineering', description: 'Crafting intuitive visualizations tailored for executive and operational users.' },
-      { step: '04', title: 'Self-Service Enablement', description: 'Empowering business teams with governed self-service exploratory analytics.' },
+      {
+        step: '01',
+        title: 'Discovery & Assessment',
+        description:
+          'Understand client goals, data sources, and current maturity level. Identify key metrics and strategic objectives.',
+      },
+      {
+        step: '02',
+        title: 'Data Planning & Preparation',
+        description:
+          'Architect ETL pipelines, perform data cleaning, conversion, and ensure data quality across source systems.',
+      },
+      {
+        step: '03',
+        title: 'Analytics Design & Modeling',
+        description:
+          'Build descriptive, diagnostic, predictive, and prescriptive models tailored to specific business use cases.',
+      },
+      {
+        step: '04',
+        title: 'Dashboard & Reporting Setup',
+        description:
+          'Develop custom interactive dashboards and self-service BI tools for stakeholders to access insights in real time.',
+      },
+      {
+        step: '05',
+        title: 'Deployment & Integration',
+        description:
+          'Implement BI frameworks and integrate cleanly with existing infrastructure to ensure smooth adoption.',
+      },
+      {
+        step: '06',
+        title: 'Monitoring & Optimization',
+        description:
+          'Ongoing performance tracking, fine-tuning of data flows and analytical models, and iterative improvements.',
+      },
+      {
+        step: '07',
+        title: 'Training & Support',
+        description:
+          'Empower end-users through structured training programs, documentation, and dedicated user support for long-term success.',
+      },
+    ],
+    stackTitle: 'Business Intelligence Stack',
+    stackSummary:
+      'At Prakvi, we turn raw data into actionable insights using a modern stack of BI tools, platforms, and data technologies.',
+    stackTabs: [
+      { label: 'Data Platforms', items: ['Microsoft SQL Server', 'Snowflake', 'Google BigQuery', 'Amazon Redshift'] },
+      { label: 'Analytics & Visualization', items: ['Power BI', 'Tableau', 'Looker', 'Google Data Studio'] },
+      { label: 'ETL Tools', items: ['Apache Airflow', 'Talend', 'Informatica', 'Fivetran'] },
+      { label: 'Cloud & Infra', items: ['AWS', 'Azure', 'Google Cloud', 'On-Premise Infra'] },
     ],
     faqs: [
-      { question: 'Which BI platforms do you support?', answer: 'We support Microsoft Power BI, Tableau, Looker, Qlik, and custom web-embedded analytics.' },
+      {
+        question: 'Which data warehouses and ETL tools do you work with?',
+        answer:
+          'We integrate Microsoft SQL Server, Snowflake, Google BigQuery, and Amazon Redshift using Apache Airflow, Talend, Informatica, and Fivetran.',
+      },
+      {
+        question: 'Can you train our business teams on Power BI or Tableau?',
+        answer:
+          'Yes. Training & Support is an explicit stage of our BI methodology, ensuring analysts and executives can build and explore self-service reports confidently.',
+      },
     ],
-    featuredImage: 'https://images.unsplash.com/photo-1551288049-bebda4e38f71?auto=format&fit=crop&w=1200&q=80',
+    featuredImage: generatedImages.serviceBiAnalytics3d,
   },
 
   // 4. Supply Chain Management
@@ -161,33 +417,119 @@ export const servicesData: ServiceItem[] = [
     slug: 'supply-chain-management',
     title: 'Supply Chain Management',
     category: 'enterprise',
-    tagline: 'End-to-end logistics visibility, predictive demand planning, and resilient vendor network orchestration',
-    shortDesc: 'Streamline operations & logistics with intelligent inventory forecasting, warehouse automation, and real-time shipment tracking.',
-    fullDesc: 'Modern global supply chains require resilience, real-time visibility, and agility. Prakvi modernizes supply chain operations through IoT-enabled cargo tracking, predictive demand modeling, warehouse management system (WMS) integrations, and procurement optimization.',
+    tagline: 'Optimizing Your Supply Chain for Speed, Efficiency, and Resilience',
+    shortDesc:
+      'End-to-end logistics, inventory optimization, procurement, demand forecasting, and real-time supply chain technology integration.',
+    fullDesc:
+      'In today’s fast-paced marketplace, efficient supply chain management is vital for success. Prakvi’s SCM services in India optimize operations, cut costs, enhance visibility, and enable faster response to market changes. From procurement, inventory, and logistics to distribution and demand forecasting, we deliver end-to-end supply chain solutions using analytics, automation, and real-time insights for resilient, agile supply chains.',
     iconName: 'Truck',
-    badge: 'Logistics Engineering',
-    businessChallenge: 'Supply disruptions, inventory overstocking, blind transit spots, and manual supplier coordination cause severe margin erosion.',
-    howWeHelp: 'We integrate ERP systems with real-time telematics, machine-learning demand forecasting, and automated supplier scorecards.',
+    badge: 'SCM & Logistics',
+    offeringsTitle: 'Our SCM Services',
+    offeringsSubtitle: 'Empower your operations with comprehensive, tailor-made SCM services designed to fit your business perfectly.',
+    businessChallenge:
+      'Fragmented logistics, demand volatility, excess holding stock, and limited vendor visibility erode operating margins.',
+    howWeHelp:
+      'We align your supply chain to the 5-stage SCOR/best-practice framework (Planning → Sourcing → Manufacturing → Delivery → Returns) using AI optimization and ERP integration.',
     capabilities: [
-      { title: 'Predictive Demand Forecasting', description: 'Machine learning algorithms that balance inventory levels against seasonal demand swings.' },
-      { title: 'Warehouse Management (WMS)', description: 'Barcode/RFID integration, automated picking routes, and stock reconciliation systems.' },
-      { title: 'Fleet & Cargo Telematics', description: 'Live GPS location, temperature monitoring for cold chains, and ETA variance alerts.' },
-      { title: 'Supplier Collaboration Portals', description: 'Automated purchase order workflows, ASN generation, and delivery confirmation.' },
+      {
+        title: 'Logistics & Transportation Management',
+        description: 'Faster, cost-effective, and optimized route planning, carrier selection, and delivery execution.',
+        icon: 'Truck',
+      },
+      {
+        title: 'Inventory & Warehouse Optimization',
+        description: 'Reduce excess stock, improve stock visibility and accuracy, and streamline warehouse storage.',
+        icon: 'Package',
+      },
+      {
+        title: 'Demand Forecasting & Planning',
+        description: 'Data-driven insights, capacity planning, and production scheduling for smarter decision-making.',
+        icon: 'TrendingUp',
+      },
+      {
+        title: 'Supplier & Vendor Management',
+        description: 'Stronger supplier relationships, better pricing, scorecards, and seamless procurement workflows.',
+        icon: 'Handshake',
+      },
+      {
+        title: 'SCM Technology Integration',
+        description: 'AI, IoT, ERP integration, mobile SCM, and real-time supply chain analytics.',
+        icon: 'Cpu',
+      },
     ],
     businessBenefits: [
-      { title: '25% Inventory Cost Reduction', description: 'Eliminate excess holding costs with just-in-time predictive replenishment.', metric: '25% Reduction' },
-      { title: '99.4% Order Accuracy', description: 'Automated warehouse workflows virtually eliminate mispicks and delivery delays.', metric: '99.4% Accuracy' },
+      {
+        title: 'End-to-End Network Resilience',
+        description: 'Transform fragmented logistics into responsive, demand-driven supply networks.',
+        metric: '5-Stage SCM',
+      },
+      {
+        title: 'Balanced Inventory Models',
+        description: 'Maintain optimal just-in-time vs. safety stock levels from raw materials to finished goods.',
+        metric: 'Optimized Stock',
+      },
+      {
+        title: 'Real-Time Visibility',
+        description: 'Unified ERP, transportation management, warehouse management, and last-mile tracking.',
+        metric: 'Live Telemetry',
+      },
     ],
+    processTitle: 'Why Choose Prakvi for Supply Chain Management?',
+    processSubtitle: 'Aligned with best-practice SCM frameworks: Planning → Sourcing → Manufacturing → Delivery → Returns.',
     deliverySteps: [
-      { step: '01', title: 'Process Mapping', description: 'Benchmarking supplier lead times, warehouse throughput, and logistics bottlenecks.' },
-      { step: '02', title: 'Systems Integration', description: 'Connecting ERP, carrier APIs, and inventory databases into a unified control tower.' },
-      { step: '03', title: 'Pilot Rollout', description: 'Phased deployment across regional distribution centers with real-time feedback loops.' },
-      { step: '04', title: 'Full Optimization', description: 'Automated routing rules and dynamic supplier allocation algorithms.' },
+      {
+        step: '01',
+        title: 'Planning',
+        description:
+          'Define supply chain objectives and KPIs, forecast demand using analytics and ERP tools, design sourcing strategies and inventory buffers, and incorporate risk contingency plans.',
+      },
+      {
+        step: '02',
+        title: 'Sourcing',
+        description:
+          'Identify, evaluate, and negotiate with reliable suppliers; ensure quality, ethical compliance, and pricing efficiency; and build supplier scorecards and contingency networks.',
+      },
+      {
+        step: '03',
+        title: 'Manufacturing & Inventory Management',
+        description:
+          'Schedule production and manage assembly, testing, and packaging while tracking inventory from raw materials to finished goods with balanced lean and resilient stock.',
+      },
+      {
+        step: '04',
+        title: 'Delivery (Distribution & Logistics)',
+        description:
+          'Manage warehousing, order fulfillment, transport, and last-mile delivery with optimized route planning and carrier selection.',
+      },
+      {
+        step: '05',
+        title: 'Returns (Reverse Logistics)',
+        description:
+          'Handle customer returns efficiently, process refunds or replacements, inspect or refurbish items, and feed return insights back into quality improvements.',
+      },
+    ],
+    stackTitle: 'Supply Chain Management (SCM)',
+    stackSummary:
+      'Prakvi transforms fragmented logistics into seamless, resilient networks that adapt to market volatility and drive tangible bottom-line results.',
+    stackTabs: [
+      { label: 'Planning', items: ['Demand Forecasting', 'Production Planning', 'Capacity Planning', 'Network Optimization'] },
+      { label: 'Logistics', items: ['Transportation Management', 'Warehouse Management', 'Last Mile Delivery', 'Global Trade Management'] },
+      { label: 'Inventory', items: ['Stock Visibility', 'Inventory Analytics', 'Replenishment Planning', 'Stock Allocation'] },
+      { label: 'Technology', items: ['AI Optimization', 'ERP Integration', 'Real-Time Analytics', 'Risk Management', 'Mobile SCM', 'Cloud Deployment'] },
     ],
     faqs: [
-      { question: 'Can you integrate with SAP and Oracle SCM?', answer: 'Yes, we have deep integration expertise with SAP SCM, Oracle NetSuite, Manhattan Associates, and custom logistics platforms.' },
+      {
+        question: 'Does Prakvi’s SCM practice cover reverse logistics and returns?',
+        answer:
+          'Yes. Our 5-stage SCM model includes dedicated Returns (Reverse Logistics) workflows covering inspections, refurbishing, restocking, and quality feedback.',
+      },
+      {
+        question: 'Can you integrate SCM workflows with our existing ERP?',
+        answer:
+          'Yes, our technology layer supports direct ERP integration, real-time analytics dashboards, mobile SCM access, and cloud deployments.',
+      },
     ],
-    featuredImage: 'https://images.unsplash.com/photo-1586528116311-ad8dd3c8310d?auto=format&fit=crop&w=1200&q=80',
+    featuredImage: generatedImages.serviceArchitecture3d,
   },
 
   // 5. Workforce Solution
@@ -196,33 +538,130 @@ export const servicesData: ServiceItem[] = [
     slug: 'workforce-solution',
     title: 'Workforce Solution',
     category: 'enterprise',
-    tagline: 'Strategic human capital optimization, organizational agility, and managed services governance',
-    shortDesc: 'Optimize human capital management through skill matrix auditing, talent redeployment, productivity frameworks, and workforce analytics.',
-    fullDesc: 'Prakvi’s Workforce Solutions empower global organizations to maximize team performance and operational flexibility. We combine workforce analytics, skill taxonomy mapping, vendor management programs (MSP), and performance governance to ensure your human capital matches strategic company targets.',
+    tagline: 'Build the Right Team, Drive the Right Results',
+    shortDesc:
+      'End-to-end workforce solutions, permanent and contract talent acquisition, HRMS integration, and strategic workforce planning.',
+    fullDesc:
+      'In a rapidly evolving business landscape, having the right talent at the right time is critical for success. At Prakvi, we deliver end-to-end workforce solutions and workforce management services that help organizations across India attract, hire, and retain top talent. Whether you need permanent workforce solutions, contract workforce, or vendor management staffing, our customized approach leverages deep market insights, advanced sourcing strategies, and a commitment to quality. From startups to large enterprises, we enable scalable workforce support, reduce hiring time, and improve talent retention.',
     iconName: 'UserCheck',
-    badge: 'Human Capital Advisory',
-    businessChallenge: 'High attrition, skill mismatches, invisible contingent spend, and lack of career development pathways hinder enterprise scaling.',
-    howWeHelp: 'We design unified workforce planning models, internal mobility programs, and managed services provider (MSP) governance frameworks.',
+    badge: 'Strategic Workforce Solutions',
+    offeringsTitle: 'Our Workforce Offerings',
+    offeringsSubtitle: 'End-to-end workforce solutions customized to meet your specific business needs.',
+    businessChallenge:
+      'Peak project workloads, complex compliance overhead, and fragmented hiring processes prevent organizations from scaling agile teams on demand.',
+    howWeHelp:
+      'We act as a strategic partner combining specialized talent acquisition, optional AI-powered HRMS integration, and ongoing workforce optimization.',
     capabilities: [
-      { title: 'Skills Taxonomy & Benchmarking', description: 'Cataloging enterprise technical competencies and mapping future-state talent readiness.' },
-      { title: 'Managed Staffing Programs (MSP)', description: 'Centralized contingent supplier management with standardized rate cards and SLAs.' },
-      { title: 'Productivity & Engagement Analytics', description: 'Data-driven insights into team collaboration patterns, burnout risks, and velocity.' },
-      { title: 'Leadership Continuity Planning', description: 'Structured succession pipelines and talent development roadmaps for key operational roles.' },
+      {
+        title: 'Professional Staffing Services',
+        description:
+          'Temporary, contract, and direct-hire workforce solutions with specialized acquisition across tech, analytics, and operations.',
+        icon: 'Users',
+      },
+      {
+        title: 'Human Resource Management System (HRMS)',
+        description:
+          'An integrated AI-powered platform streamlining automated recruitment workflows, payroll, attendance tracking, and employee engagement.',
+        icon: 'Cpu',
+      },
+      {
+        title: 'Enterprise Solutions & Workforce Consulting',
+        description:
+          'Comprehensive digital transformation services blending IT consulting for modern architecture with strategic workforce planning.',
+        icon: 'Layers',
+      },
+      {
+        title: 'On-Demand Project Scaling',
+        description:
+          'Dedicated teams, short-term project specialists, and flexible engagement structures tuned to shifting organizational demand.',
+        icon: 'TrendingUp',
+      },
     ],
     businessBenefits: [
-      { title: '30% Reduction in Labor Overhead', description: 'Eliminate rogue contractor hiring and normalize cross-department vendor rates.', metric: '30% Cost Savings' },
-      { title: 'Zero Talent Capability Gaps', description: 'Proactive reskilling and hiring programs keep engineering teams ahead of technology shifts.', metric: 'Future-Ready' },
+      {
+        title: 'Faster Time-to-Productivity',
+        description: 'Seamless onboarding, documentation, and compliance handling get specialists contributing quickly.',
+        metric: '7-Stage Model',
+      },
+      {
+        title: 'Unified HRMS Tracking',
+        description: 'Optional AI-powered HRMS centralizes recruitment, payroll, attendance, and KPI evaluation.',
+        metric: 'HRMS Integrated',
+      },
+      {
+        title: 'Cross-Functional Talent',
+        description: 'Deep recruiting reach across IT & Engineering, Healthcare, Legal & Compliance, and Finance & Analytics.',
+        metric: 'End-to-End',
+      },
     ],
+    processTitle: 'Why Choose Prakvi for Workforce Solutions?',
+    processSubtitle: 'A proven 7-step methodology built for sustainable team performance.',
     deliverySteps: [
-      { step: '01', title: 'Workforce Audit', description: 'Analyzing headcount composition, bill rates, skill gaps, and contingent worker utilization.' },
-      { step: '02', title: 'Strategic Framework', description: 'Designing talent governance protocols, vendor tiers, and retention incentives.' },
-      { step: '03', title: 'Technology Deployment', description: 'Implementing VMS/HRMS tools to track workforce milestones in real time.' },
-      { step: '04', title: 'Continuous Review', description: 'Quarterly talent reviews and proactive capability planning.' },
+      {
+        step: '01',
+        title: 'Consultation & Needs Assessment',
+        description:
+          'Engage with client leadership to define workforce objectives, roles, skills, and engagement duration.',
+      },
+      {
+        step: '02',
+        title: 'Strategic Talent Design',
+        description:
+          'Create a flexible staffing blueprint covering short-term, contract, or permanent placements aligned to project goals.',
+      },
+      {
+        step: '03',
+        title: 'Candidate Sourcing & Screening',
+        description:
+          'Tap into Prakvi’s talent pool, deploy targeted outreach, and conduct resume reviews, skills assessments, and interviews.',
+      },
+      {
+        step: '04',
+        title: 'Onboarding & Workforce Deployment',
+        description:
+          'Seamlessly integrate new resources into client teams, manage documentation and compliance, and expedite time-to-productivity.',
+      },
+      {
+        step: '05',
+        title: 'HRMS Integration (Optional)',
+        description:
+          'Deploy AI-powered HRMS to centralize tracking of recruitment, payroll, attendance, and performance metrics.',
+      },
+      {
+        step: '06',
+        title: 'Performance Monitoring & Scaling',
+        description:
+          'Monitor staff effectiveness and project alignment, adjusting workforce size or skill sets as needs evolve.',
+      },
+      {
+        step: '07',
+        title: 'Ongoing Support & Relationship Management',
+        description:
+          'Maintain ongoing communication with stakeholders, handle contract renewals or conversions, and facilitate workforce optimization.',
+      },
+    ],
+    stackTitle: 'Workforce Solutions',
+    stackSummary:
+      'Prakvi offers more than just staffing—we deliver a strategic partnership to optimize human capital, enhance operational efficiency, and drive project success.',
+    stackTabs: [
+      { label: 'Talent Acquisition', items: ['End-to-End Recruitment', 'Candidate Screening', 'Contract Staffing', 'Permanent Hiring'] },
+      { label: 'Project-Based Hiring', items: ['Short-Term Projects', 'Dedicated Teams', 'Flexible Engagements'] },
+      { label: 'Specialized Roles', items: ['IT & Engineering', 'Healthcare Professionals', 'Legal & Compliance', 'Finance & Analytics'] },
+      { label: 'Tools & Platforms', items: ['LinkedIn Recruiter', 'Internal Talent Pool', 'Applicant Tracking System', 'Collaboration Tools'] },
     ],
     faqs: [
-      { question: 'How is this different from traditional recruitment?', answer: 'Workforce Solutions is a strategic operational practice that optimizes your entire human capital ecosystem, including permanent staff, contingent vendors, and internal mobility.' },
+      {
+        question: 'Can we integrate Prakvi’s HRMS platform into a Workforce Solution engagement?',
+        answer:
+          'Yes. Step 5 of our methodology offers optional AI-powered HRMS deployment to centralize recruitment, payroll runs, attendance, and performance evaluations.',
+      },
+      {
+        question: 'What specialized domains can you staff under Workforce Solutions?',
+        answer:
+          'We cover IT & Engineering, Healthcare Professionals, Legal & Compliance, and Finance & Analytics across permanent, contract, and project-based models.',
+      },
     ],
-    featuredImage: 'https://images.unsplash.com/photo-1531482615713-2afd69097998?auto=format&fit=crop&w=1200&q=80',
+    featuredImage: generatedImages.serviceStaffingTeam,
   },
 
   // 6. System Integration
@@ -231,33 +670,125 @@ export const servicesData: ServiceItem[] = [
     slug: 'system-integration',
     title: 'System Integration',
     category: 'enterprise',
-    tagline: 'Bridging disparate legacy architectures, SaaS platforms, and enterprise data backbones into a unified ecosystem',
-    shortDesc: 'Unified tech environment integrating ERP, CRM, custom microservices, event streams, and legacy mainframe backbones.',
-    fullDesc: 'Disconnected systems create operational drag, manual data re-entry, and security vulnerabilities. Prakvi’s System Integration practice designs enterprise service buses (ESB), event-driven architectures (Kafka), and robust REST/GraphQL API gateways that orchestrate seamless data flows across your entire software estate.',
+    tagline: 'Connecting Systems for Seamless Business Operations',
+    shortDesc:
+      'Connect ERP, CRM, cloud platforms, APIs, and legacy enterprise environments into a unified, interoperable digital ecosystem.',
+    fullDesc:
+      'In the digital era, enterprises use multiple applications, platforms, and technologies, but without effective system integration, they operate in silos causing inefficiencies and data inconsistencies. Prakvi’s System Integration Services in India connect diverse IT systems, applications, and data sources into a unified, scalable, and secure environment. We offer ERP integration, CRM synchronization, API development, cloud integration, and legacy system modernization, ensuring interoperability, real-time data flow, and better productivity.',
     iconName: 'Plug',
-    badge: 'Enterprise Architecture',
-    businessChallenge: 'Enterprises struggle with brittle point-to-point connections, inconsistent syncs, duplicate records, and lack of real-time transactional visibility.',
-    howWeHelp: 'We engineer loosely coupled, API-first integration layers with automated retry queues, transactional idempotency, and comprehensive audit trails.',
+    badge: 'ERP, CRM & API Integration',
+    offeringsTitle: 'Our System Integration Services',
+    offeringsSubtitle: 'Our comprehensive system integration services are designed to meet your unique business needs.',
+    businessChallenge:
+      'Isolated ERP, CRM, and logistics systems create manual reconciliation delays, broken data flows, and inconsistent customer or financial records.',
+    howWeHelp:
+      'We engineer clean APIs, Enterprise Service Bus (ESB) middleware, cloud-to-on-prem pipelines, and compliance-hardened integration layers.',
     capabilities: [
-      { title: 'API Gateway & Management', description: 'Secure, rate-limited, and authenticated API gateways connecting legacy and cloud applications.' },
-      { title: 'Event-Driven Message Buses', description: 'High-throughput Kafka and RabbitMQ pipelines enabling real-time asynchronous data propagation.' },
-      { title: 'ERP & CRM Bi-directional Sync', description: 'Zero-latency reconciliation between SAP, Salesforce, NetSuite, and internal databases.' },
-      { title: 'Legacy Mainframe Modernization', description: 'Non-disruptive microservice wrappers around heritage COBOL, AS400, and monolithic backbones.' },
+      {
+        title: 'Application Integration',
+        description: 'Connect diverse enterprise applications for seamless interoperability across departments.',
+        icon: 'Plug',
+      },
+      {
+        title: 'Cloud Integration',
+        description: 'Unify cloud and on-premises systems for a hybrid, scalable architecture.',
+        icon: 'Cloud',
+      },
+      {
+        title: 'Data Integration & Migration',
+        description: 'Ensure secure, efficient data flow and validated migration across enterprise platforms.',
+        icon: 'Database',
+      },
+      {
+        title: 'Enterprise Service Bus (ESB) Implementation',
+        description: 'Enable fast, reliable communication between microservices using MuleSoft, Camel, and Boomi.',
+        icon: 'Network',
+      },
+      {
+        title: 'Security & Compliance Integration',
+        description: 'Build a secure and regulation-compliant IT framework across every API and message queue.',
+        icon: 'ShieldCheck',
+      },
     ],
     businessBenefits: [
-      { title: 'Zero Data Duplication', description: 'Canonical data schemas ensure transactional accuracy across all enterprise systems.', metric: '100% Accuracy' },
-      { title: '80% Faster Partner Onboarding', description: 'Standardized API contracts reduce partner integration times from months to days.', metric: 'Rapid Onboarding' },
+      {
+        title: 'Unified Enterprise Ecosystem',
+        description: 'Bridge SAP, Oracle E-Business Suite, Microsoft Dynamics, Salesforce, and logistics platforms.',
+        metric: 'Zero Silos',
+      },
+      {
+        title: 'Real-Time Interoperability',
+        description: 'Modern ESB middleware, event queues, and REST/API endpoints keep records synchronized.',
+        metric: 'Live Sync',
+      },
+      {
+        title: 'Non-Disruptive Rollout',
+        description: 'Structured testing, UAT validation, and observability tools guarantee reliable cutovers.',
+        metric: '6-Stage QA',
+      },
     ],
+    processTitle: 'Why Choose Prakvi for System Integration?',
+    processSubtitle: 'A proven 6-stage methodology ensuring reliable, interoperable enterprise systems.',
     deliverySteps: [
-      { step: '01', title: 'Architecture Discovery', description: 'Mapping data dependencies, message payloads, and protocol incompatibilities.' },
-      { step: '02', title: 'Interface Specification', description: 'Drafting strict OpenAPI specifications and payload validation schemas.' },
-      { step: '03', title: 'Middleware Engineering', description: 'Building containerized integration adapters with distributed tracing.' },
-      { step: '04', title: 'Resilience Testing', description: 'Chaos engineering and failover testing to verify high-availability reliability.' },
+      {
+        step: '01',
+        title: 'Assessment & Strategy',
+        description:
+          'Conduct a comprehensive review of your existing systems and workflows and define integration goals and KPIs aligned with business outcomes.',
+      },
+      {
+        step: '02',
+        title: 'Architectural Design',
+        description:
+          'Design unified architecture and data mapping across platforms, establishing integration patterns across APIs, middleware, ETL workflows, and messaging queues.',
+      },
+      {
+        step: '03',
+        title: 'Implementation & Configuration',
+        description:
+          'Develop and configure API endpoints, data pipelines, and monitoring dashboards on secure, high-availability infrastructure.',
+      },
+      {
+        step: '04',
+        title: 'Testing & Validation',
+        description:
+          'Execute unit, system, and user acceptance testing to validate data accuracy, performance, and reliability across scenarios.',
+      },
+      {
+        step: '05',
+        title: 'Deployment & Roll-Out',
+        description:
+          'Plan and manage production deployment with minimal disruption while providing complete documentation and user training.',
+      },
+      {
+        step: '06',
+        title: 'Monitoring & Continuous Optimization',
+        description:
+          'Implement monitoring tools for system health and error alerts, periodically optimizing integration workflows from real-world usage data.',
+      },
+    ],
+    stackTitle: 'System Integration Service',
+    stackSummary:
+      'Prakvi’s System Integration Service is your bridge to unified, seamless operational efficiency, enabling disparate platforms to communicate, collaborate, and contribute to a cohesive digital ecosystem.',
+    stackTabs: [
+      { label: 'Enterprise Systems', items: ['SAP', 'Oracle E-Business Suite', 'Microsoft Dynamics', 'Salesforce', 'Logistics Systems'] },
+      { label: 'Integration Middleware', items: ['MuleSoft', 'Apache Camel', 'Dell Boomi', 'WSO2', 'IBM App Connect'] },
+      { label: 'Data Platforms', items: ['Oracle', 'SQL Server', 'MySQL', 'MongoDB', 'Data Lakes'] },
+      { label: 'Integration Tools', items: ['Git', 'Docker', 'AWS Integration Services', 'Azure Logic Apps', 'Google Cloud Functions', 'CI/CD Tools'] },
     ],
     faqs: [
-      { question: 'Do we need to rewrite our legacy applications?', answer: 'No. We specialize in non-invasive API facades and event bridges that modernize legacy assets without risky code rewrites.' },
+      {
+        question: 'Which ESB and integration middleware platforms do you support?',
+        answer:
+          'We specialize in MuleSoft, Apache Camel, Dell Boomi, WSO2, IBM App Connect, AWS Integration Services, and Azure Logic Apps.',
+      },
+      {
+        question: 'Can you connect on-premises ERP installations with cloud SaaS applications?',
+        answer:
+          'Yes. Hybrid Cloud Integration is a core service area uniting SAP, Oracle EBS, Dynamics, and Salesforce with minimal disruption.',
+      },
     ],
-    featuredImage: 'https://images.unsplash.com/photo-1558494949-ef010cbdcc31?auto=format&fit=crop&w=1200&q=80',
+    featuredImage: generatedImages.serviceArchitecture3d,
   },
 
   // 7. Cloud Services
@@ -266,33 +797,136 @@ export const servicesData: ServiceItem[] = [
     slug: 'cloud-services',
     title: 'Cloud Services',
     category: 'enterprise',
-    tagline: 'Scalable multi-cloud infrastructure, automated DevSecOps pipelines, and resilient cloud-native engineering',
-    shortDesc: 'Scalable cloud infrastructure across AWS, Azure, and Google Cloud with Kubernetes orchestration and FinOps cost governance.',
-    fullDesc: 'Prakvi’s Cloud Services division enables enterprises to modernize legacy workloads and build resilient cloud-native platforms. From complex hybrid-cloud migrations to automated CI/CD pipelines, container orchestration, and proactive FinOps cost optimization, we ensure your infrastructure scales securely and cost-effectively.',
+    tagline: 'Scalable, Secure, and Future Ready Cloud Solutions',
+    shortDesc:
+      'End-to-end cloud consulting, migration, multi-cloud deployment, security hardening, and 24/7 managed optimization across AWS, Azure, and GCP.',
+    fullDesc:
+      'In today’s digital first world, Prakvi delivers end-to-end cloud services in India, offering speed, scalability, and security. Our cloud migration services, multi-cloud solutions, and managed cloud services help modernize IT infrastructure, cut costs, and boost innovation. Partnering with AWS, Azure, and Google Cloud, we ensure seamless deployment, optimization, and secure, business-driven cloud operations.',
     iconName: 'Cloud',
-    badge: 'Multi-Cloud Architecture',
-    businessChallenge: 'Skyrocketing unoptimized cloud bills, security misconfigurations, slow release cadences, and fear of vendor lock-in create operational inertia.',
-    howWeHelp: 'We implement Infrastructure as Code (Terraform), Kubernetes cluster governance, 24/7 SRE monitoring, and FinOps spending guardrails.',
+    badge: 'Cloud Migration & Management',
+    offeringsTitle: 'Other Cloud & Hybrid Services Offered',
+    offeringsSubtitle: 'End-to-end cloud services customized to meet your specific business requirements.',
+    businessChallenge:
+      'Rigid legacy infrastructure, unplanned cloud spend, and complex compliance mandates hinder digital agility and application reliability.',
+    howWeHelp:
+      'We deliver structured cloud readiness assessments, zero-downtime workload migration, Docker/Kubernetes orchestration, and ongoing cost/security management.',
     capabilities: [
-      { title: 'Cloud Migration & Modernization', description: 'Phased lift-and-shift, re-platforming, and microservices re-architecting for AWS, Azure, and GCP.' },
-      { title: 'Kubernetes & Container Orchestration', description: 'Hardened EKS, AKS, and GKE clusters with automated horizontal scaling and service mesh.' },
-      { title: 'DevSecOps & Automated CI/CD', description: 'Zero-touch deployment pipelines with integrated SAST/DAST security scanning.' },
-      { title: 'FinOps Cost Optimization', description: 'Continuous cloud spend auditing, reserved instance planning, and resource rightsizing.' },
+      {
+        title: 'System Integration (Hybrid Architectures)',
+        description:
+          'Hybrid cloud architecture design, cross-platform data integration, secure migration, and continuous synchronization with on-premises systems.',
+        icon: 'Plug',
+      },
+      {
+        title: 'Cloud Advisory & Migration',
+        description:
+          'Cloud readiness assessments, AWS/Azure/GCP platform selection, ETL migration pipelines, and zero-disruption cutover planning.',
+        icon: 'Cloud',
+      },
+      {
+        title: 'Infrastructure Management & Security',
+        description:
+          'Cloud, hybrid, and on-premises monitoring, scalability tuning, security hardening, disaster recovery, and compliance management.',
+        icon: 'ShieldCheck',
+      },
     ],
     businessBenefits: [
-      { title: '99.99% Uptime Guarantee', description: 'Multi-region redundancy and auto-healing infrastructure guarantee continuous availability.', metric: '99.99% SLA' },
-      { title: '35% Average Cloud Bill Reduction', description: 'FinOps governance eliminates orphaned resources and optimizes compute provisioning.', metric: '35% Savings' },
+      {
+        title: 'Multi-Cloud Agility',
+        description: 'Architect and manage portable workloads cleanly across AWS, Microsoft Azure, and Google Cloud.',
+        metric: 'AWS · Azure · GCP',
+      },
+      {
+        title: '9-Step Cloud Lifecycle',
+        description: 'Comprehensive delivery from readiness evaluation through launch, monitoring, and continuous evolution.',
+        metric: '9-Stage Delivery',
+      },
+      {
+        title: 'Security & Compliance Built-In',
+        description: 'Access controls, backup/DR, security audits, and performance optimization safeguard critical assets.',
+        metric: '24/7 Managed',
+      },
     ],
+    processTitle: 'Why Choose Prakvi for Cloud Services?',
+    processSubtitle: 'A structured 9-stage methodology for predictable cloud transformation.',
     deliverySteps: [
-      { step: '01', title: 'Cloud Readiness Assessment', description: 'Evaluating workload dependencies, compliance constraints, and network latency.' },
-      { step: '02', title: 'Landing Zone Architecture', description: 'Provisioning secure multi-account cloud landing zones with automated IAM policies.' },
-      { step: '03', title: 'Workload Migration', description: 'Zero-downtime database replication and containerized application migration.' },
-      { step: '04', title: 'Continuous SRE Governance', description: '24/7 observability, SLO tracking, and automated incident remediation.' },
+      {
+        step: '01',
+        title: 'Strategic Planning & Assessment',
+        description:
+          'Collaborate closely with clients to define desired business outcomes, assess current infrastructure readiness, and select the optimal cloud roadmap.',
+      },
+      {
+        step: '02',
+        title: 'Cloud Readiness Evaluation',
+        description:
+          'Identify workloads fit for cloud migration, prepare architecture blueprints, and pinpoint risks and mitigation measures.',
+      },
+      {
+        step: '03',
+        title: 'Cloud Advisory & Platform Selection',
+        description:
+          'Evaluate leading providers (AWS, Azure, Google Cloud), choose environments aligned with objectives, and build a strategic deployment plan.',
+      },
+      {
+        step: '04',
+        title: 'Migration & Integration Execution',
+        description:
+          'Transfer data and applications, implement ETL pipelines where needed, and integrate cloud resources with existing systems.',
+      },
+      {
+        step: '05',
+        title: 'System Integration & Orchestration',
+        description:
+          'Unify disparate systems into coherent architecture, ensuring secure, efficient data flow across cloud and on-premises platforms.',
+      },
+      {
+        step: '06',
+        title: 'Launch & Deployment',
+        description:
+          'Deploy workloads to your cloud environment, configure access controls, set up backup and disaster recovery, and validate operational readiness.',
+      },
+      {
+        step: '07',
+        title: 'Monitoring & Optimization',
+        description:
+          'Implement ongoing performance monitoring, cost oversight, fault detection, and resource tuning to continuously improve infrastructure.',
+      },
+      {
+        step: '08',
+        title: 'Security & Compliance Management',
+        description:
+          'Apply rigorous security controls, access management, audits, and compliance frameworks to safeguard enterprise data and operations.',
+      },
+      {
+        step: '09',
+        title: 'Support & Continuous Evolution',
+        description:
+          'Provide ongoing support services, capacity scaling, upgrades, and continuous architecture refinement as business needs evolve.',
+      },
+    ],
+    stackTitle: 'Cloud Services',
+    stackSummary:
+      'Prakvi positions Cloud Services as a core offering, delivering expert consulting, secure migration, and ongoing cloud management to help businesses harness the full power of the cloud.',
+    stackTabs: [
+      { label: 'Consulting', items: ['Cloud Strategy', 'Architecture Planning', 'Security Assessment'] },
+      { label: 'Migration', items: ['Data Migration', 'App Migration', 'Legacy System Integration'] },
+      { label: 'Management', items: ['Monitoring & Support', 'Performance Optimization', 'Compliance & Security'] },
+      { label: 'Cloud Tools', items: ['AWS', 'Google Cloud', 'Azure', 'Docker', 'Kubernetes'] },
     ],
     faqs: [
-      { question: 'Can you manage multi-cloud deployments?', answer: 'Yes, we architect vendor-agnostic infrastructure using Terraform and Kubernetes spanning AWS, Azure, and GCP.' },
+      {
+        question: 'Which cloud providers does Prakvi support?',
+        answer:
+          'We partner across Amazon Web Services (AWS), Microsoft Azure, and Google Cloud Platform (GCP), utilizing Docker and Kubernetes for portable workloads.',
+      },
+      {
+        question: 'Do you support hybrid cloud models alongside legacy infrastructure?',
+        answer:
+          'Yes, our Hybrid Architectures capability designs secure connectivity and data synchronization between public clouds and on-premises environments.',
+      },
     ],
-    featuredImage: 'https://images.unsplash.com/photo-1451187580459-43490279c0fa?auto=format&fit=crop&w=1200&q=80',
+    featuredImage: generatedImages.serviceCloud3d,
   },
 
   // 8. Business Analytics
@@ -301,33 +935,124 @@ export const servicesData: ServiceItem[] = [
     slug: 'business-analytics',
     title: 'Business Analytics',
     category: 'enterprise',
-    tagline: 'Strategic data-driven decisions powered by statistical modeling, cohort analysis, and executive KPI intelligence',
-    shortDesc: 'Strategic data-driven decisions that uncover operational efficiencies, identify revenue growth opportunities, and de-risk investments.',
-    fullDesc: 'Transform raw numbers into strategic market advantages. Prakvi’s Business Analytics practice bridges enterprise domain knowledge with quantitative modeling. We uncover customer lifetime value drivers, operational margin leakages, and pricing elasticities so leaders can act with quantitative certainty.',
+    tagline: 'Turning Data into Actionable Business Analytics',
+    shortDesc:
+      'Tailored descriptive, predictive, and prescriptive analytics, statistical modeling, and automated performance reporting.',
+    fullDesc:
+      'In today’s data-driven world, raw information is abundant but only the right business analytics transforms it into a competitive advantage. Prakvi’s Business Analytics Services in India help organizations harness the power of advanced analytics, AI-driven insights, and industry expertise to improve decision-making, optimize operations, and accelerate growth. From predictive analytics and prescriptive analytics to real-time performance dashboards and data visualization, we deliver tailored, scalable solutions that turn data into measurable business value.',
     iconName: 'PieChart',
-    badge: 'Decision Intelligence',
-    businessChallenge: 'Organizations drown in raw transactional data but lack granular insight into what truly drives profitability and customer churn.',
-    howWeHelp: 'We engineer statistical regression models, customer segmentation matrices, and interactive revenue scenario models.',
+    badge: 'Data Insights & Predictive Analytics',
+    offeringsTitle: 'Our Business Analytics Services',
+    offeringsSubtitle: 'Customized analytics capabilities designed to transform raw business data into measurable advantage.',
+    businessChallenge:
+      'Abundant raw data without structured cleaning, predictive modeling, or decision workflows leaves critical commercial insights hidden.',
+    howWeHelp:
+      'We deliver end-to-end statistical analysis, ML forecasting, scenario simulation, and real-time reporting dashboards.',
     capabilities: [
-      { title: 'Customer Segmentation & LTV Modeling', description: 'Behavioral clustering that reveals high-value buyer cohorts and retention triggers.' },
-      { title: 'Pricing & Margin Elasticity', description: 'Econometric models simulating the margin impact of price adjustments and discounts.' },
-      { title: 'Operational Efficiency Auditing', description: 'Process mining analytics uncovering workflow bottlenecks and throughput delays.' },
-      { title: 'Scenario & Sensitivity Analysis', description: 'Interactive Monte Carlo models to stress-test financial projections against market risks.' },
+      {
+        title: 'Descriptive Analytics',
+        description: 'We analyze historical data to uncover trends and performance patterns.',
+        icon: 'BarChart3',
+      },
+      {
+        title: 'Diagnostic & Predictive Analytics',
+        description: 'Our experts leverage AI and machine learning to understand root causes and forecast future outcomes.',
+        icon: 'Sparkles',
+      },
+      {
+        title: 'Prescriptive Analytics',
+        description: 'We implement data-backed optimization strategies and simulations for confident decision-making.',
+        icon: 'Target',
+      },
+      {
+        title: 'Real-Time Data Processing',
+        description: 'Deliver instant operational insights and alerts for agile business operations.',
+        icon: 'Zap',
+      },
+      {
+        title: 'Custom Dashboard & Reporting',
+        description: 'Create and visualize enterprise metrics through interactive, dynamic analytics tools.',
+        icon: 'Monitor',
+      },
     ],
     businessBenefits: [
-      { title: '18% Margin Expansion', description: 'Identifying operational leakages and optimizing product mix directly boosts bottom-line profitability.', metric: '18% Margin Gain' },
-      { title: 'Objective Decision-Making', description: 'Replace subjective boardroom debates with verified statistical proof points.', metric: 'Data-Backed' },
+      {
+        title: 'Predictive & Prescriptive Clarity',
+        description: 'Move beyond historical charts to statistical forecasting and scenario optimization.',
+        metric: 'AI & ML Models',
+      },
+      {
+        title: 'Automated Data Pipelines',
+        description: 'Embed standardized data cleaning, BigQuery/Snowflake storage, and live alerting.',
+        metric: 'Live Reporting',
+      },
+      {
+        title: 'Proven Data Science Stack',
+        description: 'Powered by Python, R, SAS, SPSS, Power BI, Tableau, D3.js, and Snowflake.',
+        metric: 'Full Stack BI',
+      },
     ],
+    processTitle: 'Why Choose Prakvi for Business Analytics?',
+    processSubtitle: 'A proven 7-step analytics methodology from ingestion through continuous model refinement.',
     deliverySteps: [
-      { step: '01', title: 'Hypothesis Formulation', description: 'Collaborating with executive sponsors to frame the highest-value commercial questions.' },
-      { step: '02', title: 'Data Extraction & Cleaning', description: 'Normalizing disparate transactional logs and resolving schema inconsistencies.' },
-      { step: '03', title: 'Statistical Modeling', description: 'Executing regression, clustering, and sensitivity simulations.' },
-      { step: '04', title: 'Strategic Recommendations', description: 'Presenting actionable commercial steps backed by interactive visual models.' },
+      {
+        step: '01',
+        title: 'Data Collection & Integration',
+        description: 'Gather structured and unstructured data across systems and integrate them into a unified repository.',
+      },
+      {
+        step: '02',
+        title: 'Data Cleaning & Preparation',
+        description: 'Ensure high data quality by standardizing formats, filling gaps, and removing inconsistencies.',
+      },
+      {
+        step: '03',
+        title: 'Descriptive Analysis',
+        description: 'Visualize past performance, uncover trends, and monitor key metrics using descriptive techniques.',
+      },
+      {
+        step: '04',
+        title: 'Predictive Modeling',
+        description: 'Apply statistical and machine-learning models to forecast future behaviors and business outcomes.',
+      },
+      {
+        step: '05',
+        title: 'Prescriptive Insights',
+        description: 'Translate predictions into actionable recommendations through optimization and scenario simulation.',
+      },
+      {
+        step: '06',
+        title: 'Deployment & Automation',
+        description: 'Embed analytics into operational systems with live dashboards, alerts, and automated reporting workflows.',
+      },
+      {
+        step: '07',
+        title: 'Monitoring & Refinement',
+        description: 'Continuously evaluate model performance, refine analytics pipelines, and adapt to business changes.',
+      },
+    ],
+    stackTitle: 'Business Analytics',
+    stackSummary:
+      'A strategic service transforming your raw data into actionable intelligence, helping you make smarter, data-driven decisions.',
+    stackTabs: [
+      { label: 'Data Visualization', items: ['Power BI', 'Tableau', 'D3.js', 'Looker'] },
+      { label: 'Analytics Tools', items: ['Python', 'R', 'SAS', 'SPSS'] },
+      { label: 'Data Storage', items: ['BigQuery', 'Snowflake', 'Redshift', 'MySQL'] },
+      { label: 'Platforms & Utilities', items: ['AWS Analytics', 'Azure Synapse', 'Google Data Studio', 'ETL Tools', 'Jupyter Notebook'] },
     ],
     faqs: [
-      { question: 'How is Business Analytics different from BI?', answer: 'While BI focuses on describing what happened in the past, Business Analytics investigates why it happened and what strategic actions will produce optimal future outcomes.' },
+      {
+        question: 'What statistical and machine learning tools does Prakvi use?',
+        answer:
+          'Our data science practice uses Python, R, SAS, SPSS, Jupyter Notebook, Power BI, Tableau, D3.js, and Looker backed by BigQuery, Snowflake, and Redshift.',
+      },
+      {
+        question: 'How do you handle unstructured or inconsistent source data?',
+        answer:
+          'Every project begins with unified collection and rigorous data cleaning to standardize formats, resolve gaps, and validate integrity before modeling.',
+      },
     ],
-    featuredImage: 'https://images.unsplash.com/photo-1460925895917-afdab827c52f?auto=format&fit=crop&w=1200&q=80',
+    featuredImage: generatedImages.serviceBiAnalytics3d,
   },
 
   // 9. Infrastructure Management
@@ -336,33 +1061,124 @@ export const servicesData: ServiceItem[] = [
     slug: 'infrastructure-management',
     title: 'Infrastructure Management',
     category: 'enterprise',
-    tagline: 'Secure and maintain IT systems with 24/7 telemetry, automated patching, and proactive disaster recovery',
-    shortDesc: 'Secure and maintain IT systems spanning on-premises data centers, private cloud clusters, and hybrid network backbones.',
-    fullDesc: 'System outages and hardware degradation immediately disrupt operations and client trust. Prakvi’s Infrastructure Management practice provides 24/7/365 proactive monitoring, automated security patching, hypervisor administration, and multi-datacenter disaster recovery to ensure mission-critical stability.',
+    tagline: 'Reliable, Scalable, and Secure IT Infrastructure Management',
+    shortDesc:
+      'Optimize servers, networks, storage, data centers, and hybrid clouds with AI-powered monitoring, security hardening, and SLA uptime.',
+    fullDesc:
+      'In today’s fast-paced digital economy, business success relies on stable, secure, and high-performing IT systems. At Prakvi, we offer comprehensive IT infrastructure management services in India to optimize performance, ensure scalability, and cut operational costs. From data centers, network management services, and server management services to cloud infrastructure management and storage management services, our certified experts use automation, AI-powered monitoring, and best-in-class tools to prevent downtime, improve efficiency, and maximize ROI across industries including IT, manufacturing, BFSI, retail, and healthcare.',
     iconName: 'Server',
-    badge: 'Reliability Engineering',
-    businessChallenge: 'Unplanned downtime, aging server hardware, unpatched vulnerabilities, and inadequate backup verification expose enterprises to catastrophic disruptions.',
-    howWeHelp: 'We implement automated site reliability engineering (SRE), real-time APM telemetry (Datadog/Prometheus), and air-gapped immutable backup solutions.',
+    badge: 'IT Infrastructure Solutions',
+    offeringsTitle: 'Additional Infrastructure Offerings',
+    offeringsSubtitle: 'Meticulously engineered infrastructure capabilities aligned to high-availability business systems.',
+    businessChallenge:
+      'Infrastructure vulnerabilities, unmonitored network bottlenecks, and manual maintenance increase downtime risk and escalate operational costs.',
+    howWeHelp:
+      'We implement continuous monitoring, load balancing, storage tuning, security audits, and auto-scaling infrastructure architectures.',
     capabilities: [
-      { title: '24/7 Network & NOC Monitoring', description: 'Continuous ping, packet loss, bandwidth utilization, and firewall log monitoring.' },
-      { title: 'Automated Patch Management', description: 'Zero-day vulnerability scanning and scheduled non-disruptive OS/firmware updates.' },
-      { title: 'Disaster Recovery as a Service (DRaaS)', description: 'RTO < 15min and RPO < 5min failover systems with automated quarterly disaster drills.' },
-      { title: 'Storage & Hypervisor Administration', description: 'SAN/NAS storage management, VMware/Hyper-V clustering, and IOPS performance tuning.' },
+      {
+        title: 'Cloud Services & Hybrid Readiness',
+        description:
+          'Cloud strategy, workload migration, cloud architecture management, security compliance, and third-party infrastructure integrations.',
+        icon: 'Cloud',
+      },
+      {
+        title: 'System Integration Services',
+        description:
+          'Application-to-hardware alignment, database integration, legacy modernization, and end-to-end performance tuning.',
+        icon: 'Plug',
+      },
+      {
+        title: 'Enterprise Architecture & Consulting',
+        description:
+          'Technology-roadmap development, IT governance, and infrastructure transformation aligned with enterprise goals.',
+        icon: 'Layers',
+      },
+      {
+        title: 'Project Management & Enterprise Delivery',
+        description:
+          'Coordinated delivery spanning BI infrastructure, workforce systems, ERP/CRM hosting, and mobile/BYOD endpoint networks.',
+        icon: 'CheckSquare',
+      },
     ],
     businessBenefits: [
-      { title: 'Zero Unplanned Downtime', description: 'Proactive component degradation alerts resolve hardware issues before system failure occurs.', metric: '100% Uptime Goal' },
-      { title: 'Verified Cyber Recovery', description: 'Immutable ransomware-proof backups guarantee business continuity under any attack.', metric: 'Ransomware-Proof' },
+      {
+        title: 'Proactive Downtime Prevention',
+        description: 'Automated health checks, network analysis, and threshold alerts resolve incidents early.',
+        metric: '24/7 Monitoring',
+      },
+      {
+        title: 'Security & Compliance Hardening',
+        description: 'Access control, data encryption, threat detection, and periodic compliance reviews protect systems.',
+        metric: 'Zero-Trust Ready',
+      },
+      {
+        title: 'Multi-Industry Reliability',
+        description: 'Proven infrastructure operations supporting IT, manufacturing, BFSI, retail, and healthcare.',
+        metric: 'High Availability',
+      },
     ],
+    processTitle: 'Why Choose Prakvi for Infrastructure Management?',
+    processSubtitle: 'A proven 6-stage lifecycle ensuring secure, scalable IT infrastructure.',
     deliverySteps: [
-      { step: '01', title: 'Infrastructure Inventory', description: 'Auditing physical servers, SAN storage, hypervisors, and network switches.' },
-      { step: '02', title: 'Monitoring Instrumentation', description: 'Deploying agents and synthetic probes for real-time latency and health alerts.' },
-      { step: '03', title: 'Runbook Automation', description: 'Scripting automated self-healing procedures for common service degradation events.' },
-      { step: '04', title: '24/7 NOC Handover', description: 'Seamless monitoring coverage with SLA-guaranteed incident response times.' },
+      {
+        step: '01',
+        title: 'Discovery & Assessment',
+        description:
+          'Conduct an initial audit of current infrastructure environments to identify vulnerabilities, inefficiencies, and growth constraints.',
+      },
+      {
+        step: '02',
+        title: 'Design & Planning',
+        description:
+          'Architect an optimized infrastructure model with a clear security, compliance, and scalability roadmap.',
+      },
+      {
+        step: '03',
+        title: 'Implementation & Integration',
+        description:
+          'Deploy monitoring tools and configuration automation with seamless integration across on-premises and cloud platforms.',
+      },
+      {
+        step: '04',
+        title: 'Monitoring & Optimization',
+        description:
+          'Establish continuous performance tracking, threshold alerts, load balancing, and resource tuning for peak uptime.',
+      },
+      {
+        step: '05',
+        title: 'Security & Compliance Management',
+        description:
+          'Enforce cybersecurity policies and regulatory controls alongside periodic security audits and compliance reviews.',
+      },
+      {
+        step: '06',
+        title: 'Support & Continuous Improvement',
+        description:
+          'Provide ongoing technical support, maintenance, and security patching backed by feedback-driven capacity scaling.',
+      },
+    ],
+    stackTitle: 'IT Infrastructure Management',
+    stackSummary:
+      'End-to-end management of your IT infrastructure to ensure it is secure, highly scalable, and optimized for peak performance.',
+    stackTabs: [
+      { label: 'Monitoring', items: ['Infrastructure Monitoring', 'Health Checks', 'Network Analysis', 'Resource Management'] },
+      { label: 'Optimization', items: ['Performance Tuning', 'Load Balancing', 'System Optimization', 'Storage Efficiency'] },
+      { label: 'Security', items: ['Security Compliance', 'Access Control', 'Data Encryption', 'Threat Detection'] },
+      { label: 'Scalability', items: ['Cloud Readiness', 'Auto Scaling', 'Modular Architecture', 'Growth Planning'] },
     ],
     faqs: [
-      { question: 'Do you manage on-premises hardware as well as cloud?', answer: 'Yes, we provide unified hybrid management spanning physical colocation racks, on-premise data centers, and public clouds.' },
+      {
+        question: 'Does Prakvi manage both on-premises servers and cloud infrastructure?',
+        answer:
+          'Yes. We support data centers, network management, server administration, storage management, and multi-cloud environments seamlessly.',
+      },
+      {
+        question: 'Which sectors use Prakvi’s Infrastructure Management services?',
+        answer:
+          'We support enterprises across IT, manufacturing, BFSI, retail, and healthcare with automated monitoring and security compliance.',
+      },
     ],
-    featuredImage: 'https://images.unsplash.com/photo-1558494949-ef010cbdcc31?auto=format&fit=crop&w=1200&q=80',
+    featuredImage: generatedImages.serviceCloud3d,
   },
 
   // 10. Accounting
@@ -371,33 +1187,129 @@ export const servicesData: ServiceItem[] = [
     slug: 'accounting',
     title: 'Accounting',
     category: 'enterprise',
-    tagline: 'Manage finance and compliance through automated financial workflows, tax reconciliation, and audit-ready governance',
-    shortDesc: 'Manage finance and compliance with automated bookkeeping, GAAP/IFRS financial reporting, tax compliance, and payroll auditing.',
-    fullDesc: 'Financial accuracy, regulatory compliance, and fiscal governance are fundamental to corporate longevity. Prakvi’s Accounting advisory delivers modern automated financial operations, multi-entity reconciliation, tax compliance audits, and ERP ledger integrations that eliminate manual spreadsheets and prepare leadership for institutional audits.',
+    tagline: 'Accurate, Compliant, and Scalable Accounting Solutions',
+    shortDesc:
+      'End-to-end bookkeeping, general ledger maintenance, payroll processing, tax compliance, financial reporting, and audit support.',
+    fullDesc:
+      'In a competitive business environment, precise accounting is key to financial stability and growth. Prakvi’s Accounting Services in India provide end-to-end solutions, including bookkeeping, payroll, tax compliance, and financial reporting. Serving startups, SMEs, and enterprises, we combine expertise, modern tools, and compliance to ensure accuracy, efficiency, and cost savings, letting you focus on running your business confidently.',
     iconName: 'Receipt',
-    badge: 'Financial Governance',
-    businessChallenge: 'Manual reconciliations, delayed month-end closes, multi-currency conversion errors, and complex tax regulations risk penalties and investor friction.',
-    howWeHelp: 'We automate general ledger entries, deploy automated bank reconciliation engines, and establish GAAP-compliant financial reporting protocols.',
+    badge: 'Bookkeeping, Payroll & Tax',
+    offeringsTitle: 'Our Accounting Services',
+    offeringsSubtitle: 'Comprehensive financial operations customized for startups, SMEs, and growing enterprises.',
+    businessChallenge:
+      'Disconnected ledgers, manual reconciliations, payroll errors, and complex statutory tax deadlines expose businesses to compliance risk and cash-flow blind spots.',
+    howWeHelp:
+      'Our accounting specialists standardize bookkeeping, automate payroll cycles, reconcile accounts, and manage timely statutory tax filings.',
     capabilities: [
-      { title: 'Automated Month-End Close', description: 'Streamlined reconciliation pipelines that reduce closing cycles from 20 days to 3 business days.' },
-      { title: 'Tax Compliance & Filing Support', description: 'Multi-jurisdictional sales tax, GST/VAT reconciliation, and corporate filing preparation.' },
-      { title: 'Multi-Entity Financial Consolidation', description: 'Unified roll-up reporting across subsidiaries with automated intercompany eliminations.' },
-      { title: 'Audit Preparation & Internal Controls', description: 'SOX/GAAP compliance frameworks and immutable financial paper trails for institutional auditors.' },
+      {
+        title: 'Bookkeeping & Financial Reporting',
+        description: 'We ensure simplified, clean, and up-to-date ledgers, journals, and real-time financial reporting.',
+        icon: 'FileSpreadsheet',
+      },
+      {
+        title: 'Tax Planning & Compliance',
+        description: 'Our experts minimize liabilities and ensure statutory tax compliance with timely, accurate filings.',
+        icon: 'ShieldCheck',
+      },
+      {
+        title: 'Payroll Management',
+        description: 'Seamless, accurate payroll processing covering salaries, deductions, benefits, and payslips.',
+        icon: 'Users',
+      },
+      {
+        title: 'Audits & Risk Assessments',
+        description: 'Identify financial risks, reinforce internal controls, and support forensic accounting audits.',
+        icon: 'Search',
+      },
+      {
+        title: 'Accounts Payable & Receivable',
+        description: 'Manage cash flow efficiently with structured accounts payable, receivable, and vendor invoice reconciliations.',
+        icon: 'Receipt',
+      },
     ],
     businessBenefits: [
-      { title: '70% Faster Financial Close', description: 'Automated rules and bank feeds allow leadership to view audited numbers on day 3 of the month.', metric: '3-Day Close' },
-      { title: 'Zero Compliance Penalties', description: 'Disciplined statutory calendar management prevents late filings and regulatory fines.', metric: '100% Compliant' },
+      {
+        title: 'Clean, Audit-Ready Ledgers',
+        description: 'Consistent daily and monthly journal entries keep financial records transparent year-round.',
+        metric: '8-Step Process',
+      },
+      {
+        title: 'Statutory & Tax Confidence',
+        description: 'Timely tax calculation, return preparation, and regulatory compliance reduce audit exposure.',
+        metric: '100% Compliant',
+      },
+      {
+        title: 'Streamlined Payroll Execution',
+        description: 'Automated compensation runs, statutory deductions, and payslip generation save HR and finance hours.',
+        metric: 'Automated Payroll',
+      },
     ],
+    processTitle: 'Why Choose Prakvi for Accounting Services?',
+    processSubtitle: 'An 8-step financial workflow engineered for accuracy and peace of mind.',
     deliverySteps: [
-      { step: '01', title: 'Chart of Accounts Review', description: 'Restructuring financial categories to align with enterprise reporting standards.' },
-      { step: '02', title: 'Automation Setup', description: 'Connecting ERP ledger with banking feeds, invoicing portals, and expense systems.' },
-      { step: '03', title: 'Controls Implementation', description: 'Enforcing dual-authorization thresholds and segregation-of-duties protocols.' },
-      { step: '04', title: 'Continuous Financial Support', description: 'Dedicated accounting specialists handling periodic reconciliations and reporting.' },
+      {
+        step: '01',
+        title: 'Assessment & Onboarding',
+        description: 'Review your current financial workflows, accounting systems, and reporting structures to tailor our engagement.',
+      },
+      {
+        step: '02',
+        title: 'Data Collection & Setup',
+        description: 'Gather financial records, ledgers, bank statements, and payroll history, and configure preferred accounting platforms.',
+      },
+      {
+        step: '03',
+        title: 'Daily & Monthly Entries',
+        description: 'Record sales, expenses, and receipts consistently, post journal entries, and maintain up-to-date ledgers.',
+      },
+      {
+        step: '04',
+        title: 'Reconciliations & Adjustments',
+        description: 'Match bank statements, vendor invoices, and payroll outputs while performing periodic reconciliations and year-end adjustments.',
+      },
+      {
+        step: '05',
+        title: 'Payroll Management',
+        description: 'Automate and execute payroll cycles covering salaries, deductions, benefits, payslips, and statutory compliances.',
+      },
+      {
+        step: '06',
+        title: 'Reporting & Analysis',
+        description: 'Prepare balance sheets, income statements, and cash flow analyses to highlight financial trends and action areas.',
+      },
+      {
+        step: '07',
+        title: 'Taxation & Compliance',
+        description: 'Calculate tax obligations, prepare required returns, and manage timely submissions before statutory deadlines.',
+      },
+      {
+        step: '08',
+        title: 'Continuous Review & Optimization',
+        description: 'Periodically reassess accounting processes, recommend efficiency gains, and implement automation to improve accuracy.',
+      },
+    ],
+    stackTitle: 'Accounting',
+    stackSummary:
+      'Streamlined and reliable financial management tailored to your operational needs, designed to ensure accuracy, compliance, and strategic insight.',
+    stackTabs: [
+      { label: 'Bookkeeping', items: ['General Ledger Maintenance', 'Journal Entries', 'Accounts Payable & Receivable', 'Financial Transparency'] },
+      { label: 'Tax', items: ['Tax Preparation & Filing', 'Statutory Compliance', 'Deduction Optimization', 'Risk Minimization'] },
+      { label: 'Payroll', items: ['Automated Payroll Runs', 'Salary & Deductions', 'Benefits Administration', 'Regulatory Filings'] },
+      { label: 'Reporting & Forensic', items: ['Balance Sheet & Income Statement', 'Cash Flow Interpretation', 'Forensic Audits', 'Discrepancy Detection'] },
     ],
     faqs: [
-      { question: 'Which accounting software do you integrate with?', answer: 'We integrate with SAP Financials, Oracle NetSuite, QuickBooks Enterprise, Sage Intacct, and custom ERP ledger modules.' },
+      {
+        question: 'Who are Prakvi’s Accounting Services built for?',
+        answer:
+          'We support startups, SMEs, and established enterprises with scalable bookkeeping, payroll, taxation, and periodic financial reporting.',
+      },
+      {
+        question: 'Do you also provide forensic accounting and audit preparation?',
+        answer:
+          'Yes. Our team conducts in-depth internal controls reviews and forensic accounting investigations to detect discrepancies and protect financial assets.',
+      },
     ],
-    featuredImage: 'https://images.unsplash.com/photo-1554224155-8d04cb21cd6c?auto=format&fit=crop&w=1200&q=80',
+    featuredImage: generatedImages.introEnterpriseCampus,
   },
 
   // 11. Enterprise Architecture
@@ -406,33 +1318,124 @@ export const servicesData: ServiceItem[] = [
     slug: 'enterprise-architecture',
     title: 'Enterprise Architecture',
     category: 'enterprise',
-    tagline: 'Align tech with business goals through robust TOGAF blueprints, microservice design, and technology roadmap governance',
-    shortDesc: 'Align tech with business goals through strategic TOGAF blueprinting, technical debt remediation, and target-state engineering.',
-    fullDesc: 'Disorganized software growth creates brittle point-to-point dependencies and unmanageable complexity. Prakvi’s Enterprise Architecture practice establishes holistic TOGAF-aligned target architectures. We align business capabilities with technology investments, establish microservice boundaries, and de-risk major platform transitions.',
+    tagline: 'Build a Future Ready Enterprise with Strategic IT Architecture',
+    shortDesc:
+      'Design agile, TOGAF-aligned technology ecosystems uniting business capability mapping, cloud integration, data governance, and ERP/CRM.',
+    fullDesc:
+      'In today’s rapidly evolving business landscape, enterprises need an agile, scalable, and strategy-aligned technology foundation. Prakvi’s Enterprise Architecture Services in India help design, implement, and optimize IT ecosystems using proven enterprise architecture frameworks like TOGAF. Our certified architects create unified technology roadmaps that connect people, processes, applications, and infrastructure, enabling digital transformation, cloud integration, legacy modernization, and cross-functional collaboration to drive agility, cost efficiency, and innovation.',
     iconName: 'Layers',
-    badge: 'System Blueprinting',
-    businessChallenge: 'Decades of fragmented software purchases result in overlapping systems, undocumented dependencies, and skyrocketing technical debt.',
-    howWeHelp: 'We conduct architectural reviews, map business-to-IT capabilities, define target architectures, and enforce lightweight governance boards.',
+    badge: 'TOGAF & Target Architecture',
+    offeringsTitle: 'Integrated Architecture & Consulting Services',
+    offeringsSubtitle: 'End-to-end Enterprise Architecture services customized to your organization’s unique scale.',
+    businessChallenge:
+      'Disjointed IT investments, legacy technical debt, and siloed business capabilities slow down transformation and inflate operating costs.',
+    howWeHelp:
+      'Using TOGAF and Zachman principles, our certified architects map baseline vs. target states across business, data, application, and infrastructure domains.',
     capabilities: [
-      { title: 'Target-State Architecture Blueprints', description: 'Comprehensive 3-to-5 year technical blueprints balancing innovation with operational stability.' },
-      { title: 'Microservices & Domain-Driven Design (DDD)', description: 'Decomposing legacy monoliths into bounded contexts with high cohesion and loose coupling.' },
-      { title: 'Technology Stack Rationalization', description: 'Auditing redundant software licenses and consolidating tooling onto core platforms.' },
-      { title: 'Architecture Review Boards (ARB)', description: 'Lightweight governance standards ensuring new engineering projects adhere to security and scalability norms.' },
+      {
+        title: 'Information Technology Consulting',
+        description:
+          'Strategy design, technology roadmap development, advisory, and organizational alignment with digital initiatives.',
+        icon: 'Headphones',
+      },
+      {
+        title: 'Infrastructure Management Services',
+        description:
+          'System provisioning, security compliance, capacity planning, patch management, and routine operational maintenance.',
+        icon: 'Server',
+      },
+      {
+        title: 'System Integration Services',
+        description:
+          'Cloud-to-on-premise integration, ETL data migration, API connectivity across platforms, and hybrid architecture design.',
+        icon: 'Plug',
+      },
+      {
+        title: 'Enterprise ERP & CRM Solutions',
+        description:
+          'Enterprise-wide ERP rollout, CRM customization, integration, and business process automation.',
+        icon: 'Layers',
+      },
     ],
     businessBenefits: [
-      { title: '50% Faster Feature Delivery', description: 'Modular, well-bounded architectures allow independent teams to deploy features without cross-system breakages.', metric: '2x Velocity' },
-      { title: 'Eliminate Redundant Spend', description: 'Rationalizing duplicate platforms saves millions in unused software licensing.', metric: 'Millions Saved' },
+      {
+        title: 'TOGAF & Zachman Rigor',
+        description: 'Structured governance boards, documented architecture policies, and clear maturity assessments.',
+        metric: 'TOGAF Aligned',
+      },
+      {
+        title: 'Four-Domain Coherence',
+        description: 'Unifies Business Strategy, Application Microservices, Data Governance, and Cloud/On-Prem Infra.',
+        metric: '4 EA Domains',
+      },
+      {
+        title: 'Actionable Phased Roadmaps',
+        description: 'Initiatives prioritized by business impact, cost, and feasibility for measurable ROI.',
+        metric: '6-Stage Delivery',
+      },
     ],
+    processTitle: 'Why Choose Prakvi for Enterprise Architecture?',
+    processSubtitle: 'A proven 6-stage methodology connecting business strategy with resilient technology.',
     deliverySteps: [
-      { step: '01', title: 'Current-State Mapping', description: 'Documenting existing systems, data flows, integration contracts, and pain points.' },
-      { step: '02', title: 'Capability Alignment', description: 'Connecting strategic business goals directly to technical capability requirements.' },
-      { step: '03', title: 'Target Architecture Design', description: 'Authoring architectural blueprints, component specifications, and migration phases.' },
-      { step: '04', title: 'Governance & Execution', description: 'Advising sprint teams through regular Architecture Review Board sessions.' },
+      {
+        step: '01',
+        title: 'Assess & Align',
+        description:
+          'Analyze business goals and existing IT landscape, identify strategic priorities, conduct maturity/gap assessments, and define baseline vs. target states.',
+      },
+      {
+        step: '02',
+        title: 'Design Target Architecture',
+        description:
+          'Define business, data, application, and infrastructure domains along with hybrid cloud, microservices, security, and observability patterns.',
+      },
+      {
+        step: '03',
+        title: 'Governance & Frameworks',
+        description:
+          'Establish TOGAF/Zachman governance mechanisms, document architecture principles and policies, and facilitate Architecture Review Boards.',
+      },
+      {
+        step: '04',
+        title: 'Roadmap & Planning',
+        description:
+          'Build phased implementation roadmaps prioritized by impact and feasibility, complete with cost and resource estimates.',
+      },
+      {
+        step: '05',
+        title: 'Implementation & Integration',
+        description:
+          'Coordinate ERP/CRM rollouts, data migrations, API orchestration, and hybrid or cloud-native implementations.',
+      },
+      {
+        step: '06',
+        title: 'Monitoring & Evolution',
+        description:
+          'Continuously monitor performance, scalability, security, and compliance while evolving architecture as business needs shift.',
+      },
+    ],
+    stackTitle: 'Enterprise Architecture',
+    stackSummary:
+      'We design and implement robust Enterprise Architecture (EA) frameworks that bridge the gap between business strategy and technology.',
+    stackTabs: [
+      { label: 'Strategy', items: ['Business Capability Mapping', 'Value Stream Architecture', 'Target Operating Models', 'Strategic Alignment'] },
+      { label: 'Application', items: ['Microservices', 'API Gateways', 'SOA', 'Application Integration'] },
+      { label: 'Data', items: ['Data Governance', 'Data Modeling', 'Data Security', 'Data Lineage'] },
+      { label: 'Infrastructure', items: ['Cloud Platforms (AWS, Azure, GCP)', 'On-Prem Infrastructure', 'Containerization', 'DevOps Toolchain'] },
     ],
     faqs: [
-      { question: 'Do you follow TOGAF standards?', answer: 'Yes, our architects are TOGAF-certified and adapt formal enterprise architecture frameworks to pragmatic agile software environments.' },
+      {
+        question: 'Which architecture frameworks does Prakvi apply?',
+        answer:
+          'Our certified enterprise architects utilize TOGAF and Zachman frameworks, pragmatic Architecture Review Boards (ARB), and domain-driven modeling.',
+      },
+      {
+        question: 'How does Enterprise Architecture connect to our ERP and cloud platforms?',
+        answer:
+          'We design integrated target topologies spanning Strategy, Application Microservices/API Gateways, Data Governance, and AWS/Azure/GCP or on-prem infrastructure.',
+      },
     ],
-    featuredImage: 'https://images.unsplash.com/photo-1507679799987-c73779587ccf?auto=format&fit=crop&w=1200&q=80',
+    featuredImage: generatedImages.serviceArchitecture3d,
   },
 
   // 12. IT Consulting
@@ -441,33 +1444,114 @@ export const servicesData: ServiceItem[] = [
     slug: 'it-consulting',
     title: 'IT Consulting',
     category: 'enterprise',
-    tagline: 'Expert technology guidance, vendor-neutral evaluations, and strategic modernization roadmaps for C-level leaders',
-    shortDesc: 'Expert technology guidance, digital modernization strategies, vendor evaluation, and cybersecurity governance.',
-    fullDesc: 'Making high-stakes technology decisions requires impartial market knowledge and real-world implementation experience. Prakvi’s IT Consulting practice guides CIOs, CTOs, and enterprise leaders through digital transformation strategy, software RFP evaluations, technical due diligence, and cybersecurity posture reviews.',
+    tagline: 'Transform Your Business with Expert IT Consulting',
+    shortDesc:
+      'Strategic IT consulting covering digital transformation roadmaps, legacy modernization, cloud migration, cybersecurity, and governance.',
+    fullDesc:
+      'In today’s fast-paced digital economy, technology drives innovation and growth. Prakvi’s IT Consulting Services in India help businesses strategize, implement, and optimize IT solutions aligned with their goals. Our experts provide IT strategy consulting, legacy system modernization, cloud migration, cybersecurity, and data-driven decision-making. We deliver tailored strategies to reduce costs, enhance productivity, and maximize ROI, future-proofing your technology investments.',
     iconName: 'Headphones',
-    badge: 'Strategic Advisory',
-    businessChallenge: 'Conflicting vendor claims, aggressive sales pitches, and complex compliance frameworks create decision paralysis for IT leaders.',
-    howWeHelp: 'We provide vendor-neutral scoring, total cost of ownership (TCO) benchmarks, risk assessments, and execution oversight.',
+    badge: 'Digital Transformation & Advisory',
+    offeringsTitle: 'Our IT Consulting Approach',
+    offeringsSubtitle: 'Tailored strategic advisory built to reduce operational cost, raise productivity, and maximize technology ROI.',
+    businessChallenge:
+      'Misaligned technology roadmaps, aging legacy applications, and evolving security mandates stall business growth and drain IT budgets.',
+    howWeHelp:
+      'We audit existing IT landscapes, craft actionable modernization blueprints, select optimal platforms, and oversee compliant deployment.',
     capabilities: [
-      { title: 'Digital Transformation Strategy', description: 'Actionable technology investment roadmaps linked directly to corporate EBITDA goals.' },
-      { title: 'Vendor RFP Management & Scoring', description: 'Unbiased technical evaluations of software packages to ensure optimal contract pricing.' },
-      { title: 'Cybersecurity & Posture Auditing', description: 'Comprehensive NIST and ISO 27001 vulnerability assessments and zero-trust roadmaps.' },
-      { title: 'M&A Technical Due Diligence', description: 'Deep-dive code quality, cloud configuration, and technical debt audits for acquisitions.' },
+      {
+        title: 'Assessment & Discovery',
+        description: 'We evaluate current IT infrastructure, identifying technical gaps, risks, and high-value opportunities.',
+        icon: 'Search',
+      },
+      {
+        title: 'Strategy Development',
+        description: 'Our team designs a custom IT roadmap directly aligned with your commercial objectives.',
+        icon: 'Compass',
+      },
+      {
+        title: 'Implementation & Integration',
+        description: 'We deploy modern software and cloud solutions cleanly with minimal operational disruption.',
+        icon: 'Plug',
+      },
+      {
+        title: 'Optimization & Monitoring',
+        description: 'We continuously refine IT operations, workloads, and architecture for peak performance.',
+        icon: 'Activity',
+      },
+      {
+        title: 'Security & Compliance',
+        description: 'Our specialists ensure all IT systems meet strict cybersecurity and regulatory governance requirements.',
+        icon: 'ShieldCheck',
+      },
     ],
     businessBenefits: [
-      { title: 'Zero-Regret Technology Choices', description: 'Rigorous vendor-neutral technical scoring eliminates expensive contract mistakes.', metric: 'De-Risked Tech' },
-      { title: 'Executive Clarity', description: 'Transparent architectural roadmaps provide board-ready justification for capital investments.', metric: 'Board-Ready' },
+      {
+        title: 'Purpose-Built Roadmaps',
+        description: 'Every platform recommendation and architecture plan maps directly to measurable business KPIs.',
+        metric: '5-Stage Advisory',
+      },
+      {
+        title: 'Full-Stack Technical Depth',
+        description: 'Advisory grounded in real-world delivery across React, Node.js, Python, Java, .NET, AWS, Azure, and GCP.',
+        metric: 'Full-Stack Ready',
+      },
+      {
+        title: 'Compliance & Risk Assurance',
+        description: 'Embedded governance, security frameworks, and ongoing KPI optimization protect long-term ROI.',
+        metric: 'Future-Proofed',
+      },
     ],
+    processTitle: 'Why Choose Prakvi as Your IT Consulting Partner?',
+    processSubtitle: 'How Prakvi helps clients evolve their technology footprint with clarity and purpose.',
     deliverySteps: [
-      { step: '01', title: 'Discovery & Stakeholder Interviews', description: 'Interviews with executives, department heads, and lead architects to define priorities.' },
-      { step: '02', title: 'Maturity Benchmarking', description: 'Scoring technology readiness against industry peers and modern security baselines.' },
-      { step: '03', title: 'Strategic Roadmap', description: 'Drafting sequenced 12-to-36 month migration blueprints with cost/benefit models.' },
-      { step: '04', title: 'Steering Committee Oversight', description: 'Quarterly review boards ensuring program alignment and milestone adherence.' },
+      {
+        step: '01',
+        title: 'Discovery & Assessment',
+        description: 'Audit current IT systems and capabilities to identify gaps, risks, and business alignment issues.',
+      },
+      {
+        step: '02',
+        title: 'Strategic Planning & Roadmapping',
+        description: 'Define your target IT vision and desired outcomes alongside a clear deployment and transformation roadmap.',
+      },
+      {
+        step: '03',
+        title: 'Solution Design & Advisory',
+        description: 'Recommend cloud architectures, security frameworks, governance structures, and optimal tools and platforms.',
+      },
+      {
+        step: '04',
+        title: 'Implementation & Governance',
+        description: 'Oversee deployment of IT solutions while enforcing governance, compliance, and policy adherence.',
+      },
+      {
+        step: '05',
+        title: 'Optimization & Continuous Improvement',
+        description: 'Monitor performance against KPIs and provide advisory on scaling, cost efficiency, and next-phase improvements.',
+      },
+    ],
+    stackTitle: 'Information Technology Consulting',
+    stackSummary:
+      'Prakvi positions its IT Consulting as the strategic foundation for clients aiming to achieve sustainable technological advantage.',
+    stackTabs: [
+      { label: 'Application Layer', items: ['React', 'Vue.js', 'Angular', 'JavaScript', 'HTML5', 'CSS3'] },
+      { label: 'Business Logic', items: ['Node.js', 'Python', 'PHP', 'Java', 'Ruby', '.NET'] },
+      { label: 'Data Management', items: ['MongoDB', 'PostgreSQL', 'MySQL', 'Redis', 'Firebase', 'SQLite'] },
+      { label: 'DevOps & Infrastructure', items: ['Git', 'Docker', 'AWS', 'Azure', 'Google Cloud', 'Nginx'] },
     ],
     faqs: [
-      { question: 'Do you take commissions from software vendors?', answer: 'Never. Prakvi operates with complete fiduciary independence to ensure recommendations solely serve our clients’ interests.' },
+      {
+        question: 'Does Prakvi assist with both strategy and hands-on implementation?',
+        answer:
+          'Yes. Our IT Consulting team stays engaged from Discovery & Roadmapping through Solution Design, Implementation Governance, and continuous KPI optimization.',
+      },
+      {
+        question: 'What technology ecosystems do you advise on?',
+        answer:
+          'We advise across modern web and backend stacks, relational and NoSQL databases, legacy modernization, cloud migration (AWS, Azure, GCP), and cybersecurity governance.',
+      },
     ],
-    featuredImage: 'https://images.unsplash.com/photo-1519389950473-47ba0277781c?auto=format&fit=crop&w=1200&q=80',
+    featuredImage: generatedImages.aboutInnovationStudio,
   },
 
   // 13. Project Management
@@ -476,33 +1560,119 @@ export const servicesData: ServiceItem[] = [
     slug: 'project-management',
     title: 'Project Management',
     category: 'enterprise',
-    tagline: 'End-to-end project execution with disciplined Agile governance, milestone accountability, and risk mitigation',
-    shortDesc: 'End-to-end project execution delivering complex software initiatives on time, within budget, and to institutional quality standards.',
-    fullDesc: 'Complex enterprise initiatives fail when cross-functional dependencies, scope creep, and unclear milestone ownership go unmanaged. Prakvi’s Project Management practice deploys certified PMP and Agile Scrum Masters to establish transparent sprint cadences, proactive risk registers, and automated burndown reporting.',
+    tagline: 'Deliver Projects On Time, Within Budget, and Beyond Expectations',
+    shortDesc:
+      'Strategic PMO governance across Agile, Scrum, and Waterfall methodologies ensuring milestone clarity, risk mitigation, and predictable ROI.',
+    fullDesc:
+      'In today’s competitive market, effective project delivery requires strategic planning, precise execution, and alignment with business goals. Prakvi’s Project Management Services in India help manage projects from initiation to closure using Agile, Scrum, and Waterfall methodologies. From IT project management and infrastructure rollouts to enterprise transformation, we ensure risk mitigation, stakeholder communication, quality assurance, and measurable value at every milestone.',
     iconName: 'CheckSquare',
-    badge: 'Agile Delivery Governance',
-    businessChallenge: 'Over 65% of large-scale enterprise IT initiatives suffer from schedule delays, budget overruns, or misaligned scope requirements.',
-    howWeHelp: 'We install disciplined Agile/Scrum delivery frameworks, automated velocity dashboards, and rigorous risk mitigation protocols.',
+    badge: 'PMO & Delivery Governance',
+    offeringsTitle: 'Professional Project Management Services',
+    offeringsSubtitle: 'Transforming complex enterprise ambitions into predictable, on-budget project outcomes.',
+    businessChallenge:
+      'Complex cross-team initiatives risk scope creep, missed milestones, unclear stakeholder ownership, and budget overruns without disciplined PMO governance.',
+    howWeHelp:
+      'Our certified project managers establish structured timelines, transparent dashboards, proactive risk registers, and disciplined QA closure.',
     capabilities: [
-      { title: 'Agile & Scrum Program Execution', description: 'Two-week sprint cadences, daily standups, backlog grooming, and transparent velocity metrics.' },
-      { title: 'Milestone & Budget Governance', description: 'Strict budget burn tracking, variance alarms, and proactive scope management.' },
-      { title: 'Cross-Functional Stakeholder Alignment', description: 'Clear communication channels aligning engineering, product, legal, and executive teams.' },
-      { title: 'Risk & Dependency Management', description: 'Early identification of critical path blockers and dynamic contingency planning.' },
+      {
+        title: 'End-to-End Project Planning',
+        description: 'Define clear objectives, structured WBS task breakdowns, realistic timelines, and resource allocation from day one.',
+        icon: 'CalendarCheck',
+      },
+      {
+        title: 'Strategic Execution',
+        description: 'Align delivery across Agile, Scrum, or Waterfall cadences to hit scope, timeline, and ROI targets.',
+        icon: 'Target',
+      },
+      {
+        title: 'Risk Management',
+        description: 'Proactively identify blockers and deploy structured mitigation and change management controls.',
+        icon: 'Shield',
+      },
+      {
+        title: 'Stakeholder Communication',
+        description: 'Clear, consistent reporting cadences keeping leadership and project teams informed and aligned.',
+        icon: 'MessageSquare',
+      },
+      {
+        title: 'Performance Monitoring & Reporting',
+        description: 'Real-time tracking of milestones, budgets, and quality metrics via live dashboards.',
+        icon: 'BarChart2',
+      },
+      {
+        title: 'Seamless Delivery & Handover',
+        description: 'Smooth project closure backed by thorough documentation, QA validation, and post-launch support.',
+        icon: 'CheckCircle2',
+      },
     ],
     businessBenefits: [
-      { title: '96% On-Time Delivery', description: 'Rigorous sprint tracking and proactive blocker removal ensure milestones are consistently met.', metric: '96% On-Time' },
-      { title: 'Total Budget Predictability', description: 'Transparent burn-rate reporting eliminates surprise overages and scope creep.', metric: 'Zero Cost Overrun' },
+      {
+        title: 'Methodology Flexibility',
+        description: 'Certified oversight calibrated across Agile sprints, Scrum teams, and structured Waterfall rollouts.',
+        metric: 'Agile & Waterfall',
+      },
+      {
+        title: 'Transparent Reporting',
+        description: 'Integrated tracking in Jira, Trello, Microsoft Project, Slack, and live executive dashboards.',
+        metric: 'Live Visibility',
+      },
+      {
+        title: 'Verified Value Realization',
+        description: 'Post-project KPI evaluation and lessons-learned reviews lock in continuous organizational improvement.',
+        metric: '5-Stage Delivery',
+      },
     ],
+    processTitle: 'Why Choose Prakvi for Project Management?',
+    processSubtitle: 'A disciplined 5-stage project lifecycle from scoping to formal closure.',
     deliverySteps: [
-      { step: '01', title: 'Charter & Scope Definition', description: 'Agreeing on measurable acceptance criteria, key deliverables, and project constraints.' },
-      { step: '02', title: 'Sprint Cadence Setup', description: 'Configuring JIRA/Azure DevOps boards, automated burndown charts, and meeting cadences.' },
-      { step: '03', title: 'Sprint Execution & QA', description: 'Managing iterative development cycles with continuous automated testing.' },
-      { step: '04', title: 'Production Release & Retrospective', description: 'Structured deployment coordination and continuous improvement reviews.' },
+      {
+        step: '01',
+        title: 'Discovery & Planning',
+        description: 'Clarify project vision, objectives, and constraints while defining scope, deliverables, timeline, and budget.',
+      },
+      {
+        step: '02',
+        title: 'Resource Allocation',
+        description: 'Assign skilled personnel, tools, and funding while aligning internal stakeholders and external vendors to clear roles.',
+      },
+      {
+        step: '03',
+        title: 'Execution & Monitoring',
+        description: 'Track progress continuously against schedule and budget with regular updates, live dashboards, and clear stakeholder communication.',
+      },
+      {
+        step: '04',
+        title: 'Risk & Change Management',
+        description: 'Proactively identify potential risks, implement mitigation strategies, and manage scope changes cleanly to minimize disruption.',
+      },
+      {
+        step: '05',
+        title: 'Delivery & Evaluation',
+        description: 'Finalize deliverables, conduct formal closure, measure outcomes against KPIs, and capture post-project improvements.',
+      },
+    ],
+    stackTitle: 'Project Management',
+    stackSummary:
+      'With strategic oversight and skilled execution, Prakvi delivers enterprise projects on time, within budget, and beyond expectations.',
+    stackTabs: [
+      { label: 'Planning', items: ['Scope Definition', 'Task Breakdown', 'Timeline Planning', 'Resource Allocation'] },
+      { label: 'Execution', items: ['Team Coordination', 'Process Management', 'Risk Mitigation'] },
+      { label: 'Monitoring', items: ['Milestone Tracking', 'Progress Reports', 'Quality Assurance', 'Compliance Checks', 'Stakeholder Communication'] },
+      { label: 'Tools', items: ['Jira', 'Trello', 'Microsoft Project', 'Slack', 'Reporting Dashboards'] },
     ],
     faqs: [
-      { question: 'Can you work within our existing tooling?', answer: 'Yes, our project managers adapt smoothly to Jira, Azure DevOps, Asana, Monday, and enterprise PMO systems.' },
+      {
+        question: 'Can Prakvi project managers work inside our existing Jira or MS Project setup?',
+        answer:
+          'Yes. Our PMO leads integrate seamlessly with Jira, Trello, Microsoft Project, Slack, and your internal reporting dashboards.',
+      },
+      {
+        question: 'What types of initiatives do you manage?',
+        answer:
+          'We manage software engineering launches, infrastructure rollouts, ERP/CRM implementations, and multi-team digital transformations.',
+      },
     ],
-    featuredImage: 'https://images.unsplash.com/photo-1531403009284-440f080d1e12?auto=format&fit=crop&w=1200&q=80',
+    featuredImage: generatedImages.introEnterpriseCampus,
   },
 
   // 14. Web Design
@@ -511,33 +1681,129 @@ export const servicesData: ServiceItem[] = [
     slug: 'web-design',
     title: 'Web Design',
     category: 'business',
-    tagline: 'Creative, responsive UI/UX design that elevates brand authority and delivers intuitive enterprise customer journeys',
-    shortDesc: 'Creative, responsive UI/UX that combines modern typography, micro-interactions, and conversion-focused design systems.',
-    fullDesc: 'Your digital interface is the primary touchpoint for clients, partners, and talent. Prakvi’s Web Design practice crafts bespoke, high-converting digital experiences. We combine design psychology, responsive wireframing, robust Figma design systems, and WCAG accessibility standards to build visually commanding web products.',
+    tagline: 'Creative, Responsive, and User Centric Web Design Solutions',
+    shortDesc:
+      'Custom websites, responsive UI/UX design systems, SEO & speed optimization, eCommerce design, and CMS revamps that drive growth.',
+    fullDesc:
+      'Your website is more than an online presence—it’s your digital storefront and first impression. Prakvi’s web design services in India create professional, responsive, and visually engaging websites. We deliver custom website design, corporate sites, and eCommerce solutions with fast loading, mobile-friendly layouts, and seamless navigation. From concept to launch, we design websites that reflect your brand and drive business growth.',
     iconName: 'PenTool',
-    badge: 'Design Systems & UI/UX',
-    businessChallenge: 'Outdated, cluttered web layouts fail to communicate enterprise sophistication, leading to high bounce rates and lost credibility.',
-    howWeHelp: 'We build tailored enterprise design systems, conduct user research, and craft pixel-perfect, responsive responsive prototypes.',
+    badge: 'Business Solutions · UI/UX',
+    offeringsTitle: 'Our Web Design Expertise',
+    offeringsSubtitle: 'Comprehensive, conversion-oriented web design services tailored to your brand.',
+    businessChallenge:
+      'Slow-loading pages, cluttered layouts, and poor mobile usability undermine brand trust and drive potential customers away.',
+    howWeHelp:
+      'We combine user research, Figma design systems, mobile-first layouts, technical SEO, and fast-loading frontend engineering.',
     capabilities: [
-      { title: 'Enterprise Design Systems', description: 'Scalable component libraries, typography tokens, and color systems in Figma and Tailwind.' },
-      { title: 'Responsive Mobile-First UI/UX', description: 'Flawless visual presentation adapted for smartphones, tablets, and 4K displays.' },
-      { title: 'Interactive Wireframing & Prototyping', description: 'High-fidelity clickable prototypes that validate user flows before code is written.' },
-      { title: 'Accessibility & WCAG 2.1 AA Compliance', description: 'High contrast ratios, screen-reader semantic structures, and keyboard navigation.' },
+      {
+        title: 'Custom Website Design',
+        description: 'We craft unique, brand-aligned designs that capture your vision and resonate with your audience.',
+        icon: 'Palette',
+      },
+      {
+        title: 'Responsive & Mobile-First Development',
+        description: 'Adaptable interfaces engineered for crisp visual clarity across smartphones, tablets, and desktop screens.',
+        icon: 'Smartphone',
+      },
+      {
+        title: 'UI/UX Optimization',
+        description: 'Intuitive navigation, clear calls-to-action, and friction-free user flows that maximize engagement and conversions.',
+        icon: 'Sparkles',
+      },
+      {
+        title: 'SEO & Speed Optimization',
+        description: 'Technical SEO best practices, clean semantic markup, and fast-loading architecture for stronger search visibility.',
+        icon: 'Zap',
+      },
+      {
+        title: 'eCommerce Web Design',
+        description: 'High-converting, secure, and scalable online storefronts delivering effortless shopping experiences.',
+        icon: 'ShoppingCart',
+      },
+      {
+        title: 'CMS Development & Website Revamps',
+        description: 'Custom CMS implementations (WordPress, Sanity, Contentful) and modern strategic revamps built for easy content control.',
+        icon: 'LayoutGrid',
+      },
     ],
     businessBenefits: [
-      { title: '3x Conversion Lift', description: 'Intuitive navigation and clear value propositions convert corporate visitors into qualified leads.', metric: '3x Leads' },
-      { title: 'Unified Brand Consistency', description: 'Reusable design tokens guarantee brand consistency across all digital touchpoints.', metric: '100% Consistent' },
+      {
+        title: 'Mobile-First Brand Authority',
+        description: 'Cohesive typography, clear hierarchy, and responsive layouts make a memorable first impression.',
+        metric: '7-Stage Design',
+      },
+      {
+        title: 'SEO & Performance Built In',
+        description: 'Accessibility, fast load speed, SSL security, and technical SEO ship alongside the visual system.',
+        metric: 'Fast & Accessible',
+      },
+      {
+        title: 'Seamless Dev & CMS Handoff',
+        description: 'Clean specs from Figma, Adobe XD, and Webflow into React, Vue, Angular, or modern CMS platforms.',
+        metric: 'Pixel Accurate',
+      },
     ],
+    processTitle: 'Why Choose Prakvi for Web Design?',
+    processSubtitle: 'A 7-stage collaborative design process from discovery to iterative optimization.',
     deliverySteps: [
-      { step: '01', title: 'Brand & UX Research', description: 'Studying target audience personas, competitor benchmarks, and brand guidelines.' },
-      { step: '02', title: 'Information Architecture', description: 'Structuring sitemaps, intuitive navigation trees, and core user pathways.' },
-      { step: '03', title: 'High-Fidelity Visual Design', description: 'Crafting responsive layouts, micro-interactions, and design tokens in Figma.' },
-      { step: '04', title: 'Frontend Developer Handoff', description: 'Documenting component specs and animations for seamless engineering implementation.' },
+      {
+        step: '01',
+        title: 'Discovery & Consultation',
+        description: 'Understand your vision, user needs, and business goals through stakeholder interviews, workshops, and market research.',
+      },
+      {
+        step: '02',
+        title: 'Visual Strategy & Information Architecture',
+        description: 'Define site structure, navigation flow, wireframes, typography, visual branding, and color palettes.',
+      },
+      {
+        step: '03',
+        title: 'Design & Prototyping',
+        description: 'Create high-fidelity mockups and clickable prototypes, refining designs through structured feedback loops.',
+      },
+      {
+        step: '04',
+        title: 'Development Coordination',
+        description: 'Deliver clean specs to development teams ensuring pixel-accurate implementation and responsive behavior across devices.',
+      },
+      {
+        step: '05',
+        title: 'Quality Assurance & Testing',
+        description: 'Execute rigorous testing of usability, cross-browser compatibility, accessibility compliance, and page performance.',
+      },
+      {
+        step: '06',
+        title: 'Launch & Deployment',
+        description: 'Deploy your site with secure hosting, SSL certification, analytics instrumentation, and technical SEO setup.',
+      },
+      {
+        step: '07',
+        title: 'Post-Launch Support & Optimization',
+        description: 'Provide ongoing maintenance, content updates, A/B testing, and iterative enhancements informed by analytics.',
+      },
+    ],
+    stackTitle: 'Web Design Solutions',
+    stackSummary:
+      'We craft visually engaging, user-centric design systems that elevate brand presence and ensure seamless digital experiences.',
+    stackTabs: [
+      { label: 'UI Frameworks', items: ['React', 'Vue.js', 'Angular', 'JavaScript', 'HTML5', 'CSS3'] },
+      { label: 'Design Integration', items: ['Node.js Integration', 'Python APIs', 'PHP Templates', 'Java Backend', 'Ruby on Rails', '.NET Core'] },
+      { label: 'Content Management', items: ['WordPress', 'Drupal', 'Joomla', 'Sanity.io', 'Firebase CMS', 'Contentful'] },
+      { label: 'Design Tools', items: ['Figma', 'Sketch', 'Adobe XD', 'InVision', 'Zeplin', 'Webflow'] },
     ],
     faqs: [
-      { question: 'Do you create custom designs or use templates?', answer: 'All our corporate designs are 100% custom-crafted to reflect your brand identity and business objectives.' },
+      {
+        question: 'Can you redesign an existing slow or outdated corporate website?',
+        answer:
+          'Yes. Website Revamps and CMS upgrades are core offerings, pairing visual modernization with mobile-first responsiveness and SEO speed optimization.',
+      },
+      {
+        question: 'Which design and CMS tools does Prakvi support?',
+        answer:
+          'We design in Figma, Sketch, Adobe XD, and Webflow, and integrate cleanly with React, Vue, Angular, WordPress, Sanity.io, and Contentful.',
+      },
     ],
-    featuredImage: 'https://images.unsplash.com/photo-1581291518857-4e27b48ff24e?auto=format&fit=crop&w=1200&q=80',
+    featuredImage: generatedImages.serviceMarketingWeb3d,
   },
 
   // 15. Enterprise Solution
@@ -546,33 +1812,130 @@ export const servicesData: ServiceItem[] = [
     slug: 'enterprise-solution',
     title: 'Enterprise Solution',
     category: 'business',
-    tagline: 'High-performance web development, custom portal engineering, and scalable enterprise SaaS backbones',
-    shortDesc: 'Web development engineered for low latency, enterprise security, high concurrency, and seamless database integration.',
-    fullDesc: 'Prakvi’s Enterprise Solution practice engineers custom web applications, client portals, and mission-critical SaaS platforms. Utilizing modern frameworks like React, TypeScript, Node.js, and cloud microservices, we build high-speed, secure, and resilient web architectures that scale with enterprise growth.',
+    tagline: 'Scalable, Secure, and Intelligent Enterprise Solutions for Modern Businesses',
+    shortDesc:
+      'Custom web application development, responsive platforms, e-commerce engineering, REST/GraphQL APIs, database design, and 24/7 support.',
+    fullDesc:
+      'In today’s fast-paced digital economy, enterprises need scalable, secure, and future-ready solutions. Prakvi delivers end-to-end enterprise solutions in India to streamline operations, boost efficiency, and unlock growth. We offer ERP implementation, enterprise application integration, data analytics, and custom software development. Focused on security, performance, and adaptability, our solutions drive sustainable growth and quick market response.',
     iconName: 'Code2',
-    badge: 'Enterprise Web Development',
-    businessChallenge: 'Slow, monolithic web applications suffer from frequent crashes, poor mobile responsiveness, and vulnerabilities under traffic surges.',
-    howWeHelp: 'We develop modular, component-driven web architectures with server-side rendering, sub-second latency, and automated testing.',
+    badge: 'Business Solutions · Custom Engineering',
+    offeringsTitle: 'Our Enterprise Solutions',
+    offeringsSubtitle: 'Comprehensive, scalable, and secure software engineering built for complex modern organizations.',
+    businessChallenge:
+      'Off-the-shelf tools and aging web software restrict custom workflows, struggle under scale, and create integration bottlenecks.',
+    howWeHelp:
+      'We architect bespoke web applications, secure APIs, optimized databases, and reliable e-commerce platforms backed by 24/7 maintenance.',
     capabilities: [
-      { title: 'Custom Enterprise Web Apps', description: 'Tailored workflow tools, transactional management consoles, and B2B client portals.' },
-      { title: 'React, Next.js & TypeScript Engineering', description: 'Type-safe, component-driven frontend architectures optimized for lightning-fast rendering.' },
-      { title: 'Secure REST & GraphQL APIs', description: 'High-throughput backend endpoints with JWT/OAuth2 authentication and rate limiting.' },
-      { title: 'Progressive Web Apps (PWA)', description: 'Installable, offline-capable web applications delivering native-like mobile performance.' },
+      {
+        title: 'Custom Web Development',
+        description: 'Build unique, scalable web applications with custom functionality, security, and third-party integrations.',
+        icon: 'Code2',
+      },
+      {
+        title: 'Responsive Web Design',
+        description: 'Mobile-first, cross-browser, touch-friendly interfaces engineered for fast loading and SEO clarity.',
+        icon: 'Monitor',
+      },
+      {
+        title: 'E-commerce Solutions',
+        description: 'Powerful storefronts featuring payment gateway integration, inventory tracking, order management, and multi-currency support.',
+        icon: 'ShoppingBag',
+      },
+      {
+        title: 'API Development',
+        description: 'Robust RESTful APIs, GraphQL endpoints, microservices architecture, rate limiting, and full technical documentation.',
+        icon: 'Plug',
+      },
+      {
+        title: 'Database Design',
+        description: 'High-performance database architecture, migration services, automated backups, and data integrity controls.',
+        icon: 'Database',
+      },
+      {
+        title: 'Maintenance & Support',
+        description: 'Continuous updates, security patches, audits, performance monitoring, and 24/7 technical support.',
+        icon: 'ShieldCheck',
+      },
     ],
     businessBenefits: [
-      { title: 'Sub-Second Page Loads', description: 'Optimized asset bundling and edge caching deliver instant page responses worldwide.', metric: '<1s Load Time' },
-      { title: 'Enterprise Security Hardening', description: 'Rigorous protection against OWASP Top 10 vulnerabilities, XSS, and SQL injection.', metric: 'A+ Security' },
+      {
+        title: 'Full-Stack Scalability',
+        description: 'Modern React, Vue, Angular frontends paired with Node.js, Python, Java, PHP, Ruby, or .NET backends.',
+        metric: '6-Stage Agile',
+      },
+      {
+        title: 'High-Integrity Data Layer',
+        description: 'Tuned MongoDB, PostgreSQL, MySQL, Redis, and Firebase architectures built for enterprise concurrency.',
+        metric: 'Resilient Data',
+      },
+      {
+        title: '24/7 Lifecycle Care',
+        description: 'Automated monitoring, backups, security audits, and iterative feature enhancements keep apps healthy.',
+        metric: '24/7 Support',
+      },
     ],
+    processTitle: 'Why Choose Prakvi for Enterprise Solutions?',
+    processSubtitle: 'A proven 6-stage engineering methodology from discovery to post-launch care.',
     deliverySteps: [
-      { step: '01', title: 'Technical Scoping', description: 'Defining API contracts, database schemas, and performance benchmarks.' },
-      { step: '02', title: 'Sprint-Based Development', description: 'Agile sprints with automated CI/CD builds and preview environments.' },
-      { step: '03', title: 'Automated QA & Security', description: 'Unit, integration, and end-to-end regression testing with Cypress and Jest.' },
-      { step: '04', title: 'Cloud Production Release', description: 'Zero-downtime deployment with global CDN acceleration and telemetry monitoring.' },
+      {
+        step: '01',
+        title: 'Discovery & Planning',
+        description:
+          'Understand business goals, target audience, and technical requirements through research, competitor analysis, and project roadmapping.',
+      },
+      {
+        step: '02',
+        title: 'Design & Prototyping',
+        description:
+          'Create wireframes, mockups, and interactive prototypes aligned with brand identity and intuitive user experience.',
+      },
+      {
+        step: '03',
+        title: 'Development & Coding',
+        description:
+          'Use agile sprints to build clean, scalable application modules iteratively with transparent client communication.',
+      },
+      {
+        step: '04',
+        title: 'Testing & Quality Assurance',
+        description:
+          'Execute comprehensive functional, cross-device, performance, and security testing before production release.',
+      },
+      {
+        step: '05',
+        title: 'Deployment & Launch',
+        description:
+          'Handle complete server provisioning, domain configuration, live monitoring, and automated backup verification.',
+      },
+      {
+        step: '06',
+        title: 'Maintenance & Support',
+        description:
+          'Deliver ongoing updates, security patches, performance tuning, and feature enhancements driven by analytics and user feedback.',
+      },
+    ],
+    stackTitle: 'Technology Stack',
+    stackSummary:
+      'We use cutting-edge technologies to build modern, scalable applications engineered for performance and security.',
+    stackTabs: [
+      { label: 'Frontend', items: ['React', 'Vue.js', 'Angular', 'JavaScript', 'HTML5', 'CSS3'] },
+      { label: 'Backend', items: ['Node.js', 'Python', 'PHP', 'Java', 'Ruby', '.NET'] },
+      { label: 'Database', items: ['MongoDB', 'PostgreSQL', 'MySQL', 'Redis', 'Firebase', 'SQLite'] },
+      { label: 'Tools & Cloud', items: ['Git', 'Docker', 'AWS', 'Azure', 'Google Cloud', 'Nginx'] },
     ],
     faqs: [
-      { question: 'What tech stack do you recommend for enterprise web development?', answer: 'We specialize in React, TypeScript, Tailwind CSS, Node.js, and cloud containerization on AWS or Azure.' },
+      {
+        question: 'Can Prakvi build custom internal enterprise portals as well as customer-facing apps?',
+        answer:
+          'Yes. We build both custom internal ERP/workflow applications and public multi-tenant web or e-commerce platforms.',
+      },
+      {
+        question: 'Do you provide post-launch SLAs and 24/7 support?',
+        answer:
+          'Yes. Every Enterprise Solution engagement includes ongoing maintenance, security patching, monitoring, and 24/7 technical support options.',
+      },
     ],
-    featuredImage: 'https://images.unsplash.com/photo-1504639725590-34d0984388bd?auto=format&fit=crop&w=1200&q=80',
+    featuredImage: generatedImages.serviceArchitecture3d,
   },
 
   // 16. Digital Marketing
@@ -581,33 +1944,134 @@ export const servicesData: ServiceItem[] = [
     slug: 'digital-marketing',
     title: 'Digital Marketing',
     category: 'business',
-    tagline: 'SEO, SEM, and branding strategies that drive high-intent enterprise pipeline and domain authority',
-    shortDesc: 'SEO, SEM, and branding that position your company as an industry thought leader and accelerate inbound lead generation.',
-    fullDesc: 'In B2B technology, generic advertising fails. Prakvi’s Digital Marketing practice develops targeted, data-driven acquisition engines. We combine enterprise Search Engine Optimization (SEO), high-intent Search Engine Marketing (SEM), LinkedIn account-based marketing (ABM), and content branding to capture high-value contracts.',
+    tagline: 'Digital Marketing Services That Grow Your Business in India',
+    shortDesc:
+      'Data-driven SEO, PPC advertising, social media growth, content marketing, conversion optimization (CRO), and reputation management.',
+    fullDesc:
+      'In today’s fast-paced digital economy, customers are online making buying decisions every second. Prakvi offers end-to-end digital marketing services in India to build a strong, data-driven online presence. From SEO and social media marketing to paid advertising, we help brands connect with the right audience at the right time. Our tailored digital marketing solutions drive measurable growth for startups and enterprises alike.',
     iconName: 'Megaphone',
-    badge: 'Growth & Brand Acceleration',
-    businessChallenge: 'High ad spend on low-intent clicks, invisible search rankings for high-value technical terms, and unmeasured marketing ROI.',
-    howWeHelp: 'We execute multi-channel B2B campaigns focused on technical buyer personas, keyword intent mapping, and pipeline attribution.',
+    badge: 'Business Solutions · Growth & SEO',
+    offeringsTitle: 'Our Digital Marketing Services',
+    offeringsSubtitle: 'Result-driven strategies engineered to elevate online visibility, engagement, and measurable conversions.',
+    businessChallenge:
+      'Unfocused ad spend, low organic search rankings, and generic messaging fail to reach high-intent decision makers online.',
+    howWeHelp:
+      'We execute coordinated SEO, targeted PPC campaigns, social outreach, content marketing, and continuous analytics-driven CRO.',
     capabilities: [
-      { title: 'Enterprise Technical SEO', description: 'Site architecture audits, Schema.org rich snippets, Core Web Vitals optimization, and keyword rank acceleration.' },
-      { title: 'Targeted B2B SEM & PPC', description: 'High-intent Google Search and LinkedIn ad campaigns targeting decision-makers at tier-1 accounts.' },
-      { title: 'Content & Thought Leadership', description: 'Technical whitepapers, case study development, and research briefings that demonstrate expertise.' },
-      { title: 'Full-Funnel Attribution Analytics', description: 'Connecting ad impressions and website visits directly to CRM pipeline revenue.' },
+      {
+        title: 'Search Engine Optimization (SEO)',
+        description: 'Optimize rankings, organic traffic, on-page/off-page authority, and technical site health across competitive search markets.',
+        icon: 'Search',
+      },
+      {
+        title: 'Pay-Per-Click (PPC) Advertising',
+        description: 'Strategic paid search and display campaigns focused on qualified buyer intent and measurable ROI.',
+        icon: 'Target',
+      },
+      {
+        title: 'Social Media Marketing',
+        description: 'Grow engaged communities across Facebook, LinkedIn, Instagram, YouTube, and Twitter with tailored campaigns.',
+        icon: 'Share2',
+      },
+      {
+        title: 'Content & Email Marketing',
+        description: 'Educational blogs, videos, infographics, and automated nurture sequences that educate prospects and convert leads.',
+        icon: 'Mail',
+      },
+      {
+        title: 'Conversion Rate Optimization (CRO)',
+        description: 'Analyze behavioral metrics, A/B test landing pages, and refine conversion journeys with data.',
+        icon: 'TrendingUp',
+      },
+      {
+        title: 'Online Reputation Management (ORM)',
+        description: 'Proactively strengthen and protect positive brand visibility across key digital platforms.',
+        icon: 'ShieldCheck',
+      },
     ],
     businessBenefits: [
-      { title: '240% Inbound Lead Growth', description: 'Targeting high-intent enterprise keywords generates qualified corporate RFP inquiries.', metric: '+240% Inbound' },
-      { title: 'Lower Customer Acquisition Cost', description: 'Organic search rankings provide enduring compounding traffic without recurring ad spend.', metric: '45% Lower CAC' },
+      {
+        title: 'Full-Funnel Demand Generation',
+        description: 'Coordinated organic SEO, PPC search/display ads, and LinkedIn/social campaigns capture intent at every stage.',
+        metric: '8-Step Growth',
+      },
+      {
+        title: 'Measurable Analytics Attribution',
+        description: 'Real-time tracking of impressions, clicks, conversions, and ROAS via Google Analytics, SEMRush, and Ahrefs.',
+        metric: 'ROAS Focused',
+      },
+      {
+        title: 'Continuous A/B Optimization',
+        description: 'Iterative creative testing, bidding adjustments, and funnel refinement compound campaign ROI over time.',
+        metric: 'Data-Driven',
+      },
     ],
+    processTitle: 'Why Choose Prakvi for Digital Marketing in India?',
+    processSubtitle: 'An 8-step campaign methodology built around transparent KPIs and sustained growth.',
     deliverySteps: [
-      { step: '01', title: 'Competitive & Keyword Audit', description: 'Identifying competitor keyword vulnerabilities and buyer search intent.' },
-      { step: '02', title: 'Technical Optimization', description: 'Fixing crawl errors, enhancing page speed, and implementing structured data.' },
-      { step: '03', title: 'Campaign Launch & ABM', description: 'Deploying tightly targeted paid search and social campaigns with custom landing pages.' },
-      { step: '04', title: 'Continuous CRO & Attribution', description: 'A/B testing page copy and optimizing pipeline conversion rates.' },
+      {
+        step: '01',
+        title: 'Discovery & Strategy',
+        description: 'Understand client goals, target audience segments, and the competitive landscape to build a tailored growth roadmap.',
+      },
+      {
+        step: '02',
+        title: 'Campaign Planning & Channel Selection',
+        description: 'Design campaigns across SEM, social ads, email marketing, and SEO with clear awareness, lead, or sales objectives.',
+      },
+      {
+        step: '03',
+        title: 'Content Creation & Management',
+        description: 'Produce optimized copy, visuals, blogs, and landing assets aligned with SEO best practices and brand guidelines.',
+      },
+      {
+        step: '04',
+        title: 'Advertising Execution',
+        description: 'Launch high-impact PPC and display advertising campaigns across search engines and social platforms.',
+      },
+      {
+        step: '05',
+        title: 'Search Engine Optimization (SEO)',
+        description: 'Execute keyword research, on-page and technical SEO enhancements, local SEO tactics, and authority backlink building.',
+      },
+      {
+        step: '06',
+        title: 'Performance Tracking & Analytics',
+        description: 'Monitor impressions, clicks, conversions, and return on ad spend continuously with live reporting dashboards.',
+      },
+      {
+        step: '07',
+        title: 'Optimization & Iteration',
+        description: 'Continuously A/B test creatives, refine targeting and bidding, and tune content based on live performance insights.',
+      },
+      {
+        step: '08',
+        title: 'Reporting & Review',
+        description: 'Deliver regular performance reports with measurable outcomes and plan next-quarter scaling opportunities.',
+      },
+    ],
+    stackTitle: 'Digital Marketing',
+    stackSummary:
+      'Prakvi offers comprehensive digital marketing solutions from strategic planning to execution, ensuring your brand achieves maximum online visibility and engagement.',
+    stackTabs: [
+      { label: 'SEO', items: ['On-Page SEO', 'Off-Page SEO', 'Mobile SEO', 'Technical SEO', 'SEO Audit', 'Keyword Research'] },
+      { label: 'Social Media', items: ['Facebook Ads', 'Instagram Marketing', 'Twitter Campaigns', 'LinkedIn Outreach', 'YouTube Ads'] },
+      { label: 'Content Marketing', items: ['Blog Writing', 'Video Marketing', 'Email Campaigns', 'Podcast Promotions', 'Guest Posting', 'Case Studies'] },
+      { label: 'Tools', items: ['Google Analytics', 'SEMRush', 'Ahrefs', 'Moz', 'Hootsuite', 'Mailchimp'] },
     ],
     faqs: [
-      { question: 'How quickly can we expect SEO results?', answer: 'While paid SEM generates immediate qualified traffic, enterprise SEO typically shows compounding organic rank acceleration within 3 to 6 months.' },
+      {
+        question: 'How soon do digital marketing and SEO campaigns show measurable insights?',
+        answer:
+          'PPC and social campaigns start generating tracked clicks and conversions immediately upon launch, while technical and content SEO compound organic authority month over month.',
+      },
+      {
+        question: 'What reporting tools do you use to measure campaign ROI?',
+        answer:
+          'We monitor and report with Google Analytics, SEMRush, Ahrefs, Moz, Hootsuite, and Mailchimp via scheduled performance reviews.',
+      },
     ],
-    featuredImage: 'https://images.unsplash.com/photo-1432888498266-38ffec3eaf0a?auto=format&fit=crop&w=1200&q=80',
+    featuredImage: generatedImages.serviceMarketingWeb3d,
   },
 
   // 17. Mobile App Development
@@ -616,32 +2080,123 @@ export const servicesData: ServiceItem[] = [
     slug: 'mobile-app-development',
     title: 'Mobile App Development',
     category: 'business',
-    tagline: 'iOS & Android custom apps engineered for native responsiveness, offline resilience, and enterprise API integration',
-    shortDesc: 'iOS & Android custom apps built with React Native and native toolkits with biometric security and real-time sync.',
-    fullDesc: 'Mobile applications require instantaneous responsiveness, intuitive ergonomics, and robust security. Prakvi develops cross-platform and native mobile apps for iOS and Android. Whether building customer-facing financial portals or internal field-service inspection tools, we ensure frictionless performance.',
+    tagline: 'Custom Mobile App Development for iOS & Android',
+    shortDesc:
+      'Native iOS (Swift) & Android (Kotlin), React Native & Flutter cross-platform apps, enterprise workflow apps, PWAs, and ongoing support.',
+    fullDesc:
+      'In a mobile-first world, your app is your brand’s direct connection with customers. Prakvi offers end-to-end mobile app development services in India, delivering seamless, engaging, and secure experiences. Whether native iOS, Android, or cross-platform, our expert team combines design, technology, and user-focused strategy to build apps that drive results. From concept to deployment and support, we ensure your app meets market demands and delivers measurable ROI.',
     iconName: 'Smartphone',
-    badge: 'Mobile Engineering',
-    businessChallenge: 'Building separate native codebases doubles engineering costs, while poorly architected hybrid apps suffer from sluggish performance and crashes.',
-    howWeHelp: 'We engineer performant React Native and Flutter codebases with native bridges, background synchronization, and enterprise MDM compliance.',
+    badge: 'Business Solutions · iOS & Android',
+    offeringsTitle: 'Mobile App Development Expertise',
+    offeringsSubtitle: 'End-to-end mobile engineering tailored to consumer, e-commerce, and enterprise audiences.',
+    businessChallenge:
+      'Slow, inconsistent mobile apps with clunky UX or insecure APIs frustrate users and miss critical engagement opportunities.',
+    howWeHelp:
+      'We engineer high-speed native and cross-platform mobile apps complete with clickable prototyping, automated QA, store publishing, and ongoing optimization.',
     capabilities: [
-      { title: 'Cross-Platform React Native & Flutter', description: 'Single type-safe codebase delivering native 60fps performance across iOS and Android.' },
-      { title: 'Native iOS (Swift) & Android (Kotlin)', description: 'Bespoke native engineering for hardware-intensive features, Bluetooth, and camera vision.' },
-      { title: 'Offline-First Data Synchronization', description: 'Local SQLite/WatermelonDB storage with conflict-free automated cloud syncing upon reconnect.' },
-      { title: 'Biometric & MDM Integration', description: 'Face ID, Touch ID, certificate pinning, and enterprise Mobile Device Management enrollment.' },
+      {
+        title: 'Native Mobile App Development',
+        description: 'High-performance iOS (Swift, Objective-C) and Android (Kotlin, Java) apps built for platform speed and polish.',
+        icon: 'Smartphone',
+      },
+      {
+        title: 'Cross-Platform App Development',
+        description: 'Cost-effective, fast-to-market cross-platform builds powered by React Native, Flutter, and Xamarin.',
+        icon: 'Layers',
+      },
+      {
+        title: 'Enterprise Mobile Apps',
+        description: 'Secure, scalable enterprise applications for workforce automation, collaboration, and field productivity.',
+        icon: 'Briefcase',
+      },
+      {
+        title: 'Mobile E-Commerce & PWAs',
+        description: 'Feature-rich mobile commerce with seamless payments, live inventory, and fast Progressive Web / hybrid apps.',
+        icon: 'ShoppingBag',
+      },
+      {
+        title: 'Mobile App UI/UX & Integrations',
+        description: 'Intuitive interfaces backed by secure backend APIs, cloud services, and AI/ML capabilities.',
+        icon: 'Palette',
+      },
+      {
+        title: 'Mobile App Maintenance & Support',
+        description: 'Continuous OS updates, security patches, crash monitoring, and feature enhancements post-launch.',
+        icon: 'ShieldCheck',
+      },
     ],
     businessBenefits: [
-      { title: '50% Faster Time-to-Market', description: 'Single codebase sharing reduces development cycles and speeds app store approval.', metric: '2x Speed' },
-      { title: '4.9 Star User Satisfaction', description: 'Fluid micro-interactions and resilient offline capability deliver exceptional user ratings.', metric: '4.9 Rating' },
+      {
+        title: 'Native & Cross-Platform Reach',
+        description: 'Flexible delivery across Swift, Kotlin, React Native, and Flutter matched to timeline and performance goals.',
+        metric: 'iOS & Android',
+      },
+      {
+        title: 'App Store & Enterprise Ready',
+        description: 'Complete support for public App Store / Google Play submissions as well as internal enterprise distribution.',
+        metric: 'Store Ready',
+      },
+      {
+        title: 'Full DevOps & CI/CD',
+        description: 'Automated unit/integration testing, Firebase instrumentation, Git, Docker, and cloud backend APIs.',
+        metric: '6-Stage Delivery',
+      },
     ],
+    processTitle: 'Why Choose Prakvi for Mobile App Development?',
+    processSubtitle: 'A proven 6-stage mobile engineering lifecycle from concept to post-launch updates.',
     deliverySteps: [
-      { step: '01', title: 'Mobile UX Architecture', description: 'Designing platform-compliant mobile navigation patterns for iOS and Android.' },
-      { step: '02', title: 'Core App Engineering', description: 'Iterative sprint development with continuous test builds via TestFlight and Firebase.' },
-      { step: '03', title: 'Security & Performance Audit', description: 'Penetration testing, memory leak profiling, and battery consumption optimization.' },
-      { step: '04', title: 'App Store Submission', description: 'Managing Apple App Store and Google Play compliance review and publication.' },
+      {
+        step: '01',
+        title: 'Consult & Strategize',
+        description: 'Clarify business objectives, target audience, platform needs (iOS, Android, hybrid), user journeys, and projected ROI.',
+      },
+      {
+        step: '02',
+        title: 'Design & Prototype',
+        description: 'Create intuitive UI/UX wireframes, mockups, and clickable prototypes for usability testing and early alignment.',
+      },
+      {
+        step: '03',
+        title: 'Architecture & Planning',
+        description: 'Select native vs. hybrid tech stack and finalize backend API integrations, data storage, and security controls.',
+      },
+      {
+        step: '04',
+        title: 'Development & QA',
+        description: 'Implement modular application code and run thorough unit, integration, and automated testing for reliability.',
+      },
+      {
+        step: '05',
+        title: 'Deployment',
+        description: 'Prepare production builds for public app stores or private enterprise distribution with full compliance review assistance.',
+      },
+      {
+        step: '06',
+        title: 'Support & Updates',
+        description: 'Provide ongoing bug fixes, OS platform updates, performance optimization, and analytics-informed iterations.',
+      },
+    ],
+    stackTitle: 'Mobile App Development Services',
+    stackSummary:
+      'Delivering intuitive, high-performance mobile solutions that bring your ideas to life and elevate your business by engaging users across platforms.',
+    stackTabs: [
+      { label: 'iOS', items: ['Swift', 'Objective-C', 'Xcode'] },
+      { label: 'Android', items: ['Kotlin', 'Java', 'Android Studio'] },
+      { label: 'Cross-platform', items: ['React Native', 'Flutter', 'Firebase', 'JavaScript'] },
+      { label: 'Tools & DevOps', items: ['Git', 'Docker', 'CI/CD', 'AWS', 'Backend APIs'] },
     ],
     faqs: [
-      { question: 'Do you handle the App Store and Google Play submission process?', answer: 'Yes, we manage the complete submission, compliance checks, privacy disclosures, and approval lifecycle.' },
+      {
+        question: 'Should we choose native (Swift/Kotlin) or cross-platform (React Native/Flutter)?',
+        answer:
+          'During our Architecture & Planning phase, we evaluate hardware depth, UX complexity, budget, and time-to-market to recommend the ideal stack.',
+      },
+      {
+        question: 'Do you help publish the finished app to Apple App Store and Google Play?',
+        answer:
+          'Yes. Deployment covers build preparation, store compliance checks, publishing, or private enterprise MDM distribution.',
+      },
     ],
-    featuredImage: 'https://images.unsplash.com/photo-1512941937669-90a1b58e7e9c?auto=format&fit=crop&w=1200&q=80',
+    featuredImage: generatedImages.serviceMobileDevices3d,
   },
 ];

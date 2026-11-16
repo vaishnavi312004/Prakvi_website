@@ -4,30 +4,24 @@ export interface ContactTopic {
 }
 
 export const contactData = {
-  kicker: 'Start a Dialogue',
-  title: 'Consult With Our Practice Leaders',
+  kicker: 'Contact Us',
+  title: "Let's Start Your Digital Transformation",
   subtitle:
-    'Whether scoping a multi-region cloud deployment, augmenting specialized healthcare IT pods, or modernizing enterprise legacy apps, our senior architects are available.',
+    'Ready to take your business to the next level? Get in touch with our experts for a free consultation.',
   serviceTopics: [
-    { id: 'cloud', label: 'Enterprise Cloud & DevOps Migration' },
-    { id: 'staffing', label: 'Workforce Augmentation & Staffing' },
-    { id: 'mobility', label: 'Mobility Practice (BYOD & CYOD)' },
-    { id: 'custom-dev', label: 'Application & Enterprise Solutions' },
+    { id: 'staffing', label: 'Staffing & Workforce Solutions' },
+    { id: 'cloud', label: 'Cloud Services & Infrastructure Management' },
     { id: 'bi-analytics', label: 'Business Intelligence & Data Analytics' },
-    { id: 'cybersecurity', label: 'Security & Infrastructure Management' },
-    { id: 'products', label: 'Proprietary Software Suite Demo' },
-    { id: 'other', label: 'General Corporate / Strategic Advisory' },
+    { id: 'enterprise-arch', label: 'Enterprise Architecture & System Integration' },
+    { id: 'mobility', label: 'Mobility Practice (BYOD & CYOD)' },
+    { id: 'web-mobile', label: 'Web Design, Enterprise Solution & Mobile Apps' },
+    { id: 'digital-marketing', label: 'Digital Marketing & Branding' },
+    { id: 'products', label: 'HRMS, VMS & CRM Platforms' },
+    { id: 'consulting', label: 'IT Consulting, Project Management & Accounting' },
   ] as ContactTopic[],
-  budgetRanges: [
-    { id: 'tier-1', label: '$25,000 – $50,000' },
-    { id: 'tier-2', label: '$50,000 – $150,000' },
-    { id: 'tier-3', label: '$150,000 – $500,000' },
-    { id: 'tier-4', label: '$500,000+' },
-    { id: 'exploratory', label: 'Scoping / Retainer Discussion' },
-  ],
   supportCommitment: {
-    responseTime: '< 24 Hours Guaranteed',
-    consultationLead: 'Direct Senior Architect Scoping',
-    ndaProvided: 'Mutual NDA prior to architectural discovery',
+    responseTime: '24/7 Support Available',
+    phone: '+91-11-24626660',
+    email: 'info@prakvi.com',
   },
 };

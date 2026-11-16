@@ -7,25 +7,24 @@ import { Input } from '../components/ui/Card';
 import { Button } from '../components/ui/Button';
 import { ContactSubmission } from '../types';
 import {
+  CheckCircle2,
+  Clock,
+  Globe2,
+  Mail,
   MapPin,
   Phone,
-  Mail,
-  Clock,
-  CheckCircle2,
   Send,
-  Globe2,
 } from 'lucide-react';
 
 export const ContactPage: React.FC = () => {
   const [selectedOffice, setSelectedOffice] = useState<string>(companyData.offices[0].id);
 
-  // Form State
   const [formData, setFormData] = useState<ContactSubmission>({
     fullName: '',
     workEmail: '',
     companyName: '',
     phone: '',
-    serviceInterestedIn: 'Staffing & Workforce Solutions',
+    serviceInterestedIn: contactData.serviceTopics[0]?.label || 'Staffing Services',
     message: '',
     privacyConsent: false,
   });
@@ -34,7 +33,8 @@ export const ContactPage: React.FC = () => {
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [isSuccess, setIsSuccess] = useState(false);
 
-  const activeOffice = companyData.offices.find((o) => o.id === selectedOffice) || companyData.offices[0];
+  const activeOffice =
+    companyData.offices.find((o) => o.id === selectedOffice) || companyData.offices[0];
 
   const validate = () => {
     const errors: Partial<Record<keyof ContactSubmission, string>> = {};
@@ -42,14 +42,15 @@ export const ContactPage: React.FC = () => {
     if (!formData.workEmail.trim()) {
       errors.workEmail = 'Work Email is required';
     } else if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(formData.workEmail)) {
-      errors.workEmail = 'Please provide a valid business email address';
+      errors.workEmail = 'Please provide a valid email address';
     }
-    if (!formData.companyName.trim()) errors.companyName = 'Company / Organization name is required';
+    if (!formData.companyName.trim())
+      errors.companyName = 'Company / Organization name is required';
     if (!formData.message.trim()) {
       errors.message = 'Please provide a brief summary of your project or inquiry';
     }
     if (!formData.privacyConsent) {
-      errors.privacyConsent = 'You must agree to the privacy consent to submit an inquiry';
+      errors.privacyConsent = 'Please confirm consent before submitting your inquiry';
     }
     return errors;
   };
@@ -65,72 +66,81 @@ export const ContactPage: React.FC = () => {
     setFormErrors({});
     setIsSubmitting(true);
 
-    // Simulate enterprise asynchronous transmission
     setTimeout(() => {
       setIsSubmitting(false);
       setIsSuccess(true);
-    }, 1500);
+    }, 600);
   };
 
   return (
     <PageTransition className="min-h-screen overflow-x-hidden pt-20 selection:bg-accent selection:text-white">
-
-      <section className="bg-gradient-to-b from-canvas via-surface to-canvas text-foreground py-section relative overflow-hidden">
-        <div className="absolute inset-0 tech-grid-dark opacity-35 pointer-events-none" />
+      {/* 1. CONTACT HERO */}
+      <section className="hero-clay-canvas py-section relative overflow-hidden">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
-          <Breadcrumbs items={[{ label: 'Contact Us & Global Hubs' }]} variant="light" />
+          <Breadcrumbs items={[{ label: 'Contact Us' }]} />
 
           <div className="mt-8 max-w-3xl">
-            <div className="mb-4 inline-flex items-center gap-2 rounded-full border border-accent/25 bg-white/[0.04] px-3.5 py-1.5">
-              <span className="w-2 h-2 rounded-full bg-accent shadow-accent" />
-              <span className="text-xs font-mono font-semibold uppercase tracking-widest text-accent">
-                {contactData.kicker}
-              </span>
+            <div className="mb-3 text-xs font-mono font-bold uppercase tracking-[0.2em] text-accent">
+              {contactData.kicker}
             </div>
 
             <h1 className="font-display text-4xl sm:text-5xl lg:text-6xl font-extrabold text-foreground tracking-tight leading-tight">
               {contactData.title}
             </h1>
 
-            <p className="mt-6 text-base sm:text-xl text-muted leading-relaxed font-light">
+            <p className="mt-5 text-base sm:text-lg text-muted leading-relaxed">
               {contactData.subtitle}
             </p>
           </div>
         </div>
       </section>
 
-
-      <div className="text-foreground py-section">
+      {/* 2. FORM & OFFICES */}
+      <section className="py-section bg-canvas text-foreground">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-          <div className="grid grid-cols-1 lg:grid-cols-12 gap-12">
-            {/* Left Column: Interactive Proposal Form in White Card (7 cols) */}
+          <div className="grid grid-cols-1 lg:grid-cols-12 gap-10">
+            {/* Left Column: Consultation Form (7 cols) */}
             <div className="lg:col-span-7">
-              <div className="p-8 sm:p-12 rounded-3xl glass-panel border border-line ">
-                <div className="mb-8">
+              <div className="clay-card p-7 sm:p-10">
+                <div className="mb-7">
                   <div className="text-xs font-mono font-bold uppercase tracking-wider text-accent">
-                    Architectural Discovery
+                    Start a Conversation
                   </div>
                   <h2 className="font-display text-2xl sm:text-3xl font-extrabold text-foreground mt-1">
-                    Submit Project Scoping or Staffing RFP
+                    Request a Consultation or Proposal
                   </h2>
-                  <p className="text-xs sm:text-sm text-muted mt-1">
-                    Directly routed to practice leads. We honor mutual NDAs prior to technical assessment.
+                  <p className="text-sm text-muted mt-1">
+                    Share your goals and our specialists will reach out with a tailored roadmap.
                   </p>
                 </div>
 
                 {isSuccess ? (
-                  <div className="py-12 text-center space-y-4">
-                    <div className="w-16 h-16 rounded-full bg-surface border border-accent/40 text-accent flex items-center justify-center mx-auto shadow-sm">
-                      <CheckCircle2 className="w-9 h-9" />
+                  <div className="py-10 text-center space-y-4">
+                    <div className="clay-icon-box w-16 h-16 rounded-full flex items-center justify-center mx-auto">
+                      <CheckCircle2 className="w-8 h-8" />
                     </div>
                     <h3 className="font-display text-2xl font-bold text-foreground">
-                      Discovery Transmission Logged!
+                      Inquiry Received
                     </h3>
-                    <p className="text-xs sm:text-sm text-muted max-w-md mx-auto leading-relaxed">
-                      Thank you, <strong>{formData.fullName}</strong>. An enterprise architect has received your brief for <strong>{formData.companyName}</strong>. A response will be dispatched to <strong>{formData.workEmail}</strong> within 24 business hours.
+                    <p className="text-sm text-muted max-w-md mx-auto leading-relaxed">
+                      Thank you, <strong>{formData.fullName}</strong>. We have logged your inquiry for{' '}
+                      <strong>{formData.companyName}</strong> and will reply to{' '}
+                      <strong>{formData.workEmail}</strong> promptly.
                     </p>
                     <button
-                      onClick={() => setIsSuccess(false)}
+                      type="button"
+                      onClick={() => {
+                        setIsSuccess(false);
+                        setFormData({
+                          fullName: '',
+                          workEmail: '',
+                          companyName: '',
+                          phone: '',
+                          serviceInterestedIn: contactData.serviceTopics[0]?.label || 'Staffing Services',
+                          message: '',
+                          privacyConsent: false,
+                        });
+                      }}
                       className="btn-primary"
                     >
                       Submit Another Inquiry
@@ -138,41 +148,56 @@ export const ContactPage: React.FC = () => {
                   </div>
                 ) : (
                   <form onSubmit={handleSubmit} className="space-y-5">
-                    {/* Full Name & Work Email */}
                     <div className="grid grid-cols-1 sm:grid-cols-2 gap-5">
-                      <Input label="Full Name *" type="text"
-                          value={formData.fullName}
-                          onChange={(e) => setFormData({ ...formData, fullName: e.target.value })}
-                          placeholder="e.g. Elena Rostova" error={formErrors.fullName} />
+                      <Input
+                        label="Full Name *"
+                        type="text"
+                        value={formData.fullName}
+                        onChange={(e) => setFormData({ ...formData, fullName: e.target.value })}
+                        placeholder="e.g. Ananya Verma"
+                        error={formErrors.fullName}
+                      />
 
-                      <Input label="Enterprise Work Email *" type="email"
-                          value={formData.workEmail}
-                          onChange={(e) => setFormData({ ...formData, workEmail: e.target.value })}
-                          placeholder="e.rostova@enterprise.com" error={formErrors.workEmail} />
+                      <Input
+                        label="Work Email *"
+                        type="email"
+                        value={formData.workEmail}
+                        onChange={(e) => setFormData({ ...formData, workEmail: e.target.value })}
+                        placeholder="name@company.com"
+                        error={formErrors.workEmail}
+                      />
                     </div>
 
-                    {/* Company Name & Phone */}
                     <div className="grid grid-cols-1 sm:grid-cols-2 gap-5">
-                      <Input label="Company / Organization *" type="text"
-                          value={formData.companyName}
-                          onChange={(e) => setFormData({ ...formData, companyName: e.target.value })}
-                          placeholder="e.g. Apex Health Systems" error={formErrors.companyName} />
+                      <Input
+                        label="Company / Organization *"
+                        type="text"
+                        value={formData.companyName}
+                        onChange={(e) => setFormData({ ...formData, companyName: e.target.value })}
+                        placeholder="e.g. Acme Systems Pvt. Ltd."
+                        error={formErrors.companyName}
+                      />
 
-                      <Input label="Phone Number (Optional)" type="tel"
-                          value={formData.phone}
-                          onChange={(e) => setFormData({ ...formData, phone: e.target.value })}
-                          placeholder="+1 (555) 019-2834" />
+                      <Input
+                        label="Phone Number (Optional)"
+                        type="tel"
+                        value={formData.phone}
+                        onChange={(e) => setFormData({ ...formData, phone: e.target.value })}
+                        placeholder="+91-11-00000000"
+                      />
                     </div>
 
-                    {/* Service Area of Interest */}
                     <div>
                       <label htmlFor="contact-service" className="field-label">
-                        Primary Practice Track of Interest
+                        Service or Product of Interest
                       </label>
-                      <select id="contact-service"
+                      <select
+                        id="contact-service"
                         value={formData.serviceInterestedIn}
-                        onChange={(e) => setFormData({ ...formData, serviceInterestedIn: e.target.value })}
-                        className="w-full px-4 py-3 rounded-xl bg-surface border border-line text-sm text-foreground focus:outline-none focus:border-accent focus:ring-1 focus:ring-accent"
+                        onChange={(e) =>
+                          setFormData({ ...formData, serviceInterestedIn: e.target.value })
+                        }
+                        className="field"
                       >
                         {contactData.serviceTopics.map((topic) => (
                           <option key={topic.id} value={topic.label}>
@@ -182,54 +207,51 @@ export const ContactPage: React.FC = () => {
                       </select>
                     </div>
 
-                    {/* Project Brief */}
                     <div>
                       <label htmlFor="contact-message" className="field-label">
-                        Brief Project Description or Staffing Scope *
+                        Project Requirements or Inquiry *
                       </label>
-                      <textarea id="contact-message" aria-invalid={Boolean(formErrors.message)}
+                      <textarea
+                        id="contact-message"
+                        aria-invalid={Boolean(formErrors.message)}
                         rows={4}
                         value={formData.message}
                         onChange={(e) => setFormData({ ...formData, message: e.target.value })}
-                        placeholder="Detail timeline, technical specifications, or headcount requirements..."
-                        className="w-full px-4 py-3 rounded-xl bg-surface border border-line text-sm text-foreground placeholder:text-muted focus:outline-none focus:border-accent focus:ring-1 focus:ring-accent"
+                        placeholder="Tell us about your project timeline, technical objectives, or staffing requirements..."
+                        className="field"
                       />
                       {formErrors.message && (
-                        <span className="text-xs text-rose-300 mt-1 block">{formErrors.message}</span>
+                        <span className="field-error block">{formErrors.message}</span>
                       )}
                     </div>
 
-                    {/* Privacy Consent */}
                     <div className="pt-1">
                       <label className="flex items-start gap-3 cursor-pointer">
                         <input
                           type="checkbox"
                           checked={formData.privacyConsent}
-                          onChange={(e) => setFormData({ ...formData, privacyConsent: e.target.checked })}
-                          className="mt-1 w-4 h-4 rounded text-accent focus:ring-accent border-line"
+                          onChange={(e) =>
+                            setFormData({ ...formData, privacyConsent: e.target.checked })
+                          }
+                          className="mt-1 w-4 h-4 rounded border-line"
                         />
                         <span className="text-xs text-muted leading-relaxed">
-                          I consent to Prakvi Techno Solutions Private Limited processing this information to schedule technical scoping sessions. We never sell contact information to third parties.
+                          I agree to allow Prakvi Techno Solutions Private Limited to use these contact details to respond to my inquiry.
                         </span>
                       </label>
                       {formErrors.privacyConsent && (
-                        <span className="text-xs text-rose-300 mt-1 block">{formErrors.privacyConsent}</span>
+                        <span className="field-error block">{formErrors.privacyConsent}</span>
                       )}
                     </div>
 
-                    {/* Submit Button */}
-                    <div className="pt-3">
-                      <Button
-                        type="submit"
-                        disabled={isSubmitting}
-                        className="w-full"
-                      >
+                    <div className="pt-2">
+                      <Button type="submit" disabled={isSubmitting} className="w-full">
                         {isSubmitting ? (
-                          <span>Encrypting & Dispatching Brief...</span>
+                          <span>Sending Message...</span>
                         ) : (
                           <>
-                            <Send className="w-4 h-4" />
-                            <span>Dispatch Strategic Brief to Practice Lead</span>
+                            <Send className="w-4 h-4" aria-hidden="true" />
+                            <span>Send Message</span>
                           </>
                         )}
                       </Button>
@@ -239,45 +261,49 @@ export const ContactPage: React.FC = () => {
               </div>
             </div>
 
-            {/* Right Column: Office Hub Selector & Global Contacts (5 cols) */}
+            {/* Right Column: Delhi & Nashik Office Switcher (5 cols) */}
             <div className="lg:col-span-5 space-y-6">
-              {/* Office Selector Pills */}
-              <div className="flex flex-col gap-2">
-                <div className="text-xs font-mono font-bold uppercase tracking-wider text-accent mb-1">
-                  Global Delivery Hubs
+              <div>
+                <div className="text-xs font-mono font-bold uppercase tracking-wider text-accent mb-2.5">
+                  Our Offices
                 </div>
-                <div className="grid grid-cols-3 gap-2">
-                  {companyData.offices.map((office) => (
-                    <button
-                      key={office.id}
-                      onClick={() => setSelectedOffice(office.id)}
-                      className={`py-2 px-3 rounded-xl text-xs font-semibold transition-all truncate text-center ${
-                        selectedOffice === office.id
-                          ? 'bg-accent/10 text-accent ring-1 ring-accent/40 font-bold'
-                          : 'bg-surface text-muted hover:text-foreground border border-line'
-                      }`}
-                    >
-                      {office.city}
-                    </button>
-                  ))}
+                <div className="grid grid-cols-2 gap-3">
+                  {companyData.offices.map((office) => {
+                    const active = selectedOffice === office.id;
+                    return (
+                      <button
+                        key={office.id}
+                        type="button"
+                        onClick={() => setSelectedOffice(office.id)}
+                        className={`py-3 px-4 rounded-2xl text-sm font-bold transition-all text-center ${
+                          active
+                            ? 'bg-accent text-white shadow-md'
+                            : 'clay-card text-muted hover:text-foreground'
+                        }`}
+                      >
+                        {office.name}
+                      </button>
+                    );
+                  })}
                 </div>
               </div>
 
-              {/* Active Office Detailed Card */}
-              <div className="p-8 rounded-3xl glass-panel border border-line  space-y-6">
+              <div className="clay-card p-8 space-y-6">
                 <div>
-                  <div className="text-xs font-mono font-bold text-accent mb-1">
+                  <div className="text-xs font-mono font-bold uppercase tracking-wider text-accent mb-1">
                     {activeOffice.category}
                   </div>
-                  <h3 className="font-display text-xl font-bold text-foreground">
+                  <h3 className="font-display text-2xl font-extrabold text-foreground">
                     {activeOffice.name}
                   </h3>
                 </div>
 
-                <div className="space-y-4 text-xs sm:text-sm text-muted">
+                <div className="space-y-4 text-sm text-muted">
                   <div className="flex items-start gap-3">
-                    <MapPin className="w-4 h-4 text-accent shrink-0 mt-1" />
-                    <div>
+                    <div className="clay-icon-box h-9 w-9 flex items-center justify-center shrink-0">
+                      <MapPin className="w-4 h-4" aria-hidden="true" />
+                    </div>
+                    <div className="pt-1">
                       {activeOffice.address.map((line, i) => (
                         <div key={i}>{line}</div>
                       ))}
@@ -285,47 +311,58 @@ export const ContactPage: React.FC = () => {
                   </div>
 
                   <div className="flex items-center gap-3">
-                    <Phone className="w-4 h-4 text-accent shrink-0" />
-                    <a href={`tel:${activeOffice.phone}`} className="hover:text-foreground font-semibold">
+                    <div className="clay-icon-box h-9 w-9 flex items-center justify-center shrink-0">
+                      <Phone className="w-4 h-4" aria-hidden="true" />
+                    </div>
+                    <a
+                      href={`tel:${activeOffice.phone}`}
+                      className="font-semibold text-foreground hover:text-accent transition-colors"
+                    >
                       {activeOffice.phone}
                     </a>
                   </div>
 
                   <div className="flex items-center gap-3">
-                    <Mail className="w-4 h-4 text-accent shrink-0" />
-                    <a href={`mailto:${activeOffice.email}`} className="hover:text-foreground font-semibold">
+                    <div className="clay-icon-box h-9 w-9 flex items-center justify-center shrink-0">
+                      <Mail className="w-4 h-4" aria-hidden="true" />
+                    </div>
+                    <a
+                      href={`mailto:${activeOffice.email}`}
+                      className="font-semibold text-foreground hover:text-accent transition-colors"
+                    >
                       {activeOffice.email}
                     </a>
                   </div>
 
                   <div className="flex items-center gap-3">
-                    <Clock className="w-4 h-4 text-accent shrink-0" />
+                    <div className="clay-icon-box h-9 w-9 flex items-center justify-center shrink-0">
+                      <Clock className="w-4 h-4" aria-hidden="true" />
+                    </div>
                     <span>{activeOffice.hours}</span>
                   </div>
                 </div>
 
                 <div className="pt-4 border-t border-line text-xs font-mono text-subtle">
-                  {companyData.legalEntity}
+                  {companyData.name}
                 </div>
               </div>
 
-              {/* Commitment Guarantee Card */}
-              <div className="p-6 rounded-3xl bg-surface/40 border border-accent/25 space-y-3">
+              <div className="clay-pastel p-6 space-y-2">
                 <div className="flex items-center gap-2 text-xs font-mono font-bold text-accent">
-                  <Globe2 className="w-4 h-4" />
-                  <span>SLA Guarantee</span>
+                  <Globe2 className="w-4 h-4" aria-hidden="true" />
+                  <span>Always Here to Help</span>
                 </div>
                 <h4 className="font-display text-base font-bold text-foreground">
-                  24-Hour Scoping Commitment
+                  99.9% Uptime · 24/7 Support
                 </h4>
                 <p className="text-xs text-muted leading-relaxed">
-                  Every technical inquiry is reviewed by a practicing engineering lead. You will receive an architectural questionnaire and discovery schedule within one business day.
+                  Reach out directly via phone at {companyData.contact.phone} or email {companyData.contact.primaryEmail} for staffing, consulting, or enterprise platform inquiries.
                 </p>
               </div>
             </div>
           </div>
         </div>
-      </div>
+      </section>
     </PageTransition>
   );
 };

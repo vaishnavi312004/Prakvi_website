@@ -1,3 +1,5 @@
+import { generatedImages } from '../assets/images';
+
 export interface VideoAssetConfig {
   videoSrc: string;
   posterImage: string;
@@ -9,17 +11,17 @@ export interface VideoAssetConfig {
 export const videoConfig: Record<string, VideoAssetConfig> = {
   heroVideo: {
     videoSrc: '/videos/hero.mp4',
-    posterImage: '/img/hero_enterprise_cinematic_1794479542547.jpg',
-    fallbackImage: '/img/hero_enterprise_cinematic_1794479542547.jpg',
+    posterImage: generatedImages.introEnterpriseCampus,
+    fallbackImage: generatedImages.introEnterpriseCampus,
     caption: 'Intelligent Enterprise Networks & Cloud Architectures',
-    overlayOpacity: 0.72,
+    overlayOpacity: 0.35,
   },
   aboutVideo: {
     videoSrc: '/videos/company-story.mp4',
-    posterImage: 'https://images.unsplash.com/photo-1486406146926-c627a92ad1ab?auto=format&fit=crop&w=1600&q=80',
-    fallbackImage: '/img/hero_enterprise_cinematic_1794479542547.jpg',
+    posterImage: generatedImages.aboutInnovationStudio,
+    fallbackImage: generatedImages.aboutInnovationStudio,
     caption: 'Prakvi Corporate Headquarters & Delivery Centers',
-    overlayOpacity: 0.55,
+    overlayOpacity: 0.35,
   },
   servicesVideo: {
     videoSrc: '/videos/technology.mp4',

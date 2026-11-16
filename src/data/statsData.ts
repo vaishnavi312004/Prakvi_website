@@ -3,42 +3,36 @@ export interface StatMetric {
   suffix: string;
   label: string;
   description: string;
-  tag: string;
 }
 
 export const statsData = {
-  kicker: 'Verified Impact',
-  title: 'Proven Scale & Performance Benchmarks',
-  subtitle: 'Quantifiable operational outcomes delivered across international enterprise clients.',
+  kicker: 'Proven Impact',
+  title: 'Delivering Measurable Outcomes Across Enterprises',
+  subtitle: 'Verified engagement milestones reflecting long-term partnerships and engineering dependability.',
   metrics: [
     {
       value: 236,
       suffix: '+',
-      label: 'Projects Delivered',
-      description: 'End-to-end enterprise software, cloud pipelines, and digital solutions executed globally.',
-      tag: 'Global Delivery',
+      label: 'Projects Completed',
+      description: 'Enterprise software, cloud infrastructure, analytics, and digital solutions delivered.',
     },
     {
       value: 100,
       suffix: '+',
-      label: 'Enterprise Clients',
-      description: 'Trusted partnerships spanning healthcare, banking, logistics, retail, and tech enterprises.',
-      tag: 'Client Retention',
+      label: 'Happy Clients',
+      description: 'Trusted partnerships across enterprise technology, BFSI, healthcare, and logistics.',
     },
     {
       value: 15,
       suffix: '+',
-      label: 'Years of Excellence',
-      description: 'Deep institutional domain experience in strategic IT consulting and specialized staffing.',
-      tag: 'Track Record',
+      label: 'Years Experience',
+      description: 'Sustained expertise in enterprise IT consulting, delivery, and specialized staffing.',
     },
     {
       value: 99,
       suffix: '%',
       label: 'Client Satisfaction',
-      description: 'Consistent SLA delivery, transparent governance, and agile multi-disciplinary support.',
-      tag: 'SLA Adherence',
+      description: 'Consistent service reliability, SLA adherence, and transparent project execution.',
     },
   ] as StatMetric[],
-  auditDisclaimer: '*Verified client engagements and performance benchmarks (provisional company audit)',
 };

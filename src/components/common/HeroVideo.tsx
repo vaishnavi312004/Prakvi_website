@@ -66,23 +66,16 @@ export const HeroVideo: React.FC<HeroVideoProps> = ({
         </video>
       )}
 
-      {/* Cinematic Enterprise Navy/Blue Gradient Overlay */}
+      {/* Subtle Light Clay Overlay */}
       <div
-        className="absolute inset-0 bg-gradient-to-t from-canvas via-canvas/40 to-transparent pointer-events-none"
+        className="absolute inset-0 bg-gradient-to-t from-canvas/85 via-canvas/20 to-transparent pointer-events-none"
         style={{ opacity: overlayOpacity }}
       />
 
-      {/* Tech Grid Texture */}
-      <div className="absolute inset-0 tech-grid-dark opacity-30 pointer-events-none" />
-
-      {/* Subtle Cyan Corner Highlight */}
-      <div className="absolute top-0 right-0 w-32 h-32 bg-accent/15 rounded-full blur-2xl pointer-events-none" />
-
-      {/* Optional Caption Badge */}
+      {/* Optional Caption */}
       {showCaption && (
         <div className="absolute bottom-4 left-4 right-4 z-10 pointer-events-none">
-          <div className="btn-primary">
-            <span className="w-1.5 h-1.5 rounded-full bg-accent animate-pulse" />
+          <div className="clay-soft inline-flex items-center px-3.5 py-2 text-xs font-semibold text-foreground">
             <span className="truncate">{config.caption}</span>
           </div>
         </div>

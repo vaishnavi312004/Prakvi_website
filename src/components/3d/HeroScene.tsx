@@ -1,18 +1,12 @@
 import React, { useEffect, useRef } from 'react';
 import * as THREE from 'three';
-import { Cloud, Layers, Users, BarChart3 } from 'lucide-react';
+import { RoomEnvironment } from 'three/examples/jsm/environments/RoomEnvironment.js';
+import { PrakviThemeId, usePrakviTheme } from '../../context/ThemeContext';
 
-const globeCards = [
-  { title: 'Cloud Engineering', subtitle: 'Built to scale', icon: Cloud },
-  { title: 'Enterprise Solutions', subtitle: 'Connected systems', icon: Layers },
-  { title: 'Talent Solutions', subtitle: 'Specialized workforce', icon: Users },
-  { title: 'Data & Analytics', subtitle: 'Actionable insights', icon: BarChart3 },
-];
-
-// Global enterprise hub coordinates (lat/long in degrees)
+// Global & India enterprise hub coordinates
 const GLOBAL_HUBS: { name: string; lat: number; lng: number }[] = [
-  { name: 'Hyderabad (HQ)', lat: 17.385, lng: 78.4867 },
-  { name: 'Bengaluru', lat: 12.9716, lng: 77.5946 },
+  { name: 'New Delhi (HQ)', lat: 28.6139, lng: 77.209 },
+  { name: 'Nashik', lat: 19.9975, lng: 73.7898 },
   { name: 'Singapore', lat: 1.3521, lng: 103.8198 },
   { name: 'Tokyo', lat: 35.6762, lng: 139.6503 },
   { name: 'London', lat: 51.5074, lng: -0.1278 },
@@ -23,7 +17,46 @@ const GLOBAL_HUBS: { name: string; lat: number; lng: number }[] = [
   { name: 'Sydney', lat: -33.8688, lng: 151.2093 },
 ];
 
-// Helper to convert lat/long to 3D Cartesian coordinates on sphere
+interface GlobePalette {
+  core: number;
+  emissive: number;
+  primary: number;
+  secondary: number;
+  ring: number;
+  wire: number;
+  packet: number;
+}
+
+const THEME_PALETTES: Record<PrakviThemeId, GlobePalette> = {
+  'soft-innovation': {
+    core: 0xfffdf8,
+    emissive: 0xe6f4fc,
+    primary: 0x009edb,
+    secondary: 0xf97316,
+    ring: 0x38bdf8,
+    wire: 0x9bd6f3,
+    packet: 0xf97316,
+  },
+  'lavender-mist': {
+    core: 0xf8f6fe,
+    emissive: 0xe9e3ff,
+    primary: 0x6d5ce6,
+    secondary: 0x3b9ee8,
+    ring: 0x8f82ef,
+    wire: 0xb7aff5,
+    packet: 0x5846d4,
+  },
+  'fresh-mint': {
+    core: 0xf4fcf9,
+    emissive: 0xd8f3eb,
+    primary: 0x0d9488,
+    secondary: 0x0ea5e9,
+    ring: 0x39b8ac,
+    wire: 0x8ad7cf,
+    packet: 0x0b7b71,
+  },
+};
+
 function latLngToVector3(lat: number, lng: number, radius: number): THREE.Vector3 {
   const phi = (90 - lat) * (Math.PI / 180);
   const theta = (lng + 180) * (Math.PI / 180);
@@ -33,27 +66,30 @@ function latLngToVector3(lat: number, lng: number, radius: number): THREE.Vector
   return new THREE.Vector3(x, y, z);
 }
 
-// Generate a smooth 3D curved arc above the sphere connecting two points
-function createArcBetween(v1: THREE.Vector3, v2: THREE.Vector3, radius: number, elevation = 0.35): THREE.CatmullRomCurve3 {
+function createArcBetween(
+  v1: THREE.Vector3,
+  v2: THREE.Vector3,
+  radius: number,
+  elevation = 0.28
+): THREE.CatmullRomCurve3 {
   const mid = new THREE.Vector3().addVectors(v1, v2).multiplyScalar(0.5);
   const dist = v1.distanceTo(v2);
-  const altitude = radius + dist * elevation;
-  mid.normalize().multiplyScalar(altitude);
+  mid.normalize().multiplyScalar(radius + dist * elevation);
   return new THREE.CatmullRomCurve3([v1, mid, v2]);
 }
 
-// Pre-allocated scratch vectors to prevent GC spikes in animation loop
 const _mouseTarget = new THREE.Vector2(0, 0);
 const _currentMouse = new THREE.Vector2(0, 0);
 const _packetPos = new THREE.Vector3();
 
-interface HeroSceneProps {
-  journeyRef?: React.RefObject<{ theme: number; progress: number }>;
-}
-
-export const HeroScene: React.FC<HeroSceneProps> = ({ journeyRef }) => {
+export const HeroScene: React.FC = () => {
   const containerRef = useRef<HTMLDivElement>(null);
-  const cardRefs = useRef<(HTMLDivElement | null)[]>([]);
+  const { theme } = usePrakviTheme();
+  const themeRef = useRef<PrakviThemeId>(theme);
+
+  useEffect(() => {
+    themeRef.current = theme;
+  }, [theme]);
 
   useEffect(() => {
     const container = containerRef.current;
@@ -61,11 +97,10 @@ export const HeroScene: React.FC<HeroSceneProps> = ({ journeyRef }) => {
 
     const reducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)');
 
-    // Detect software rendering
     const isSoftwareGl = (() => {
       try {
-        const probeCanvas = document.createElement('canvas');
-        const gl = probeCanvas.getContext('webgl2') || probeCanvas.getContext('webgl');
+        const probe = document.createElement('canvas');
+        const gl = probe.getContext('webgl2') || probe.getContext('webgl');
         if (!gl) return true;
         const ext = gl.getExtension('WEBGL_debug_renderer_info');
         const param = ext ? ext.UNMASKED_RENDERER_WEBGL : (gl as WebGLRenderingContext).RENDERER;
@@ -77,23 +112,13 @@ export const HeroScene: React.FC<HeroSceneProps> = ({ journeyRef }) => {
       }
     })();
 
-    const width = container.clientWidth || 500;
-    const height = container.clientHeight || 460;
-    let viewportWidth = width;
-    let viewportHeight = height;
-    const cardAnchors = globeCards.map((_, index) => {
-      const angle = Math.PI / 4 + index * Math.PI / 2;
-      return new THREE.Vector3(Math.cos(angle) * 1.65, index % 2 === 0 ? 0.65 : -0.65, Math.sin(angle) * 1.65);
-    });
-    const cardWorld = new THREE.Vector3();
-    const cardScreen = new THREE.Vector3();
+    const initialW = container.clientWidth || 480;
+    const initialH = container.clientHeight || 460;
 
-    // 1. Scene, Camera, Renderer
     const scene = new THREE.Scene();
-    scene.fog = new THREE.FogExp2(0x080d19, 0.035);
 
-    const camera = new THREE.PerspectiveCamera(40, width / height, 0.1, 100);
-    camera.position.set(0, 0.1, 4.5);
+    const camera = new THREE.PerspectiveCamera(38, initialW / initialH, 0.1, 100);
+    camera.position.set(0, 0.08, 4.35);
 
     const renderer = new THREE.WebGLRenderer({
       antialias: !isSoftwareGl,
@@ -102,78 +127,78 @@ export const HeroScene: React.FC<HeroSceneProps> = ({ journeyRef }) => {
     });
     renderer.outputColorSpace = THREE.SRGBColorSpace;
     renderer.toneMapping = THREE.ACESFilmicToneMapping;
-    renderer.toneMappingExposure = 1.3;
+    renderer.toneMappingExposure = 1.05;
     renderer.setPixelRatio(isSoftwareGl ? 1 : Math.min(window.devicePixelRatio, 2));
-    renderer.setSize(width, height);
-
+    renderer.setSize(initialW, initialH);
+    renderer.setClearColor(0x000000, 0);
     container.appendChild(renderer.domElement);
 
-    // 2. Futuristic Studio Lighting Rig with Cyan Glow
-    const keyLight = new THREE.DirectionalLight(0xffffff, 2.5);
-    keyLight.position.set(5, 5, 4);
+    const pmremGenerator = new THREE.PMREMGenerator(renderer);
+    const roomEnv = new RoomEnvironment();
+    const envTarget = pmremGenerator.fromScene(roomEnv, 0.04);
+    scene.environment = envTarget.texture;
+    roomEnv.dispose();
+
+    // Soft light ceramic studio lighting
+    const keyLight = new THREE.DirectionalLight(0xffffff, 1.8);
+    keyLight.position.set(5, 6, 5);
     scene.add(keyLight);
 
-    const cyanRim = new THREE.DirectionalLight(0x00aeef, 3.2);
-    cyanRim.position.set(-5, -2, -3);
-    scene.add(cyanRim);
+    const fillLight = new THREE.DirectionalLight(0xeef6fc, 1.1);
+    fillLight.position.set(-5, -2, 3);
+    scene.add(fillLight);
 
-    const secondaryCyan = new THREE.DirectionalLight(0x16b8f3, 2.0);
-    secondaryCyan.position.set(3, -4, 2);
-    scene.add(secondaryCyan);
+    const rimLight = new THREE.DirectionalLight(0x079ceb, 1.4);
+    rimLight.position.set(-4, 4, -4);
+    scene.add(rimLight);
 
-    const hemiLight = new THREE.HemisphereLight(0x00aeef, 0x02060d, 0.9);
+    const hemiLight = new THREE.HemisphereLight(0xffffff, 0xddebf7, 1.1);
     scene.add(hemiLight);
 
-    // Root Globe Group
     const globeGroup = new THREE.Group();
-    // Default pleasant tilt for realistic planetary alignment
-    globeGroup.rotation.x = 0.28;
-    globeGroup.rotation.z = -0.12;
+    globeGroup.rotation.x = 0.24;
+    globeGroup.rotation.z = -0.1;
     scene.add(globeGroup);
 
-    const GLOBE_RADIUS = 1.35;
+    const GLOBE_RADIUS = 1.32;
+    const initPalette = THEME_PALETTES[themeRef.current];
 
-    // 3. Inner Dark Obsidian Core Sphere
-    const coreGeo = new THREE.SphereGeometry(GLOBE_RADIUS * 0.98, 48, 48);
+    // 1. Pearlescent Clay-Glass Inner Core Sphere
+    const coreGeo = new THREE.SphereGeometry(GLOBE_RADIUS * 0.96, 48, 48);
     const coreMat = new THREE.MeshPhysicalMaterial({
-      color: 0x080d19,
-      roughness: 0.15,
-      metalness: 0.85,
-      clearcoat: 1.0,
-      clearcoatRoughness: 0.1,
-      emissive: 0x001d3a,
-      emissiveIntensity: 0.35,
+      color: initPalette.core,
+      roughness: 0.28,
+      metalness: 0.06,
+      clearcoat: 0.85,
+      clearcoatRoughness: 0.16,
+      emissive: initPalette.emissive,
+      emissiveIntensity: 0.3,
     });
     const coreMesh = new THREE.Mesh(coreGeo, coreMat);
     globeGroup.add(coreMesh);
 
-    // 4. Digital Grid Mesh & Points (Fibonacci sphere algorithm for uniform glowing network points)
-    const DOTS_COUNT = 1600;
+    // 2. Fibonacci Surface Network Nodes
+    const DOTS_COUNT = 1350;
     const dotPositions = new Float32Array(DOTS_COUNT * 3);
     const dotColors = new Float32Array(DOTS_COUNT * 3);
-    const colorCyan = new THREE.Color(0x00aeef);
-    const colorSky = new THREE.Color(0x16b8f3);
-    const colorIce = new THREE.Color(0xe0f7fe);
+    const phiSpan = Math.PI * (3 - Math.sqrt(5));
 
-    const phiSpan = Math.PI * (3 - Math.sqrt(5)); // Golden ratio angle
+    const colA = new THREE.Color(initPalette.primary);
+    const colB = new THREE.Color(initPalette.secondary);
+    const colSoft = new THREE.Color(0xbcdaf3);
 
     for (let i = 0; i < DOTS_COUNT; i++) {
-      const y = 1 - (i / (DOTS_COUNT - 1)) * 2; // y goes from 1 to -1
+      const y = 1 - (i / (DOTS_COUNT - 1)) * 2;
       const radiusAtY = Math.sqrt(1 - y * y);
       const theta = phiSpan * i;
-
-      const x = Math.cos(theta) * radiusAtY;
-      const z = Math.sin(theta) * radiusAtY;
-
-      dotPositions[i * 3] = x * GLOBE_RADIUS;
+      dotPositions[i * 3] = Math.cos(theta) * radiusAtY * GLOBE_RADIUS;
       dotPositions[i * 3 + 1] = y * GLOBE_RADIUS;
-      dotPositions[i * 3 + 2] = z * GLOBE_RADIUS;
+      dotPositions[i * 3 + 2] = Math.sin(theta) * radiusAtY * GLOBE_RADIUS;
 
-      // Subtle cyan/ice shimmer gradient
-      const chosenColor = i % 7 === 0 ? colorIce : i % 3 === 0 ? colorSky : colorCyan;
-      dotColors[i * 3] = chosenColor.r;
-      dotColors[i * 3 + 1] = chosenColor.g;
-      dotColors[i * 3 + 2] = chosenColor.b;
+      const c = i % 5 === 0 ? colB : i % 3 === 0 ? colSoft : colA;
+      dotColors[i * 3] = c.r;
+      dotColors[i * 3 + 1] = c.g;
+      dotColors[i * 3 + 2] = c.b;
     }
 
     const dotGeometry = new THREE.BufferGeometry();
@@ -181,182 +206,132 @@ export const HeroScene: React.FC<HeroSceneProps> = ({ journeyRef }) => {
     dotGeometry.setAttribute('color', new THREE.BufferAttribute(dotColors, 3));
 
     const dotMaterial = new THREE.PointsMaterial({
-      size: 0.032,
+      size: 0.028,
       vertexColors: true,
       transparent: true,
-      opacity: 0.85,
-      blending: THREE.AdditiveBlending,
+      opacity: 0.72,
     });
     const pointsMesh = new THREE.Points(dotGeometry, dotMaterial);
     globeGroup.add(pointsMesh);
 
-    // 5. Latitude & Longitude Digital Rings
-    const ringsGroup = new THREE.Group();
-    globeGroup.add(ringsGroup);
-
-    // 4 Latitude rings
-    [-0.5, -0.2, 0.2, 0.5].forEach((latRatio) => {
-      const r = Math.sqrt(1 - latRatio * latRatio) * GLOBE_RADIUS;
-      const ringGeo = new THREE.RingGeometry(r - 0.003, r + 0.003, 64);
-      const ringMat = new THREE.MeshBasicMaterial({
-        color: 0x00aeef,
-        transparent: true,
-        opacity: 0.12,
-        side: THREE.DoubleSide,
-      });
-      const ringMesh = new THREE.Mesh(ringGeo, ringMat);
-      ringMesh.rotation.x = Math.PI / 2;
-      ringMesh.position.y = latRatio * GLOBE_RADIUS;
-      ringsGroup.add(ringMesh);
-    });
-
-    // Outer Geodesic subtle lattice
-    const cageGeo = new THREE.IcosahedronGeometry(GLOBE_RADIUS * 1.05, 2);
+    // 3. Soft Outer Geodesic Wireframe Cage
+    const cageGeo = new THREE.IcosahedronGeometry(GLOBE_RADIUS * 1.045, 2);
     const cageMat = new THREE.MeshBasicMaterial({
-      color: 0x087fc1,
+      color: initPalette.wire,
       wireframe: true,
       transparent: true,
-      opacity: 0.14,
+      opacity: 0.28,
     });
     const cageMesh = new THREE.Mesh(cageGeo, cageMat);
     globeGroup.add(cageMesh);
 
-    // 6. Global Enterprise Hubs (prominent glowing node markers)
-    const hubPositions: THREE.Vector3[] = [];
-    const hubsGroup = new THREE.Group();
-    globeGroup.add(hubsGroup);
-
-    const hubDotGeo = new THREE.SphereGeometry(0.024, 16, 16);
-    const hubDotMat = new THREE.MeshBasicMaterial({
-      color: 0xffffff,
+    // 4. Dual Tilted Clay-Light Orbital Rings
+    const orbitMaterialA = new THREE.MeshBasicMaterial({
+      color: initPalette.ring,
+      transparent: true,
+      opacity: 0.42,
     });
+    const orbitGeoA = new THREE.TorusGeometry(GLOBE_RADIUS * 1.24, 0.009, 12, 96);
+    const orbitRingA = new THREE.Mesh(orbitGeoA, orbitMaterialA);
+    orbitRingA.rotation.x = Math.PI * 0.38;
+    orbitRingA.rotation.y = 0.3;
+    globeGroup.add(orbitRingA);
 
-    const hubRingGeo = new THREE.RingGeometry(0.038, 0.052, 24);
+    const orbitMaterialB = new THREE.MeshBasicMaterial({
+      color: initPalette.secondary,
+      transparent: true,
+      opacity: 0.34,
+    });
+    const orbitGeoB = new THREE.TorusGeometry(GLOBE_RADIUS * 1.32, 0.007, 12, 96);
+    const orbitRingB = new THREE.Mesh(orbitGeoB, orbitMaterialB);
+    orbitRingB.rotation.x = -Math.PI * 0.32;
+    orbitRingB.rotation.z = 0.45;
+    globeGroup.add(orbitRingB);
+
+    // 5. Hub Markers & Great-Circle Arcs
+    const hubPositions: THREE.Vector3[] = [];
+    const hubDotGeo = new THREE.SphereGeometry(0.028, 16, 16);
+    const hubDotMat = new THREE.MeshBasicMaterial({ color: initPalette.primary });
+    const hubRingGeo = new THREE.RingGeometry(0.042, 0.058, 24);
     const hubRingMat = new THREE.MeshBasicMaterial({
-      color: 0x00aeef,
+      color: initPalette.secondary,
       side: THREE.DoubleSide,
       transparent: true,
-      opacity: 0.8,
+      opacity: 0.7,
     });
 
     GLOBAL_HUBS.forEach((hub) => {
-      const pos = latLngToVector3(hub.lat, hub.lng, GLOBE_RADIUS);
+      const pos = latLngToVector3(hub.lat, hub.lng, GLOBE_RADIUS * 1.005);
       hubPositions.push(pos);
 
-      // Core white node
-      const hubNode = new THREE.Mesh(hubDotGeo, hubDotMat);
-      hubNode.position.copy(pos);
-      hubsGroup.add(hubNode);
+      const node = new THREE.Mesh(hubDotGeo, hubDotMat);
+      node.position.copy(pos);
+      globeGroup.add(node);
 
-      // Outer cyan target ring aligned with normal
       const ring = new THREE.Mesh(hubRingGeo, hubRingMat);
-      ring.position.copy(pos.clone().multiplyScalar(1.004));
+      ring.position.copy(pos.clone().multiplyScalar(1.006));
       ring.lookAt(pos.clone().multiplyScalar(2));
-      hubsGroup.add(ring);
+      globeGroup.add(ring);
     });
 
-    // 7. Great-Circle Cyber Connectivity Arcs
-    const arcsGroup = new THREE.Group();
-    globeGroup.add(arcsGroup);
-
-    // Connection pairs (indexes in GLOBAL_HUBS)
     const hubConnections: [number, number][] = [
-      [0, 1], // Hyderabad -> Bengaluru
-      [0, 2], // Hyderabad -> Singapore
-      [0, 4], // Hyderabad -> London
-      [0, 8], // Hyderabad -> Dubai
-      [2, 3], // Singapore -> Tokyo
-      [2, 9], // Singapore -> Sydney
-      [4, 5], // London -> Frankfurt
-      [4, 6], // London -> New York
-      [6, 7], // New York -> San Francisco
-      [7, 3], // San Francisco -> Tokyo
-      [8, 4], // Dubai -> London
+      [0, 1],
+      [0, 2],
+      [0, 4],
+      [0, 8],
+      [2, 3],
+      [2, 9],
+      [4, 5],
+      [4, 6],
+      [6, 7],
+      [7, 3],
+      [8, 4],
     ];
 
     const arcCurves: THREE.CatmullRomCurve3[] = [];
-    const arcMaterials: THREE.LineBasicMaterial[] = [];
+    const arcGeometries: THREE.BufferGeometry[] = [];
+    const arcMat = new THREE.LineBasicMaterial({
+      color: initPalette.primary,
+      transparent: true,
+      opacity: 0.42,
+    });
 
     hubConnections.forEach(([i1, i2]) => {
       const v1 = hubPositions[i1];
       const v2 = hubPositions[i2];
       if (!v1 || !v2) return;
-
-      const curve = createArcBetween(v1, v2, GLOBE_RADIUS, 0.28);
+      const curve = createArcBetween(v1, v2, GLOBE_RADIUS, 0.25);
       arcCurves.push(curve);
-
-      const points = curve.getPoints(50);
-      const arcGeo = new THREE.BufferGeometry().setFromPoints(points);
-      const arcMat = new THREE.LineBasicMaterial({
-        color: 0x00aeef,
-        transparent: true,
-        opacity: 0.35,
-        linewidth: 1,
-      });
-      arcMaterials.push(arcMat);
-
-      const arcLine = new THREE.Line(arcGeo, arcMat);
-      arcsGroup.add(arcLine);
+      const pts = curve.getPoints(48);
+      const arcGeo = new THREE.BufferGeometry().setFromPoints(pts);
+      arcGeometries.push(arcGeo);
+      globeGroup.add(new THREE.Line(arcGeo, arcMat));
     });
 
-    // 8. Dynamic Data Packets (Glowing photons traveling along the arcs)
+    // 6. Traveling Data Packets along arcs
     const PACKETS_COUNT = hubConnections.length * 2;
-    const packetGeo = new THREE.SphereGeometry(0.018, 12, 12);
-    const packetMat = new THREE.MeshBasicMaterial({
-      color: 0x00aeef,
-    });
-    const packetMeshGroup = new THREE.Group();
-    globeGroup.add(packetMeshGroup);
-
+    const packetGeo = new THREE.SphereGeometry(0.022, 12, 12);
+    const packetMat = new THREE.MeshBasicMaterial({ color: initPalette.packet });
     const packets: { mesh: THREE.Mesh; curveIndex: number; progress: number; speed: number }[] = [];
 
     for (let p = 0; p < PACKETS_COUNT; p++) {
-      const curveIndex = p % arcCurves.length;
       const mesh = new THREE.Mesh(packetGeo, packetMat);
-      packetMeshGroup.add(mesh);
+      globeGroup.add(mesh);
       packets.push({
         mesh,
-        curveIndex,
-        progress: (p / PACKETS_COUNT),
-        speed: 0.18 + Math.random() * 0.12,
+        curveIndex: p % arcCurves.length,
+        progress: p / PACKETS_COUNT,
+        speed: 0.16 + (p % 5) * 0.03,
       });
     }
 
-    // 9. Soft Outer Atmospheric Halo (Glow Sprite)
-    const haloCanvas = document.createElement('canvas');
-    haloCanvas.width = 256;
-    haloCanvas.height = 256;
-    const hCtx = haloCanvas.getContext('2d');
-    if (hCtx) {
-      const grad = hCtx.createRadialGradient(128, 128, 40, 128, 128, 128);
-      grad.addColorStop(0, 'rgba(0, 240, 255, 0.35)');
-      grad.addColorStop(0.4, 'rgba(0, 158, 219, 0.18)');
-      grad.addColorStop(0.7, 'rgba(4, 14, 30, 0.05)');
-      grad.addColorStop(1, 'rgba(2, 6, 13, 0)');
-      hCtx.fillStyle = grad;
-      hCtx.fillRect(0, 0, 256, 256);
-    }
-    const haloTexture = new THREE.CanvasTexture(haloCanvas);
-    const haloGeo = new THREE.PlaneGeometry(GLOBE_RADIUS * 3.4, GLOBE_RADIUS * 3.4);
-    const haloMat = new THREE.MeshBasicMaterial({
-      map: haloTexture,
-      transparent: true,
-      blending: THREE.AdditiveBlending,
-      depthWrite: false,
-      opacity: 0.65,
-    });
-    const haloMesh = new THREE.Mesh(haloGeo, haloMat);
-    // Position halo slightly behind center of globe
-    haloMesh.position.z = -0.2;
-    scene.add(haloMesh);
-
-    // 10. Floating Ambient Quantum Dust
-    const DUST_COUNT = 90;
+    // 7. Ambient Soft Floating Dust Particles
+    const DUST_COUNT = 64;
     const dustPositions = new Float32Array(DUST_COUNT * 3);
     for (let i = 0; i < DUST_COUNT; i++) {
-      const r = GLOBE_RADIUS * 1.3 + Math.random() * 1.2;
-      const u = Math.random();
-      const v = Math.random();
+      const r = GLOBE_RADIUS * 1.28 + ((i % 7) / 7) * 0.7;
+      const u = (i * 0.6180339887) % 1;
+      const v = ((i * 0.381966) % 0.8) + 0.1;
       const theta = u * 2.0 * Math.PI;
       const phi = Math.acos(2.0 * v - 1.0);
       dustPositions[i * 3] = r * Math.sin(phi) * Math.cos(theta);
@@ -366,119 +341,116 @@ export const HeroScene: React.FC<HeroSceneProps> = ({ journeyRef }) => {
     const dustGeo = new THREE.BufferGeometry();
     dustGeo.setAttribute('position', new THREE.BufferAttribute(dustPositions, 3));
     const dustMat = new THREE.PointsMaterial({
-      color: 0x16b8f3,
-      size: 0.02,
+      color: initPalette.primary,
+      size: 0.024,
       transparent: true,
-      opacity: 0.5,
-      blending: THREE.AdditiveBlending,
+      opacity: 0.45,
     });
     const dustMesh = new THREE.Points(dustGeo, dustMat);
     globeGroup.add(dustMesh);
 
-    // 11. Interactive Pointer Parallax
     const handlePointerMove = (e: MouseEvent) => {
+      if (reducedMotion.matches) return;
       const rect = container.getBoundingClientRect();
+      if (!rect.width || !rect.height) return;
       const x = ((e.clientX - rect.left) / rect.width) * 2 - 1;
       const y = -(((e.clientY - rect.top) / rect.height) * 2 - 1);
-      if (!reducedMotion.matches) _mouseTarget.set(x * 0.35, y * 0.25);
+      _mouseTarget.set(
+        THREE.MathUtils.clamp(x, -1, 1) * 0.28,
+        THREE.MathUtils.clamp(y, -1, 1) * 0.22
+      );
     };
-    window.addEventListener('mousemove', handlePointerMove);
+    window.addEventListener('mousemove', handlePointerMove, { passive: true });
 
-    // 12. Animation Loop with Exponential Damping
     let animationFrameId = 0;
     const clock = new THREE.Clock();
-    const darkCore = new THREE.Color(0x080d19);
-    const lightCore = new THREE.Color(0xe6eff1);
-    const darkGlow = new THREE.Color(0x001d3a);
-    const lightGlow = new THREE.Color(0xb4cbd1);
-    let lastProgress = journeyRef?.current.progress || 0;
+    let appliedTheme: PrakviThemeId = themeRef.current;
+
+    const targetCore = new THREE.Color();
+    const targetEmissive = new THREE.Color();
+    const targetPrimary = new THREE.Color();
+    const targetSecondary = new THREE.Color();
+    const targetRing = new THREE.Color();
+    const targetWire = new THREE.Color();
+    const targetPacket = new THREE.Color();
+
+    const applyThemeInstant = (nextId: PrakviThemeId) => {
+      const p = THEME_PALETTES[nextId];
+      targetCore.setHex(p.core);
+      targetEmissive.setHex(p.emissive);
+      targetPrimary.setHex(p.primary);
+      targetSecondary.setHex(p.secondary);
+      targetRing.setHex(p.ring);
+      targetWire.setHex(p.wire);
+      targetPacket.setHex(p.packet);
+    };
+    applyThemeInstant(appliedTheme);
 
     function renderLoop() {
       const delta = reducedMotion.matches ? 0 : Math.min(clock.getDelta(), 0.1);
-      
 
-      // Mouse damping
+      if (themeRef.current !== appliedTheme) {
+        appliedTheme = themeRef.current;
+        applyThemeInstant(appliedTheme);
+      }
+
+      const colorDamp = reducedMotion.matches ? 1 : 1 - Math.exp(-6 * Math.max(delta, 0.016));
+      coreMat.color.lerp(targetCore, colorDamp);
+      coreMat.emissive.lerp(targetEmissive, colorDamp);
+      rimLight.color.lerp(targetPrimary, colorDamp);
+      cageMat.color.lerp(targetWire, colorDamp);
+      orbitMaterialA.color.lerp(targetRing, colorDamp);
+      orbitMaterialB.color.lerp(targetSecondary, colorDamp);
+      hubDotMat.color.lerp(targetPrimary, colorDamp);
+      hubRingMat.color.lerp(targetSecondary, colorDamp);
+      arcMat.color.lerp(targetPrimary, colorDamp);
+      packetMat.color.lerp(targetPacket, colorDamp);
+      dustMat.color.lerp(targetPrimary, colorDamp);
+
       const damp = 1 - Math.exp(-4 * delta);
       _currentMouse.lerp(_mouseTarget, damp);
 
-      // Continuous soft spin, plus rotation driven by the same scroll journey.
-      const journey = journeyRef?.current;
-      const theme = journey?.theme || 0;
-      const scrollTurn = reducedMotion.matches ? 0 : ((journey?.progress || 0) - lastProgress) * Math.PI * 0.8;
-      lastProgress = journey?.progress || 0;
-      globeGroup.rotation.y += delta * 0.055 + scrollTurn;
-      coreMat.color.lerpColors(darkCore, lightCore, theme);
-      coreMat.emissive.lerpColors(darkGlow, lightGlow, theme);
-      coreMat.metalness = 0.85 - theme * 0.6;
-      coreMat.roughness = 0.15 + theme * 0.45;
-      haloMat.opacity = 0.65 - theme * 0.57;
-      cageMat.opacity = 0.14 - theme * 0.04;
-      dotMaterial.opacity = 0.85 - theme * 0.4;
-      dustMat.opacity = 0.5 - theme * 0.38;
-      hubRingMat.opacity = 0.8 - theme * 0.45;
-      arcMaterials.forEach(material => { material.opacity = 0.35 - theme * 0.2; });
-      pointsMesh.rotation.y += delta * 0.01;
-      cageMesh.rotation.y -= delta * 0.02;
+      globeGroup.rotation.y += delta * 0.12;
+      pointsMesh.rotation.y += delta * 0.025;
+      cageMesh.rotation.y -= delta * 0.03;
+      orbitRingA.rotation.z += delta * 0.18;
+      orbitRingB.rotation.y -= delta * 0.14;
 
-      // Gentle interactive tilt towards mouse pointer
-      globeGroup.rotation.x = 0.28 + _currentMouse.y * 0.2 * (1 - theme);
-      globeGroup.rotation.z = -0.12 - _currentMouse.x * 0.2 * (1 - theme);
+      if (!reducedMotion.matches) {
+        globeGroup.rotation.x = 0.24 + _currentMouse.y * 0.18;
+        globeGroup.rotation.z = -0.1 - _currentMouse.x * 0.18;
+      }
 
-      // Update traveling data packets
       for (let i = 0; i < packets.length; i++) {
-        const p = packets[i];
-        p.progress = (p.progress + delta * p.speed * 0.55) % 1;
-        const curve = arcCurves[p.curveIndex];
+        const pkt = packets[i];
+        pkt.progress = (pkt.progress + delta * pkt.speed) % 1;
+        const curve = arcCurves[pkt.curveIndex];
         if (curve) {
-          curve.getPointAt(p.progress, _packetPos);
-          p.mesh.position.copy(_packetPos);
+          curve.getPointAt(pkt.progress, _packetPos);
+          pkt.mesh.position.copy(_packetPos);
         }
       }
 
-      // Keep halo facing camera
-      haloMesh.lookAt(camera.position);
-
       renderer.render(scene, camera);
-
-      // Project anchors using the globe's actual matrix so cards share its rotation
-      // and pointer tilt. Update DOM transforms directly instead of React each frame.
-      const cardWidth = viewportWidth < 400 ? 118 : 150;
-      cardAnchors.forEach((anchor, index) => {
-        const card = cardRefs.current[index];
-        if (!card) return;
-        cardWorld.copy(anchor).applyMatrix4(globeGroup.matrixWorld);
-        cardScreen.copy(cardWorld).project(camera);
-        const visibility = THREE.MathUtils.smoothstep(cardWorld.z, -0.1, 0.65);
-        const scale = THREE.MathUtils.clamp(0.88 + cardWorld.z * 0.07, 0.8, 1.02);
-        const px = THREE.MathUtils.clamp((cardScreen.x * 0.5 + 0.5) * viewportWidth, cardWidth / 2 + 4, viewportWidth - cardWidth / 2 - 4);
-        const py = THREE.MathUtils.clamp((-cardScreen.y * 0.5 + 0.5) * viewportHeight, 48, viewportHeight - 48);
-        card.style.width = `${cardWidth}px`;
-        card.style.transform = `translate3d(${px}px, ${py}px, 0) translate(-50%, -50%) scale(${scale})`;
-        card.style.opacity = String(visibility);
-        card.style.zIndex = String(10 + Math.round(cardWorld.z * 10));
-      });
       animationFrameId = requestAnimationFrame(renderLoop);
     }
 
     renderLoop();
 
-    // 13. Responsive Resize Handler
-    const handleResize = () => {
-      if (!container) return;
-      const w = container.clientWidth || window.innerWidth;
-      const h = container.clientHeight || window.innerHeight;
-      viewportWidth = w;
-      viewportHeight = h;
+    const resizeObserver = new ResizeObserver((entries) => {
+      const entry = entries[0];
+      if (!entry) return;
+      const w = Math.max(240, Math.floor(entry.contentRect.width));
+      const h = Math.max(240, Math.floor(entry.contentRect.height));
       camera.aspect = w / h;
       camera.updateProjectionMatrix();
       renderer.setSize(w, h);
-    };
-    window.addEventListener('resize', handleResize);
+    });
+    resizeObserver.observe(container);
 
-    // Cleanup
     return () => {
+      resizeObserver.disconnect();
       window.removeEventListener('mousemove', handlePointerMove);
-      window.removeEventListener('resize', handleResize);
       cancelAnimationFrame(animationFrameId);
 
       coreGeo.dispose();
@@ -487,42 +459,35 @@ export const HeroScene: React.FC<HeroSceneProps> = ({ journeyRef }) => {
       dotMaterial.dispose();
       cageGeo.dispose();
       cageMat.dispose();
+      orbitGeoA.dispose();
+      orbitMaterialA.dispose();
+      orbitGeoB.dispose();
+      orbitMaterialB.dispose();
       hubDotGeo.dispose();
       hubDotMat.dispose();
       hubRingGeo.dispose();
       hubRingMat.dispose();
+      arcGeometries.forEach((g) => g.dispose());
+      arcMat.dispose();
       packetGeo.dispose();
       packetMat.dispose();
       dustGeo.dispose();
       dustMat.dispose();
-      haloGeo.dispose();
-      haloMat.dispose();
-      haloTexture.dispose();
-      arcMaterials.forEach((m) => m.dispose());
+      envTarget.dispose();
+      pmremGenerator.dispose();
       renderer.dispose();
 
       if (container.contains(renderer.domElement)) {
         container.removeChild(renderer.domElement);
       }
     };
-  }, [journeyRef]);
+  }, []);
 
   return (
-    <div className="absolute inset-0 pointer-events-none overflow-hidden select-none">
-      {/* 3D WebGL Canvas */}
-      <div
-        ref={containerRef}
-        className="w-full h-full absolute inset-0 pointer-events-auto"
-      />
-      <div className="globe-service-cards" aria-hidden="true">
-        {globeCards.map(({ title, subtitle, icon: Icon }, index) => (
-          <div key={title} ref={element => { cardRefs.current[index] = element; }} className="globe-service-card">
-            <Icon className="globe-service-icon" aria-hidden="true" />
-            <strong>{title}</strong>
-            <span>{subtitle}</span>
-          </div>
-        ))}
-      </div>
-    </div>
+    <div
+      ref={containerRef}
+      className="h-full w-full pointer-events-auto"
+      aria-hidden="true"
+    />
   );
 };

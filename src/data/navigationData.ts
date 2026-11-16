@@ -15,14 +15,73 @@ export interface SolutionLink {
 
 export const navigationData = {
   mainNav: [
-    { label: 'Home', path: '/' },
-    { label: 'About Us', path: '/about' },
-    { label: 'Services', path: '/services', hasDropdown: true },
-    { label: 'Products', path: '/products' },
-    { label: 'Careers', path: '/careers' },
-    { label: 'Insights', path: '/insights' },
-    { label: 'Contact', path: '/contact' },
+    { label: 'WHO WE ARE', path: '/about', hasDropdown: true },
+    { label: 'WHAT WE DO', path: '/services', hasDropdown: true },
+    { label: 'HOW WE HELP', path: '/case-studies', hasDropdown: true },
+    { label: 'CAREERS', path: '/careers' },
   ] as NavItem[],
+
+  whoWeAreLinks: [
+    {
+      id: 'about-company',
+      title: 'About Prakvi',
+      description: 'Our story, mission, vision, core values, and engineering heritage',
+      path: '/about',
+      iconName: 'Building2',
+    },
+    {
+      id: 'recognition',
+      title: 'Why Choose Prakvi',
+      description: '236+ projects delivered, 100+ clients, 15+ years of enterprise trust',
+      path: '/about#recognition',
+      iconName: 'Award',
+    },
+    {
+      id: 'offices',
+      title: 'Offices & Delivery Centers',
+      description: 'New Delhi headquarters & Nashik operations center',
+      path: '/contact',
+      iconName: 'MapPin',
+    },
+    {
+      id: 'join-team',
+      title: 'Life at Prakvi & Careers',
+      description: 'Culture, open engineering roles & talent opportunities',
+      path: '/careers',
+      iconName: 'Users',
+    },
+  ] as SolutionLink[],
+
+  howWeHelpLinks: [
+    {
+      id: 'all-services',
+      title: 'All 17 Enterprise & Business Services',
+      description: 'Explore staffing, cloud, analytics, mobility, consulting & delivery',
+      path: '/services',
+      iconName: 'Layers',
+    },
+    {
+      id: 'all-products',
+      title: 'Proprietary Software Platforms',
+      description: 'Data Analytics, HR Management, Vendor & Relationship Management',
+      path: '/products',
+      iconName: 'Database',
+    },
+    {
+      id: 'case-studies',
+      title: 'Case Studies & Client Impact',
+      description: 'How we solve operational complexity for modern enterprises',
+      path: '/case-studies',
+      iconName: 'Briefcase',
+    },
+    {
+      id: 'insights',
+      title: 'Insights & Research',
+      description: 'Architecture perspectives across AI, cloud, security & talent',
+      path: '/insights',
+      iconName: 'BookOpen',
+    },
+  ] as SolutionLink[],
 
   enterpriseSolutions: [
     {
@@ -152,36 +211,36 @@ export const navigationData = {
   products: [
     {
       id: 'data-analytics',
-      title: 'DataPulse Analytics',
-      description: 'AI-assisted enterprise reporting & executive dashboard suite',
+      title: 'Data Analytics',
+      description: 'Turn raw enterprise data into predictive, actionable insights',
       path: '/products/data-analytics',
       iconName: 'Database',
     },
     {
       id: 'hr-management-system',
-      title: 'TalentCore HRMS',
-      description: 'Full employee lifecycle, payroll and compliance platform',
+      title: 'HR Management System',
+      description: 'AI-powered HRMS for recruitment, payroll & compliance',
       path: '/products/hr-management-system',
       iconName: 'Users',
     },
     {
       id: 'vendor-management',
-      title: 'NexVendor VMS',
-      description: 'Supplier lifecycle, onboarding and SLA tracking platform',
+      title: 'Vendor Management',
+      description: 'Centralized supplier onboarding, procurement & SLA control',
       path: '/products/vendor-management',
       iconName: 'Handshake',
     },
     {
       id: 'relationship-management',
-      title: 'ClientSync CRM',
-      description: 'Enterprise relationship management & deal pipeline engine',
+      title: 'Relationship Management',
+      description: 'Unified 360° customer CRM, automation & sales pipelines',
       path: '/products/relationship-management',
       iconName: 'Contact',
     },
   ] as SolutionLink[],
 
   headerCta: {
-    label: 'Get Started',
+    label: "Let's Talk",
     path: '/contact',
   },
 };

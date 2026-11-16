@@ -6,9 +6,9 @@
 import React from 'react';
 import { BrowserRouter, Routes, Route, useLocation } from 'react-router-dom';
 import { AnimatePresence, MotionConfig } from 'motion/react';
+import { ThemeProvider } from './context/ThemeContext';
 import { SmoothScroll, resetRouteScroll } from './components/layout/SmoothScroll';
 import { Header } from './components/layout/Header';
-import { GlobeJourney } from './components/layout/GlobeJourney';
 import { BackToTop } from './components/layout/BackToTop';
 import { Footer } from './components/layout/Footer';
 import { HomePage } from './pages/HomePage';
@@ -49,20 +49,23 @@ function AnimatedRoutes() {
 
 export default function App() {
   return (
-    <MotionConfig reducedMotion="user">
-    <BrowserRouter>
-      <SmoothScroll />
-      <div className="flex flex-col min-h-screen bg-canvas text-foreground selection:bg-accent selection:text-white">
-        <a href="#main-content" className="skip-link">Skip to content</a>
-        <Header />
-        <main id="main-content" className="flex-1 flex flex-col w-full relative">
-          <AnimatedRoutes />
-        </main>
-        <Footer />
-        <BackToTop />
-        <GlobeJourney />
-      </div>
-    </BrowserRouter>
-    </MotionConfig>
+    <ThemeProvider>
+      <MotionConfig reducedMotion="user">
+        <BrowserRouter>
+          <SmoothScroll />
+          <div className="flex flex-col min-h-screen bg-canvas text-foreground selection:bg-accent selection:text-white">
+            <a href="#main-content" className="skip-link">
+              Skip to content
+            </a>
+            <Header />
+            <main id="main-content" className="flex-1 flex flex-col w-full relative">
+              <AnimatedRoutes />
+            </main>
+            <Footer />
+            <BackToTop />
+          </div>
+        </BrowserRouter>
+      </MotionConfig>
+    </ThemeProvider>
   );
 }

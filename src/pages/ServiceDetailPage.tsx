@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { useParams, Link, Navigate } from 'react-router-dom';
 import { Breadcrumbs } from '../components/common/Breadcrumbs';
 import { SectionHeading } from '../components/common/SectionHeading';
@@ -6,22 +6,26 @@ import { CTASection } from '../components/common/CTASection';
 import { PageTransition } from '../components/layout/PageTransition';
 import { servicesData } from '../data/servicesData';
 import {
-  CheckCircle2,
   AlertCircle,
   ArrowRight,
+  CheckCircle2,
   ChevronDown,
-  Users,
   Laptop,
-  Lock,
   Layers,
+  Lock,
+  Users,
 } from 'lucide-react';
 
 export const ServiceDetailPage: React.FC = () => {
   const { slug } = useParams<{ slug: string }>();
   const [openFaqIndex, setOpenFaqIndex] = useState<number | null>(0);
-
-  // Mobility Practice Interactive Tab State
+  const [activeStackTab, setActiveStackTab] = useState(0);
   const [mobilityTab, setMobilityTab] = useState<'byod' | 'cyod' | 'security' | 'tools'>('byod');
+
+  useEffect(() => {
+    setActiveStackTab(0);
+    setOpenFaqIndex(0);
+  }, [slug]);
 
   const slugAliases: Record<string, string> = {
     'staffing-workforce-solutions': 'staffing',
@@ -32,110 +36,106 @@ export const ServiceDetailPage: React.FC = () => {
     'it-consulting-strategic-advisory': 'it-consulting',
   };
 
-  const resolvedSlug = slug ? (slugAliases[slug] || slug) : '';
-  const service = servicesData.find((s) => s.slug === resolvedSlug || s.id === resolvedSlug || s.slug === slug || s.id === slug);
+  const resolvedSlug = slug ? slugAliases[slug] || slug : '';
+  const service = servicesData.find(
+    (s) => s.slug === resolvedSlug || s.id === resolvedSlug || s.slug === slug || s.id === slug
+  );
 
   if (!service) {
     return <Navigate to="/services" replace />;
   }
 
-  const isStaffingPage = service.slug === 'staffing' || service.slug === 'staffing-workforce-solutions';
+  const isStaffingPage = service.slug === 'staffing';
   const isMobilityPage = service.slug === 'mobility-practice';
 
   const toggleFaq = (index: number) => {
     setOpenFaqIndex(openFaqIndex === index ? null : index);
   };
 
+  const stackTabs = service.stackTabs || [];
+  const currentStack = stackTabs[activeStackTab] || stackTabs[0];
+
   return (
     <PageTransition>
       <div className="overflow-x-hidden pt-20 selection:bg-accent selection:text-white">
-
-        <section className="bg-gradient-to-b from-canvas via-surface to-canvas text-foreground py-section relative overflow-hidden">
-          <div className="absolute inset-0 z-0 opacity-25">
-            <img
-              src={service.featuredImage}
-              alt={service.title}
-              className="w-full h-full object-cover object-center"
-            />
-            <div className="absolute inset-0 bg-gradient-to-r from-canvas via-canvas/90 to-canvas/70" />
-            <div className="absolute inset-0 bg-gradient-to-t from-canvas via-transparent to-canvas/80" />
-          </div>
-
+        {/* 1. SERVICE HERO */}
+        <section className="hero-clay-canvas py-section relative overflow-hidden">
           <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
             <Breadcrumbs
               items={[
                 { label: 'Services', path: '/services' },
                 { label: service.title },
               ]}
-              variant="light"
             />
 
-            <div className="mt-8 max-w-3xl">
-              <div className="mb-4 inline-flex items-center gap-2 rounded-full border border-accent/25 bg-white/[0.04] px-3.5 py-1.5">
-                <span className="w-2 h-2 rounded-full bg-accent shadow-accent" />
-                <span className="text-xs font-mono font-semibold uppercase tracking-widest text-accent">
-                  {service.badge || 'Enterprise Practice'}
-                </span>
+            <div className="mt-8 grid grid-cols-1 lg:grid-cols-12 gap-10 items-center">
+              <div className="lg:col-span-7 space-y-5">
+                <div className="text-xs font-mono font-bold uppercase tracking-[0.2em] text-accent">
+                  {service.badge || 'Prakvi Service'}
+                </div>
+
+                <h1 className="font-display text-4xl sm:text-5xl font-extrabold text-foreground tracking-tight leading-tight text-balance">
+                  {service.title}
+                </h1>
+
+                <p className="text-lg sm:text-xl font-semibold text-accent">
+                  {service.tagline}
+                </p>
+
+                <p className="text-base text-muted leading-relaxed">
+                  {service.fullDesc}
+                </p>
+
+                <div className="pt-2 flex flex-wrap gap-4">
+                  <Link to="/contact" className="btn-primary">
+                    <span>Schedule Consultation</span>
+                    <ArrowRight className="arrow-shift" aria-hidden="true" />
+                  </Link>
+                  <a href="#capabilities" className="btn-secondary">
+                    <span>Explore Service Offerings</span>
+                  </a>
+                </div>
               </div>
 
-              <h1 className="font-display text-4xl sm:text-5xl lg:text-6xl font-extrabold text-foreground tracking-tight leading-tight text-balance">
-                {service.title}
-              </h1>
-
-              <p className="mt-4 text-lg sm:text-xl font-medium text-accent">
-                {service.tagline}
-              </p>
-
-              <p className="mt-4 text-base sm:text-lg text-muted leading-relaxed text-balance font-light">
-                {service.fullDesc}
-              </p>
-
-              <div className="mt-8 flex flex-wrap gap-4">
-                <Link
-                  to="/contact"
-                  className="btn-primary"
-                >
-                  <span>Consult with practice lead</span>
-                  <ArrowRight className="w-4 h-4 text-foreground" />
-                </Link>
-                <a
-                  href="#capabilities"
-                  className="btn-secondary"
-                >
-                  <span>Explore capabilities</span>
-                </a>
+              <div className="lg:col-span-5">
+                <div className="clay-card p-3">
+                  <img
+                    src={service.featuredImage}
+                    alt={service.title}
+                    className="w-full h-72 sm:h-80 object-cover rounded-2xl"
+                    referrerPolicy="no-referrer"
+                  />
+                </div>
               </div>
             </div>
           </div>
         </section>
 
-
-        <section className="py-section bg-canvas text-foreground">
+        {/* 2. CHALLENGE & APPROACH */}
+        <section className="py-section bg-canvas">
           <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-            <div className="grid grid-cols-1 md:grid-cols-2 gap-8 lg:gap-10">
-              {/* The Challenge */}
-              <div className="p-8 sm:p-10 rounded-3xl glass-panel border border-rose-200 ">
-                <div className="flex items-center gap-2 text-rose-300 text-xs font-mono font-bold uppercase tracking-wider mb-3">
-                  <AlertCircle className="w-4 h-4" />
-                  <span>The Enterprise Challenge</span>
+            <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
+              <div className="clay-card p-8 sm:p-9">
+                <div className="flex items-center gap-2 text-rose-600 text-xs font-mono font-bold uppercase tracking-wider mb-3">
+                  <AlertCircle className="w-4 h-4" aria-hidden="true" />
+                  <span>Business Challenge</span>
                 </div>
-                <h3 className="font-display text-xl sm:text-2xl font-bold text-foreground mb-3">
-                  Navigating Complexity & Risk
-                </h3>
+                <h2 className="font-display text-xl sm:text-2xl font-bold text-foreground mb-3">
+                  Addressing Operational Bottlenecks
+                </h2>
                 <p className="text-sm sm:text-base text-muted leading-relaxed">
                   {service.businessChallenge}
                 </p>
               </div>
 
-              {/* How Prakvi Helps */}
-              <div className="p-8 sm:p-10 rounded-3xl glass-panel border border-accent/30 ">
+              <div className="clay-pastel p-8 sm:p-9">
                 <div className="flex items-center gap-2 text-accent text-xs font-mono font-bold uppercase tracking-wider mb-3">
-                  <CheckCircle2 className="w-4 h-4" />
-                  <span>The Prakvi Strategic Approach</span>
+                  <CheckCircle2 className="w-4 h-4" aria-hidden="true" />
+                  <span>How Prakvi Helps</span>
                 </div>
-                <h3 className="font-display text-xl sm:text-2xl font-bold text-foreground mb-3">
-                  Engineered for Measurable Impact
-                </h3>
+                <h2 className="font-display text-xl sm:text-2xl font-bold text-foreground mb-3">
+                  Tailored, Scalable Execution
+                </h2>
                 <p className="text-sm sm:text-base text-muted leading-relaxed">
                   {service.howWeHelp}
                 </p>
@@ -144,155 +144,112 @@ export const ServiceDetailPage: React.FC = () => {
           </div>
         </section>
 
+        {/* 3. CORE SERVICE OFFERINGS */}
+        <section id="capabilities" className="py-section bg-surface/75">
+          <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <SectionHeading
+              badge="Capabilities"
+              title={service.offeringsTitle || `${service.title} Offerings`}
+              description={
+                service.offeringsSubtitle ||
+                'Comprehensive service modules engineered for reliability, compliance, and long-term performance.'
+              }
+            />
 
-        {isStaffingPage && (
-          <section className="py-section bg-surface text-foreground">
-            <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-              <SectionHeading
-                badge="Recruitment Governance"
-                title="End-to-End Recruitment Process Timeline"
-                description="Our proven 5-stage recruitment framework guarantees vetted talent velocity, strict credentialing compliance, and post-onboarding retention."
-                theme="light"
-                align="center"
-              />
-
-              <div className="mt-14 grid grid-cols-1 md:grid-cols-5 gap-5">
-                {service.deliverySteps.map((step, idx) => (
-                  <div
-                    key={idx}
-                    className="p-6 rounded-2xl bg-canvas border border-line shadow-sm hover:shadow-md relative flex flex-col justify-between transition-all group"
-                  >
-                    <div>
-                      <div className="w-9 h-9 rounded-xl bg-surface border border-accent/30 text-accent font-mono font-bold text-xs flex items-center justify-center mb-4">
-                        {step.step}
-                      </div>
-                      <h4 className="font-display text-sm font-bold text-foreground mb-2">
-                        {step.title}
-                      </h4>
-                      <p className="text-xs text-muted leading-relaxed">
-                        {step.description}
-                      </p>
+            <div className="mt-12 grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+              {service.capabilities.map((cap, idx) => (
+                <div key={idx} className="clay-card clay-card-interactive p-7">
+                  <div className="flex items-center gap-3 mb-4">
+                    <div className="clay-icon-box w-10 h-10 flex items-center justify-center shrink-0">
+                      <CheckCircle2 className="w-5 h-5" aria-hidden="true" />
                     </div>
-                    <div className="mt-5 pt-3 border-t border-line text-[10px] font-mono text-accent font-semibold">
-                      Phase 0{idx + 1}
-                    </div>
+                    <h3 className="font-display text-base font-bold text-foreground">
+                      {cap.title}
+                    </h3>
                   </div>
-                ))}
-              </div>
-
-              {/* Preserved Specialized Staffing Verticals Highlight */}
-              <div className="mt-16 pt-12 border-t border-line">
-                <div className="text-center max-w-2xl mx-auto mb-8">
-                  <div className="text-xs font-mono font-bold uppercase text-accent tracking-wider mb-2">
-                    Comprehensive Sourcing Verticals
-                  </div>
-                  <h3 className="font-display text-2xl font-bold text-foreground">
-                    Healthcare, Technology & Executive Search
-                  </h3>
+                  <p className="text-sm text-muted leading-relaxed">{cap.description}</p>
                 </div>
-
-                <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-4 gap-3.5 text-xs">
-                  {[
-                    'Healthcare Staffing & Travel Nursing',
-                    'Clinical Informatics & EHR Specialists',
-                    'IT Consulting & Cloud Engineers',
-                    'Full-Stack & DevOps Pods',
-                    'Permanent & Direct Hire Placements',
-                    'Contract & Contingent Staffing',
-                    'Executive Search & CXO Hiring',
-                    'Enterprise MSA Partnerships',
-                  ].map((item, idx) => (
-                    <div
-                      key={idx}
-                      className="p-4 rounded-xl bg-surface border border-line flex items-center gap-2.5 text-foreground font-medium"
-                    >
-                      <CheckCircle2 className="w-4 h-4 text-accent shrink-0" />
-                      <span>{item}</span>
-                    </div>
-                  ))}
-                </div>
-              </div>
+              ))}
             </div>
-          </section>
-        )}
+          </div>
+        </section>
 
-
+        {/* 4. BESPOKE MOBILITY PRACTICE WORKBENCH */}
         {isMobilityPage && (
-          <section className="py-section bg-surface text-foreground">
+          <section className="py-section bg-canvas">
             <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
               <SectionHeading
                 badge="Interactive Mobility Workbench"
-                title="Enterprise Mobility Governance Framework"
-                description="Explore how Prakvi balances employee choice with zero-trust defense-in-depth across endpoints."
-                theme="light"
+                title="BYOD & CYOD Governance Architecture"
+                description="Explore how Prakvi balances employee device choice with enterprise endpoint security."
                 align="center"
               />
 
-              {/* Interactive Tabs */}
               <div className="mt-10 flex flex-wrap justify-center gap-3">
                 {[
                   { id: 'byod', label: 'BYOD Architecture', icon: Users },
                   { id: 'cyod', label: 'CYOD Catalog', icon: Laptop },
-                  { id: 'security', label: 'Endpoint Security & ZTNA', icon: Lock },
+                  { id: 'security', label: 'Endpoint Security', icon: Lock },
                   { id: 'tools', label: 'MDM / UEM Toolchain', icon: Layers },
                 ].map((tab) => {
                   const IconComp = tab.icon;
+                  const active = mobilityTab === tab.id;
                   return (
                     <button
                       key={tab.id}
-                      onClick={() => setMobilityTab(tab.id as any)}
-                      className={`flex items-center gap-2 px-5 py-3 rounded-xl text-xs sm:text-sm font-semibold transition-all ${
-                        mobilityTab === tab.id
-                          ? 'bg-accent/10 text-accent ring-1 ring-accent/40 font-bold'
-                          : 'bg-surface text-muted hover:text-foreground hover:bg-surface'
+                      type="button"
+                      onClick={() => setMobilityTab(tab.id as 'byod' | 'cyod' | 'security' | 'tools')}
+                      className={`inline-flex items-center gap-2 px-5 py-3 rounded-full text-xs sm:text-sm font-semibold transition-all ${
+                        active
+                          ? 'bg-accent text-white shadow-md'
+                          : 'clay-card text-muted hover:text-foreground'
                       }`}
                     >
-                      <IconComp className="w-4 h-4" />
+                      <IconComp className="w-4 h-4" aria-hidden="true" />
                       <span>{tab.label}</span>
                     </button>
                   );
                 })}
               </div>
 
-              {/* Tab Content Display */}
-              <div className="mt-8 p-8 rounded-3xl bg-canvas border border-line">
+              <div className="mt-8 clay-card p-8 sm:p-10">
                 {mobilityTab === 'byod' && (
-                  <div className="space-y-4">
-                    <h4 className="text-xl font-bold font-display text-foreground">
-                      Bring Your Own Device (BYOD) Containerization
-                    </h4>
-                    <p className="text-sm text-muted leading-relaxed">
-                      Our BYOD architecture enables employees to access corporate intranets and applications using personal smartphones and laptops without sacrificing personal privacy or enterprise security. Work data resides inside encrypted hardware partitions.
+                  <div className="space-y-3">
+                    <h3 className="font-display text-xl font-bold text-foreground">
+                      Bring Your Own Device (BYOD)
+                    </h3>
+                    <p className="text-sm sm:text-base text-muted leading-relaxed">
+                      Device-agnostic access with user-centric policies and cloud sync management—separating corporate applications cleanly inside work containers (Android Work Profiles, Samsung Knox) without touching personal content.
                     </p>
                   </div>
                 )}
                 {mobilityTab === 'cyod' && (
-                  <div className="space-y-4">
-                    <h4 className="text-xl font-bold font-display text-foreground">
-                      Choose Your Own Device (CYOD) Corporate Catalog
-                    </h4>
-                    <p className="text-sm text-muted leading-relaxed">
-                      Standardize enterprise procurement while giving employees autonomy from an audited catalog of pre-configured, tamper-resistant devices with automated zero-touch enrollment.
+                  <div className="space-y-3">
+                    <h3 className="font-display text-xl font-bold text-foreground">
+                      Choose Your Own Device (CYOD)
+                    </h3>
+                    <p className="text-sm sm:text-base text-muted leading-relaxed">
+                      Pre-approved enterprise device catalogs with custom security configuration and centralized maintenance, giving teams choice while simplifying fleet governance.
                     </p>
                   </div>
                 )}
                 {mobilityTab === 'security' && (
-                  <div className="space-y-4">
-                    <h4 className="text-xl font-bold font-display text-foreground">
-                      Zero-Trust Network Access & Remote Wipe
-                    </h4>
-                    <p className="text-sm text-muted leading-relaxed">
-                      Continuous endpoint compliance checks, selective remote corporate data wipe upon termination, micro-VPN tunneling, and per-app VPN routing prevent data leakage.
+                  <div className="space-y-3">
+                    <h3 className="font-display text-xl font-bold text-foreground">
+                      Security & Compliance Controls
+                    </h3>
+                    <p className="text-sm sm:text-base text-muted leading-relaxed">
+                      Zero-trust secure access control, biometric & MFA enforcement, end-to-end data encryption, conditional access rules, and automated patch management.
                     </p>
                   </div>
                 )}
                 {mobilityTab === 'tools' && (
-                  <div className="space-y-4">
-                    <h4 className="text-xl font-bold font-display text-foreground">
-                      Multi-Platform MDM/MAM Toolchain Support
-                    </h4>
-                    <p className="text-sm text-muted leading-relaxed">
-                      Certified integration and policy management across Microsoft Intune, VMware Workspace ONE, Jamf Pro, and Google Workspace Endpoint Management.
+                  <div className="space-y-3">
+                    <h3 className="font-display text-xl font-bold text-foreground">
+                      MDM & Enterprise Mobility Tools
+                    </h3>
+                    <p className="text-sm sm:text-base text-muted leading-relaxed">
+                      Seamless enrollment and continuous monitoring powered by Microsoft Intune, Mobile Device Management (MDM), Apple Business Manager, and Android Enterprise.
                     </p>
                   </div>
                 )}
@@ -301,100 +258,188 @@ export const ServiceDetailPage: React.FC = () => {
           </section>
         )}
 
-
-        <section id="capabilities" className="py-section bg-canvas text-foreground">
+        {/* 5. METHODOLOGY / DELIVERY PROCESS */}
+        <section className={`py-section ${isMobilityPage ? 'bg-surface/75' : 'bg-canvas'}`}>
           <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
             <SectionHeading
-              badge="Practice Matrix"
-              title="Core Engineering & Delivery Capabilities"
-              description="A granular breakdown of the technical deliverables and operational assets provided by this practice."
-              theme="light"
-            />
-
-            <div className="mt-12 grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-              {service.capabilities.map((cap, idx) => (
-                <div
-                  key={idx}
-                  className="p-6 rounded-2xl glass-panel border border-line  hover:shadow-accent transition-all"
-                >
-                  <div className="flex items-center gap-3 mb-3">
-                    <div className="w-8 h-8 rounded-lg bg-surface border border-accent/30 flex items-center justify-center text-accent">
-                      <CheckCircle2 className="w-4 h-4" />
-                    </div>
-                    <h4 className="font-display text-base font-bold text-foreground">
-                      {cap.title}
-                    </h4>
-                  </div>
-                  <p className="text-xs sm:text-sm text-muted leading-relaxed">
-                    {cap.description}
-                  </p>
-                </div>
-              ))}
-            </div>
-          </div>
-        </section>
-
-
-        <section className="py-section bg-gradient-to-b from-canvas via-surface to-canvas text-foreground">
-          <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-            <SectionHeading
-              badge="Business Outcomes"
-              title="Measurable Operational Advantage"
-              description="How our implementation of this practice translates into reduced costs, reduced risk, and higher business speed."
-              theme="dark"
+              badge="Our Process"
+              title={service.processTitle || `Why Choose Prakvi for ${service.title}?`}
+              description={
+                service.processSubtitle ||
+                'A proven methodology that ensures successful project delivery.'
+              }
               align="center"
             />
 
-            <div className="mt-14 grid grid-cols-1 md:grid-cols-3 gap-8">
+            <div
+              className={`mt-12 grid grid-cols-1 gap-5 ${
+                service.deliverySteps.length <= 5
+                  ? 'md:grid-cols-2 lg:grid-cols-5'
+                  : 'md:grid-cols-2 lg:grid-cols-3'
+              }`}
+            >
+              {service.deliverySteps.map((step, idx) => (
+                <div
+                  key={idx}
+                  className="clay-card p-6 flex flex-col justify-between"
+                >
+                  <div>
+                    <div className="clay-icon-box w-10 h-10 font-mono font-extrabold text-sm flex items-center justify-center mb-4">
+                      {step.step}
+                    </div>
+                    <h3 className="font-display text-base font-bold text-foreground mb-2">
+                      {step.title}
+                    </h3>
+                    <p className="text-xs sm:text-sm text-muted leading-relaxed">
+                      {step.description}
+                    </p>
+                  </div>
+                  <div className="mt-5 pt-3 border-t border-line text-[11px] font-mono text-accent font-semibold">
+                    Step {step.step}
+                  </div>
+                </div>
+              ))}
+            </div>
+
+            {isStaffingPage && (
+              <div className="mt-14 pt-10 border-t border-line">
+                <h3 className="font-display text-xl font-bold text-foreground text-center mb-6">
+                  Sourcing Verticals & Engagement Scope
+                </h3>
+                <div className="grid grid-cols-2 sm:grid-cols-4 gap-3.5 text-xs">
+                  {[
+                    'Executive Search & Leadership',
+                    'IT & Software Contracting',
+                    'Healthcare & Pharma Staffing',
+                    'Full-Time & Team Augmentation',
+                    'Cybersecurity & Data Science',
+                    'BFSI & Manufacturing',
+                    'Project-Based Roles',
+                    'R&D and Engineering Labs',
+                  ].map((item) => (
+                    <div
+                      key={item}
+                      className="clay-soft p-4 flex items-center gap-2.5 text-foreground font-semibold"
+                    >
+                      <CheckCircle2 className="w-4 h-4 text-accent shrink-0" aria-hidden="true" />
+                      <span>{item}</span>
+                    </div>
+                  ))}
+                </div>
+              </div>
+            )}
+          </div>
+        </section>
+
+        {/* 6. INTERACTIVE STACK & CAPABILITY MATRIX */}
+        {stackTabs.length > 0 && (
+          <section className="py-section bg-surface/75">
+            <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+              <SectionHeading
+                badge="Capabilities & Stack"
+                title={service.stackTitle || service.title}
+                description={service.stackSummary}
+                align="center"
+              />
+
+              <div className="mt-10 clay-card p-6 sm:p-10">
+                <div className="flex flex-wrap justify-center gap-2.5 pb-6 border-b border-line">
+                  {stackTabs.map((tab, idx) => {
+                    const active = activeStackTab === idx;
+                    return (
+                      <button
+                        key={tab.label}
+                        type="button"
+                        onClick={() => setActiveStackTab(idx)}
+                        className={`px-5 py-2.5 rounded-full text-xs sm:text-sm font-semibold transition-all ${
+                          active
+                            ? 'bg-accent text-white shadow-sm'
+                            : 'bg-surface text-muted hover:text-foreground border border-line'
+                        }`}
+                      >
+                        {tab.label}
+                      </button>
+                    );
+                  })}
+                </div>
+
+                {currentStack && (
+                  <div className="mt-8 grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
+                    {currentStack.items.map((item) => (
+                      <div
+                        key={item}
+                        className="clay-soft px-5 py-4 flex items-center gap-3 text-sm font-semibold text-foreground"
+                      >
+                        <CheckCircle2 className="w-4 h-4 text-accent shrink-0" aria-hidden="true" />
+                        <span>{item}</span>
+                      </div>
+                    ))}
+                  </div>
+                )}
+              </div>
+            </div>
+          </section>
+        )}
+
+        {/* 7. BUSINESS BENEFITS */}
+        <section className="py-section bg-canvas">
+          <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <SectionHeading
+              badge="Business Value"
+              title="Key Operational Outcomes"
+              description="How Prakvi translates technical execution into reliable performance and long-term business value."
+              align="center"
+            />
+
+            <div className="mt-12 grid grid-cols-1 md:grid-cols-3 gap-6">
               {service.businessBenefits.map((b, idx) => (
                 <div
                   key={idx}
-                  className="p-8 rounded-2xl bg-canvas/90 border border-accent/25 text-center shadow-xl"
+                  className={`${idx === 1 ? 'clay-pastel' : 'clay-card'} p-8 text-center`}
                 >
                   {b.metric && (
-                    <div className="text-3xl sm:text-4xl font-extrabold font-display text-accent mb-3">
+                    <div className="text-2xl sm:text-3xl font-extrabold font-display text-accent mb-3">
                       {b.metric}
                     </div>
                   )}
-                  <h4 className="font-display text-lg font-bold text-foreground mb-2">{b.title}</h4>
-                  <p className="text-xs sm:text-sm text-muted leading-relaxed font-light">
-                    {b.description}
-                  </p>
+                  <h3 className="font-display text-lg font-bold text-foreground mb-2">
+                    {b.title}
+                  </h3>
+                  <p className="text-sm text-muted leading-relaxed">{b.description}</p>
                 </div>
               ))}
             </div>
           </div>
         </section>
 
-
-        <section className="py-section bg-canvas text-foreground">
+        {/* 8. FAQ */}
+        <section className="py-section bg-surface/65">
           <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8">
             <SectionHeading
               badge="Frequently Asked Questions"
-              title="Everything You Need to Know Before Engaging"
-              theme="light"
+              title="Common Questions"
               align="center"
             />
 
-            <div className="mt-12 space-y-4">
+            <div className="mt-10 space-y-4">
               {service.faqs.map((faq, idx) => (
-                <div
-                  key={idx}
-                  className="rounded-2xl glass-panel border border-line overflow-hidden "
-                >
+                <div key={idx} className="clay-card overflow-hidden">
                   <button
+                    type="button"
                     onClick={() => toggleFaq(idx)}
-                    className="w-full flex items-center justify-between p-5 sm:p-6 text-left font-semibold text-sm sm:text-base text-foreground hover:text-accent transition-colors focus:outline-none"
+                    aria-expanded={openFaqIndex === idx}
+                    className="w-full flex items-center justify-between p-5 sm:p-6 text-left font-bold text-sm sm:text-base text-foreground hover:text-accent transition-colors"
                   >
                     <span>{faq.question}</span>
                     <ChevronDown
                       className={`w-5 h-5 text-accent transition-transform duration-200 shrink-0 ml-4 ${
                         openFaqIndex === idx ? 'rotate-180' : ''
                       }`}
+                      aria-hidden="true"
                     />
                   </button>
                   {openFaqIndex === idx && (
-                    <div className="px-5 sm:px-6 pb-6 pt-1 text-xs sm:text-sm text-muted leading-relaxed border-t border-line">
+                    <div className="px-5 sm:px-6 pb-6 pt-1 text-sm text-muted leading-relaxed border-t border-line">
                       {faq.answer}
                     </div>
                   )}
@@ -404,10 +449,10 @@ export const ServiceDetailPage: React.FC = () => {
           </div>
         </section>
 
-        {/* 7. FINAL CTA */}
+        {/* CTA */}
         <CTASection
-          title={`Ready to Modernize with ${service.title}?`}
-          subtitle="Speak with our dedicated practice leaders to discuss architecture blueprints, staffing requirements, or delivery SLAs."
+          title={`Let's Discuss Your ${service.title} Goals`}
+          subtitle="Connect with Prakvi’s specialists to plan your implementation roadmap, staffing requirements, or managed support SLA."
         />
       </div>
     </PageTransition>

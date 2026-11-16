@@ -1,3 +1,8 @@
+export interface ServiceStackTab {
+  label: string;
+  items: string[];
+}
+
 export interface ServiceItem {
   id: string;
   slug: string;
@@ -8,6 +13,8 @@ export interface ServiceItem {
   tagline: string;
   iconName: string;
   badge?: string;
+  offeringsTitle?: string;
+  offeringsSubtitle?: string;
   businessChallenge: string;
   howWeHelp: string;
   capabilities: {
@@ -20,11 +27,16 @@ export interface ServiceItem {
     description: string;
     metric?: string;
   }[];
+  processTitle?: string;
+  processSubtitle?: string;
   deliverySteps: {
     step: string;
     title: string;
     description: string;
   }[];
+  stackTitle?: string;
+  stackSummary?: string;
+  stackTabs?: ServiceStackTab[];
   faqs: {
     question: string;
     answer: string;
@@ -43,6 +55,14 @@ export interface ProductItem {
   benefits: string[];
   useCases: string[];
   architecturePoints: string[];
+  deliverySteps?: {
+    step: string;
+    title: string;
+    description: string;
+  }[];
+  stackTitle?: string;
+  stackSummary?: string;
+  stackTabs?: ServiceStackTab[];
   stats: { label: string; value: string }[];
   iconName: string;
   badge?: string;

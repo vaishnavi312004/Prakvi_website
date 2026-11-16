@@ -30,7 +30,6 @@ interface MegaMenuProps {
   onClose: () => void;
 }
 
-// Map string icon names to Lucide icon components
 const iconMap: Record<string, React.FC<{ className?: string }>> = {
   User,
   Smartphone,
@@ -62,98 +61,69 @@ export const MegaMenu: React.FC<MegaMenuProps> = ({ isOpen, onClose }) => {
     <AnimatePresence>
       {isOpen && (
         <motion.div
-          initial={{ opacity: 0, y: -6 }}
+          initial={{ opacity: 0, y: -8 }}
           animate={{ opacity: 1, y: 0 }}
-          exit={{ opacity: 0, y: -6 }}
+          exit={{ opacity: 0, y: -8 }}
           transition={{ duration: 0.18, ease: 'easeOut' }}
-          className="absolute top-full left-0 w-full bg-canvas/98 text-foreground shadow-[0_25px_60px_rgba(3,15,30,0.95)] border-b border-x border-accent/30 backdrop-blur-2xl z-50 rounded-b-3xl overflow-hidden"
+          className="pointer-events-auto absolute top-full left-0 w-full z-50 px-3 sm:px-6 pt-3"
           onMouseLeave={onClose}
         >
-          {/* Subtle glowing cyan top border highlight */}
-          <div className="h-[1px] w-full bg-gradient-to-r from-transparent via-accent/60 to-transparent" />
-
-          <div className="max-w-7xl mx-auto px-6 py-8 lg:px-8">
+          <div className="mx-auto max-w-[1380px] clay-card bg-card/98 backdrop-blur-xl p-6 lg:p-8 shadow-2xl border border-line">
             <div className="grid grid-cols-1 lg:grid-cols-12 gap-8">
-              {/* Column 1: Enterprise Solutions (6 cols, 2 subcolumns) */}
-              <div className="lg:col-span-6 pr-0 lg:pr-4">
-                <div className="pb-3 border-b border-white/10 mb-4 flex items-center justify-between">
-                  <h3 className="font-display text-sm font-bold text-white tracking-tight">
+              {/* Column 1: Enterprise Solutions (13 Practices) */}
+              <div className="lg:col-span-6 lg:pr-4">
+                <div className="pb-3 border-b border-line mb-4 flex items-center justify-between">
+                  <h3 className="font-display text-sm font-bold text-foreground tracking-tight">
                     Enterprise Solutions
                   </h3>
-                  <span className="text-[11px] font-mono text-accent bg-accent/10 px-2.5 py-0.5 rounded-full border border-accent/30">
+                  <span className="text-[11px] font-mono font-semibold text-accent">
                     {navigationData.enterpriseSolutions.length} Practices
                   </span>
                 </div>
 
-                <div className="grid grid-cols-1 sm:grid-cols-2 gap-x-6 gap-y-3.5">
-                  {/* Left Subcolumn */}
-                  <div className="space-y-2.5">
-                    {leftEnterprise.map((item) => {
-                      const IconComp = iconMap[item.iconName] || Layers;
-                      return (
-                        <Link
-                          key={item.id}
-                          to={item.path}
-                          onClick={onClose}
-                          className="group flex items-start gap-3 p-1.5 rounded-xl hover:bg-white/[0.06] transition-all"
-                        >
-                          <div className="w-8 h-8 rounded-lg bg-accent/15 border border-accent/30 text-accent flex items-center justify-center shrink-0 group-hover:bg-accent group-hover:text-white transition-all">
-                            <IconComp className="w-4 h-4" />
-                          </div>
-                          <div>
-                            <div className="font-semibold text-xs sm:text-sm text-foreground group-hover:text-accent transition-colors leading-tight">
-                              {item.title}
+                <div className="grid grid-cols-1 sm:grid-cols-2 gap-x-5 gap-y-2">
+                  {[leftEnterprise, rightEnterprise].map((col, colIdx) => (
+                    <div key={colIdx} className="space-y-1.5">
+                      {col.map((item) => {
+                        const IconComp = iconMap[item.iconName] || Layers;
+                        return (
+                          <Link
+                            key={item.id}
+                            to={item.path}
+                            onClick={onClose}
+                            className="group flex items-start gap-2.5 p-2 rounded-xl hover:bg-surface transition-all"
+                          >
+                            <div className="clay-icon-box w-8 h-8 flex items-center justify-center shrink-0 group-hover:scale-105">
+                              <IconComp className="w-4 h-4" />
                             </div>
-                            <div className="text-[11px] text-muted leading-snug mt-0.5">
-                              {item.description}
+                            <div className="min-w-0">
+                              <div className="font-semibold text-xs sm:text-sm text-foreground group-hover:text-accent transition-colors leading-tight">
+                                {item.title}
+                              </div>
+                              <div className="text-[11px] text-muted leading-snug mt-0.5 line-clamp-1">
+                                {item.description}
+                              </div>
                             </div>
-                          </div>
-                        </Link>
-                      );
-                    })}
-                  </div>
-
-                  {/* Right Subcolumn */}
-                  <div className="space-y-2.5">
-                    {rightEnterprise.map((item) => {
-                      const IconComp = iconMap[item.iconName] || Layers;
-                      return (
-                        <Link
-                          key={item.id}
-                          to={item.path}
-                          onClick={onClose}
-                          className="group flex items-start gap-3 p-1.5 rounded-xl hover:bg-white/[0.06] transition-all"
-                        >
-                          <div className="w-8 h-8 rounded-lg bg-accent/15 border border-accent/30 text-accent flex items-center justify-center shrink-0 group-hover:bg-accent group-hover:text-white transition-all">
-                            <IconComp className="w-4 h-4" />
-                          </div>
-                          <div>
-                            <div className="font-semibold text-xs sm:text-sm text-foreground group-hover:text-accent transition-colors leading-tight">
-                              {item.title}
-                            </div>
-                            <div className="text-[11px] text-muted leading-snug mt-0.5">
-                              {item.description}
-                            </div>
-                          </div>
-                        </Link>
-                      );
-                    })}
-                  </div>
+                          </Link>
+                        );
+                      })}
+                    </div>
+                  ))}
                 </div>
               </div>
 
-              {/* Column 2: Business Solutions (3 cols) */}
-              <div className="lg:col-span-3 lg:border-l lg:border-white/10 lg:pl-6">
-                <div className="pb-3 border-b border-white/10 mb-4 flex items-center justify-between">
-                  <h3 className="font-display text-sm font-bold text-white tracking-tight">
+              {/* Column 2: Business Solutions (4 Solutions) */}
+              <div className="lg:col-span-3 lg:border-l lg:border-line lg:pl-6">
+                <div className="pb-3 border-b border-line mb-4 flex items-center justify-between">
+                  <h3 className="font-display text-sm font-bold text-foreground tracking-tight">
                     Business Solutions
                   </h3>
-                  <span className="text-[11px] font-mono text-accent bg-accent/10 px-2.5 py-0.5 rounded-full border border-accent/30">
+                  <span className="text-[11px] font-mono font-semibold text-accent">
                     {navigationData.businessSolutions.length} Solutions
                   </span>
                 </div>
 
-                <div className="space-y-3">
+                <div className="space-y-2">
                   {navigationData.businessSolutions.map((item) => {
                     const IconComp = iconMap[item.iconName] || PenTool;
                     return (
@@ -161,16 +131,16 @@ export const MegaMenu: React.FC<MegaMenuProps> = ({ isOpen, onClose }) => {
                         key={item.id}
                         to={item.path}
                         onClick={onClose}
-                        className="group flex items-start gap-3 p-1.5 rounded-xl hover:bg-white/[0.06] transition-all"
+                        className="group flex items-start gap-2.5 p-2 rounded-xl hover:bg-surface transition-all"
                       >
-                        <div className="w-8 h-8 rounded-lg bg-accent/15 border border-accent/30 text-accent flex items-center justify-center shrink-0 group-hover:bg-accent group-hover:text-white transition-all">
+                        <div className="clay-icon-box w-8 h-8 flex items-center justify-center shrink-0 group-hover:scale-105">
                           <IconComp className="w-4 h-4" />
                         </div>
-                        <div>
+                        <div className="min-w-0">
                           <div className="font-semibold text-xs sm:text-sm text-foreground group-hover:text-accent transition-colors leading-tight">
                             {item.title}
                           </div>
-                          <div className="text-[11px] text-muted leading-snug mt-0.5">
+                          <div className="text-[11px] text-muted leading-snug mt-0.5 line-clamp-2">
                             {item.description}
                           </div>
                         </div>
@@ -180,18 +150,18 @@ export const MegaMenu: React.FC<MegaMenuProps> = ({ isOpen, onClose }) => {
                 </div>
               </div>
 
-              {/* Column 3: Products (3 cols) */}
-              <div className="lg:col-span-3 lg:border-l lg:border-white/10 lg:pl-6">
-                <div className="pb-3 border-b border-white/10 mb-4 flex items-center justify-between">
-                  <h3 className="font-display text-sm font-bold text-white tracking-tight">
+              {/* Column 3: Products (4 Platforms) */}
+              <div className="lg:col-span-3 lg:border-l lg:border-line lg:pl-6">
+                <div className="pb-3 border-b border-line mb-4 flex items-center justify-between">
+                  <h3 className="font-display text-sm font-bold text-foreground tracking-tight">
                     Products
                   </h3>
-                  <span className="text-[11px] font-mono text-accent bg-accent/10 px-2.5 py-0.5 rounded-full border border-accent/30">
+                  <span className="text-[11px] font-mono font-semibold text-accent">
                     {navigationData.products.length} Platforms
                   </span>
                 </div>
 
-                <div className="space-y-3">
+                <div className="space-y-2">
                   {navigationData.products.map((item) => {
                     const IconComp = iconMap[item.iconName] || Database;
                     return (
@@ -199,16 +169,16 @@ export const MegaMenu: React.FC<MegaMenuProps> = ({ isOpen, onClose }) => {
                         key={item.id}
                         to={item.path}
                         onClick={onClose}
-                        className="group flex items-start gap-3 p-1.5 rounded-xl hover:bg-white/[0.06] transition-all"
+                        className="group flex items-start gap-2.5 p-2 rounded-xl hover:bg-surface transition-all"
                       >
-                        <div className="w-8 h-8 rounded-lg bg-accent/15 border border-accent/30 text-accent flex items-center justify-center shrink-0 group-hover:bg-accent group-hover:text-white transition-all">
+                        <div className="clay-icon-box w-8 h-8 flex items-center justify-center shrink-0 group-hover:scale-105">
                           <IconComp className="w-4 h-4" />
                         </div>
-                        <div>
+                        <div className="min-w-0">
                           <div className="font-semibold text-xs sm:text-sm text-foreground group-hover:text-accent transition-colors leading-tight">
                             {item.title}
                           </div>
-                          <div className="text-[11px] text-muted leading-snug mt-0.5">
+                          <div className="text-[11px] text-muted leading-snug mt-0.5 line-clamp-2">
                             {item.description}
                           </div>
                         </div>
@@ -220,27 +190,34 @@ export const MegaMenu: React.FC<MegaMenuProps> = ({ isOpen, onClose }) => {
             </div>
 
             {/* Bottom bar linking to full catalog */}
-            <div className="mt-8 pt-4 border-t border-white/10 flex flex-wrap items-center justify-between text-xs text-muted">
-              <div className="flex items-center gap-6">
+            <div className="mt-6 pt-4 border-t border-line flex flex-wrap items-center justify-between gap-4 text-xs text-muted">
+              <div className="flex flex-wrap items-center gap-6">
                 <Link
                   to="/services"
                   onClick={onClose}
                   className="font-semibold text-accent hover:text-highlight flex items-center gap-1.5 transition-colors"
                 >
-                  <span>Explore All Services & Frameworks</span>
+                  <span>Explore All 17 Services</span>
                   <ArrowRight className="w-3.5 h-3.5" />
                 </Link>
                 <Link
                   to="/products"
                   onClick={onClose}
-                  className="hover:text-white transition-colors"
+                  className="font-semibold text-foreground hover:text-accent transition-colors"
                 >
-                  Explore SaaS Platforms →
+                  Explore All Products →
+                </Link>
+                <Link
+                  to="/insights"
+                  onClick={onClose}
+                  className="font-semibold text-muted hover:text-accent transition-colors"
+                >
+                  Insights & Articles →
                 </Link>
               </div>
 
-              <div className="text-[11px] text-muted font-mono">
-                Prakvi Techno Solutions Private Limited • Enterprise Architecture
+              <div className="text-[11px] text-subtle font-mono">
+                Prakvi Techno Solutions Private Limited
               </div>
             </div>
           </div>
