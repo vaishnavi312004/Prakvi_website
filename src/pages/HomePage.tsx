@@ -10,8 +10,6 @@ import { AnimatedCounter } from '../components/common/AnimatedCounter';
 import { homeData } from '../data/homeData';
 import { statsData } from '../data/statsData';
 import { servicesData } from '../data/servicesData';
-import { productsData } from '../data/productsData';
-import { insightsData } from '../data/insightsData';
 import {
   ArrowRight,
   CheckCircle2,
@@ -19,18 +17,12 @@ import {
   Smartphone,
   Sparkles,
   ShieldCheck,
-  CheckCircle,
-  ExternalLink,
 } from 'lucide-react';
 
 export const HomePage: React.FC = () => {
   // Active service practice tab in capabilities showcase
   const [activeServiceId, setActiveServiceId] = useState(servicesData[0].id);
   const activeService = servicesData.find((s) => s.id === activeServiceId) || servicesData[0];
-
-  // Active product showcase tab
-  const [activeProductId, setActiveProductId] = useState(productsData[0].id);
-  const activeProduct = productsData.find((p) => p.id === activeProductId) || productsData[0];
 
   const pillarIconMap: Record<string, React.FC<{ className?: string }>> = {
     Server,
@@ -72,7 +64,8 @@ export const HomePage: React.FC = () => {
                   {homeData.hero.headlinePrefix}{' '}
                   <span className="text-accent">
                     {homeData.hero.headlineHighlight}
-                  </span>
+                  </span>{' '}
+                  {homeData.hero.headlineSuffix}
                 </h1>
 
                 {/* Short Supporting Description */}
@@ -126,61 +119,6 @@ export const HomePage: React.FC = () => {
         </section>
 
         <ServicesCards />
-
-
-        <section className="py-section relative bg-gradient-to-b from-surface/40 via-surface to-surface text-foreground">
-          <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
-            <div className="grid grid-cols-1 lg:grid-cols-12 gap-12 items-center">
-              <motion.div
-                initial={{ opacity: 0, y: 20 }}
-                whileInView={{ opacity: 1, y: 0 }}
-                viewport={{ once: true }}
-                transition={{ duration: 0.6 }}
-                className="lg:col-span-7 space-y-6"
-              >
-                <div className="text-xs font-mono font-bold uppercase tracking-widest text-accent">
-                  {homeData.intro.kicker}
-                </div>
-                <h2 className="font-display text-3xl sm:text-4xl lg:text-5xl font-extrabold text-foreground tracking-tight leading-tight text-balance">
-                  {homeData.intro.title}
-                </h2>
-                <div className="flex flex-wrap gap-4 pt-2">
-                  {homeData.intro.proofPoints.map((point, idx) => (
-                    <div key={idx} className="flex items-center gap-2 text-xs font-semibold text-foreground bg-surface px-3.5 py-1.5 rounded-full border border-line shadow-sm">
-                      <CheckCircle className="w-4 h-4 text-accent" />
-                      <span>{point}</span>
-                    </div>
-                  ))}
-                </div>
-              </motion.div>
-
-              <motion.div
-                initial={{ opacity: 0, y: 20 }}
-                whileInView={{ opacity: 1, y: 0 }}
-                viewport={{ once: true }}
-                transition={{ duration: 0.6, delay: 0.15 }}
-                className="lg:col-span-5 space-y-5 lg:pl-8 "
-              >
-                {homeData.intro.paragraphs.map((para, idx) => (
-                  <p key={idx} className="text-base sm:text-lg text-muted leading-relaxed font-normal">
-                    {para}
-                  </p>
-                ))}
-
-                <div className="pt-2">
-                  <Link
-                    to={homeData.intro.ctaPath}
-                    className="inline-flex items-center gap-2 text-sm font-bold text-accent hover:text-foreground group transition-colors"
-                  >
-                    <span>{homeData.intro.ctaText}</span>
-                    <ArrowRight className="w-4 h-4 group-hover:translate-x-1 transition-transform" />
-                  </Link>
-                </div>
-              </motion.div>
-            </div>
-          </div>
-        </section>
-
 
         <section className="py-section relative bg-surface">
           <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
@@ -304,7 +242,6 @@ export const HomePage: React.FC = () => {
           </div>
         </section>
 
-
         <section className="py-section relative overflow-hidden bg-gradient-to-br from-canvas via-surface to-canvas text-foreground">
           <div className="absolute inset-0 tech-grid-dark opacity-35 pointer-events-none" />
           <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[700px] h-96 bg-accent/10 rounded-full blur-[140px] pointer-events-none" />
@@ -349,55 +286,6 @@ export const HomePage: React.FC = () => {
           </div>
         </section>
 
-
-        <section className="py-section relative bg-canvas text-foreground">
-          <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
-            <div className="grid grid-cols-1 lg:grid-cols-12 gap-12 items-center">
-              {/* Left Column (5 cols) */}
-              <div className="lg:col-span-5 space-y-6">
-                <SectionHeading
-                  badge={homeData.whyPrakvi.kicker}
-                  title={homeData.whyPrakvi.title}
-                  description={homeData.whyPrakvi.description}
-                  theme="light"
-                />
-
-                <div className="pt-2">
-                  <Link
-                    to="/about"
-                    className="btn-primary"
-                  >
-                    <span>Explore our culture & governance</span>
-                    <ArrowRight className="w-4 h-4" />
-                  </Link>
-                </div>
-              </div>
-
-              {/* Right Column: 6 Pillars in Premium White Cards */}
-              <div className="lg:col-span-7 grid grid-cols-1 sm:grid-cols-2 gap-4">
-                {homeData.whyPrakvi.pillars.map((pillar) => (
-                  <motion.div
-                    key={pillar.id}
-                    whileHover={{ y: -4 }}
-                    className="p-5 rounded-2xl glass-panel border border-line hover:border-accent/40 hover:shadow-accent transition-all group"
-                  >
-                    <div className="text-xs font-mono font-bold text-accent mb-1.5">
-                      {pillar.title}
-                    </div>
-                    <p className="text-xs text-muted leading-relaxed">
-                      {pillar.description}
-                    </p>
-                    <div className="mt-3 text-[11px] font-mono font-semibold text-muted group-hover:text-foreground transition-colors">
-                      {pillar.metric}
-                    </div>
-                  </motion.div>
-                ))}
-              </div>
-            </div>
-          </div>
-        </section>
-
-
         <section className="py-section relative bg-surface text-foreground">
           <div className="absolute inset-0 tech-grid-dark opacity-30 pointer-events-none" />
           <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
@@ -421,182 +309,6 @@ export const HomePage: React.FC = () => {
             </div>
           </div>
         </section>
-
-
-        <section className="py-section relative bg-gradient-to-b from-canvas to-surface text-foreground">
-          <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
-            <SectionHeading
-              badge="Proprietary Platforms"
-              title="Enterprise Software Suites"
-              description="Explore our modular, purpose-built SaaS suites designed to optimize business intelligence, human capital, supplier relationships, and client pipelines."
-              theme="light"
-              align="center"
-            />
-
-            {/* Product Selector Buttons */}
-            <div className="mt-10 flex flex-wrap justify-center gap-2.5">
-              {productsData.map((prod) => (
-                <button
-                  key={prod.id}
-                  onClick={() => setActiveProductId(prod.id)}
-                  className={`px-5 py-2.5 rounded-xl text-xs sm:text-sm font-semibold transition-all ${
-                    activeProductId === prod.id
-                      ? 'bg-accent/10 text-accent ring-1 ring-accent/40 font-bold'
-                      : 'bg-surface text-muted hover:text-foreground hover:bg-surface border border-line'
-                  }`}
-                >
-                  {prod.name.split(' ')[1] || prod.name}
-                </button>
-              ))}
-            </div>
-
-            {/* Active Product Detailed Card */}
-            <div className="mt-10 glass-panel rounded-3xl border border-line p-6 sm:p-10 lg:p-12 ">
-              <div className="grid grid-cols-1 lg:grid-cols-12 gap-10 items-center">
-                <div className="lg:col-span-7 space-y-5">
-                  <div className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-surface border border-accent/30 text-xs font-mono font-semibold text-accent">
-                    {activeProduct.badge || 'Proprietary IP'}
-                  </div>
-
-                  <h3 className="font-display text-2xl sm:text-4xl font-extrabold text-foreground">
-                    {activeProduct.name}
-                  </h3>
-
-                  <p className="text-sm font-medium text-accent">
-                    {activeProduct.tagline}
-                  </p>
-
-                  <p className="text-sm text-muted leading-relaxed">
-                    {activeProduct.fullDesc}
-                  </p>
-
-                  <ul className="grid grid-cols-1 sm:grid-cols-2 gap-3 text-xs text-foreground pt-2">
-                    {activeProduct.features.slice(0, 4).map((f, i) => (
-                      <li key={i} className="flex items-start gap-2.5 p-2 rounded-lg bg-surface border border-line">
-                        <span className="text-accent font-bold">✓</span>
-                        <span>{f}</span>
-                      </li>
-                    ))}
-                  </ul>
-
-                  <div className="pt-4 flex flex-wrap items-center gap-4">
-                    <Link
-                      to={`/products/${activeProduct.slug}`}
-                      className="btn-primary"
-                    >
-                      <span>View Platform Details</span>
-                      <ArrowRight className="w-4 h-4" />
-                    </Link>
-
-                    <Link
-                      to="/contact"
-                      className="text-sm font-semibold text-accent hover:text-foreground transition-colors"
-                    >
-                      Request live demo →
-                    </Link>
-                  </div>
-                </div>
-
-                <div className="lg:col-span-5 space-y-4">
-                  <div className="relative rounded-2xl overflow-hidden border border-line shadow-xl">
-                    <img
-                      src={activeProduct.image}
-                      alt={activeProduct.name}
-                      className="w-full h-64 object-cover"
-                      loading="lazy"
-                    />
-                    <div className="absolute inset-0 bg-gradient-to-t from-canvas/60 via-transparent to-transparent" />
-                  </div>
-
-                  <div className="grid grid-cols-2 gap-3">
-                    {activeProduct.stats.slice(0, 2).map((st, i) => (
-                      <div key={i} className="p-3.5 rounded-xl bg-surface border border-line text-center">
-                        <div className="text-xl font-bold font-display text-foreground">{st.value}</div>
-                        <div className="text-[11px] text-subtle font-medium mt-0.5">{st.label}</div>
-                      </div>
-                    ))}
-                  </div>
-                </div>
-              </div>
-            </div>
-          </div>
-        </section>
-
-
-        <section className="py-section relative bg-canvas text-foreground">
-          <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
-            <div className="flex flex-col sm:flex-row sm:items-end justify-between mb-12">
-              <SectionHeading
-                badge="Thought Leadership"
-                title="Insights From Our Practice Leaders"
-                description="Research, architectural strategies, and executive perspectives on digital modernization and workforce transformation."
-                theme="light"
-              />
-              <Link
-                to="/insights"
-                className="mt-4 sm:mt-0 text-sm font-bold text-accent hover:text-foreground flex items-center gap-1 shrink-0 transition-colors"
-              >
-                <span>View all articles</span>
-                <ArrowRight className="w-4 h-4" />
-              </Link>
-            </div>
-
-            <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
-              {insightsData.slice(0, 3).map((article) => (
-                <article
-                  key={article.id}
-                  className="group flex flex-col glass-panel rounded-3xl border border-line hover:border-accent/40 overflow-hidden  hover:shadow-accent transition-all"
-                >
-                  <div className="relative h-48 overflow-hidden bg-surface">
-                    <img
-                      src={article.featuredImage}
-                      alt={article.title}
-                      className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-700"
-                      loading="lazy"
-                    />
-                    <div className="absolute top-3 left-3 px-3 py-1 rounded-full bg-surface/95 border border-line text-[11px] font-mono font-semibold text-foreground backdrop-blur-md">
-                      {article.category}
-                    </div>
-                  </div>
-
-                  <div className="p-6 flex-1 flex flex-col justify-between space-y-4">
-                    <div>
-                      <div className="flex items-center gap-2 text-xs text-subtle mb-2 font-mono">
-                        <span>{article.publishedDate}</span>
-                        <span>•</span>
-                        <span>{article.readTime}</span>
-                      </div>
-
-                      <h3 className="font-display text-lg font-bold text-foreground group-hover:text-accent transition-colors line-clamp-2">
-                        <Link to={`/insights/${article.slug}`}>
-                          {article.title}
-                        </Link>
-                      </h3>
-
-                      <p className="mt-2 text-xs sm:text-sm text-muted line-clamp-2 leading-relaxed">
-                        {article.summary}
-                      </p>
-                    </div>
-
-                    <div className="pt-4 border-t border-line flex items-center justify-between">
-                      <span className="text-xs font-semibold text-muted">
-                        {article.author.name}
-                      </span>
-                      <Link
-                        to={`/insights/${article.slug}`}
-                        className="text-xs font-bold text-accent flex items-center gap-1 group-hover:translate-x-1 transition-transform"
-                      >
-                        <span>Read article</span>
-                        <ArrowRight className="w-3.5 h-3.5" />
-                      </Link>
-                    </div>
-                  </div>
-                </article>
-              ))}
-            </div>
-          </div>
-        </section>
-
 
         <section className="py-section relative bg-gradient-to-r from-surface/50 via-surface to-surface/30 text-foreground">
           <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
@@ -646,7 +358,6 @@ export const HomePage: React.FC = () => {
             </div>
           </div>
         </section>
-
 
         <CTASection />
       </div>

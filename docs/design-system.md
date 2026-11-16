@@ -70,3 +70,18 @@ Content from the second homepage section onward and all inner pages now uses the
 ## Scroll and motion
 
 `SmoothScroll` owns one Lenis instance and destroys it on unmount. Wheel scrolling uses `lerp: 0.085`; touch remains native. Reduced-motion preferences are respected live. Anchor links use a 96px header offset, route changes reset pending inertia, and the footer uses the same scroll instance. Put `data-lenis-prevent` on nested scrolling panels and dialogs. Do not add CSS `scroll-behavior: smooth` alongside Lenis. Section divider borders and decorative grid lines are removed; input and card outlines remain for usability. Page transitions use opacity rather than translating the entire page, and service card springs use gentler damping.
+
+
+## Continuous content surface
+
+Light page content uses one uninterrupted ivory canvas (`#FFFDF8`). Sections inherit it through transparent backgrounds; do not alternate white/cream sections or restart gradients at their boundaries. Keep background contrast inside cards, forms, and media panels. The landing hero and shared header/footer retain their established branding.
+
+
+## Homepage globe journey
+
+The homepage has a single globe canvas rendered through a body portal. HeroVisual retains a layout anchor and eases the globe from that anchor into a small, noninteractive right-side companion as the user scrolls. The scroll position also drives globe rotation. HeroScene blends the sphere material from dark cyan to soft blue on ivory content; cards fade as the globe contracts, and the companion fades before the footer. Its fixed layer stays below navigation and modals and never captures pointer input. Reduced-motion users see the globe only in its original hero position. Animation frames and ResizeObserver are cleaned up on route unmount.
+
+
+## Site-wide winding globe path
+
+GlobeJourney now owns the single canvas globally, across all routes. HeroVisual supplies only the homepage anchor (and a static globe for reduced motion). The scroll path moves across the full viewport, alternating right, center, and left over roughly two viewport heights per crossing; its height and scale vary gently. It reverses naturally when scrolling upward. Route and layout observers recalculate the journey after page transitions; the globe stays noninteractive and fades near the footer. This replaces the previous right-side-only companion.

@@ -100,7 +100,7 @@ export const ContactPage: React.FC = () => {
       </section>
 
 
-      <div className="bg-canvas text-foreground py-section">
+      <div className="text-foreground py-section">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="grid grid-cols-1 lg:grid-cols-12 gap-12">
             {/* Left Column: Interactive Proposal Form in White Card (7 cols) */}

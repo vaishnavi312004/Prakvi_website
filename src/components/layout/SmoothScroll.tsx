@@ -6,7 +6,7 @@ import 'lenis/dist/lenis.css';
 let activeScroller: Lenis | null = null;
 
 export function scrollToTop() {
-  if (activeScroller) activeScroller.scrollTo(0, { duration: 1.1 });
+  if (activeScroller) activeScroller.scrollTo(0, { lerp: 0, duration: 1.1 });
   else window.scrollTo({ top: 0, behavior: window.matchMedia('(prefers-reduced-motion: reduce)').matches ? 'instant' : 'smooth' });
 }
 
@@ -24,7 +24,7 @@ export const SmoothScroll: React.FC = () => {
   useEffect(() => {
     const scroller = new Lenis({
       autoRaf: true,
-      lerp: 0.085,
+      lerp: 0.11,
       smoothWheel: true,
       syncTouch: false,
       anchors: { offset: -96 },

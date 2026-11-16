@@ -42,11 +42,11 @@ export interface WhyPrakviPillar {
 export const homeData = {
   hero: {
     badge: 'Enterprise Technology & Workforce Solutions',
-    headlinePrefix: "Engineering Tomorrow's",
-    headlineHighlight: 'Digital Enterprise.',
-    headlineSuffix: '',
+    headlinePrefix: 'Innovative',
+    headlineHighlight: 'IT Solutions',
+    headlineSuffix: 'for Modern Businesses',
     description:
-      'Empowering global businesses through intelligent cloud engineering, resilient enterprise architectures, and agile digital workforce transformation.',
+      'At Prakvi, we deliver innovative IT solutions including AI-powered HRMS systems, digital marketing services, and enterprise solutions that streamline operations and enable data-driven decisions. Our expertise covers staffing services, workforce solutions, cloud and cybersecurity, mobile app development, CRM, data analytics, infrastructure management, and IT consulting—ensuring scalable, secure IT services that drive growth and efficiency.',
     primaryCta: {
       label: 'Explore Solutions',
       path: '/services',

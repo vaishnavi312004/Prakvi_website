@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 import { motion, useReducedMotion } from 'motion/react';
 import { Link } from 'react-router-dom';
 import { ArrowRight, Cloud, Code2, LockKeyhole, Monitor, Server, Smartphone } from 'lucide-react';
@@ -16,6 +16,20 @@ const featuredServices = [
 
 export const ServicesCards: React.FC = () => {
   const reducedMotion = useReducedMotion();
+  const [columns, setColumns] = useState(1);
+
+  useEffect(() => {
+    const tablet = window.matchMedia('(min-width: 640px)');
+    const desktop = window.matchMedia('(min-width: 1024px)');
+    const updateColumns = () => setColumns(desktop.matches ? 3 : tablet.matches ? 2 : 1);
+    updateColumns();
+    tablet.addEventListener('change', updateColumns);
+    desktop.addEventListener('change', updateColumns);
+    return () => {
+      tablet.removeEventListener('change', updateColumns);
+      desktop.removeEventListener('change', updateColumns);
+    };
+  }, []);
   return (
   <section aria-labelledby="services-cards-title" className="services-cards-section py-section">
     <div className="mx-auto max-w-6xl px-4 sm:px-6 lg:px-8">
@@ -30,10 +44,10 @@ export const ServicesCards: React.FC = () => {
           if (!service) return null;
           return (
             <motion.article key={service.id}
-              initial={reducedMotion ? false : { opacity: 0, y: 22 }}
-              whileInView={{ opacity: 1, y: 0 }}
-              viewport={{ once: true, amount: 0.15 }}
-              transition={{ duration: 0.65, delay: reducedMotion ? 0 : index * 0.07, ease: 'easeOut' }}
+              initial={reducedMotion ? false : { opacity: 0, y: 36, scale: 0.98 }}
+              whileInView={{ opacity: 1, y: 0, scale: 1 }}
+              viewport={{ once: true, amount: 0.2 }}
+              transition={{ duration: reducedMotion ? 0 : 0.75, delay: reducedMotion ? 0 : (index % columns) * 0.18, ease: [0.22, 1, 0.36, 1] }}
               className="service-card-reveal h-full">
             <FlipCard
               label={service.title}

@@ -1,5 +1,13 @@
 import React, { useEffect, useRef } from 'react';
 import * as THREE from 'three';
+import { Cloud, Layers, Users, BarChart3 } from 'lucide-react';
+
+const globeCards = [
+  { title: 'Cloud Engineering', subtitle: 'Built to scale', icon: Cloud },
+  { title: 'Enterprise Solutions', subtitle: 'Connected systems', icon: Layers },
+  { title: 'Talent Solutions', subtitle: 'Specialized workforce', icon: Users },
+  { title: 'Data & Analytics', subtitle: 'Actionable insights', icon: BarChart3 },
+];
 
 // Global enterprise hub coordinates (lat/long in degrees)
 const GLOBAL_HUBS: { name: string; lat: number; lng: number }[] = [
@@ -39,8 +47,13 @@ const _mouseTarget = new THREE.Vector2(0, 0);
 const _currentMouse = new THREE.Vector2(0, 0);
 const _packetPos = new THREE.Vector3();
 
-export const HeroScene: React.FC = () => {
+interface HeroSceneProps {
+  journeyRef?: React.RefObject<{ theme: number; progress: number }>;
+}
+
+export const HeroScene: React.FC<HeroSceneProps> = ({ journeyRef }) => {
   const containerRef = useRef<HTMLDivElement>(null);
+  const cardRefs = useRef<(HTMLDivElement | null)[]>([]);
 
   useEffect(() => {
     const container = containerRef.current;
@@ -66,6 +79,14 @@ export const HeroScene: React.FC = () => {
 
     const width = container.clientWidth || 500;
     const height = container.clientHeight || 460;
+    let viewportWidth = width;
+    let viewportHeight = height;
+    const cardAnchors = globeCards.map((_, index) => {
+      const angle = Math.PI / 4 + index * Math.PI / 2;
+      return new THREE.Vector3(Math.cos(angle) * 1.65, index % 2 === 0 ? 0.65 : -0.65, Math.sin(angle) * 1.65);
+    });
+    const cardWorld = new THREE.Vector3();
+    const cardScreen = new THREE.Vector3();
 
     // 1. Scene, Camera, Renderer
     const scene = new THREE.Scene();
@@ -366,28 +387,47 @@ export const HeroScene: React.FC = () => {
     // 12. Animation Loop with Exponential Damping
     let animationFrameId = 0;
     const clock = new THREE.Clock();
+    const darkCore = new THREE.Color(0x080d19);
+    const lightCore = new THREE.Color(0xe6eff1);
+    const darkGlow = new THREE.Color(0x001d3a);
+    const lightGlow = new THREE.Color(0xb4cbd1);
+    let lastProgress = journeyRef?.current.progress || 0;
 
     function renderLoop() {
       const delta = reducedMotion.matches ? 0 : Math.min(clock.getDelta(), 0.1);
-      const elapsedTime = clock.getElapsedTime();
+      
 
       // Mouse damping
       const damp = 1 - Math.exp(-4 * delta);
       _currentMouse.lerp(_mouseTarget, damp);
 
-      // Smooth auto-rotation of the digital network globe
-      globeGroup.rotation.y += delta * 0.18;
-      pointsMesh.rotation.y += delta * 0.02;
-      cageMesh.rotation.y -= delta * 0.05;
+      // Continuous soft spin, plus rotation driven by the same scroll journey.
+      const journey = journeyRef?.current;
+      const theme = journey?.theme || 0;
+      const scrollTurn = reducedMotion.matches ? 0 : ((journey?.progress || 0) - lastProgress) * Math.PI * 0.8;
+      lastProgress = journey?.progress || 0;
+      globeGroup.rotation.y += delta * 0.055 + scrollTurn;
+      coreMat.color.lerpColors(darkCore, lightCore, theme);
+      coreMat.emissive.lerpColors(darkGlow, lightGlow, theme);
+      coreMat.metalness = 0.85 - theme * 0.6;
+      coreMat.roughness = 0.15 + theme * 0.45;
+      haloMat.opacity = 0.65 - theme * 0.57;
+      cageMat.opacity = 0.14 - theme * 0.04;
+      dotMaterial.opacity = 0.85 - theme * 0.4;
+      dustMat.opacity = 0.5 - theme * 0.38;
+      hubRingMat.opacity = 0.8 - theme * 0.45;
+      arcMaterials.forEach(material => { material.opacity = 0.35 - theme * 0.2; });
+      pointsMesh.rotation.y += delta * 0.01;
+      cageMesh.rotation.y -= delta * 0.02;
 
       // Gentle interactive tilt towards mouse pointer
-      globeGroup.rotation.x = 0.28 + _currentMouse.y * 0.4;
-      globeGroup.rotation.z = -0.12 - _currentMouse.x * 0.4;
+      globeGroup.rotation.x = 0.28 + _currentMouse.y * 0.2 * (1 - theme);
+      globeGroup.rotation.z = -0.12 - _currentMouse.x * 0.2 * (1 - theme);
 
       // Update traveling data packets
       for (let i = 0; i < packets.length; i++) {
         const p = packets[i];
-        p.progress = (p.progress + delta * p.speed) % 1;
+        p.progress = (p.progress + delta * p.speed * 0.55) % 1;
         const curve = arcCurves[p.curveIndex];
         if (curve) {
           curve.getPointAt(p.progress, _packetPos);
@@ -399,6 +439,24 @@ export const HeroScene: React.FC = () => {
       haloMesh.lookAt(camera.position);
 
       renderer.render(scene, camera);
+
+      // Project anchors using the globe's actual matrix so cards share its rotation
+      // and pointer tilt. Update DOM transforms directly instead of React each frame.
+      const cardWidth = viewportWidth < 400 ? 118 : 150;
+      cardAnchors.forEach((anchor, index) => {
+        const card = cardRefs.current[index];
+        if (!card) return;
+        cardWorld.copy(anchor).applyMatrix4(globeGroup.matrixWorld);
+        cardScreen.copy(cardWorld).project(camera);
+        const visibility = THREE.MathUtils.smoothstep(cardWorld.z, -0.1, 0.65);
+        const scale = THREE.MathUtils.clamp(0.88 + cardWorld.z * 0.07, 0.8, 1.02);
+        const px = THREE.MathUtils.clamp((cardScreen.x * 0.5 + 0.5) * viewportWidth, cardWidth / 2 + 4, viewportWidth - cardWidth / 2 - 4);
+        const py = THREE.MathUtils.clamp((-cardScreen.y * 0.5 + 0.5) * viewportHeight, 48, viewportHeight - 48);
+        card.style.width = `${cardWidth}px`;
+        card.style.transform = `translate3d(${px}px, ${py}px, 0) translate(-50%, -50%) scale(${scale})`;
+        card.style.opacity = String(visibility);
+        card.style.zIndex = String(10 + Math.round(cardWorld.z * 10));
+      });
       animationFrameId = requestAnimationFrame(renderLoop);
     }
 
@@ -409,6 +467,8 @@ export const HeroScene: React.FC = () => {
       if (!container) return;
       const w = container.clientWidth || window.innerWidth;
       const h = container.clientHeight || window.innerHeight;
+      viewportWidth = w;
+      viewportHeight = h;
       camera.aspect = w / h;
       camera.updateProjectionMatrix();
       renderer.setSize(w, h);
@@ -445,7 +505,7 @@ export const HeroScene: React.FC = () => {
         container.removeChild(renderer.domElement);
       }
     };
-  }, []);
+  }, [journeyRef]);
 
   return (
     <div className="absolute inset-0 pointer-events-none overflow-hidden select-none">
@@ -454,6 +514,15 @@ export const HeroScene: React.FC = () => {
         ref={containerRef}
         className="w-full h-full absolute inset-0 pointer-events-auto"
       />
+      <div className="globe-service-cards" aria-hidden="true">
+        {globeCards.map(({ title, subtitle, icon: Icon }, index) => (
+          <div key={title} ref={element => { cardRefs.current[index] = element; }} className="globe-service-card">
+            <Icon className="globe-service-icon" aria-hidden="true" />
+            <strong>{title}</strong>
+            <span>{subtitle}</span>
+          </div>
+        ))}
+      </div>
     </div>
   );
 };

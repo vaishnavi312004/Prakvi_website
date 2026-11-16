@@ -8,6 +8,8 @@ import { BrowserRouter, Routes, Route, useLocation } from 'react-router-dom';
 import { AnimatePresence, MotionConfig } from 'motion/react';
 import { SmoothScroll, resetRouteScroll } from './components/layout/SmoothScroll';
 import { Header } from './components/layout/Header';
+import { GlobeJourney } from './components/layout/GlobeJourney';
+import { BackToTop } from './components/layout/BackToTop';
 import { Footer } from './components/layout/Footer';
 import { HomePage } from './pages/HomePage';
 import { AboutPage } from './pages/AboutPage';
@@ -57,6 +59,8 @@ export default function App() {
           <AnimatedRoutes />
         </main>
         <Footer />
+        <BackToTop />
+        <GlobeJourney />
       </div>
     </BrowserRouter>
     </MotionConfig>
