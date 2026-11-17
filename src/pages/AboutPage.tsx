@@ -1,5 +1,5 @@
-import React from 'react';
-import { motion, useReducedMotion } from 'motion/react';
+import React, { useEffect, useRef } from 'react';
+import { motion, useReducedMotion, useScroll, useSpring, useTransform } from 'motion/react';
 import { Breadcrumbs } from '../components/common/Breadcrumbs';
 import { SectionHeading } from '../components/common/SectionHeading';
 import { CTASection } from '../components/common/CTASection';
@@ -114,7 +114,12 @@ export const AboutPage: React.FC = () => {
   return (
     <PageTransition>
       <div className="overflow-x-hidden pt-20 selection:bg-accent selection:text-white">
-
+        <section
+          ref={heroSectionRef}
+          className="relative w-full overflow-hidden py-14 sm:py-18 md:py-20 lg:min-h-[560px] xl:min-h-[600px] md:flex md:items-center"
+        >
+          <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <Breadcrumbs items={[{ label: 'About Us' }]} />
             <div className="mt-8 grid grid-cols-1 lg:grid-cols-12 gap-10 items-center">
               <motion.div
                 initial={reducedMotion ? false : { opacity: 0, y: 16 }}
@@ -126,11 +131,9 @@ export const AboutPage: React.FC = () => {
                   {about.hero.kicker}
                 </div>
 
-        <section
-          ref={heroSectionRef}
-          className="relative w-full overflow-hidden py-14 sm:py-18 md:py-20 lg:min-h-[560px] xl:min-h-[600px] md:flex md:items-center"
-        >
-          {/* Full-width atmospheric background */}
+                <h1 className="font-display text-4xl sm:text-5xl font-extrabold text-foreground leading-tight">
+                  {about.hero.title}
+                </h1>
 
                 <p className="text-base sm:text-lg text-muted leading-relaxed">
                   {about.hero.description}
