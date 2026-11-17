@@ -128,7 +128,7 @@ export const InsightsPage: React.FC = () => {
         )}
 
         {/* 3. FILTER & ARTICLES GRID */}
-        <section className="py-section bg-surface/70 text-foreground">
+        <section className="py-section bg-section-alt text-foreground">
           <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
             <div className="flex flex-col md:flex-row md:items-center justify-between gap-6 mb-12">
               <div className="flex flex-wrap items-center gap-2 p-1.5 clay-soft rounded-2xl">

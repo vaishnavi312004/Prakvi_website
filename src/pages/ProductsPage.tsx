@@ -33,7 +33,7 @@ export const ProductsPage: React.FC = () => {
             <Breadcrumbs items={[{ label: 'Products' }]} />
 
             <div className="mt-8 max-w-3xl">
-              <div className="mb-3 text-xs font-mono font-bold uppercase tracking-[0.2em] text-accent">
+              <div className="mb-3 text-xs font-mono font-bold uppercase tracking-[0.2em] text-accent-text">
                 Enterprise Software Suites
               </div>
 
@@ -42,7 +42,7 @@ export const ProductsPage: React.FC = () => {
               </h1>
 
               <p className="mt-5 text-base sm:text-lg text-muted leading-relaxed text-balance">
-                Discover Prakvi’s four proprietary software platforms—Data Analytics, HR Management System, Vendor Management, and Relationship Management—engineered to streamline operations and empower faster decisions.
+                Discover Prakvi’s three proprietary software platforms—Data Analytics, Vendor Management, and Relationship Management—engineered to streamline operations and empower faster decisions.
               </p>
             </div>
           </div>
@@ -53,8 +53,8 @@ export const ProductsPage: React.FC = () => {
           <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
             <SectionHeading
               badge="Product Portfolio"
-              title="Four Core Platforms for Modern Operations"
-              description="Modular software suites featuring automated workflows, AI-assisted intelligence, and secure cloud access."
+              title="Three Core Platforms for Modern Operations"
+              description="Modular software suites featuring automated workflows, predictive intelligence, and secure cloud access."
             />
 
             <div className="mt-12 space-y-10">
@@ -66,7 +66,7 @@ export const ProductsPage: React.FC = () => {
                     className="clay-card clay-card-interactive grid grid-cols-1 lg:grid-cols-12 gap-8 lg:gap-10 items-center p-7 sm:p-10"
                   >
                     <div className={`lg:col-span-7 space-y-5 ${isEven ? '' : 'lg:order-2'}`}>
-                      <div className="text-xs font-mono font-bold uppercase tracking-wider text-accent">
+                      <div className="text-xs font-mono font-bold uppercase tracking-wider text-accent-text">
                         {product.badge || 'Enterprise Platform'}
                       </div>
 
@@ -74,7 +74,7 @@ export const ProductsPage: React.FC = () => {
                         {product.name}
                       </h2>
 
-                      <p className="text-sm font-semibold text-accent">{product.tagline}</p>
+                      <p className="text-sm font-semibold text-accent-text">{product.tagline}</p>
 
                       <p className="text-sm sm:text-base text-muted leading-relaxed">
                         {product.shortDesc}
@@ -132,7 +132,7 @@ export const ProductsPage: React.FC = () => {
                             referrerPolicy="no-referrer"
                           />
                           <div className="p-4 bg-card/95 border-t border-line">
-                            <span className="font-mono text-accent uppercase tracking-wider block text-[10px] font-bold">
+                            <span className="font-mono text-accent-text uppercase tracking-wider block text-[10px] font-bold">
                               Deployment
                             </span>
                             <span className="font-semibold text-foreground text-sm mt-0.5 block">
@@ -184,7 +184,7 @@ export const ProductsPage: React.FC = () => {
                 </div>
               ) : (
                 <form onSubmit={handleDemoSubmit} className="space-y-4">
-                  <div className="text-xs font-mono font-bold uppercase tracking-wider text-accent">
+                  <div className="text-xs font-mono font-bold uppercase tracking-wider text-accent-text">
                     Platform Walkthrough
                   </div>
                   <h3 className="font-display text-2xl font-extrabold text-foreground">

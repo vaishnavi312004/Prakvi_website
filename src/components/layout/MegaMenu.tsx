@@ -68,7 +68,7 @@ export const MegaMenu: React.FC<MegaMenuProps> = ({ isOpen, onClose }) => {
           className="pointer-events-auto absolute top-full left-0 w-full z-50 px-3 sm:px-6 pt-3"
           onMouseLeave={onClose}
         >
-          <div className="mx-auto max-w-[1380px] clay-card bg-card/98 backdrop-blur-xl p-6 lg:p-8 shadow-2xl border border-line">
+          <div className="mx-auto max-w-[1380px] clay-card bg-card/94 backdrop-blur-2xl p-6 lg:p-8 shadow-2xl border border-line">
             <div className="grid grid-cols-1 lg:grid-cols-12 gap-8">
               {/* Column 1: Enterprise Solutions (13 Practices) */}
               <div className="lg:col-span-6 lg:pr-4">
@@ -76,7 +76,7 @@ export const MegaMenu: React.FC<MegaMenuProps> = ({ isOpen, onClose }) => {
                   <h3 className="font-display text-sm font-bold text-foreground tracking-tight">
                     Enterprise Solutions
                   </h3>
-                  <span className="text-[11px] font-mono font-semibold text-accent">
+                  <span className="text-[11px] font-mono font-semibold text-accent-text">
                     {navigationData.enterpriseSolutions.length} Practices
                   </span>
                 </div>
@@ -118,7 +118,7 @@ export const MegaMenu: React.FC<MegaMenuProps> = ({ isOpen, onClose }) => {
                   <h3 className="font-display text-sm font-bold text-foreground tracking-tight">
                     Business Solutions
                   </h3>
-                  <span className="text-[11px] font-mono font-semibold text-accent">
+                  <span className="text-[11px] font-mono font-semibold text-accent-text">
                     {navigationData.businessSolutions.length} Solutions
                   </span>
                 </div>
@@ -156,7 +156,7 @@ export const MegaMenu: React.FC<MegaMenuProps> = ({ isOpen, onClose }) => {
                   <h3 className="font-display text-sm font-bold text-foreground tracking-tight">
                     Products
                   </h3>
-                  <span className="text-[11px] font-mono font-semibold text-accent">
+                  <span className="text-[11px] font-mono font-semibold text-accent-text">
                     {navigationData.products.length} Platforms
                   </span>
                 </div>
@@ -175,7 +175,7 @@ export const MegaMenu: React.FC<MegaMenuProps> = ({ isOpen, onClose }) => {
                           <IconComp className="w-4 h-4" />
                         </div>
                         <div className="min-w-0">
-                          <div className="font-semibold text-xs sm:text-sm text-foreground group-hover:text-accent transition-colors leading-tight">
+                          <div className="font-semibold text-xs sm:text-sm text-foreground group-hover:text-accent-text transition-colors leading-tight">
                             {item.title}
                           </div>
                           <div className="text-[11px] text-muted leading-snug mt-0.5 line-clamp-2">
@@ -195,7 +195,7 @@ export const MegaMenu: React.FC<MegaMenuProps> = ({ isOpen, onClose }) => {
                 <Link
                   to="/services"
                   onClick={onClose}
-                  className="font-semibold text-accent hover:text-highlight flex items-center gap-1.5 transition-colors"
+                  className="font-semibold text-accent-text hover:text-highlight flex items-center gap-1.5 transition-colors"
                 >
                   <span>Explore All 17 Services</span>
                   <ArrowRight className="w-3.5 h-3.5" />

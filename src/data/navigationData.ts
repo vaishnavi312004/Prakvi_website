@@ -63,7 +63,7 @@ export const navigationData = {
     {
       id: 'all-products',
       title: 'Proprietary Software Platforms',
-      description: 'Data Analytics, HR Management, Vendor & Relationship Management',
+      description: 'Data Analytics, Vendor Management & Relationship Management',
       path: '/products',
       iconName: 'Database',
     },
@@ -215,13 +215,6 @@ export const navigationData = {
       description: 'Turn raw enterprise data into predictive, actionable insights',
       path: '/products/data-analytics',
       iconName: 'Database',
-    },
-    {
-      id: 'hr-management-system',
-      title: 'HR Management System',
-      description: 'AI-powered HRMS for recruitment, payroll & compliance',
-      path: '/products/hr-management-system',
-      iconName: 'Users',
     },
     {
       id: 'vendor-management',

@@ -80,7 +80,7 @@ export const ContactPage: React.FC = () => {
           <Breadcrumbs items={[{ label: 'Contact Us' }]} />
 
           <div className="mt-8 max-w-3xl">
-            <div className="mb-3 text-xs font-mono font-bold uppercase tracking-[0.2em] text-accent">
+            <div className="mb-3 text-xs font-mono font-bold uppercase tracking-[0.2em] text-accent-text">
               {contactData.kicker}
             </div>
 
@@ -103,7 +103,7 @@ export const ContactPage: React.FC = () => {
             <div className="lg:col-span-7">
               <div className="clay-card p-7 sm:p-10">
                 <div className="mb-7">
-                  <div className="text-xs font-mono font-bold uppercase tracking-wider text-accent">
+                  <div className="text-xs font-mono font-bold uppercase tracking-wider text-accent-text">
                     Start a Conversation
                   </div>
                   <h2 className="font-display text-2xl sm:text-3xl font-extrabold text-foreground mt-1">

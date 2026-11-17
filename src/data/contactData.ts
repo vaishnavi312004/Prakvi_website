@@ -16,7 +16,7 @@ export const contactData = {
     { id: 'mobility', label: 'Mobility Practice (BYOD & CYOD)' },
     { id: 'web-mobile', label: 'Web Design, Enterprise Solution & Mobile Apps' },
     { id: 'digital-marketing', label: 'Digital Marketing & Branding' },
-    { id: 'products', label: 'HRMS, VMS & CRM Platforms' },
+    { id: 'products', label: 'Data Analytics, VMS & CRM Platforms' },
     { id: 'consulting', label: 'IT Consulting, Project Management & Accounting' },
   ] as ContactTopic[],
   supportCommitment: {

@@ -540,7 +540,7 @@ export const servicesData: ServiceItem[] = [
     category: 'enterprise',
     tagline: 'Build the Right Team, Drive the Right Results',
     shortDesc:
-      'End-to-end workforce solutions, permanent and contract talent acquisition, HRMS integration, and strategic workforce planning.',
+      'End-to-end workforce solutions, permanent and contract talent acquisition, onboarding integration, and strategic workforce planning.',
     fullDesc:
       'In a rapidly evolving business landscape, having the right talent at the right time is critical for success. At Prakvi, we deliver end-to-end workforce solutions and workforce management services that help organizations across India attract, hire, and retain top talent. Whether you need permanent workforce solutions, contract workforce, or vendor management staffing, our customized approach leverages deep market insights, advanced sourcing strategies, and a commitment to quality. From startups to large enterprises, we enable scalable workforce support, reduce hiring time, and improve talent retention.',
     iconName: 'UserCheck',
@@ -550,7 +550,7 @@ export const servicesData: ServiceItem[] = [
     businessChallenge:
       'Peak project workloads, complex compliance overhead, and fragmented hiring processes prevent organizations from scaling agile teams on demand.',
     howWeHelp:
-      'We act as a strategic partner combining specialized talent acquisition, optional AI-powered HRMS integration, and ongoing workforce optimization.',
+      'We act as a strategic partner combining specialized talent acquisition, streamlined onboarding workflows, and ongoing workforce optimization.',
     capabilities: [
       {
         title: 'Professional Staffing Services',
@@ -559,9 +559,9 @@ export const servicesData: ServiceItem[] = [
         icon: 'Users',
       },
       {
-        title: 'Human Resource Management System (HRMS)',
+        title: 'Talent Pipeline & Compliance',
         description:
-          'An integrated AI-powered platform streamlining automated recruitment workflows, payroll, attendance tracking, and employee engagement.',
+          'Structured screening, background verification, and statutory compliance workflows supporting seamless team deployment.',
         icon: 'Cpu',
       },
       {
@@ -584,9 +584,9 @@ export const servicesData: ServiceItem[] = [
         metric: '7-Stage Model',
       },
       {
-        title: 'Unified HRMS Tracking',
-        description: 'Optional AI-powered HRMS centralizes recruitment, payroll, attendance, and KPI evaluation.',
-        metric: 'HRMS Integrated',
+        title: 'Unified Workforce Governance',
+        description: 'Streamlined candidate tracking, attendance governance, and KPI evaluation across active teams.',
+        metric: 'KPI Governed',
       },
       {
         title: 'Cross-Functional Talent',
@@ -623,9 +623,9 @@ export const servicesData: ServiceItem[] = [
       },
       {
         step: '05',
-        title: 'HRMS Integration (Optional)',
+        title: 'Onboarding & System Integration',
         description:
-          'Deploy AI-powered HRMS to centralize tracking of recruitment, payroll, attendance, and performance metrics.',
+          'Integrate workflows with existing enterprise attendance, security, and project reporting tools.',
       },
       {
         step: '06',
@@ -651,9 +651,9 @@ export const servicesData: ServiceItem[] = [
     ],
     faqs: [
       {
-        question: 'Can we integrate Prakvi’s HRMS platform into a Workforce Solution engagement?',
+        question: 'Can Prakvi integrate with our internal onboarding and project tools?',
         answer:
-          'Yes. Step 5 of our methodology offers optional AI-powered HRMS deployment to centralize recruitment, payroll runs, attendance, and performance evaluations.',
+          'Yes. Our team aligns smoothly with your client onboarding, access compliance, and enterprise reporting workflows.',
       },
       {
         question: 'What specialized domains can you staff under Workforce Solutions?',

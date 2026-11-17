@@ -13,7 +13,7 @@ const socialLinks = [
 
 export const Footer: React.FC = () => (
   <footer
-    className="border-t border-line bg-surface/70 backdrop-blur-xl text-foreground"
+    className="border-t border-line bg-section-alt/85 backdrop-blur-xl text-foreground"
     role="contentinfo"
   >
     <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
@@ -64,7 +64,7 @@ export const Footer: React.FC = () => (
             <li><Link to="/services/staffing" className="transition-colors hover:text-accent">Staffing Services</Link></li>
             <li><Link to="/services/cloud-services" className="transition-colors hover:text-accent">Cloud Services</Link></li>
             <li><Link to="/services/business-intelligence" className="transition-colors hover:text-accent">Business Intelligence</Link></li>
-            <li><Link to="/products/hr-management-system" className="transition-colors hover:text-accent">HR Management System</Link></li>
+            <li><Link to="/products/vendor-management" className="transition-colors hover:text-accent">Vendor Management System</Link></li>
             <li><a href={`mailto:${companyData.contact.primaryEmail}`} className="transition-colors hover:text-accent">Contact Support</a></li>
             <li><a href={`mailto:${companyData.contact.primaryEmail}?subject=Privacy%20inquiry`} className="transition-colors hover:text-accent">Privacy Inquiries</a></li>
           </ul>

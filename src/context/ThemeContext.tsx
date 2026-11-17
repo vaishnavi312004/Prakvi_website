@@ -1,6 +1,6 @@
 import React, { createContext, useContext, useEffect, useState } from 'react';
 
-export type PrakviThemeId = 'soft-innovation' | 'lavender-mist' | 'fresh-mint';
+export type PrakviThemeId = 'soft-innovation' | 'lavender-mist' | 'warm-innovation';
 
 export interface ThemeOption {
   id: PrakviThemeId;
@@ -8,42 +8,43 @@ export interface ThemeOption {
   description: string;
   swatchPrimary: string;
   swatchSecondary: string;
-  swatchCanvas: string;
+  swatchAccent: string;
 }
 
 export const PRAKVI_THEMES: ThemeOption[] = [
   {
     id: 'soft-innovation',
-    name: 'Prakvi Signature',
-    description: 'Warm ivory, midnight charcoal, Prakvi blue & orange',
-    swatchPrimary: '#F97316',
-    swatchSecondary: '#009EDB',
-    swatchCanvas: '#FBF8F2',
+    name: 'Soft Innovation',
+    description: 'Ice white, sky blue, soft cyan, lavender & selective orange CTAs',
+    swatchPrimary: '#079CEB',
+    swatchSecondary: '#16C6D4',
+    swatchAccent: '#F28C45',
   },
   {
     id: 'lavender-mist',
-    name: 'Lavender Frost',
-    description: 'Frosted lavender, royal indigo & sky glass',
-    swatchPrimary: '#6D5CE6',
-    swatchSecondary: '#3B9EE8',
-    swatchCanvas: '#F7F5FC',
+    name: 'Lavender Mist',
+    description: 'Soft lavender, pale violet, light sky blue & balanced orange highlights',
+    swatchPrimary: '#7C6CE6',
+    swatchSecondary: '#DDF1FF',
+    swatchAccent: '#F28C45',
   },
   {
-    id: 'fresh-mint',
-    name: 'Fresh Mint',
-    description: 'Frosted mint, aqua & deep teal glass',
-    swatchPrimary: '#0D9488',
-    swatchSecondary: '#0EA5E9',
-    swatchCanvas: '#F3FAF7',
+    id: 'warm-innovation',
+    name: 'Warm Innovation',
+    description: 'Warm beige, soft peach, sky blue, cyan & muted orange clay tones',
+    swatchPrimary: '#E9DCC8',
+    swatchSecondary: '#079CEB',
+    swatchAccent: '#F28C45',
   },
 ];
 
-const STORAGE_KEY = 'prakvi-theme';
+const STORAGE_KEY = 'prakvi-theme-v4';
 
 interface ThemeContextValue {
   theme: PrakviThemeId;
   setTheme: (theme: PrakviThemeId) => void;
   activeThemeMeta: ThemeOption;
+  themes: ThemeOption[];
 }
 
 const ThemeContext = createContext<ThemeContextValue | undefined>(undefined);
@@ -57,13 +58,14 @@ export const ThemeProvider: React.FC<{ children: React.ReactNode }> = ({ childre
         return saved;
       }
     } catch {
-      // Ignore storage access restrictions
+      // Ignore storage read restrictions
     }
     return 'soft-innovation';
   });
 
   useEffect(() => {
     document.documentElement.setAttribute('data-theme', theme);
+    document.documentElement.setAttribute('data-polarity', 'light');
     try {
       window.localStorage.setItem(STORAGE_KEY, theme);
     } catch {
@@ -79,7 +81,14 @@ export const ThemeProvider: React.FC<{ children: React.ReactNode }> = ({ childre
     PRAKVI_THEMES.find((t) => t.id === theme) || PRAKVI_THEMES[0];
 
   return (
-    <ThemeContext.Provider value={{ theme, setTheme, activeThemeMeta }}>
+    <ThemeContext.Provider
+      value={{
+        theme,
+        setTheme,
+        activeThemeMeta,
+        themes: PRAKVI_THEMES,
+      }}
+    >
       {children}
     </ThemeContext.Provider>
   );

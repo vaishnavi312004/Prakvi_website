@@ -120,7 +120,7 @@ export const ProductDetailPage: React.FC = () => {
 
       {/* 3. METHODOLOGY / IMPLEMENTATION STEPS */}
       {product.deliverySteps && product.deliverySteps.length > 0 && (
-        <section className="py-section bg-surface/75 text-foreground">
+        <section className="py-section bg-section-alt text-foreground">
           <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
             <SectionHeading
               badge="Implementation Process"
@@ -197,7 +197,7 @@ export const ProductDetailPage: React.FC = () => {
       )}
 
       {/* 5. ARCHITECTURE & USE CASES */}
-      <section className="py-section bg-surface/75 text-foreground">
+      <section className="py-section bg-surface/65 text-foreground">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <SectionHeading
             badge="Technical Architecture & Use Cases"

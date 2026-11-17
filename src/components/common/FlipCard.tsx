@@ -31,8 +31,8 @@ interface FlipCardProps {
 export default function FlipCard({ front, back, axis = 'y', flipOnClick = true, draggable = true,
   dragDistance = 0, tilt = true, tiltMax = 12, glare = true, glareOpacity = 0.22,
   hoverScale = 1.03, perspective = 1100, stiffness = 170, damping = 20,
-  width = 270, height = 300, radius = 22, background = '#FFFFFF', color = '#172B45',
-  shadow = true, shadowColor = '#172B45', shadowOpacity = 0.12, onFlipChange, label = 'card',
+  width = 270, height = 300, radius = 22, background = 'var(--glass-bg)', color = 'var(--theme-foreground)',
+  shadow = true, shadowColor = '#132B47', shadowOpacity = 0.16, onFlipChange, label = 'card',
 }: FlipCardProps) {
   const [flipped, setFlipped] = useState(false);
   const reducedMotion = useReducedMotion();

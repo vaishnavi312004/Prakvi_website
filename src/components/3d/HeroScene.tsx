@@ -1,95 +1,48 @@
 import React, { useEffect, useRef } from 'react';
 import * as THREE from 'three';
-import { RoomEnvironment } from 'three/examples/jsm/environments/RoomEnvironment.js';
-import { PrakviThemeId, usePrakviTheme } from '../../context/ThemeContext';
 
-// Global & India enterprise hub coordinates
-const GLOBAL_HUBS: { name: string; lat: number; lng: number }[] = [
-  { name: 'New Delhi (HQ)', lat: 28.6139, lng: 77.209 },
-  { name: 'Nashik', lat: 19.9975, lng: 73.7898 },
-  { name: 'Singapore', lat: 1.3521, lng: 103.8198 },
-  { name: 'Tokyo', lat: 35.6762, lng: 139.6503 },
-  { name: 'London', lat: 51.5074, lng: -0.1278 },
-  { name: 'Frankfurt', lat: 50.1109, lng: 8.6821 },
-  { name: 'New York', lat: 40.7128, lng: -74.006 },
-  { name: 'San Francisco', lat: 37.7749, lng: -122.4194 },
-  { name: 'Dubai', lat: 25.2048, lng: 55.2708 },
-  { name: 'Sydney', lat: -33.8688, lng: 151.2093 },
-];
+// Exact original Prakvi logo blue sampled directly from /public/img/prakvi-logo.png
+const PRAKVI_EXACT_LOGO_BLUE = 0x0193dd;
+// Darker tonal shade of the exact same blue solely for extruded 3D side bevel depth
+const PRAKVI_SIDE_DEPTH_BLUE = 0x01699e;
+// Supporting soft infinity ribbon blue tint (strictly same corporate blue family, zero orange/lavender/cyan)
+const PRAKVI_INFINITY_SOFT_BLUE = 0x4db5eb;
+// Neutral floor shadow tint
+const FLOOR_SHADOW_NEUTRAL = 0x0f172a;
 
-interface GlobePalette {
-  core: number;
-  emissive: number;
-  primary: number;
-  secondary: number;
-  ring: number;
-  wire: number;
-  packet: number;
+function createSoftShadowTexture(): THREE.CanvasTexture {
+  const canvas = document.createElement('canvas');
+  canvas.width = 256;
+  canvas.height = 256;
+  const ctx = canvas.getContext('2d');
+  if (ctx) {
+    const grad = ctx.createRadialGradient(128, 128, 12, 128, 128, 120);
+    grad.addColorStop(0, 'rgba(15, 23, 42, 0.24)');
+    grad.addColorStop(0.45, 'rgba(15, 23, 42, 0.10)');
+    grad.addColorStop(0.78, 'rgba(15, 23, 42, 0.02)');
+    grad.addColorStop(1, 'rgba(15, 23, 42, 0)');
+    ctx.fillStyle = grad;
+    ctx.fillRect(0, 0, 256, 256);
+  }
+  const tex = new THREE.CanvasTexture(canvas);
+  tex.colorSpace = THREE.SRGBColorSpace;
+  return tex;
 }
 
-const THEME_PALETTES: Record<PrakviThemeId, GlobePalette> = {
-  'soft-innovation': {
-    core: 0xfffdf8,
-    emissive: 0xe6f4fc,
-    primary: 0x009edb,
-    secondary: 0xf97316,
-    ring: 0x38bdf8,
-    wire: 0x9bd6f3,
-    packet: 0xf97316,
-  },
-  'lavender-mist': {
-    core: 0xf8f6fe,
-    emissive: 0xe9e3ff,
-    primary: 0x6d5ce6,
-    secondary: 0x3b9ee8,
-    ring: 0x8f82ef,
-    wire: 0xb7aff5,
-    packet: 0x5846d4,
-  },
-  'fresh-mint': {
-    core: 0xf4fcf9,
-    emissive: 0xd8f3eb,
-    primary: 0x0d9488,
-    secondary: 0x0ea5e9,
-    ring: 0x39b8ac,
-    wire: 0x8ad7cf,
-    packet: 0x0b7b71,
-  },
-};
-
-function latLngToVector3(lat: number, lng: number, radius: number): THREE.Vector3 {
-  const phi = (90 - lat) * (Math.PI / 180);
-  const theta = (lng + 180) * (Math.PI / 180);
-  const x = -(radius * Math.sin(phi) * Math.cos(theta));
-  const z = radius * Math.sin(phi) * Math.sin(theta);
-  const y = radius * Math.cos(phi);
-  return new THREE.Vector3(x, y, z);
+function smoothstep(edge0: number, edge1: number, x: number): number {
+  const t = Math.max(0, Math.min(1, (x - edge0) / (edge1 - edge0)));
+  return t * t * (3 - 2 * t);
 }
 
-function createArcBetween(
-  v1: THREE.Vector3,
-  v2: THREE.Vector3,
-  radius: number,
-  elevation = 0.28
-): THREE.CatmullRomCurve3 {
-  const mid = new THREE.Vector3().addVectors(v1, v2).multiplyScalar(0.5);
-  const dist = v1.distanceTo(v2);
-  mid.normalize().multiplyScalar(radius + dist * elevation);
-  return new THREE.CatmullRomCurve3([v1, mid, v2]);
+function easeInOutCubic(x: number): number {
+  return x < 0.5 ? 4 * x * x * x : 1 - Math.pow(-2 * x + 2, 3) / 2;
 }
 
 const _mouseTarget = new THREE.Vector2(0, 0);
 const _currentMouse = new THREE.Vector2(0, 0);
-const _packetPos = new THREE.Vector3();
 
 export const HeroScene: React.FC = () => {
   const containerRef = useRef<HTMLDivElement>(null);
-  const { theme } = usePrakviTheme();
-  const themeRef = useRef<PrakviThemeId>(theme);
-
-  useEffect(() => {
-    themeRef.current = theme;
-  }, [theme]);
 
   useEffect(() => {
     const container = containerRef.current;
@@ -103,7 +56,9 @@ export const HeroScene: React.FC = () => {
         const gl = probe.getContext('webgl2') || probe.getContext('webgl');
         if (!gl) return true;
         const ext = gl.getExtension('WEBGL_debug_renderer_info');
-        const param = ext ? ext.UNMASKED_RENDERER_WEBGL : (gl as WebGLRenderingContext).RENDERER;
+        const param = ext
+          ? ext.UNMASKED_RENDERER_WEBGL
+          : (gl as WebGLRenderingContext).RENDERER;
         const gpu = String((gl as WebGLRenderingContext).getParameter(param));
         gl.getExtension('WEBGL_lose_context')?.loseContext();
         return /SwiftShader|llvmpipe|softpipe|Software|Basic Render/i.test(gpu);
@@ -113,381 +68,434 @@ export const HeroScene: React.FC = () => {
     })();
 
     const initialW = container.clientWidth || 480;
-    const initialH = container.clientHeight || 460;
+    const initialH = container.clientHeight || 400;
 
     const scene = new THREE.Scene();
-
-    const camera = new THREE.PerspectiveCamera(38, initialW / initialH, 0.1, 100);
-    camera.position.set(0, 0.08, 4.35);
+    const camera = new THREE.PerspectiveCamera(32, initialW / initialH, 0.1, 100);
+    camera.position.set(0, -0.08, 7.0);
 
     const renderer = new THREE.WebGLRenderer({
       antialias: !isSoftwareGl,
       alpha: true,
       powerPreference: 'high-performance',
     });
-    renderer.outputColorSpace = THREE.SRGBColorSpace;
-    renderer.toneMapping = THREE.ACESFilmicToneMapping;
-    renderer.toneMappingExposure = 1.05;
-    renderer.setPixelRatio(isSoftwareGl ? 1 : Math.min(window.devicePixelRatio, 2));
     renderer.setSize(initialW, initialH);
-    renderer.setClearColor(0x000000, 0);
+    renderer.setPixelRatio(isSoftwareGl ? 1 : Math.min(window.devicePixelRatio, 2));
+    renderer.outputColorSpace = THREE.SRGBColorSpace;
+    renderer.toneMapping = THREE.NoToneMapping;
+    renderer.shadowMap.enabled = !isSoftwareGl;
+    renderer.shadowMap.type = THREE.PCFSoftShadowMap;
+    renderer.domElement.style.display = 'block';
+    renderer.domElement.style.width = '100%';
+    renderer.domElement.style.height = '100%';
+
     container.appendChild(renderer.domElement);
 
-    const pmremGenerator = new THREE.PMREMGenerator(renderer);
-    const roomEnv = new RoomEnvironment();
-    const envTarget = pmremGenerator.fromScene(roomEnv, 0.04);
-    scene.environment = envTarget.texture;
-    roomEnv.dispose();
+    // Pure neutral white lighting (never alters or tints the exact #0193DD brand color)
+    const ambientLight = new THREE.AmbientLight(0xffffff, 0.72);
+    scene.add(ambientLight);
 
-    // Soft light ceramic studio lighting
-    const keyLight = new THREE.DirectionalLight(0xffffff, 1.8);
-    keyLight.position.set(5, 6, 5);
+    const keyLight = new THREE.DirectionalLight(0xffffff, 0.65);
+    keyLight.position.set(2.6, 5.8, 4.8);
+    keyLight.castShadow = !isSoftwareGl;
+    keyLight.shadow.mapSize.set(1024, 1024);
+    keyLight.shadow.camera.near = 1;
+    keyLight.shadow.camera.far = 16;
+    keyLight.shadow.camera.left = -2.8;
+    keyLight.shadow.camera.right = 2.8;
+    keyLight.shadow.camera.top = 2.8;
+    keyLight.shadow.camera.bottom = -2.8;
+    keyLight.shadow.bias = -0.0004;
+    keyLight.shadow.radius = 5;
     scene.add(keyLight);
 
-    const fillLight = new THREE.DirectionalLight(0xeef6fc, 1.1);
-    fillLight.position.set(-5, -2, 3);
-    scene.add(fillLight);
+    const heroRig = new THREE.Group();
+    heroRig.position.set(0, 0.18, 0);
+    scene.add(heroRig);
 
-    const rimLight = new THREE.DirectionalLight(0x079ceb, 1.4);
-    rimLight.position.set(-4, 4, -4);
-    scene.add(rimLight);
+    const disposables: { dispose: () => void }[] = [];
 
-    const hemiLight = new THREE.HemisphereLight(0xffffff, 0xddebf7, 1.1);
-    scene.add(hemiLight);
-
-    const globeGroup = new THREE.Group();
-    globeGroup.rotation.x = 0.24;
-    globeGroup.rotation.z = -0.1;
-    scene.add(globeGroup);
-
-    const GLOBE_RADIUS = 1.32;
-    const initPalette = THEME_PALETTES[themeRef.current];
-
-    // 1. Pearlescent Clay-Glass Inner Core Sphere
-    const coreGeo = new THREE.SphereGeometry(GLOBE_RADIUS * 0.96, 48, 48);
-    const coreMat = new THREE.MeshPhysicalMaterial({
-      color: initPalette.core,
-      roughness: 0.28,
-      metalness: 0.06,
-      clearcoat: 0.85,
-      clearcoatRoughness: 0.16,
-      emissive: initPalette.emissive,
-      emissiveIntensity: 0.3,
-    });
-    const coreMesh = new THREE.Mesh(coreGeo, coreMat);
-    globeGroup.add(coreMesh);
-
-    // 2. Fibonacci Surface Network Nodes
-    const DOTS_COUNT = 1350;
-    const dotPositions = new Float32Array(DOTS_COUNT * 3);
-    const dotColors = new Float32Array(DOTS_COUNT * 3);
-    const phiSpan = Math.PI * (3 - Math.sqrt(5));
-
-    const colA = new THREE.Color(initPalette.primary);
-    const colB = new THREE.Color(initPalette.secondary);
-    const colSoft = new THREE.Color(0xbcdaf3);
-
-    for (let i = 0; i < DOTS_COUNT; i++) {
-      const y = 1 - (i / (DOTS_COUNT - 1)) * 2;
-      const radiusAtY = Math.sqrt(1 - y * y);
-      const theta = phiSpan * i;
-      dotPositions[i * 3] = Math.cos(theta) * radiusAtY * GLOBE_RADIUS;
-      dotPositions[i * 3 + 1] = y * GLOBE_RADIUS;
-      dotPositions[i * 3 + 2] = Math.sin(theta) * radiusAtY * GLOBE_RADIUS;
-
-      const c = i % 5 === 0 ? colB : i % 3 === 0 ? colSoft : colA;
-      dotColors[i * 3] = c.r;
-      dotColors[i * 3 + 1] = c.g;
-      dotColors[i * 3 + 2] = c.b;
-    }
-
-    const dotGeometry = new THREE.BufferGeometry();
-    dotGeometry.setAttribute('position', new THREE.BufferAttribute(dotPositions, 3));
-    dotGeometry.setAttribute('color', new THREE.BufferAttribute(dotColors, 3));
-
-    const dotMaterial = new THREE.PointsMaterial({
-      size: 0.028,
-      vertexColors: true,
+    // Strict #0193DD un-tinted front/back logo face + clean extruded 3D side shade
+    // Color stays 100% locked across all 3 website themes!
+    const frontFaceMat = new THREE.MeshBasicMaterial({
+      color: PRAKVI_EXACT_LOGO_BLUE,
+      toneMapped: false,
       transparent: true,
-      opacity: 0.72,
+      opacity: 1,
     });
-    const pointsMesh = new THREE.Points(dotGeometry, dotMaterial);
-    globeGroup.add(pointsMesh);
 
-    // 3. Soft Outer Geodesic Wireframe Cage
-    const cageGeo = new THREE.IcosahedronGeometry(GLOBE_RADIUS * 1.045, 2);
-    const cageMat = new THREE.MeshBasicMaterial({
-      color: initPalette.wire,
-      wireframe: true,
+    const sideExtrudeMat = new THREE.MeshStandardMaterial({
+      color: PRAKVI_SIDE_DEPTH_BLUE,
+      roughness: 0.55,
+      metalness: 0.0,
       transparent: true,
-      opacity: 0.28,
+      opacity: 1,
     });
-    const cageMesh = new THREE.Mesh(cageGeo, cageMat);
-    globeGroup.add(cageMesh);
 
-    // 4. Dual Tilted Clay-Light Orbital Rings
-    const orbitMaterialA = new THREE.MeshBasicMaterial({
-      color: initPalette.ring,
+    const infinityPrimaryMat = new THREE.MeshBasicMaterial({
+      color: PRAKVI_EXACT_LOGO_BLUE,
+      toneMapped: false,
       transparent: true,
-      opacity: 0.42,
+      opacity: 1,
     });
-    const orbitGeoA = new THREE.TorusGeometry(GLOBE_RADIUS * 1.24, 0.009, 12, 96);
-    const orbitRingA = new THREE.Mesh(orbitGeoA, orbitMaterialA);
-    orbitRingA.rotation.x = Math.PI * 0.38;
-    orbitRingA.rotation.y = 0.3;
-    globeGroup.add(orbitRingA);
 
-    const orbitMaterialB = new THREE.MeshBasicMaterial({
-      color: initPalette.secondary,
+    const infinitySecondaryMat = new THREE.MeshBasicMaterial({
+      color: PRAKVI_INFINITY_SOFT_BLUE,
+      toneMapped: false,
       transparent: true,
-      opacity: 0.34,
-    });
-    const orbitGeoB = new THREE.TorusGeometry(GLOBE_RADIUS * 1.32, 0.007, 12, 96);
-    const orbitRingB = new THREE.Mesh(orbitGeoB, orbitMaterialB);
-    orbitRingB.rotation.x = -Math.PI * 0.32;
-    orbitRingB.rotation.z = 0.45;
-    globeGroup.add(orbitRingB);
-
-    // 5. Hub Markers & Great-Circle Arcs
-    const hubPositions: THREE.Vector3[] = [];
-    const hubDotGeo = new THREE.SphereGeometry(0.028, 16, 16);
-    const hubDotMat = new THREE.MeshBasicMaterial({ color: initPalette.primary });
-    const hubRingGeo = new THREE.RingGeometry(0.042, 0.058, 24);
-    const hubRingMat = new THREE.MeshBasicMaterial({
-      color: initPalette.secondary,
-      side: THREE.DoubleSide,
-      transparent: true,
-      opacity: 0.7,
+      opacity: 1,
     });
 
-    GLOBAL_HUBS.forEach((hub) => {
-      const pos = latLngToVector3(hub.lat, hub.lng, GLOBE_RADIUS * 1.005);
-      hubPositions.push(pos);
+    disposables.push(
+      frontFaceMat,
+      sideExtrudeMat,
+      infinityPrimaryMat,
+      infinitySecondaryMat,
+    );
 
-      const node = new THREE.Mesh(hubDotGeo, hubDotMat);
-      node.position.copy(pos);
-      globeGroup.add(node);
+    const prakviMaterials = [frontFaceMat, sideExtrudeMat];
 
-      const ring = new THREE.Mesh(hubRingGeo, hubRingMat);
-      ring.position.copy(pos.clone().multiplyScalar(1.006));
-      ring.lookAt(pos.clone().multiplyScalar(2));
-      globeGroup.add(ring);
-    });
+    // ========================================================================
+    // 1. EXACT GEOMETRIC 3-PART PRAKVI LOGO (1:1 Coordinates from prakvi-logo.png)
+    // ========================================================================
+    const prakviGroup = new THREE.Group();
+    heroRig.add(prakviGroup);
 
-    const hubConnections: [number, number][] = [
-      [0, 1],
-      [0, 2],
-      [0, 4],
-      [0, 8],
-      [2, 3],
-      [2, 9],
-      [4, 5],
-      [4, 6],
-      [6, 7],
-      [7, 3],
-      [8, 4],
+    const extrudeOpts: THREE.ExtrudeGeometryOptions = {
+      depth: 0.24,
+      bevelEnabled: true,
+      bevelThickness: 0.014,
+      bevelSize: 0.01,
+      bevelSegments: 2,
+      curveSegments: 36,
+    };
+
+    const outerPShape = new THREE.Shape();
+    outerPShape.moveTo(-1.12, 1.19);
+    outerPShape.lineTo(0.44, 1.19);
+    outerPShape.absarc(0.44, 0.41, 0.78, Math.PI / 2, -Math.PI / 2, true);
+    outerPShape.lineTo(0.03, -0.37);
+    outerPShape.lineTo(-0.09, -1.22);
+    outerPShape.lineTo(-0.37, -1.22);
+    outerPShape.lineTo(-0.26, -0.02);
+    outerPShape.lineTo(0.44, -0.02);
+    outerPShape.absarc(0.44, 0.41, 0.43, -Math.PI / 2, Math.PI / 2, false);
+    outerPShape.lineTo(-1.17, 0.84);
+    outerPShape.closePath();
+
+    const outerPGeo = new THREE.ExtrudeGeometry(outerPShape, extrudeOpts);
+    outerPGeo.translate(0, 0, -0.12);
+    disposables.push(outerPGeo);
+
+    const outerPMesh = new THREE.Mesh(outerPGeo, prakviMaterials);
+    outerPMesh.castShadow = !isSoftwareGl;
+    outerPMesh.receiveShadow = !isSoftwareGl;
+    prakviGroup.add(outerPMesh);
+
+    const leftPillarShape = new THREE.Shape();
+    leftPillarShape.moveTo(-1.19, 0.53);
+    leftPillarShape.lineTo(-0.51, 0.53);
+    leftPillarShape.lineTo(-0.67, -0.67);
+    leftPillarShape.lineTo(-0.99, -0.67);
+    leftPillarShape.lineTo(-0.88, 0.16);
+    leftPillarShape.lineTo(-1.24, 0.16);
+    leftPillarShape.closePath();
+
+    const leftPillarGeo = new THREE.ExtrudeGeometry(leftPillarShape, extrudeOpts);
+    leftPillarGeo.translate(0, 0, -0.12);
+    disposables.push(leftPillarGeo);
+
+    const leftPillarMesh = new THREE.Mesh(leftPillarGeo, prakviMaterials);
+    leftPillarMesh.castShadow = !isSoftwareGl;
+    leftPillarMesh.receiveShadow = !isSoftwareGl;
+    prakviGroup.add(leftPillarMesh);
+
+    const innerCoreShape = new THREE.Shape();
+    innerCoreShape.moveTo(-0.12, 0.53);
+    innerCoreShape.lineTo(0.32, 0.53);
+    innerCoreShape.absarc(0.32, 0.34, 0.19, Math.PI / 2, -Math.PI / 2, true);
+    innerCoreShape.lineTo(-0.17, 0.15);
+    innerCoreShape.closePath();
+
+    const innerCoreGeo = new THREE.ExtrudeGeometry(innerCoreShape, extrudeOpts);
+    innerCoreGeo.translate(0, 0, -0.12);
+    disposables.push(innerCoreGeo);
+
+    const innerCoreMesh = new THREE.Mesh(innerCoreGeo, prakviMaterials);
+    innerCoreMesh.castShadow = !isSoftwareGl;
+    innerCoreMesh.receiveShadow = !isSoftwareGl;
+    prakviGroup.add(innerCoreMesh);
+
+    // ========================================================================
+    // 2. INFINITY-INSPIRED MOTION RIBBON (Weaves together into Exact #0193DD P)
+    // ========================================================================
+    const infinityGroup = new THREE.Group();
+    heroRig.add(infinityGroup);
+
+    const infCurvePrimary = new THREE.CatmullRomCurve3(
+      [
+        new THREE.Vector3(-1.22, -0.26, -0.04),
+        new THREE.Vector3(-1.38, 0.16, 0.0),
+        new THREE.Vector3(-1.02, 0.56, 0.05),
+        new THREE.Vector3(-0.44, 0.48, 0.10),
+        new THREE.Vector3(0.0, 0.0, 0.14),
+        new THREE.Vector3(0.44, -0.48, 0.10),
+        new THREE.Vector3(1.04, -0.54, 0.04),
+        new THREE.Vector3(1.40, -0.06, 0.0),
+        new THREE.Vector3(1.16, 0.46, -0.04),
+        new THREE.Vector3(0.68, 0.58, -0.05),
+        new THREE.Vector3(0.30, 0.36, -0.06),
+      ],
+      false,
+      'centripetal',
+      0.5,
+    );
+
+    const infCurveSecondary = new THREE.CatmullRomCurve3(
+      [
+        new THREE.Vector3(-0.26, -0.26, -0.12),
+        new THREE.Vector3(-0.54, -0.54, -0.09),
+        new THREE.Vector3(-1.0, -0.56, -0.05),
+        new THREE.Vector3(-1.30, -0.32, -0.03),
+        new THREE.Vector3(-1.36, -0.02, -0.01),
+      ],
+      false,
+      'centripetal',
+      0.5,
+    );
+
+    const infGeoA = new THREE.TubeGeometry(infCurvePrimary, 96, 0.13, 20, false);
+    const infGeoB = new THREE.TubeGeometry(infCurveSecondary, 48, 0.128, 20, false);
+    disposables.push(infGeoA, infGeoB);
+
+    const infMeshA = new THREE.Mesh(infGeoA, infinityPrimaryMat);
+    infMeshA.castShadow = !isSoftwareGl;
+    const infMeshB = new THREE.Mesh(infGeoB, infinitySecondaryMat);
+    infMeshB.castShadow = !isSoftwareGl;
+    infinityGroup.add(infMeshA, infMeshB);
+
+    const capGeo = new THREE.SphereGeometry(0.128, 20, 20);
+    disposables.push(capGeo);
+    const capEnds = [
+      infCurvePrimary.getPointAt(1),
+      infCurvePrimary.getPointAt(0),
+      infCurveSecondary.getPointAt(0),
+      infCurveSecondary.getPointAt(1),
     ];
+    capEnds.forEach((pt, i) => {
+      const cap = new THREE.Mesh(capGeo, i < 2 ? infinityPrimaryMat : infinitySecondaryMat);
+      cap.position.copy(pt);
+      infinityGroup.add(cap);
+    });
 
-    const arcCurves: THREE.CatmullRomCurve3[] = [];
-    const arcGeometries: THREE.BufferGeometry[] = [];
-    const arcMat = new THREE.LineBasicMaterial({
-      color: initPalette.primary,
+    // ========================================================================
+    // 3. VISIBLE NEUTRAL CAST SHADOW DIRECTLY BELOW FLOATING EMBLEM
+    // ========================================================================
+    const shadowCatcherGeo = new THREE.PlaneGeometry(5.5, 4.2);
+    const shadowCatcherMat = new THREE.ShadowMaterial({
+      color: FLOOR_SHADOW_NEUTRAL,
+      opacity: 0.2,
+    });
+    const shadowCatcher = new THREE.Mesh(shadowCatcherGeo, shadowCatcherMat);
+    shadowCatcher.rotation.x = -Math.PI / 2;
+    shadowCatcher.position.set(0, -1.46, 0.04);
+    shadowCatcher.receiveShadow = !isSoftwareGl;
+    heroRig.add(shadowCatcher);
+
+    const softShadowTex = createSoftShadowTexture();
+    const ambientShadowGeo = new THREE.PlaneGeometry(2.9, 1.85);
+    const ambientShadowMat = new THREE.MeshBasicMaterial({
+      map: softShadowTex,
       transparent: true,
-      opacity: 0.42,
+      opacity: 0.85,
+      depthWrite: false,
     });
+    const ambientShadow = new THREE.Mesh(ambientShadowGeo, ambientShadowMat);
+    ambientShadow.rotation.x = -Math.PI / 2;
+    ambientShadow.position.set(0.02, -1.47, 0);
+    heroRig.add(ambientShadow);
 
-    hubConnections.forEach(([i1, i2]) => {
-      const v1 = hubPositions[i1];
-      const v2 = hubPositions[i2];
-      if (!v1 || !v2) return;
-      const curve = createArcBetween(v1, v2, GLOBE_RADIUS, 0.25);
-      arcCurves.push(curve);
-      const pts = curve.getPoints(48);
-      const arcGeo = new THREE.BufferGeometry().setFromPoints(pts);
-      arcGeometries.push(arcGeo);
-      globeGroup.add(new THREE.Line(arcGeo, arcMat));
-    });
+    disposables.push(
+      shadowCatcherGeo,
+      shadowCatcherMat,
+      softShadowTex,
+      ambientShadowGeo,
+      ambientShadowMat,
+    );
 
-    // 6. Traveling Data Packets along arcs
-    const PACKETS_COUNT = hubConnections.length * 2;
-    const packetGeo = new THREE.SphereGeometry(0.022, 12, 12);
-    const packetMat = new THREE.MeshBasicMaterial({ color: initPalette.packet });
-    const packets: { mesh: THREE.Mesh; curveIndex: number; progress: number; speed: number }[] = [];
-
-    for (let p = 0; p < PACKETS_COUNT; p++) {
-      const mesh = new THREE.Mesh(packetGeo, packetMat);
-      globeGroup.add(mesh);
-      packets.push({
-        mesh,
-        curveIndex: p % arcCurves.length,
-        progress: p / PACKETS_COUNT,
-        speed: 0.16 + (p % 5) * 0.03,
-      });
-    }
-
-    // 7. Ambient Soft Floating Dust Particles
-    const DUST_COUNT = 64;
-    const dustPositions = new Float32Array(DUST_COUNT * 3);
-    for (let i = 0; i < DUST_COUNT; i++) {
-      const r = GLOBE_RADIUS * 1.28 + ((i % 7) / 7) * 0.7;
-      const u = (i * 0.6180339887) % 1;
-      const v = ((i * 0.381966) % 0.8) + 0.1;
-      const theta = u * 2.0 * Math.PI;
-      const phi = Math.acos(2.0 * v - 1.0);
-      dustPositions[i * 3] = r * Math.sin(phi) * Math.cos(theta);
-      dustPositions[i * 3 + 1] = r * Math.sin(phi) * Math.sin(theta);
-      dustPositions[i * 3 + 2] = r * Math.cos(phi);
-    }
-    const dustGeo = new THREE.BufferGeometry();
-    dustGeo.setAttribute('position', new THREE.BufferAttribute(dustPositions, 3));
-    const dustMat = new THREE.PointsMaterial({
-      color: initPalette.primary,
-      size: 0.024,
-      transparent: true,
-      opacity: 0.45,
-    });
-    const dustMesh = new THREE.Points(dustGeo, dustMat);
-    globeGroup.add(dustMesh);
-
-    const handlePointerMove = (e: MouseEvent) => {
-      if (reducedMotion.matches) return;
+    const onPointerMove = (event: PointerEvent) => {
       const rect = container.getBoundingClientRect();
       if (!rect.width || !rect.height) return;
-      const x = ((e.clientX - rect.left) / rect.width) * 2 - 1;
-      const y = -(((e.clientY - rect.top) / rect.height) * 2 - 1);
-      _mouseTarget.set(
-        THREE.MathUtils.clamp(x, -1, 1) * 0.28,
-        THREE.MathUtils.clamp(y, -1, 1) * 0.22
-      );
+      _mouseTarget.x = ((event.clientX - rect.left) / rect.width - 0.5) * 2;
+      _mouseTarget.y = ((event.clientY - rect.top) / rect.height - 0.5) * 2;
     };
-    window.addEventListener('mousemove', handlePointerMove, { passive: true });
-
-    let animationFrameId = 0;
-    const clock = new THREE.Clock();
-    let appliedTheme: PrakviThemeId = themeRef.current;
-
-    const targetCore = new THREE.Color();
-    const targetEmissive = new THREE.Color();
-    const targetPrimary = new THREE.Color();
-    const targetSecondary = new THREE.Color();
-    const targetRing = new THREE.Color();
-    const targetWire = new THREE.Color();
-    const targetPacket = new THREE.Color();
-
-    const applyThemeInstant = (nextId: PrakviThemeId) => {
-      const p = THEME_PALETTES[nextId];
-      targetCore.setHex(p.core);
-      targetEmissive.setHex(p.emissive);
-      targetPrimary.setHex(p.primary);
-      targetSecondary.setHex(p.secondary);
-      targetRing.setHex(p.ring);
-      targetWire.setHex(p.wire);
-      targetPacket.setHex(p.packet);
-    };
-    applyThemeInstant(appliedTheme);
-
-    function renderLoop() {
-      const delta = reducedMotion.matches ? 0 : Math.min(clock.getDelta(), 0.1);
-
-      if (themeRef.current !== appliedTheme) {
-        appliedTheme = themeRef.current;
-        applyThemeInstant(appliedTheme);
-      }
-
-      const colorDamp = reducedMotion.matches ? 1 : 1 - Math.exp(-6 * Math.max(delta, 0.016));
-      coreMat.color.lerp(targetCore, colorDamp);
-      coreMat.emissive.lerp(targetEmissive, colorDamp);
-      rimLight.color.lerp(targetPrimary, colorDamp);
-      cageMat.color.lerp(targetWire, colorDamp);
-      orbitMaterialA.color.lerp(targetRing, colorDamp);
-      orbitMaterialB.color.lerp(targetSecondary, colorDamp);
-      hubDotMat.color.lerp(targetPrimary, colorDamp);
-      hubRingMat.color.lerp(targetSecondary, colorDamp);
-      arcMat.color.lerp(targetPrimary, colorDamp);
-      packetMat.color.lerp(targetPacket, colorDamp);
-      dustMat.color.lerp(targetPrimary, colorDamp);
-
-      const damp = 1 - Math.exp(-4 * delta);
-      _currentMouse.lerp(_mouseTarget, damp);
-
-      globeGroup.rotation.y += delta * 0.12;
-      pointsMesh.rotation.y += delta * 0.025;
-      cageMesh.rotation.y -= delta * 0.03;
-      orbitRingA.rotation.z += delta * 0.18;
-      orbitRingB.rotation.y -= delta * 0.14;
-
-      if (!reducedMotion.matches) {
-        globeGroup.rotation.x = 0.24 + _currentMouse.y * 0.18;
-        globeGroup.rotation.z = -0.1 - _currentMouse.x * 0.18;
-      }
-
-      for (let i = 0; i < packets.length; i++) {
-        const pkt = packets[i];
-        pkt.progress = (pkt.progress + delta * pkt.speed) % 1;
-        const curve = arcCurves[pkt.curveIndex];
-        if (curve) {
-          curve.getPointAt(pkt.progress, _packetPos);
-          pkt.mesh.position.copy(_packetPos);
-        }
-      }
-
-      renderer.render(scene, camera);
-      animationFrameId = requestAnimationFrame(renderLoop);
-    }
-
-    renderLoop();
+    const onPointerLeave = () => _mouseTarget.set(0, 0);
+    window.addEventListener('pointermove', onPointerMove, { passive: true });
+    container.addEventListener('pointerleave', onPointerLeave);
 
     const resizeObserver = new ResizeObserver((entries) => {
       const entry = entries[0];
       if (!entry) return;
-      const w = Math.max(240, Math.floor(entry.contentRect.width));
-      const h = Math.max(240, Math.floor(entry.contentRect.height));
-      camera.aspect = w / h;
-      camera.updateProjectionMatrix();
-      renderer.setSize(w, h);
+      const { width, height } = entry.contentRect;
+      if (width > 0 && height > 0) {
+        camera.aspect = width / height;
+        camera.updateProjectionMatrix();
+        renderer.setSize(width, height);
+      }
     });
     resizeObserver.observe(container);
 
+    let frameId = 0;
+    let isDisposed = false;
+    const clock = new THREE.Clock();
+
+    // Animation Sequence:
+    // 0.0s - 1.9s: Subtle infinity-inspired movement
+    // 1.9s - 3.2s: Visual elements smoothly converge & transform into the Prakvi P
+    // 3.2s - 8.2s: Exact #0193DD Prakvi P holds with gentle floating/depth motion
+    // 8.2s - 9.4s: Smoothly unfolds back into Infinity movement
+    function computeEmblemMix(elapsed: number): number {
+      const cycle = elapsed % 9.4;
+      if (cycle < 1.9) return 0;
+      if (cycle < 3.2) return easeInOutCubic((cycle - 1.9) / 1.3);
+      if (cycle < 8.2) return 1;
+      return 1 - easeInOutCubic((cycle - 8.2) / 1.2);
+    }
+
+    function updateScene(elapsed: number, delta: number) {
+      const mix = reducedMotion.matches ? 1 : computeEmblemMix(elapsed);
+
+      if (!reducedMotion.matches) {
+        _currentMouse.x = THREE.MathUtils.damp(_currentMouse.x, _mouseTarget.x, 4.2, delta);
+        _currentMouse.y = THREE.MathUtils.damp(_currentMouse.y, _mouseTarget.y, 4.2, delta);
+
+        const floatY = Math.sin(elapsed * 1.15) * 0.075;
+        const rotY = Math.sin(elapsed * 0.55) * 0.13 + _currentMouse.x * 0.22;
+        const rotX = Math.cos(elapsed * 0.45) * 0.04 - _currentMouse.y * 0.12;
+
+        // Infinity-inspired weave before transforming
+        const infVis = 1 - smoothstep(0.08, 0.55, mix);
+        infinityGroup.visible = infVis > 0.01;
+        infinityPrimaryMat.opacity = infVis;
+        infinitySecondaryMat.opacity = infVis;
+        infinityGroup.position.y = floatY;
+        infinityGroup.rotation.set(rotX, rotY + mix * 0.65, mix * -0.15);
+        infinityGroup.scale.setScalar(1 - smoothstep(0, 0.65, mix) * 0.24);
+
+        // Exact #0193DD Prakvi 'P' reveal & gentle floating depth animation
+        const pVis = smoothstep(0.35, 0.85, mix);
+        prakviGroup.visible = pVis > 0.01;
+        frontFaceMat.opacity = pVis;
+        sideExtrudeMat.opacity = pVis;
+
+        prakviGroup.scale.setScalar(0.84 + 0.16 * pVis);
+        prakviGroup.position.y = floatY;
+        prakviGroup.rotation.set(rotX, rotY - (1 - pVis) * 0.6, 0);
+
+        // Subtle convergence of the 3 P pieces during assembly, locked seamlessly when formed
+        const spread = (1 - pVis) * 0.42;
+        outerPMesh.position.set(spread * 0.7, spread * 0.25, 0);
+        leftPillarMesh.position.set(
+          -spread,
+          Math.sin(elapsed * 1.5 + 0.7) * 0.012 * pVis,
+          Math.sin(elapsed * 1.3) * 0.012 * pVis,
+        );
+        innerCoreMesh.position.set(
+          spread * 0.3,
+          Math.sin(elapsed * 1.5 + 1.4) * 0.014 * pVis,
+          Math.cos(elapsed * 1.3) * 0.014 * pVis + spread * 0.35,
+        );
+
+        ambientShadow.scale.setScalar(1.02 - floatY * 0.45);
+        ambientShadowMat.opacity = 0.84 - floatY * 0.45;
+        ambientShadow.position.x = 0.02 + _currentMouse.x * 0.06;
+      } else {
+        infinityGroup.visible = false;
+        prakviGroup.visible = true;
+        frontFaceMat.opacity = 1;
+        sideExtrudeMat.opacity = 1;
+        prakviGroup.rotation.set(0.03, -0.1, 0);
+        outerPMesh.position.set(0, 0, 0);
+        leftPillarMesh.position.set(0, 0, 0);
+        innerCoreMesh.position.set(0, 0, 0);
+      }
+    }
+
+    function afterDraw(cb: () => void) {
+      const gl = renderer.getContext() as WebGL2RenderingContext;
+      const sync =
+        typeof gl.fenceSync === 'function'
+          ? gl.fenceSync(gl.SYNC_GPU_COMMANDS_COMPLETE, 0)
+          : null;
+      if (!sync) {
+        frameId = window.setTimeout(cb, 80);
+        return;
+      }
+      gl.flush();
+      const poll = () => {
+        if (isDisposed) {
+          gl.deleteSync(sync);
+          return;
+        }
+        const state = gl.getSyncParameter(sync, gl.SYNC_STATUS);
+        if (state === gl.UNSIGNALED) {
+          frameId = window.setTimeout(poll, 5);
+        } else {
+          gl.deleteSync(sync);
+          frameId = window.setTimeout(cb, 80);
+        }
+      };
+      frameId = window.setTimeout(poll, 5);
+    }
+
+    if (!isSoftwareGl) {
+      renderer.compile(scene, camera);
+    }
+
+    function tick() {
+      if (isDisposed) return;
+      const delta = Math.min(clock.getDelta(), 0.05);
+      const elapsed = clock.getElapsedTime();
+      updateScene(elapsed, delta);
+      renderer.render(scene, camera);
+
+      if (reducedMotion.matches) return;
+      if (isSoftwareGl) {
+        afterDraw(tick);
+      } else {
+        frameId = requestAnimationFrame(tick);
+      }
+    }
+
+    tick();
+
+    const onReducedMotionChange = () => {
+      if (reducedMotion.matches) {
+        cancelAnimationFrame(frameId);
+        clearTimeout(frameId);
+        updateScene(0, 0.016);
+        renderer.render(scene, camera);
+      } else {
+        tick();
+      }
+    };
+    reducedMotion.addEventListener('change', onReducedMotionChange);
+
     return () => {
+      isDisposed = true;
+      cancelAnimationFrame(frameId);
+      clearTimeout(frameId);
+      reducedMotion.removeEventListener('change', onReducedMotionChange);
+      window.removeEventListener('pointermove', onPointerMove);
+      container.removeEventListener('pointerleave', onPointerLeave);
       resizeObserver.disconnect();
-      window.removeEventListener('mousemove', handlePointerMove);
-      cancelAnimationFrame(animationFrameId);
-
-      coreGeo.dispose();
-      coreMat.dispose();
-      dotGeometry.dispose();
-      dotMaterial.dispose();
-      cageGeo.dispose();
-      cageMat.dispose();
-      orbitGeoA.dispose();
-      orbitMaterialA.dispose();
-      orbitGeoB.dispose();
-      orbitMaterialB.dispose();
-      hubDotGeo.dispose();
-      hubDotMat.dispose();
-      hubRingGeo.dispose();
-      hubRingMat.dispose();
-      arcGeometries.forEach((g) => g.dispose());
-      arcMat.dispose();
-      packetGeo.dispose();
-      packetMat.dispose();
-      dustGeo.dispose();
-      dustMat.dispose();
-      envTarget.dispose();
-      pmremGenerator.dispose();
+      disposables.forEach((d) => d.dispose());
       renderer.dispose();
-
-      if (container.contains(renderer.domElement)) {
+      if (renderer.domElement.parentNode === container) {
         container.removeChild(renderer.domElement);
       }
     };
   }, []);
 
-  return (
-    <div
-      ref={containerRef}
-      className="h-full w-full pointer-events-auto"
-      aria-hidden="true"
-    />
-  );
+  return <div ref={containerRef} className="h-full w-full" aria-hidden="true" />;
 };

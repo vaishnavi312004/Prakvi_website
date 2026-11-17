@@ -44,7 +44,7 @@ export const homeData = {
     headlineHighlight: 'IT Solutions',
     headlineSuffix: 'for Modern Businesses',
     description:
-      'At Prakvi, we deliver innovative IT solutions including AI-powered HRMS systems, digital marketing services, and enterprise solutions that streamline operations and enable data-driven decisions. Our expertise covers staffing services, workforce solutions, cloud and cybersecurity, mobile app development, CRM, data analytics, infrastructure management, and IT consulting—ensuring scalable, secure IT services that drive growth and efficiency.',
+      'At Prakvi, we deliver innovative IT solutions including digital marketing services, cloud engineering, and enterprise solutions that streamline operations and enable data-driven decisions across staffing, cybersecurity, mobile apps, analytics, and IT consulting.',
     primaryCta: {
       label: 'Explore Services',
       path: '/services',
@@ -110,12 +110,12 @@ export const homeData = {
       iconName: 'Users',
     },
     {
-      id: 'hr-management-system',
-      title: 'Human Resource Management',
+      id: 'cloud-services',
+      title: 'Cloud Services',
       description:
-        'Managing human resources efficiently is critical to business success. Prakvi’s HRMS (Human Resource Management System) is an all-in-one, AI-powered solution that simplifies recruitment, payroll, attendance, performance management, and employee engagement, all from a single, user-friendly platform.',
-      path: '/products/hr-management-system',
-      iconName: 'UserCheck',
+        'Enterprise cloud migration, hybrid architecture, Kubernetes orchestration, and automated DevSecOps engineered for resilience and scalable growth.',
+      path: '/services/cloud-services',
+      iconName: 'Server',
     },
     {
       id: 'accounting',

@@ -11,12 +11,11 @@ import {
   Database,
   Layers,
   MapPin,
-  Menu,
   Search,
   Users,
-  X,
 } from 'lucide-react';
 import { PrakviLogo } from '../common/PrakviLogo';
+import { PillNav, PillNavItem } from '../common/PillNav';
 import { MegaMenu } from './MegaMenu';
 import { ThemeSelector } from './ThemeSelector';
 import { ButtonLink } from '../ui/Button';
@@ -132,12 +131,47 @@ export const Header: React.FC = () => {
     pathname.startsWith('/insights/');
   const isCareersActive = pathname === '/careers';
 
-  const navBtnClass = (active: boolean) =>
-    `inline-flex items-center gap-1 px-2.5 xl:px-3 py-1.5 rounded-full text-[11px] xl:text-xs font-bold uppercase tracking-wider whitespace-nowrap shrink-0 transition-colors ${
-      active
-        ? 'text-accent bg-soft-accent/75'
-        : 'text-foreground hover:text-accent hover:bg-surface/80'
-    }`;
+  const activePillHref = isWhoActive
+    ? '/about'
+    : isWhatActive
+    ? '/services'
+    : isHowActive
+    ? '/case-studies'
+    : isCareersActive
+    ? '/careers'
+    : '/';
+
+  const pillNavItems: PillNavItem[] = [
+    {
+      label: 'Who We Are',
+      href: '/about',
+      hasDropdown: true,
+      isOpen: activeDropdown === 'who',
+      onMouseEnter: () => setActiveDropdown('who'),
+      onClick: () => setActiveDropdown((prev) => (prev === 'who' ? null : 'who')),
+    },
+    {
+      label: 'What We Do',
+      href: '/services',
+      hasDropdown: true,
+      isOpen: activeDropdown === 'what',
+      onMouseEnter: () => setActiveDropdown('what'),
+      onClick: () => setActiveDropdown((prev) => (prev === 'what' ? null : 'what')),
+    },
+    {
+      label: 'How We Help',
+      href: '/case-studies',
+      hasDropdown: true,
+      isOpen: activeDropdown === 'how',
+      onMouseEnter: () => setActiveDropdown('how'),
+      onClick: () => setActiveDropdown((prev) => (prev === 'how' ? null : 'how')),
+    },
+    {
+      label: 'Careers',
+      href: '/careers',
+      onMouseEnter: () => setActiveDropdown(null),
+    },
+  ];
 
   const renderCompactDropdown = (
     items: SolutionLink[],
@@ -154,7 +188,7 @@ export const Header: React.FC = () => {
       onMouseLeave={() => setActiveDropdown(null)}
     >
       <div className="mx-auto max-w-[1380px]">
-        <div className="w-full max-w-2xl clay-card bg-card/98 backdrop-blur-xl p-6 shadow-2xl border border-line">
+        <div className="w-full max-w-2xl clay-card bg-card/94 backdrop-blur-2xl p-6 shadow-2xl border border-line">
           <div className="pb-3 mb-4 border-b border-line flex items-center justify-between gap-4">
             <div>
               <h3 className="font-display text-sm font-bold text-foreground tracking-tight">
@@ -165,7 +199,7 @@ export const Header: React.FC = () => {
             <Link
               to={footerLink.to}
               onClick={() => setActiveDropdown(null)}
-              className="text-xs font-semibold text-accent hover:text-highlight inline-flex items-center gap-1 shrink-0 transition-colors"
+              className="text-xs font-semibold text-accent-text hover:text-highlight inline-flex items-center gap-1 shrink-0 transition-colors"
             >
               <span>{footerLink.label}</span>
               <ArrowRight className="w-3.5 h-3.5" aria-hidden="true" />
@@ -208,159 +242,98 @@ export const Header: React.FC = () => {
       className="site-header fixed inset-x-0 top-3 sm:top-4 z-50 px-3 sm:px-6 text-foreground"
       onMouseLeave={() => setActiveDropdown(null)}
     >
-      {/* Floating Rounded Light Claymorphism Capsule Bar */}
-      <div className="site-header-pill mx-auto flex h-16 max-w-[1380px] items-center justify-between lg:grid lg:grid-cols-[1fr_auto_1fr] lg:items-center gap-3 px-4 sm:px-6">
-        {/* LEFT ZONE (Desktop): WHO WE ARE, WHAT WE DO, HOW WE HELP, CAREERS */}
-        <nav aria-label="Primary navigation" className="hidden lg:flex items-center gap-0.5 xl:gap-1.5 justify-self-start">
-          <button
-            type="button"
-            onMouseEnter={() => setActiveDropdown('who')}
-            onClick={() => setActiveDropdown((prev) => (prev === 'who' ? null : 'who'))}
-            aria-expanded={activeDropdown === 'who'}
-            aria-haspopup="true"
-            data-active={isWhoActive}
-            className={navBtnClass(isWhoActive || activeDropdown === 'who')}
-          >
-            <span>Who We Are</span>
-            <ChevronDown
-              className={`h-3.5 w-3.5 transition-transform duration-200 ${activeDropdown === 'who' ? 'rotate-180' : ''}`}
-              aria-hidden="true"
-            />
-          </button>
+      {/* Floating Rounded Light Glassmorphism PillNav Capsule Bar */}
+      <PillNav
+        logo="/img/prakvi-logo.png"
+        logoAlt="Prakvi Techno Solutions Private Limited"
+        logoElement={<PrakviLogo size="xs" />}
+        items={pillNavItems}
+        activeHref={activePillHref}
+        itemStyle="pill"
+        hoverEffect="fill"
+        indicator="dot"
+        layout="split"
+        surface="glass"
+        size="md"
+        bounce={0.3}
+        stretch={0.5}
+        collapse="auto"
+        intro
+        mobileOpen={mobileOpen}
+        onToggleMobile={() => setMobileOpen((prev) => !prev)}
+        mobileControls={<ThemeSelector compact />}
+        rightSlot={
+          <>
+            <div className="relative">
+              <form onSubmit={handleSearchSubmit} className="relative flex items-center">
+                <Search
+                  className="pointer-events-none absolute left-3 h-3.5 w-3.5 text-muted"
+                  aria-hidden="true"
+                />
+                <input
+                  type="search"
+                  value={searchQuery}
+                  onFocus={() => {
+                    setSearchFocused(true);
+                    setActiveDropdown(null);
+                  }}
+                  onChange={(e) => {
+                    setSearchQuery(e.target.value);
+                    setSearchFocused(true);
+                  }}
+                  placeholder="Search..."
+                  aria-label="Search services, products, and company pages"
+                  className="!min-h-0 h-9 w-28 xl:w-40 !rounded-full bg-surface/75 pl-8 pr-3 !py-1 text-xs text-foreground placeholder:text-muted/80"
+                />
+              </form>
 
-          <button
-            type="button"
-            onMouseEnter={() => setActiveDropdown('what')}
-            onClick={() => setActiveDropdown((prev) => (prev === 'what' ? null : 'what'))}
-            aria-expanded={activeDropdown === 'what'}
-            aria-haspopup="true"
-            data-active={isWhatActive}
-            className={navBtnClass(isWhatActive || activeDropdown === 'what')}
-          >
-            <span>What We Do</span>
-            <ChevronDown
-              className={`h-3.5 w-3.5 transition-transform duration-200 ${activeDropdown === 'what' ? 'rotate-180' : ''}`}
-              aria-hidden="true"
-            />
-          </button>
-
-          <button
-            type="button"
-            onMouseEnter={() => setActiveDropdown('how')}
-            onClick={() => setActiveDropdown((prev) => (prev === 'how' ? null : 'how'))}
-            aria-expanded={activeDropdown === 'how'}
-            aria-haspopup="true"
-            data-active={isHowActive}
-            className={navBtnClass(isHowActive || activeDropdown === 'how')}
-          >
-            <span>How We Help</span>
-            <ChevronDown
-              className={`h-3.5 w-3.5 transition-transform duration-200 ${activeDropdown === 'how' ? 'rotate-180' : ''}`}
-              aria-hidden="true"
-            />
-          </button>
-
-          <Link
-            to="/careers"
-            aria-current={isCareersActive ? 'page' : undefined}
-            className={navBtnClass(isCareersActive)}
-            onMouseEnter={() => setActiveDropdown(null)}
-          >
-            Careers
-          </Link>
-        </nav>
-
-        {/* CENTER ZONE: Centered Prakvi Brand Logo on Desktop (Left on Mobile) */}
-        <div className="flex items-center lg:justify-self-center">
-          <PrakviLogo size="xs" />
-        </div>
-
-        {/* RIGHT ZONE (Desktop): Search Pill + Theme Switcher + Let's Talk CTA */}
-        <div className="hidden lg:flex items-center gap-2 xl:gap-2.5 justify-self-end shrink-0">
-          <div className="relative">
-            <form onSubmit={handleSearchSubmit} className="relative flex items-center">
-              <Search
-                className="pointer-events-none absolute left-3 h-3.5 w-3.5 text-muted"
-                aria-hidden="true"
-              />
-              <input
-                type="search"
-                value={searchQuery}
-                onFocus={() => {
-                  setSearchFocused(true);
-                  setActiveDropdown(null);
-                }}
-                onChange={(e) => {
-                  setSearchQuery(e.target.value);
-                  setSearchFocused(true);
-                }}
-                placeholder="Search..."
-                aria-label="Search services, products, and company pages"
-                className="!min-h-0 h-9 w-28 xl:w-40 !rounded-full bg-surface/75 pl-8 pr-3 !py-1 text-xs text-foreground placeholder:text-muted/80"
-              />
-            </form>
-
-            {/* Instant Search Results Popover */}
-            {searchFocused && searchQuery.trim().length > 0 && (
-              <div className="absolute right-0 top-full mt-3 w-80 clay-card bg-card/98 backdrop-blur-xl p-3 shadow-2xl border border-line z-50">
-                <div className="px-2 pb-2 mb-1 border-b border-line flex items-center justify-between text-[11px] font-mono text-muted">
-                  <span>Quick Results</span>
-                  <span>{searchResults.length} found</span>
+              {/* Instant Search Results Popover */}
+              {searchFocused && searchQuery.trim().length > 0 && (
+                <div className="absolute right-0 top-full mt-3 w-80 clay-card bg-card/94 backdrop-blur-2xl p-3 shadow-2xl border border-line z-50">
+                  <div className="px-2 pb-2 mb-1 border-b border-line flex items-center justify-between text-[11px] font-mono text-muted">
+                    <span>Quick Results</span>
+                    <span>{searchResults.length} found</span>
+                  </div>
+                  {searchResults.length === 0 ? (
+                    <p className="px-2 py-3 text-xs text-muted">
+                      No matching services or pages found for "{searchQuery}".
+                    </p>
+                  ) : (
+                    <ul className="space-y-1 max-h-72 overflow-y-auto">
+                      {searchResults.map((item) => (
+                        <li key={item.id}>
+                          <Link
+                            to={item.path}
+                            onClick={() => {
+                              setSearchFocused(false);
+                              setSearchQuery('');
+                            }}
+                            className="flex items-center justify-between gap-2 rounded-xl px-2.5 py-2 text-xs hover:bg-surface transition-colors"
+                          >
+                            <span className="font-semibold text-foreground truncate">
+                              {item.title}
+                            </span>
+                            <span className="text-[10px] font-mono text-accent-text shrink-0">
+                              {item.category}
+                            </span>
+                          </Link>
+                        </li>
+                      ))}
+                    </ul>
+                  )}
                 </div>
-                {searchResults.length === 0 ? (
-                  <p className="px-2 py-3 text-xs text-muted">
-                    No matching services or pages found for "{searchQuery}".
-                  </p>
-                ) : (
-                  <ul className="space-y-1 max-h-72 overflow-y-auto">
-                    {searchResults.map((item) => (
-                      <li key={item.id}>
-                        <Link
-                          to={item.path}
-                          onClick={() => {
-                            setSearchFocused(false);
-                            setSearchQuery('');
-                          }}
-                          className="flex items-center justify-between gap-2 rounded-xl px-2.5 py-2 text-xs hover:bg-surface transition-colors"
-                        >
-                          <span className="font-semibold text-foreground truncate">
-                            {item.title}
-                          </span>
-                          <span className="text-[10px] font-mono text-accent shrink-0">
-                            {item.category}
-                          </span>
-                        </Link>
-                      </li>
-                    ))}
-                  </ul>
-                )}
-              </div>
-            )}
-          </div>
+              )}
+            </div>
 
-          <ThemeSelector compact />
+            <ThemeSelector compact />
 
-          <ButtonLink to="/contact" className="!min-h-0 !h-9 !px-4 !py-1.5 !text-xs">
-            <span>Let's Talk</span>
-            <ArrowRight className="arrow-shift" aria-hidden="true" />
-          </ButtonLink>
-        </div>
-
-        {/* MOBILE CONTROLS (< lg) */}
-        <div className="flex lg:hidden items-center gap-2">
-          <ThemeSelector compact />
-          <button
-            type="button"
-            onClick={() => setMobileOpen(!mobileOpen)}
-            aria-label={mobileOpen ? 'Close navigation' : 'Open navigation'}
-            aria-expanded={mobileOpen}
-            aria-controls="mobile-navigation"
-            className="inline-flex h-9 w-9 items-center justify-center rounded-full border border-line bg-card text-foreground shadow-sm hover:text-accent transition-colors"
-          >
-            {mobileOpen ? <X className="h-4 w-4" /> : <Menu className="h-4 w-4" />}
-          </button>
-        </div>
-      </div>
+            <ButtonLink to="/contact" className="!min-h-0 !h-9 !px-4 !py-1.5 !text-xs">
+              <span>Let's Talk</span>
+              <ArrowRight className="arrow-shift" aria-hidden="true" />
+            </ButtonLink>
+          </>
+        }
+      />
 
       {/* Desktop Dropdowns: WHO WE ARE & HOW WE HELP */}
       <AnimatePresence>
@@ -393,7 +366,7 @@ export const Header: React.FC = () => {
           data-lenis-prevent
           id="mobile-navigation"
           aria-label="Mobile navigation"
-          className="pointer-events-auto lg:hidden mx-auto max-w-[1380px] mt-2.5 max-h-[calc(100dvh-6rem)] overflow-y-auto clay-card bg-card/98 backdrop-blur-xl px-5 py-5 shadow-2xl border border-line"
+          className="pointer-events-auto lg:hidden mx-auto max-w-[1380px] mt-2.5 max-h-[calc(100dvh-6rem)] overflow-y-auto clay-card bg-card/88 backdrop-blur-2xl px-5 py-5 shadow-2xl border border-line"
         >
           {/* Mobile Search */}
           <form onSubmit={handleSearchSubmit} className="relative mb-4">
@@ -540,7 +513,7 @@ export const Header: React.FC = () => {
                 aria-expanded={mobileAccordion === 'what-products'}
                 className="flex w-full items-center justify-between rounded-xl px-3 py-2.5 text-xs font-bold uppercase tracking-wider text-foreground hover:bg-surface"
               >
-                <span>What We Do — Products (4)</span>
+                <span>What We Do — Products ({navigationData.products.length})</span>
                 <ChevronDown
                   className={`h-4 w-4 text-accent transition-transform ${
                     mobileAccordion === 'what-products' ? 'rotate-180' : ''

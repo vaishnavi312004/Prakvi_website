@@ -24,7 +24,7 @@ export const ServicesPage: React.FC = () => {
             <Breadcrumbs items={[{ label: 'Services' }]} />
 
             <div className="mt-8 max-w-3xl">
-              <div className="mb-3 text-xs font-mono font-bold uppercase tracking-[0.2em] text-accent">
+              <div className="mb-3 text-xs font-mono font-bold uppercase tracking-[0.2em] text-accent-text">
                 Enterprise & Business Capabilities
               </div>
 
@@ -86,7 +86,7 @@ export const ServicesPage: React.FC = () => {
                     className="clay-card clay-card-interactive grid grid-cols-1 lg:grid-cols-12 gap-8 lg:gap-10 items-center p-7 sm:p-10"
                   >
                     <div className={`lg:col-span-7 space-y-4 ${isEven ? '' : 'lg:order-2'}`}>
-                      <div className="text-xs font-mono font-bold uppercase tracking-wider text-accent">
+                      <div className="text-xs font-mono font-bold uppercase tracking-wider text-accent-text">
                         {service.badge || (service.category === 'enterprise' ? 'Enterprise Solution' : 'Business Solution')}
                       </div>
 
@@ -94,7 +94,7 @@ export const ServicesPage: React.FC = () => {
                         {service.title}
                       </h3>
 
-                      <p className="text-sm font-semibold text-accent">{service.tagline}</p>
+                      <p className="text-sm font-semibold text-accent-text">{service.tagline}</p>
 
                       <p className="text-sm sm:text-base text-muted leading-relaxed">
                         {service.shortDesc}
@@ -131,7 +131,7 @@ export const ServicesPage: React.FC = () => {
                             referrerPolicy="no-referrer"
                           />
                           <div className="p-4 bg-card/95 border-t border-line">
-                            <span className="font-mono text-accent uppercase tracking-wider block text-[10px] font-bold">
+                            <span className="font-mono text-accent-text uppercase tracking-wider block text-[10px] font-bold">
                               Delivery Focus
                             </span>
                             <span className="font-bold text-foreground text-sm mt-0.5 block">
@@ -149,7 +149,7 @@ export const ServicesPage: React.FC = () => {
         </section>
 
         {/* 3. LIFECYCLE OVERVIEW */}
-        <section className="py-section bg-surface/75 text-foreground">
+        <section className="py-section bg-section-alt text-foreground">
           <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
             <SectionHeading
               badge="Methodology"

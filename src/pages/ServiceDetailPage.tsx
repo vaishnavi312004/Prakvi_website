@@ -116,7 +116,7 @@ export const ServiceDetailPage: React.FC = () => {
           <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
             <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
               <div className="clay-card p-8 sm:p-9">
-                <div className="flex items-center gap-2 text-rose-600 text-xs font-mono font-bold uppercase tracking-wider mb-3">
+                <div className="flex items-center gap-2 text-accent text-xs font-mono font-bold uppercase tracking-wider mb-3">
                   <AlertCircle className="w-4 h-4" aria-hidden="true" />
                   <span>Business Challenge</span>
                 </div>
@@ -145,7 +145,7 @@ export const ServiceDetailPage: React.FC = () => {
         </section>
 
         {/* 3. CORE SERVICE OFFERINGS */}
-        <section id="capabilities" className="py-section bg-surface/75">
+        <section id="capabilities" className="py-section bg-section-alt">
           <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
             <SectionHeading
               badge="Capabilities"
@@ -333,7 +333,7 @@ export const ServiceDetailPage: React.FC = () => {
 
         {/* 6. INTERACTIVE STACK & CAPABILITY MATRIX */}
         {stackTabs.length > 0 && (
-          <section className="py-section bg-surface/75">
+          <section className="py-section bg-surface/65">
             <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
               <SectionHeading
                 badge="Capabilities & Stack"
@@ -413,7 +413,7 @@ export const ServiceDetailPage: React.FC = () => {
         </section>
 
         {/* 8. FAQ */}
-        <section className="py-section bg-surface/65">
+        <section className="py-section bg-section-alt">
           <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8">
             <SectionHeading
               badge="Frequently Asked Questions"

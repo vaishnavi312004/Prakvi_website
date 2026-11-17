@@ -56,7 +56,7 @@ export const AboutPage: React.FC = () => {
 
             <div className="mt-8 grid grid-cols-1 lg:grid-cols-12 gap-10 items-center">
               <div className="lg:col-span-7 space-y-5">
-                <div className="text-xs font-mono font-bold uppercase tracking-[0.2em] text-accent">
+                <div className="text-xs font-mono font-bold uppercase tracking-[0.2em] text-accent-text">
                   {about.hero.kicker}
                 </div>
 
@@ -128,7 +128,7 @@ export const AboutPage: React.FC = () => {
         </section>
 
         {/* 3. OUR MISSION & OUR VISION */}
-        <section className="py-section bg-surface/75">
+        <section className="py-section bg-section-alt">
           <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
             <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
               <div className="clay-card p-8 sm:p-10">
@@ -191,7 +191,7 @@ export const AboutPage: React.FC = () => {
         </section>
 
         {/* 5. OUR CULTURE */}
-        <section className="py-section bg-surface/75">
+        <section className="py-section bg-surface/65">
           <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
             <SectionHeading
               badge="Workplace Identity"
@@ -225,7 +225,7 @@ export const AboutPage: React.FC = () => {
         </section>
 
         {/* 6. RECOGNITION & ACHIEVEMENTS */}
-        <section id="recognition" className="py-section bg-canvas">
+        <section id="recognition" className="py-section bg-section-alt">
           <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
             <SectionHeading
               badge="Milestones"
