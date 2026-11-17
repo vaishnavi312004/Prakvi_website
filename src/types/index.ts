@@ -21,6 +21,7 @@ export interface ServiceItem {
     title: string;
     description: string;
     icon?: string;
+    points?: string[];
   }[];
   businessBenefits: {
     title: string;
@@ -33,6 +34,7 @@ export interface ServiceItem {
     step: string;
     title: string;
     description: string;
+    points?: string[];
   }[];
   stackTitle?: string;
   stackSummary?: string;

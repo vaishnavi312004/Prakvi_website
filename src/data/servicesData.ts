@@ -1321,41 +1321,59 @@ export const servicesData: ServiceItem[] = [
     tagline: 'Build a Future Ready Enterprise with Strategic IT Architecture',
     shortDesc:
       'Design agile, TOGAF-aligned technology ecosystems uniting business capability mapping, cloud integration, data governance, and ERP/CRM.',
-    fullDesc:
-      'In today’s rapidly evolving business landscape, enterprises need an agile, scalable, and strategy-aligned technology foundation. Prakvi’s Enterprise Architecture Services in India help design, implement, and optimize IT ecosystems using proven enterprise architecture frameworks like TOGAF. Our certified architects create unified technology roadmaps that connect people, processes, applications, and infrastructure, enabling digital transformation, cloud integration, legacy modernization, and cross-functional collaboration to drive agility, cost efficiency, and innovation.',
+    fullDesc: "In today's rapidly evolving business landscape, enterprises need an agile, scalable, and strategy-aligned technology foundation. Prakvi's Enterprise Architecture Services in India help design, implement, and optimize IT ecosystems using proven enterprise architecture frameworks like TOGAF. Our certified architects create unified technology roadmaps that connect people, processes, applications, and infrastructure, enabling digital transformation, cloud integration, legacy modernization, and cross-functional collaboration to drive agility, cost efficiency, and innovation.",
     iconName: 'Layers',
     badge: 'TOGAF & Target Architecture',
-    offeringsTitle: 'Integrated Architecture & Consulting Services',
-    offeringsSubtitle: 'End-to-end Enterprise Architecture services customized to your organization’s unique scale.',
+    offeringsTitle: 'Other Services Offered',
+    offeringsSubtitle: 'We provide end-to-end Enterprise Architecture services, customized to meet your unique business requirements',
     businessChallenge:
       'Disjointed IT investments, legacy technical debt, and siloed business capabilities slow down transformation and inflate operating costs.',
     howWeHelp:
       'Using TOGAF and Zachman principles, our certified architects map baseline vs. target states across business, data, application, and infrastructure domains.',
     capabilities: [
       {
-        title: 'Information Technology Consulting',
-        description:
-          'Strategy design, technology roadmap development, advisory, and organizational alignment with digital initiatives.',
-        icon: 'Headphones',
+        "title": "Information Technology Consulting",
+        "description": "Tailored IT strategy architecture that aligns with your business objectives to facilitate transformation.",
+        "icon": "Headphones",
+        "points": [
+          "Strategy design & planning",
+          "Roadmap development",
+          "Technology advisory",
+          "Organizational alignment with tech initiatives"
+        ]
       },
       {
-        title: 'Infrastructure Management Services',
-        description:
-          'System provisioning, security compliance, capacity planning, patch management, and routine operational maintenance.',
-        icon: 'Server',
+        "title": "Infrastructure Management Services",
+        "description": "End-to-end operations to keep your IT environment secure, scalable, and high performance.",
+        "icon": "Server",
+        "points": [
+          "System provisioning & monitoring",
+          "Security & compliance support",
+          "Performance optimization & capacity planning",
+          "Patch management & routine maintenance"
+        ]
       },
       {
-        title: 'System Integration Services',
-        description:
-          'Cloud-to-on-premise integration, ETL data migration, API connectivity across platforms, and hybrid architecture design.',
-        icon: 'Plug',
+        "title": "System Integration Services",
+        "description": "Unified architecture for cloud, hybrid, and legacy systems ensuring efficient data flow and interoperability.",
+        "icon": "Plug",
+        "points": [
+          "Cloud-to-on-premise integration",
+          "Data migration & ETL pipelines",
+          "API connectivity across platforms",
+          "Hybrid architecture design"
+        ]
       },
       {
-        title: 'Enterprise ERP & CRM Solutions',
-        description:
-          'Enterprise-wide ERP rollout, CRM customization, integration, and business process automation.',
-        icon: 'Layers',
-      },
+        "title": "Enterprise ERP & CRM Solutions",
+        "description": "Implementation and customization of ERP and CRM systems to support enterprise-wide operational needs.",
+        "icon": "Layers",
+        "points": [
+          "ERP adoption & rollout",
+          "CRM customization & integration",
+          "Business process automation"
+        ]
+      }
     ],
     businessBenefits: [
       {
@@ -1375,44 +1393,68 @@ export const servicesData: ServiceItem[] = [
       },
     ],
     processTitle: 'Why Choose Prakvi for Enterprise Architecture?',
-    processSubtitle: 'A proven 6-stage methodology connecting business strategy with resilient technology.',
+    processSubtitle: 'A proven methodology that ensures successful project delivery',
     deliverySteps: [
       {
-        step: '01',
-        title: 'Assess & Align',
-        description:
-          'Analyze business goals and existing IT landscape, identify strategic priorities, conduct maturity/gap assessments, and define baseline vs. target states.',
+        "step": "01",
+        "title": "Assess & Align",
+        "description": "Analyze the current business goals, strategies, and existing IT landscape to align the architecture with organizational objectives.",
+        "points": [
+          "Identify strategic priorities",
+          "Conduct maturity and gap assessments",
+          "Define baseline and target architectural states"
+        ]
       },
       {
-        step: '02',
-        title: 'Design Target Architecture',
-        description:
-          'Define business, data, application, and infrastructure domains along with hybrid cloud, microservices, security, and observability patterns.',
+        "step": "02",
+        "title": "Design Target Architecture",
+        "description": "Develop a structured, future-state architecture that integrates business strategy and technical capabilities.",
+        "points": [
+          "Define architectural domains: business, data, application, infrastructure",
+          "Design integration and deployment patterns (e.g., hybrid cloud, microservices)",
+          "Establish security, resiliency, and observability principles"
+        ]
       },
       {
-        step: '03',
-        title: 'Governance & Frameworks',
-        description:
-          'Establish TOGAF/Zachman governance mechanisms, document architecture principles and policies, and facilitate Architecture Review Boards.',
+        "step": "03",
+        "title": "Governance & Frameworks",
+        "description": "Implement governance mechanisms to guide architecture adoption and ensure compliance.",
+        "points": [
+          "Use industry frameworks (e.g., TOGAF, Zachman)",
+          "Document architecture principles, policies, and standards",
+          "Conduct architecture review boards"
+        ]
       },
       {
-        step: '04',
-        title: 'Roadmap & Planning',
-        description:
-          'Build phased implementation roadmaps prioritized by impact and feasibility, complete with cost and resource estimates.',
+        "step": "04",
+        "title": "Roadmap & Planning",
+        "description": "Translate architectural design into actionable steps to reach the target state.",
+        "points": [
+          "Build phased implementation roadmap",
+          "Prioritize initiatives by impact and feasibility",
+          "Estimate costs and resources"
+        ]
       },
       {
-        step: '05',
-        title: 'Implementation & Integration',
-        description:
-          'Coordinate ERP/CRM rollouts, data migrations, API orchestration, and hybrid or cloud-native implementations.',
+        "step": "05",
+        "title": "Implementation & Integration",
+        "description": "Execute the architecture plan with a combination of internal and external systems.",
+        "points": [
+          "Coordinate ERP/CRM, integration, and infrastructure deployments",
+          "Secure smooth data migration and API orchestration",
+          "Enable hybrid or cloud-native system implementations"
+        ]
       },
       {
-        step: '06',
-        title: 'Monitoring & Evolution',
-        description:
-          'Continuously monitor performance, scalability, security, and compliance while evolving architecture as business needs shift.',
-      },
+        "step": "06",
+        "title": "Monitoring & Evolution",
+        "description": "Ensure the architecture remains effective and adapts over time.",
+        "points": [
+          "Monitor performance, scalability, security, and compliance",
+          "Conduct periodic reviews and updates",
+          "Drive continuous improvement based on feedback and evolving business needs"
+        ]
+      }
     ],
     stackTitle: 'Enterprise Architecture',
     stackSummary:

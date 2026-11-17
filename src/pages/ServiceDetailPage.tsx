@@ -2,6 +2,15 @@ import React, { useEffect, useState } from 'react';
 import { useParams, Link, Navigate } from 'react-router-dom';
 import { AnimatePresence, motion, useReducedMotion } from 'motion/react';
 import { Breadcrumbs } from '../components/common/Breadcrumbs';
+import { EnterpriseArchitectureHero } from '../components/common/EnterpriseArchitectureHero';
+import { ArchitectureCarousel } from '../components/common/ArchitectureCarousel';
+import { MobilityPracticeHero } from '../components/common/MobilityPracticeHero';
+import { MobilityPracticeSections } from '../components/common/MobilityPracticeSections';
+import { SupplyChainHero } from '../components/common/SupplyChainHero';
+import { SupplyChainSections } from '../components/common/SupplyChainSections';
+import { SystemIntegrationSections } from '../components/common/SystemIntegrationSections';
+import { ProjectManagementHero } from '../components/common/ProjectManagementHero';
+import { ProjectManagementSections } from '../components/common/ProjectManagementSections';
 import { SectionHeading } from '../components/common/SectionHeading';
 import { CTASection } from '../components/common/CTASection';
 import { PageTransition } from '../components/layout/PageTransition';
@@ -11,9 +20,12 @@ import {
   ArrowRight,
   CheckCircle2,
   ChevronDown,
+  Database,
   Laptop,
   Layers,
   Lock,
+  Server,
+  Target,
   Users,
 } from 'lucide-react';
 
@@ -49,6 +61,7 @@ export const ServiceDetailPage: React.FC = () => {
 
   const isStaffingPage = service.slug === 'staffing';
   const isMobilityPage = service.slug === 'mobility-practice';
+  const isEnterpriseArchitecturePage = service.slug === 'enterprise-architecture';
 
   const toggleFaq = (index: number) => {
     setOpenFaqIndex(openFaqIndex === index ? null : index);
@@ -56,11 +69,21 @@ export const ServiceDetailPage: React.FC = () => {
 
   const stackTabs = service.stackTabs || [];
   const currentStack = stackTabs[activeStackTab] || stackTabs[0];
+  const ArchitectureStackIcon = [Target, Layers, Database, Server][activeStackTab] || Layers;
 
   return (
     <PageTransition>
       <div className="overflow-x-hidden pt-20 selection:bg-accent selection:text-white">
         {/* 1. SERVICE HERO */}
+        {isEnterpriseArchitecturePage ? (
+          <EnterpriseArchitectureHero service={service} />
+        ) : isMobilityPage ? (
+          <MobilityPracticeHero service={service} />
+        ) : service.slug === 'supply-chain-management' ? (
+          <SupplyChainHero service={service} />
+        ) : service.slug === 'project-management' ? (
+          <ProjectManagementHero service={service} />
+        ) : (
         <section className="hero-clay-canvas py-section relative overflow-hidden">
           <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
             <Breadcrumbs
@@ -112,8 +135,12 @@ export const ServiceDetailPage: React.FC = () => {
             </div>
           </div>
         </section>
+        )}
 
         {/* 2. CHALLENGE & APPROACH */}
+        {isMobilityPage ? <MobilityPracticeSections /> : service.slug === 'supply-chain-management' ? <SupplyChainSections /> : service.slug === 'system-integration' ? <SystemIntegrationSections /> : service.slug === 'project-management' ? <ProjectManagementSections /> : (
+        <>
+        {!isEnterpriseArchitecturePage && (
         <section className="py-section bg-canvas">
           <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
             <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
@@ -145,12 +172,13 @@ export const ServiceDetailPage: React.FC = () => {
             </div>
           </div>
         </section>
+        )}
 
         {/* 3. CORE SERVICE OFFERINGS */}
         <section id="capabilities" className="py-section bg-section-alt">
           <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
             <SectionHeading
-              badge="Capabilities"
+              badge={isEnterpriseArchitecturePage ? undefined : 'Capabilities'}
               title={service.offeringsTitle || `${service.title} Offerings`}
               description={
                 service.offeringsSubtitle ||
@@ -170,6 +198,11 @@ export const ServiceDetailPage: React.FC = () => {
                     </h3>
                   </div>
                   <p className="text-sm text-muted leading-relaxed">{cap.description}</p>
+                  {isEnterpriseArchitecturePage && cap.points && (
+                    <ul className="mt-4 space-y-2 text-sm text-muted leading-relaxed list-disc pl-5 marker:text-accent">
+                      {cap.points.map((point) => <li key={point}>{point}</li>)}
+                    </ul>
+                  )}
                 </div>
               ))}
             </div>
@@ -285,10 +318,10 @@ export const ServiceDetailPage: React.FC = () => {
         )}
 
         {/* 5. METHODOLOGY / DELIVERY PROCESS */}
-        <section className={`py-section ${isMobilityPage ? 'bg-surface/75' : 'bg-canvas'}`}>
+        <section id={isEnterpriseArchitecturePage ? 'enterprise-process' : undefined} className={`py-section ${isMobilityPage ? 'bg-surface/75' : 'bg-canvas'}`}>
           <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
             <SectionHeading
-              badge="Our Process"
+              badge={isEnterpriseArchitecturePage ? undefined : 'Our Process'}
               title={service.processTitle || `Why Choose Prakvi for ${service.title}?`}
               description={
                 service.processSubtitle ||
@@ -319,6 +352,11 @@ export const ServiceDetailPage: React.FC = () => {
                     <p className="text-xs sm:text-sm text-muted leading-relaxed">
                       {step.description}
                     </p>
+                    {isEnterpriseArchitecturePage && step.points && (
+                      <ul className="mt-4 space-y-2 text-xs sm:text-sm text-muted leading-relaxed list-disc pl-5 marker:text-accent">
+                        {step.points.map((point) => <li key={point}>{point}</li>)}
+                      </ul>
+                    )}
                   </div>
                   <div className="mt-5 pt-3 border-t border-line text-[11px] font-mono text-accent font-semibold">
                     Step {step.step}
@@ -358,25 +396,42 @@ export const ServiceDetailPage: React.FC = () => {
         </section>
 
         {/* 6. INTERACTIVE STACK & CAPABILITY MATRIX */}
-        {stackTabs.length > 0 && (
+        {isEnterpriseArchitecturePage ? (
+          <ArchitectureCarousel title={service.stackTitle || service.title} description={service.stackSummary} categories={stackTabs} />
+        ) : stackTabs.length > 0 && (
           <section className="py-section bg-surface/65">
             <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
               <SectionHeading
-                badge="Capabilities & Stack"
+                badge={isEnterpriseArchitecturePage ? undefined : 'Capabilities & Stack'}
                 title={service.stackTitle || service.title}
                 description={service.stackSummary}
                 align="center"
               />
 
               <div className="mt-10 clay-card p-6 sm:p-10">
-                <div className="flex justify-center pb-6 border-b border-line">
-                  <div className="inline-flex flex-wrap justify-center gap-1.5 rounded-full bg-surface/80 p-1.5 border border-line">
+                <div className={`flex pb-6 border-b border-line ${isEnterpriseArchitecturePage ? 'overflow-x-auto sm:justify-center' : 'justify-center'}`}>
+                  <div className={`inline-flex justify-center gap-1.5 rounded-full bg-surface/80 p-1.5 border border-line ${isEnterpriseArchitecturePage ? 'shrink-0' : 'flex-wrap'}`} role={isEnterpriseArchitecturePage ? 'tablist' : undefined} aria-label={isEnterpriseArchitecturePage ? 'Enterprise Architecture' : undefined}>
                     {stackTabs.map((tab, idx) => {
                       const active = activeStackTab === idx;
                       return (
                         <button
                           key={tab.label}
                           type="button"
+                          role={isEnterpriseArchitecturePage ? 'tab' : undefined}
+                          id={isEnterpriseArchitecturePage ? `enterprise-tab-${idx}` : undefined}
+                          aria-selected={isEnterpriseArchitecturePage ? active : undefined}
+                          aria-controls={isEnterpriseArchitecturePage ? 'enterprise-tab-panel' : undefined}
+                          onKeyDown={isEnterpriseArchitecturePage ? (event) => {
+                            let nextTab = idx;
+                            if (event.key === 'ArrowRight') nextTab = (idx + 1) % stackTabs.length;
+                            else if (event.key === 'ArrowLeft') nextTab = (idx - 1 + stackTabs.length) % stackTabs.length;
+                            else if (event.key === 'Home') nextTab = 0;
+                            else if (event.key === 'End') nextTab = stackTabs.length - 1;
+                            else return;
+                            event.preventDefault();
+                            setActiveStackTab(nextTab);
+                            document.getElementById(`enterprise-tab-${nextTab}`)?.focus();
+                          } : undefined}
                           onClick={() => setActiveStackTab(idx)}
                           className={`relative px-4 sm:px-5 py-2 rounded-full text-xs sm:text-sm font-semibold transition-colors active:scale-95 ${
                             active
@@ -407,6 +462,9 @@ export const ServiceDetailPage: React.FC = () => {
                   {currentStack && (
                     <motion.div
                       key={activeStackTab}
+                      id={isEnterpriseArchitecturePage ? 'enterprise-tab-panel' : undefined}
+                      role={isEnterpriseArchitecturePage ? 'tabpanel' : undefined}
+                      aria-labelledby={isEnterpriseArchitecturePage ? `enterprise-tab-${activeStackTab}` : undefined}
                       initial={reducedMotion ? false : { opacity: 0, y: 8 }}
                       animate={{ opacity: 1, y: 0 }}
                       exit={reducedMotion ? { opacity: 0 } : { opacity: 0, y: -6 }}
@@ -418,7 +476,11 @@ export const ServiceDetailPage: React.FC = () => {
                           key={item}
                           className="clay-soft px-5 py-4 flex items-center gap-3 text-sm font-semibold text-foreground"
                         >
-                          <CheckCircle2 className="w-4 h-4 text-accent shrink-0" aria-hidden="true" />
+                          {isEnterpriseArchitecturePage ? (
+                            <ArchitectureStackIcon className="w-4 h-4 text-accent shrink-0" aria-hidden="true" />
+                          ) : (
+                            <CheckCircle2 className="w-4 h-4 text-accent shrink-0" aria-hidden="true" />
+                          )}
                           <span>{item}</span>
                         </div>
                       ))}
@@ -431,6 +493,8 @@ export const ServiceDetailPage: React.FC = () => {
         )}
 
         {/* 7. BUSINESS BENEFITS */}
+        {!isEnterpriseArchitecturePage && (
+        <>
         <section className="py-section bg-canvas">
           <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
             <SectionHeading
@@ -519,6 +583,10 @@ export const ServiceDetailPage: React.FC = () => {
           title={`Let's Discuss Your ${service.title} Goals`}
           subtitle="Connect with Prakvi’s specialists to plan your implementation roadmap, staffing requirements, or managed support SLA."
         />
+        </>
+        )}
+        </>
+        )}
       </div>
     </PageTransition>
   );

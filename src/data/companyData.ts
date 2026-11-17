@@ -73,8 +73,8 @@ export const companyData = {
     story: {
       title: 'Our Story is Your Success',
       paragraphs: [
-        'Born from a passion for innovation and a relentless pursuit of perfection, Prakvi Techno Solutions emerged as a beacon of excellence in the digital landscape. We believe that every line of code tells a story, every design speaks a language, and every project builds a bridge to the future.',
-        'What started as a vision to democratize cutting-edge technology has evolved into a mission-driven company that empowers businesses to thrive in the digital age. We don’t just build websites and applications, we craft digital experiences that resonate, engage, and convert.',
+        'Born from a passion for innovation and a relentless pursuit of perfection, Prakvi Tech Solutions emerged as a beacon of excellence in the digital landscape. We believe that every line of code tells a story, every design speaks a language, and every project is a bridge to the future.',
+        'What started as a vision to democratize cutting-edge technology has evolved into a mission-driven company that empowers businesses to thrive in the digital age. We don\'t just build websites and applications, we craft digital experiences that resonate, engage, and convert.',
         'Our journey is defined not by the technologies we master, but by the problems we solve, the barriers we break, and the dreams we help realize. Every client partnership is a new chapter in our story of innovation and excellence.',
       ],
       highlights: [
@@ -98,12 +98,12 @@ export const companyData = {
     mission: {
       title: 'Our Mission',
       description:
-        'To empower businesses worldwide by creating innovative, scalable, and user-centric digital solutions that drive growth, enhance user experiences, and transform the way people interact with technology. We’re committed to being the catalyst that turns your digital vision into reality.',
+        'To empower businesses worldwide by creating innovative, scalable, and user-centric digital solutions that drive growth, enhance user experiences, and transform the way people interact with technology. We\'re committed to being the catalyst that turns your digital vision into reality.',
     },
     vision: {
       title: 'Our Vision',
       description:
-        'To be the global leader in digital innovation, recognized for our ability to anticipate future trends, solve complex challenges, and create solutions that not only meet today’s needs but shape tomorrow’s possibilities. We envision a world where technology seamlessly enhances human potential.',
+        'To be the global leader in digital innovation, recognized for our ability to anticipate future trends, solve complex challenges, and create solutions that not only meet today\'s needs but shape tomorrow\'s possibilities. We envision a world where technology seamlessly enhances human potential.',
     },
     valuesIntro: {
       title: 'Our Core Values',
@@ -123,7 +123,7 @@ export const companyData = {
     cta: {
       title: 'Ready to Start Your Journey With Us?',
       description:
-        'Let’s transform your vision into reality. Join hundreds of satisfied clients who have chosen excellence, innovation, and results.',
+        'Let\'s transform your vision into reality. Join hundreds of satisfied clients who have chosen excellence, innovation, and results.',
       buttonText: 'Start Your Project Today',
     },
   },
@@ -133,7 +133,7 @@ export const companyData = {
       id: 'innovation',
       title: 'Innovation',
       short:
-        'We embrace emerging technologies and creative solutions to stay ahead of the curve. Innovation isn’t just what we do, it’s who we are. We constantly explore new possibilities to deliver exceptional results.',
+        'We embrace emerging technologies and creative solutions to stay ahead of the curve. Innovation isn\'t just what we do, it\'s who we are. We constantly explore new possibilities to deliver exceptional results.',
       icon: 'Lightbulb',
     },
     {
@@ -161,14 +161,14 @@ export const companyData = {
       id: 'passion',
       title: 'Passion',
       short:
-        'We’re genuinely passionate about what we do. This enthusiasm drives us to go the extra mile, explore new horizons, and create solutions that not only work but inspire and delight.',
+        'We\'re genuinely passionate about what we do. This enthusiasm drives us to go the extra mile, explore new horizons, and create solutions that not only work but inspire and delight.',
       icon: 'Heart',
     },
     {
       id: 'sustainability',
       title: 'Sustainability',
       short:
-        'We’re committed to building a better future through responsible development practices, efficient solutions, and contributing positively to the communities we serve.',
+        'We\'re committed to building a better future through responsible development practices, efficient solutions, and contributing positively to the communities we serve.',
       icon: 'Leaf',
     },
   ],
@@ -207,7 +207,7 @@ export const companyData = {
     {
       id: 'client-obsession',
       title: 'Client Obsession',
-      desc: 'Our clients’ success is our success. We go above and beyond to understand their needs and exceed their expectations.',
+      desc: 'Our clients\' success is our success. We go above and beyond to understand their needs and exceed their expectations.',
       icon: 'Star',
     },
   ],

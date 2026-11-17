@@ -46,7 +46,7 @@ const iconMap: Record<string, React.FC<{ className?: string }>> = {
 };
 
 const ABOUT_ROBOT_VIDEO_SRC =
-  '/assets/aistudio/about_robot_seamless.mp4?v=3';
+  '/assets/aistudio/about_robot_clean.mp4';
 
 const smoothEase: [number, number, number, number] = [0.22, 1, 0.36, 1];
 
@@ -116,16 +116,16 @@ export const AboutPage: React.FC = () => {
       <div className="overflow-x-hidden pt-20 selection:bg-accent selection:text-white">
         <section
           ref={heroSectionRef}
-          className="relative w-full overflow-hidden py-14 sm:py-18 md:py-20 lg:min-h-[560px] xl:min-h-[600px] md:flex md:items-center"
+          className="about-hero-backdrop relative w-full overflow-hidden pt-12 pb-0 sm:pt-16 lg:py-20 lg:min-h-[640px] xl:min-h-[680px] lg:flex lg:items-center"
         >
-          <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+          <div className="relative z-10 w-full max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
             <Breadcrumbs items={[{ label: 'About Us' }]} />
-            <div className="mt-8 grid grid-cols-1 lg:grid-cols-12 gap-10 items-center">
+            <div className="mt-8 lg:w-[48%]">
               <motion.div
                 initial={reducedMotion ? false : { opacity: 0, y: 16 }}
                 animate={{ opacity: 1, y: 0 }}
                 transition={{ duration: reducedMotion ? 0 : 0.45, ease: [0.32, 0.72, 0, 1] }}
-                className="lg:col-span-7 space-y-5"
+                className="space-y-5"
               >
                 <div className="text-xs font-mono font-bold uppercase tracking-[0.2em] text-accent-text">
                   {about.hero.kicker}
@@ -140,23 +140,33 @@ export const AboutPage: React.FC = () => {
                 </p>
               </motion.div>
 
-              <motion.div
-                initial={reducedMotion ? false : { opacity: 0, scale: 0.96, y: 14 }}
-                animate={{ opacity: 1, scale: 1, y: 0 }}
-                transition={{ duration: reducedMotion ? 0 : 0.5, delay: reducedMotion ? 0 : 0.08, ease: [0.32, 0.72, 0, 1] }}
-                className="lg:col-span-5"
-              >
-                <div className="clay-card p-3">
-                  <img
-                    src={about.hero.image}
-                    alt="Prakvi Technology Innovation Studio"
-                    className="w-full h-72 sm:h-80 object-cover rounded-2xl"
-                    referrerPolicy="no-referrer"
-                  />
-                </div>
-              </motion.div>
             </div>
           </div>
+
+          <motion.div
+            initial={reducedMotion ? false : { opacity: 0 }}
+            animate={{ opacity: 1 }}
+            transition={{ duration: reducedMotion ? 0 : 0.75, delay: reducedMotion ? 0 : 0.08, ease: smoothEase }}
+            className="about-hero-robot-desktop pointer-events-none select-none absolute inset-y-0 -right-[8%] hidden lg:flex items-center w-[72%]"
+          >
+                <motion.div
+                  style={{ y: prefersReducedMotion ? 0 : parallaxY }}
+                  className="relative w-full aspect-video overflow-hidden"
+                >
+                  <video
+                    ref={robotVideoRef}
+                    src={ABOUT_ROBOT_VIDEO_SRC}
+                    autoPlay={!prefersReducedMotion}
+                    muted
+                    loop={!prefersReducedMotion}
+                    playsInline
+                    preload="auto"
+                    onLoadedData={handleVideoLoadedData}
+                    aria-label="Animated AI robot working on a laptop with floating code interfaces"
+                    className="w-full h-full object-contain block select-none"
+                  />
+                </motion.div>
+          </motion.div>
 
           {/* Mobile robot video */}
 
@@ -172,7 +182,7 @@ export const AboutPage: React.FC = () => {
               delay: prefersReducedMotion ? 0 : 0.2,
               ease: smoothEase,
             }}
-            className="md:hidden relative z-10 mt-6 w-full pointer-events-none select-none"
+            className="lg:hidden relative z-10 mt-6 w-full pointer-events-none select-none"
           >
             <motion.div
               animate={
@@ -271,42 +281,7 @@ export const AboutPage: React.FC = () => {
           </div>
         </section>
 
-        {/* 3. OUR MISSION & OUR VISION */}
-        <section id="mission-vision" className="py-section bg-section-alt">
-          <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-            <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
-              <div className="clay-card p-8 sm:p-10">
-                <div className="clay-icon-box w-12 h-12 flex items-center justify-center mb-6">
-                  <Target className="w-6 h-6" aria-hidden="true" />
-                </div>
-
-                <h2 className="font-display text-2xl sm:text-3xl font-extrabold text-foreground mb-4">
-                  {about.mission.title}
-                </h2>
-
-                <p className="text-sm sm:text-base text-muted leading-relaxed">
-                  {about.mission.description}
-                </p>
-              </div>
-
-              <div className="clay-pastel p-8 sm:p-10">
-                <div className="clay-icon-box w-12 h-12 flex items-center justify-center mb-6">
-                  <Compass className="w-6 h-6" aria-hidden="true" />
-                </div>
-
-                <h2 className="font-display text-2xl sm:text-3xl font-extrabold text-foreground mb-4">
-                  {about.vision.title}
-                </h2>
-
-                <p className="text-sm sm:text-base text-muted leading-relaxed">
-                  {about.vision.description}
-                </p>
-              </div>
-            </div>
-          </div>
-        </section>
-
-        {/* 4. OUR CORE VALUES */}
+        {/* 3. OUR CORE VALUES */}
         <section id="values" className="py-section bg-canvas">
           <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
             <SectionHeading
@@ -347,6 +322,41 @@ export const AboutPage: React.FC = () => {
                   </motion.div>
                 );
               })}
+            </div>
+          </div>
+        </section>
+
+        {/* 4. OUR MISSION & OUR VISION */}
+        <section id="mission-vision" className="py-section bg-section-alt">
+          <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
+              <div className="clay-card p-8 sm:p-10">
+                <div className="clay-icon-box w-12 h-12 flex items-center justify-center mb-6">
+                  <Target className="w-6 h-6" aria-hidden="true" />
+                </div>
+
+                <h2 className="font-display text-2xl sm:text-3xl font-extrabold text-foreground mb-4">
+                  {about.mission.title}
+                </h2>
+
+                <p className="text-sm sm:text-base text-muted leading-relaxed">
+                  {about.mission.description}
+                </p>
+              </div>
+
+              <div className="clay-pastel p-8 sm:p-10">
+                <div className="clay-icon-box w-12 h-12 flex items-center justify-center mb-6">
+                  <Compass className="w-6 h-6" aria-hidden="true" />
+                </div>
+
+                <h2 className="font-display text-2xl sm:text-3xl font-extrabold text-foreground mb-4">
+                  {about.vision.title}
+                </h2>
+
+                <p className="text-sm sm:text-base text-muted leading-relaxed">
+                  {about.vision.description}
+                </p>
+              </div>
             </div>
           </div>
         </section>
