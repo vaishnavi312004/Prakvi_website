@@ -5,6 +5,7 @@ import { SectionHeading } from '../components/common/SectionHeading';
 import { CTASection } from '../components/common/CTASection';
 import { PageTransition } from '../components/layout/PageTransition';
 import { companyData } from '../data/companyData';
+
 import {
   Award,
   BadgeCheck,
@@ -44,17 +45,75 @@ const iconMap: Record<string, React.FC<{ className?: string }>> = {
   Sparkles,
 };
 
+const ABOUT_ROBOT_VIDEO_SRC =
+  '/assets/aistudio/about_robot_seamless.mp4?v=3';
+
+const smoothEase: [number, number, number, number] = [0.22, 1, 0.36, 1];
+
 export const AboutPage: React.FC = () => {
   const reducedMotion = useReducedMotion();
   const { about, values, culturePillars, achievements } = companyData;
 
+  const heroSectionRef = useRef<HTMLElement>(null);
+  const robotVideoRef = useRef<HTMLVideoElement>(null);
+  const mobileRobotVideoRef = useRef<HTMLVideoElement>(null);
+
+  const prefersReducedMotion = useReducedMotion();
+
+  const { scrollYProgress } = useScroll({
+    target: heroSectionRef,
+    offset: ['start start', 'end start'],
+  });
+
+  const rawParallaxY = useTransform(scrollYProgress, [0, 1], [0, 20]);
+
+  const parallaxY = useSpring(rawParallaxY, {
+    stiffness: 110,
+    damping: 26,
+    mass: 0.45,
+  });
+
+  useEffect(() => {
+    const videos = [
+      robotVideoRef.current,
+      mobileRobotVideoRef.current,
+    ].filter((v): v is HTMLVideoElement => v !== null);
+
+    videos.forEach((video) => {
+      if (prefersReducedMotion) {
+        video.pause();
+
+        if (video.readyState >= 2) {
+          video.currentTime = 2.0;
+        }
+
+        return;
+      }
+
+      const playPromise = video.play();
+
+      if (playPromise && typeof playPromise.catch === 'function') {
+        playPromise.catch(() => {
+          // Autoplay may be blocked by browser policy.
+          // Muted and playsInline handle standard cases.
+        });
+      }
+    });
+  }, [prefersReducedMotion]);
+
+  const handleVideoLoadedData = (
+    e: React.SyntheticEvent<HTMLVideoElement>,
+  ) => {
+    if (!prefersReducedMotion) return;
+
+    const video = e.currentTarget;
+    video.pause();
+    video.currentTime = 2.0;
+  };
+
   return (
     <PageTransition>
       <div className="overflow-x-hidden pt-20 selection:bg-accent selection:text-white">
-        {/* 1. ABOUT HERO */}
-        <section className="hero-clay-canvas py-section relative overflow-hidden">
-          <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
-            <Breadcrumbs items={[{ label: 'About Us' }]} />
 
             <div className="mt-8 grid grid-cols-1 lg:grid-cols-12 gap-10 items-center">
               <motion.div
@@ -67,9 +126,11 @@ export const AboutPage: React.FC = () => {
                   {about.hero.kicker}
                 </div>
 
-                <h1 className="font-display text-4xl sm:text-5xl font-extrabold text-foreground tracking-tight leading-tight text-balance">
-                  {about.hero.title}
-                </h1>
+        <section
+          ref={heroSectionRef}
+          className="relative w-full overflow-hidden py-14 sm:py-18 md:py-20 lg:min-h-[560px] xl:min-h-[600px] md:flex md:items-center"
+        >
+          {/* Full-width atmospheric background */}
 
                 <p className="text-base sm:text-lg text-muted leading-relaxed">
                   {about.hero.description}
@@ -93,6 +154,60 @@ export const AboutPage: React.FC = () => {
               </motion.div>
             </div>
           </div>
+
+          {/* Mobile robot video */}
+
+          <motion.div
+            initial={
+              prefersReducedMotion
+                ? { opacity: 1 }
+                : { opacity: 0, y: 12 }
+            }
+            animate={{ opacity: 1, y: 0 }}
+            transition={{
+              duration: prefersReducedMotion ? 0 : 0.75,
+              delay: prefersReducedMotion ? 0 : 0.2,
+              ease: smoothEase,
+            }}
+            className="md:hidden relative z-10 mt-6 w-full pointer-events-none select-none"
+          >
+            <motion.div
+              animate={
+                prefersReducedMotion
+                  ? undefined
+                  : {
+                    y: [0, -5, 0],
+                  }
+              }
+              transition={
+                prefersReducedMotion
+                  ? undefined
+                  : {
+                    duration: 5.5,
+                    repeat: Infinity,
+                    ease: 'easeInOut',
+                  }
+              }
+              className="relative w-full aspect-video overflow-hidden"
+            >
+              <video
+                ref={mobileRobotVideoRef}
+                src={ABOUT_ROBOT_VIDEO_SRC}
+                autoPlay={!prefersReducedMotion}
+                muted
+                loop={!prefersReducedMotion}
+                playsInline
+                preload="auto"
+                onLoadedData={handleVideoLoadedData}
+                aria-label="Animated AI robot working on a laptop with floating code interfaces"
+                className="w-full h-full object-contain block select-none"
+              />
+
+              <div className="about-hero-edge-left pointer-events-none absolute inset-y-0 left-0 w-[10%]" />
+              <div className="about-hero-edge-top pointer-events-none absolute inset-x-0 top-0 h-[5%]" />
+              <div className="about-hero-edge-bottom pointer-events-none absolute inset-x-0 bottom-0 h-[5%]" />
+            </motion.div>
+          </motion.div>
         </section>
 
         {/* 2. OUR STORY IS YOUR SUCCESS */}
@@ -115,6 +230,7 @@ export const AboutPage: React.FC = () => {
               <div className="lg:col-span-5 space-y-4">
                 {about.story.highlights.map((item, idx) => {
                   const IconComp = iconMap[item.icon] || Lightbulb;
+
                   return (
                     <motion.div
                       key={item.title}
@@ -129,12 +245,17 @@ export const AboutPage: React.FC = () => {
                       className="clay-card clay-card-interactive p-6 flex items-start gap-4"
                     >
                       <div className="clay-icon-box h-12 w-12 flex items-center justify-center shrink-0">
-                        <IconComp className="h-6 w-6" aria-hidden="true" />
+                        <IconComp
+                          className="h-6 w-6"
+                          aria-hidden="true"
+                        />
                       </div>
+
                       <div>
                         <h3 className="font-display text-lg font-bold text-foreground">
                           {item.title}
                         </h3>
+
                         <p className="mt-1 text-sm text-muted leading-relaxed">
                           {item.description}
                         </p>
@@ -155,9 +276,11 @@ export const AboutPage: React.FC = () => {
                 <div className="clay-icon-box w-12 h-12 flex items-center justify-center mb-6">
                   <Target className="w-6 h-6" aria-hidden="true" />
                 </div>
+
                 <h2 className="font-display text-2xl sm:text-3xl font-extrabold text-foreground mb-4">
                   {about.mission.title}
                 </h2>
+
                 <p className="text-sm sm:text-base text-muted leading-relaxed">
                   {about.mission.description}
                 </p>
@@ -167,9 +290,11 @@ export const AboutPage: React.FC = () => {
                 <div className="clay-icon-box w-12 h-12 flex items-center justify-center mb-6">
                   <Compass className="w-6 h-6" aria-hidden="true" />
                 </div>
+
                 <h2 className="font-display text-2xl sm:text-3xl font-extrabold text-foreground mb-4">
                   {about.vision.title}
                 </h2>
+
                 <p className="text-sm sm:text-base text-muted leading-relaxed">
                   {about.vision.description}
                 </p>
@@ -191,6 +316,7 @@ export const AboutPage: React.FC = () => {
             <div className="mt-12 grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
               {values.map((v, idx) => {
                 const IconComp = iconMap[v.icon] || ShieldCheck;
+
                 return (
                   <motion.div
                     key={v.id}
@@ -205,8 +331,12 @@ export const AboutPage: React.FC = () => {
                     className="clay-card clay-card-interactive p-7 flex flex-col"
                   >
                     <div className="clay-icon-box w-11 h-11 flex items-center justify-center mb-5">
-                      <IconComp className="w-5 h-5" aria-hidden="true" />
+                      <IconComp
+                        className="w-5 h-5"
+                        aria-hidden="true"
+                      />
                     </div>
+
                     <h3 className="font-display text-lg font-bold text-foreground mb-2">
                       {v.title}
                     </h3>
@@ -231,6 +361,7 @@ export const AboutPage: React.FC = () => {
             <div className="mt-12 grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
               {culturePillars.map((pillar, idx) => {
                 const IconComp = iconMap[pillar.icon] || Rocket;
+
                 return (
                   <motion.div
                     key={pillar.id}
@@ -247,8 +378,12 @@ export const AboutPage: React.FC = () => {
                     } clay-card-interactive p-7`}
                   >
                     <div className="clay-icon-box w-11 h-11 flex items-center justify-center mb-5">
-                      <IconComp className="w-5 h-5" aria-hidden="true" />
+                      <IconComp
+                        className="w-5 h-5"
+                        aria-hidden="true"
+                      />
                     </div>
+
                     <h3 className="font-display text-lg font-bold text-foreground mb-2">
                       {pillar.title}
                     </h3>
@@ -261,6 +396,7 @@ export const AboutPage: React.FC = () => {
         </section>
 
         {/* 6. RECOGNITION & ACHIEVEMENTS */}
+
         <section id="recognition" className="py-section bg-section-alt">
           <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
             <SectionHeading
@@ -273,6 +409,7 @@ export const AboutPage: React.FC = () => {
             <div className="mt-12 grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
               {achievements.map((item, idx) => {
                 const IconComp = iconMap[item.icon] || Trophy;
+
                 return (
                   <motion.div
                     key={item.id}
@@ -287,11 +424,16 @@ export const AboutPage: React.FC = () => {
                     className="clay-card clay-card-interactive p-7"
                   >
                     <div className="clay-icon-box w-11 h-11 flex items-center justify-center mb-5">
-                      <IconComp className="w-5 h-5" aria-hidden="true" />
+                      <IconComp
+                        className="w-5 h-5"
+                        aria-hidden="true"
+                      />
                     </div>
+
                     <h3 className="font-display text-lg font-bold text-foreground mb-2">
                       {item.title}
                     </h3>
+
                     <p className="text-sm text-muted leading-relaxed">
                       {item.description}
                     </p>
@@ -303,6 +445,7 @@ export const AboutPage: React.FC = () => {
         </section>
 
         {/* 7. FINAL CTA */}
+
         <CTASection
           title={about.cta.title}
           subtitle={about.cta.description}
