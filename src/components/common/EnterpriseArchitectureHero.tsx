@@ -3,6 +3,7 @@ import { motion, useReducedMotion } from 'motion/react';
 import { ArrowRight } from 'lucide-react';
 import { ServiceItem } from '../../types';
 import { Breadcrumbs } from './Breadcrumbs';
+import { ServiceHeroMedia } from './ServiceHeroMedia';
 
 export const EnterpriseArchitectureHero: React.FC<{ service: ServiceItem }> = ({ service }) => {
   const reducedMotion = useReducedMotion();
@@ -22,12 +23,7 @@ export const EnterpriseArchitectureHero: React.FC<{ service: ServiceItem }> = ({
   });
 
   return (
-    <section className="enterprise-hero architecture-hero relative isolate overflow-hidden" aria-labelledby="enterprise-hero-title">
-      <div className="enterprise-hero-backdrop absolute inset-0 z-[1] pointer-events-none" aria-hidden="true">
-        <div className="enterprise-hero-colour-wash absolute inset-0" />
-        <div className="enterprise-hero-video-overlay absolute inset-0" />
-      </div>
-
+    <section className="enterprise-hero service-video-hero architecture-hero relative isolate overflow-hidden" aria-labelledby="enterprise-hero-title">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
         <Breadcrumbs items={[{ label: 'Services', path: '/services' }, { label: service.title }]} />
 
@@ -53,20 +49,14 @@ export const EnterpriseArchitectureHero: React.FC<{ service: ServiceItem }> = ({
           </div>
         </div>
       </div>
-      <div className="architecture-hero-visual pointer-events-none" aria-hidden="true">
-        <video
-          ref={videoRef}
-          className="architecture-hero-video"
-          autoPlay={!reducedMotion}
-          muted
-          loop
-          playsInline
-          preload="auto"
-          tabIndex={-1}
-        >
-          <source src="/assets/aistudio/enterprise-architecture-clean.mp4" type="video/mp4" />
-        </video>
-      </div>
+      <ServiceHeroMedia
+        videoRef={videoRef}
+        autoPlay={!reducedMotion}
+        poster="/assets/aistudio/enterprise-architecture-poster.webp"
+        sampleEdges={false}
+      >
+        <source src="/assets/aistudio/enterprise-architecture-clean.mp4" type="video/mp4" />
+      </ServiceHeroMedia>
     </section>
   );
 };

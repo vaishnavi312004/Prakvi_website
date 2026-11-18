@@ -10,6 +10,9 @@ import {
 } from 'lucide-react';
 import { ServiceStackTab } from '../../types';
 import { SectionHeading } from './SectionHeading';
+import { continuousOrbitStep, useOrbitAngle } from './orbitMotion';
+
+export { continuousOrbitStep } from './orbitMotion';
 
 const categoryIcons = [Target, Layers, Database, Server];
 const capabilityIcons = [
@@ -20,15 +23,11 @@ const capabilityIcons = [
 ];
 const transitionEase = [0.22, 1, 0.36, 1] as const;
 
-export function continuousOrbitStep(deltaMs: number, revolutionMs: number, direction: 1 | -1) {
-  return Math.min(Math.max(deltaMs, 0), 64) * 360 / revolutionMs * direction;
-}
-
 const CapabilityPanel: React.FC<{
   label: string; Icon: LucideIcon; index: number; count: number;
   phase: MotionValue<number>; onHoverChange: (hovered: boolean) => void;
 }> = ({ label, Icon, index, count, phase, onHoverChange }) => {
-  const radians = useTransform(phase, value => (index * 360 / count + value + 90) * Math.PI / 180);
+  const radians = useOrbitAngle(phase, index, count, 90);
   const x = useTransform(radians, value => `calc(var(--ea-orbit-x) * ${Math.cos(value)})`);
   const y = useTransform(radians, value => `calc(var(--ea-orbit-y) * ${Math.sin(value)})`);
   const z = useTransform(radians, value => Math.sin(value) * 40);
@@ -112,7 +111,6 @@ export const ArchitectureCarousel: React.FC<{
                 initial={reducedMotion ? false : { opacity: 0, scale: 0.98 }}
                 animate={{ opacity: 1, scale: 1 }} exit={{ opacity: 0, scale: reducedMotion ? 1 : 0.98 }}
                 transition={{ duration: reducedMotion ? 0 : 0.25, ease: transitionEase }}>
-                <div className="ea-orbit-ambient" aria-hidden="true" />
                 <div className="ea-orbit-guide" aria-hidden="true" />
                 <div className="ea-orbit-hub" aria-hidden="true"><HubIcon /><span>{current.label}</span></div>
                 {current.items.map((item, index) => (

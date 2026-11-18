@@ -10,6 +10,7 @@ interface CTASectionProps {
   primaryButtonLink?: string;
   secondaryButtonText?: string;
   secondaryButtonLink?: string;
+  immersive?: boolean;
 }
 
 export const CTASection: React.FC<CTASectionProps> = ({
@@ -19,18 +20,27 @@ export const CTASection: React.FC<CTASectionProps> = ({
   primaryButtonLink = '/contact',
   secondaryButtonText = 'Explore Services',
   secondaryButtonLink = '/services',
+  immersive = false,
 }) => {
   const reducedMotion = useReducedMotion();
 
   return (
-    <section className="relative overflow-hidden bg-canvas px-4 py-section sm:px-6 lg:px-8">
+    <section className={`relative overflow-hidden px-4 py-section sm:px-6 lg:px-8 ${immersive ? 'about-cta' : 'bg-canvas'}`}>
+      {immersive && (
+        <motion.div
+          className="about-cta-trails"
+          aria-hidden="true"
+          whileInView={reducedMotion ? undefined : { x: [-10, 12, -10], y: [0, -5, 0] }}
+          transition={{ duration: 10, ease: 'easeInOut', repeat: Infinity }}
+        />
+      )}
       <motion.div
-        initial={reducedMotion ? false : { opacity: 0, y: 18, scale: 0.985 }}
+        initial={reducedMotion ? false : { opacity: 0, y: immersive ? 0 : 18, scale: immersive ? 0.96 : 0.985 }}
         whileInView={{ opacity: 1, y: 0, scale: 1 }}
         viewport={{ once: true, amount: 0.2 }}
         transition={{ duration: reducedMotion ? 0 : 0.48, ease: [0.32, 0.72, 0, 1] }}
-        className="relative mx-auto max-w-6xl rounded-[2rem] border border-accent/25 px-6 py-12 text-center sm:px-12 sm:py-16 shadow-xl"
-        style={{
+        className={`relative mx-auto max-w-6xl text-center ${immersive ? 'about-cta-content' : 'rounded-[2rem] border border-accent/25 px-6 py-12 sm:px-12 sm:py-16 shadow-xl'}`}
+        style={immersive ? undefined : {
           background:
             'linear-gradient(150deg, #FFFFFF 0%, color-mix(in srgb, var(--theme-soft-blue) 88%, #FFFFFF) 60%, color-mix(in srgb, var(--theme-lavender) 55%, #FFFFFF) 100%)',
           boxShadow:

@@ -2,6 +2,7 @@ import React, { useRef, useState } from 'react';
 import { AnimatePresence, motion, useReducedMotion, useScroll } from 'motion/react';
 import { ArrowRight, type LucideIcon } from 'lucide-react';
 import { SectionHeading } from './SectionHeading';
+import { ServiceCapabilityOrbit } from './ServiceCapabilityOrbit';
 
 const ease = [0.22, 1, 0.36, 1] as const;
 interface PracticeContent {
@@ -30,6 +31,8 @@ export const ServicePracticeSections: React.FC<PracticeSectionsProps> = ({
   const reducedMotion = useReducedMotion();
   const journeyRef = useRef<HTMLOListElement>(null);
   const [activeTab, setActiveTab] = useState(0);
+  const [orbitPaused, setOrbitPaused] = useState(false);
+  const currentFeature = content.explorer.tabs[activeTab];
   const { scrollYProgress } = useScroll({ target: journeyRef, offset: ['start 75%', 'end 65%'] });
 
   const reveal = (delay = 0) => ({
@@ -138,7 +141,7 @@ export const ServicePracticeSections: React.FC<PracticeSectionsProps> = ({
       <section id={`${idPrefix}-explorer`} className="mobility-section relative">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <SectionHeading title={content.explorer.title} description={content.explorer.description} align="center" />
-          <motion.div layout className="mobility-explorer mx-auto mt-9 max-w-5xl" transition={{ layout: { duration: reducedMotion ? 0 : 0.3, ease } }}>
+          <div className="practice-orbit-explorer mx-auto mt-9 max-w-5xl">
             <div className="flex justify-center">
               <div className="mobility-explorer-tabs" role="tablist" aria-label={explorerLabel}>
                 {content.explorer.tabs.map((tab, index) => (
@@ -161,7 +164,7 @@ export const ServicePracticeSections: React.FC<PracticeSectionsProps> = ({
                       setActiveTab(next);
                       document.getElementById(`${idPrefix}-feature-tab-${next}`)?.focus();
                     }}
-                    className={`relative rounded-full px-4 sm:px-7 py-3 text-xs sm:text-sm font-bold transition-colors ${activeTab === index ? 'text-white' : 'text-muted hover:text-foreground'}`}
+                    className={`relative rounded-full px-4 sm:px-7 py-3 text-xs sm:text-sm font-bold transition-colors ${activeTab === index ? 'text-foreground' : 'text-muted hover:text-foreground'}`}
                   >
                     {activeTab === index && <motion.span layoutId={`${idPrefix}-feature-highlight`} className="mobility-explorer-highlight absolute inset-0 rounded-full" transition={reducedMotion ? { duration: 0 } : { type: 'spring', stiffness: 430, damping: 34 }} aria-hidden="true" />}
                     <span className="relative">{tab.label}</span>
@@ -169,25 +172,23 @@ export const ServicePracticeSections: React.FC<PracticeSectionsProps> = ({
                 ))}
               </div>
             </div>
-            <motion.div layout className="mobility-explorer-panel" transition={{ layout: { duration: reducedMotion ? 0 : 0.3, ease } }}>
+            <div
+              id={`${idPrefix}-feature-panel`}
+              role="tabpanel"
+              aria-labelledby={`${idPrefix}-feature-tab-${activeTab}`}
+            >
               <AnimatePresence mode="wait" initial={false}>
-                <motion.div
-                  key={activeTab} id={`${idPrefix}-feature-panel`} role="tabpanel"
-                  aria-labelledby={`${idPrefix}-feature-tab-${activeTab}`} tabIndex={0}
-                  initial={reducedMotion ? false : { opacity: 0, y: 8 }}
-                  animate={{ opacity: 1, y: 0 }}
-                  exit={{ opacity: 0, y: reducedMotion ? 0 : -6 }}
-                  transition={{ duration: reducedMotion ? 0 : 0.2, ease }}
-                  className={`mobility-feature-grid ${connectedServices && content.explorer.tabs[activeTab].items.length > 4 ? 'scm-feature-grid-many' : ''}`}
-                >
-                  {content.explorer.tabs[activeTab].items.map((item, index) => {
-                    const Icon = featureIcons[activeTab][index];
-                    return <motion.div key={item} className="mobility-feature" initial={connectedServices && !reducedMotion ? { opacity: 0, y: 8 } : false} animate={connectedServices ? { opacity: 1, y: 0 } : undefined} transition={{ duration: reducedMotion ? 0 : 0.28, delay: reducedMotion ? 0 : index * 0.04, ease }}><div className="mobility-feature-icon"><Icon className="w-6 h-6" aria-hidden="true" /></div><h3 className="font-display text-sm sm:text-base font-bold text-foreground">{item}</h3></motion.div>;
-                  })}
-                </motion.div>
+                <ServiceCapabilityOrbit
+                  key={activeTab}
+                  label={currentFeature.label}
+                  items={currentFeature.items}
+                  icons={featureIcons[activeTab]}
+                  paused={orbitPaused}
+                  onTogglePause={() => setOrbitPaused(current => !current)}
+                />
               </AnimatePresence>
-            </motion.div>
-          </motion.div>
+            </div>
+          </div>
         </div>
       </section>
     </div>

@@ -3,12 +3,15 @@ import { useParams, Link, Navigate } from 'react-router-dom';
 import { AnimatePresence, motion, useReducedMotion } from 'motion/react';
 import { Breadcrumbs } from '../components/common/Breadcrumbs';
 import { EnterpriseArchitectureHero } from '../components/common/EnterpriseArchitectureHero';
+import { EnterpriseArchitectureJourney } from '../components/common/EnterpriseArchitectureJourney';
 import { ArchitectureCarousel } from '../components/common/ArchitectureCarousel';
+import { ArchitectureOfferingsWorkflow } from '../components/common/ArchitectureOfferingsWorkflow';
 import { MobilityPracticeHero } from '../components/common/MobilityPracticeHero';
 import { MobilityPracticeSections } from '../components/common/MobilityPracticeSections';
 import { SupplyChainHero } from '../components/common/SupplyChainHero';
 import { SupplyChainSections } from '../components/common/SupplyChainSections';
 import { SystemIntegrationSections } from '../components/common/SystemIntegrationSections';
+import { SystemIntegrationHero } from '../components/common/SystemIntegrationHero';
 import { ProjectManagementHero } from '../components/common/ProjectManagementHero';
 import { ProjectManagementSections } from '../components/common/ProjectManagementSections';
 import { SectionHeading } from '../components/common/SectionHeading';
@@ -62,6 +65,11 @@ export const ServiceDetailPage: React.FC = () => {
   const isStaffingPage = service.slug === 'staffing';
   const isMobilityPage = service.slug === 'mobility-practice';
   const isEnterpriseArchitecturePage = service.slug === 'enterprise-architecture';
+  const offeringsTitle = service.offeringsTitle || `${service.title} Offerings`;
+  const offeringsDescription = service.offeringsSubtitle ||
+    'Comprehensive service modules engineered for reliability, compliance, and long-term performance.';
+  const processTitle = service.processTitle || `Why Choose Prakvi for ${service.title}?`;
+  const processDescription = service.processSubtitle || 'A proven methodology that ensures successful project delivery.';
 
   const toggleFaq = (index: number) => {
     setOpenFaqIndex(openFaqIndex === index ? null : index);
@@ -73,7 +81,7 @@ export const ServiceDetailPage: React.FC = () => {
 
   return (
     <PageTransition>
-      <div className="overflow-x-hidden pt-20 selection:bg-accent selection:text-white">
+      <div className={`overflow-x-hidden pt-20 selection:bg-accent selection:text-white${isEnterpriseArchitecturePage ? ' ea-service-page' : ''}`}>
         {/* 1. SERVICE HERO */}
         {isEnterpriseArchitecturePage ? (
           <EnterpriseArchitectureHero service={service} />
@@ -83,6 +91,8 @@ export const ServiceDetailPage: React.FC = () => {
           <SupplyChainHero service={service} />
         ) : service.slug === 'project-management' ? (
           <ProjectManagementHero service={service} />
+        ) : service.slug === 'system-integration' ? (
+          <SystemIntegrationHero service={service} />
         ) : (
         <section className="hero-clay-canvas py-section relative overflow-hidden">
           <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
@@ -175,15 +185,19 @@ export const ServiceDetailPage: React.FC = () => {
         )}
 
         {/* 3. CORE SERVICE OFFERINGS */}
+        {isEnterpriseArchitecturePage ? (
+          <ArchitectureOfferingsWorkflow
+            title={offeringsTitle}
+            description={offeringsDescription}
+            services={service.capabilities}
+          />
+        ) : (
         <section id="capabilities" className="py-section bg-section-alt">
           <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
             <SectionHeading
-              badge={isEnterpriseArchitecturePage ? undefined : 'Capabilities'}
-              title={service.offeringsTitle || `${service.title} Offerings`}
-              description={
-                service.offeringsSubtitle ||
-                'Comprehensive service modules engineered for reliability, compliance, and long-term performance.'
-              }
+              badge="Capabilities"
+              title={offeringsTitle}
+              description={offeringsDescription}
             />
 
             <div className="mt-12 grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
@@ -198,16 +212,12 @@ export const ServiceDetailPage: React.FC = () => {
                     </h3>
                   </div>
                   <p className="text-sm text-muted leading-relaxed">{cap.description}</p>
-                  {isEnterpriseArchitecturePage && cap.points && (
-                    <ul className="mt-4 space-y-2 text-sm text-muted leading-relaxed list-disc pl-5 marker:text-accent">
-                      {cap.points.map((point) => <li key={point}>{point}</li>)}
-                    </ul>
-                  )}
                 </div>
               ))}
             </div>
           </div>
         </section>
+        )}
 
         {/* 4. BESPOKE MOBILITY PRACTICE WORKBENCH */}
         {isMobilityPage && (
@@ -318,15 +328,15 @@ export const ServiceDetailPage: React.FC = () => {
         )}
 
         {/* 5. METHODOLOGY / DELIVERY PROCESS */}
-        <section id={isEnterpriseArchitecturePage ? 'enterprise-process' : undefined} className={`py-section ${isMobilityPage ? 'bg-surface/75' : 'bg-canvas'}`}>
+        {isEnterpriseArchitecturePage ? (
+          <EnterpriseArchitectureJourney title={processTitle} description={processDescription} steps={service.deliverySteps} />
+        ) : (
+        <section className={`py-section ${isMobilityPage ? 'bg-surface/75' : 'bg-canvas'}`}>
           <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
             <SectionHeading
-              badge={isEnterpriseArchitecturePage ? undefined : 'Our Process'}
-              title={service.processTitle || `Why Choose Prakvi for ${service.title}?`}
-              description={
-                service.processSubtitle ||
-                'A proven methodology that ensures successful project delivery.'
-              }
+              badge="Our Process"
+              title={processTitle}
+              description={processDescription}
               align="center"
             />
 
@@ -352,11 +362,6 @@ export const ServiceDetailPage: React.FC = () => {
                     <p className="text-xs sm:text-sm text-muted leading-relaxed">
                       {step.description}
                     </p>
-                    {isEnterpriseArchitecturePage && step.points && (
-                      <ul className="mt-4 space-y-2 text-xs sm:text-sm text-muted leading-relaxed list-disc pl-5 marker:text-accent">
-                        {step.points.map((point) => <li key={point}>{point}</li>)}
-                      </ul>
-                    )}
                   </div>
                   <div className="mt-5 pt-3 border-t border-line text-[11px] font-mono text-accent font-semibold">
                     Step {step.step}
@@ -394,6 +399,7 @@ export const ServiceDetailPage: React.FC = () => {
             )}
           </div>
         </section>
+        )}
 
         {/* 6. INTERACTIVE STACK & CAPABILITY MATRIX */}
         {isEnterpriseArchitecturePage ? (
