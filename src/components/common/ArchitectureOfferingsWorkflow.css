@@ -1,0 +1,245 @@
+.ea-offerings {
+  color: #172b45;
+  scroll-margin-top: 5rem;
+}
+
+.ea-workflow {
+  display: grid;
+  grid-template-columns: minmax(0, 2fr) minmax(0, 3fr);
+  align-items: center;
+  gap: clamp(1.5rem, 3vw, 3rem);
+  max-width: 72rem;
+  margin: clamp(1.6rem, 3vw, 2.7rem) auto 0;
+}
+
+.ea-workflow-details {
+  display: grid;
+  align-items: start;
+  min-width: 0;
+  padding: clamp(1.25rem, 3vw, 2.25rem);
+  border: 1px solid #f8fbff;
+  border-radius: 1.6rem;
+  background: linear-gradient(145deg, #ffffffd9, #f0f4ffc2 55%, #e8eafaad);
+  box-shadow: inset 0 1px 0 #fff, 0 0 0 3px #ffffff38, 0 24px 48px -27px #4a53736b;
+  -webkit-backdrop-filter: blur(12px);
+  backdrop-filter: blur(12px);
+}
+
+.ea-workflow-detail {
+  grid-area: 1 / 1;
+  min-width: 0;
+  opacity: 0;
+  visibility: hidden;
+  pointer-events: none;
+  transition: visibility 0s linear 280ms;
+}
+
+.ea-workflow-detail[data-active="true"] {
+  visibility: visible;
+  pointer-events: auto;
+  transition-delay: 0s;
+}
+
+.ea-workflow-detail-heading {
+  display: flex;
+  align-items: center;
+  gap: 0.9rem;
+  margin-bottom: 1rem;
+}
+
+.ea-workflow-icon {
+  display: grid;
+  place-items: center;
+  flex: none;
+  width: 2.9rem;
+  aspect-ratio: 1;
+  border: 1px solid #a9d0e6;
+  border-radius: 0.85rem;
+  background: linear-gradient(145deg, #fbfdff, #dbeefa);
+  color: #176894;
+  box-shadow: inset 0 1px 0 #fff;
+}
+
+.ea-workflow-icon > svg { width: 1.3rem; height: 1.3rem; }
+
+.ea-workflow-detail h3 {
+  font: 800 clamp(1.16rem, 2vw, 1.58rem)/1.18 var(--font-display);
+  text-wrap: balance;
+}
+
+.ea-workflow-detail p,
+.ea-workflow-detail ul {
+  color: #304863;
+  font-size: 0.94rem;
+  line-height: 1.55;
+}
+
+.ea-workflow-detail ul {
+  display: grid;
+  gap: 0.52rem;
+  margin-top: 1rem;
+  padding-left: 1.2rem;
+  list-style: disc;
+  font-weight: 550;
+}
+
+.ea-workflow-detail li::marker { color: #176894; }
+
+.ea-workflow-track {
+  position: relative;
+  isolation: isolate;
+  display: grid;
+  grid-template-columns: minmax(0, 1fr);
+  grid-template-rows: repeat(4, minmax(0, 1fr));
+  min-width: 0;
+  height: clamp(25rem, 34vw, 30rem);
+}
+
+.ea-workflow-path {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  pointer-events: none;
+}
+
+.ea-workflow-path :is(path.ea-workflow-path-aura, path.ea-workflow-path-line, path.ea-workflow-pulse) {
+  fill: none;
+  stroke-linecap: round;
+  vector-effect: non-scaling-stroke;
+}
+
+.ea-workflow-path-aura { stroke-width: 9; opacity: 0.16; }
+.ea-workflow-path-line { stroke-width: 2.1; opacity: 0.86; }
+.ea-workflow-pulse {
+  stroke: #f1fcff;
+  stroke-width: 3.4;
+  stroke-dasharray: 0.09 1;
+  filter: drop-shadow(0 0 2px #55bbf2);
+  animation: ea-workflow-pulse ease-in-out both;
+}
+
+@keyframes ea-workflow-pulse {
+  from { stroke-dashoffset: var(--pulse-from); opacity: 0; }
+  25%, 75% { opacity: 1; }
+  to { stroke-dashoffset: var(--pulse-to); opacity: 0; }
+}
+.ea-workflow[data-moving="false"] .ea-workflow-particle { visibility: hidden; }
+
+.ea-workflow-node {
+  --node-center: 27%;
+  --node-angle: 4deg;
+  position: relative;
+  grid-column: 1;
+  justify-self: start;
+  align-self: center;
+  width: min(50%, 17.5rem);
+  margin-inline-start: var(--node-center);
+  translate: -50% 0;
+}
+
+.ea-workflow-node:nth-of-type(even) { --node-center: 73%; --node-angle: -4deg; }
+
+.ea-workflow-float {
+  animation: ea-workflow-float 6.4s ease-in-out infinite alternate paused;
+}
+
+.ea-workflow-node:nth-of-type(2) .ea-workflow-float { animation-delay: -2.1s; animation-duration: 7.5s; }
+.ea-workflow-node:nth-of-type(3) .ea-workflow-float { animation-delay: -3.4s; animation-duration: 8.2s; }
+.ea-workflow-node:nth-of-type(4) .ea-workflow-float { animation-delay: -5s; animation-duration: 7.1s; }
+.ea-workflow[data-moving="true"] .ea-workflow-float { animation-play-state: running; }
+
+@keyframes ea-workflow-float { to { transform: translateY(-4px); } }
+
+.ea-workflow-node button {
+  position: relative;
+  isolation: isolate;
+  display: grid;
+  grid-template-columns: auto minmax(0, 1fr) auto;
+  align-items: center;
+  gap: 0.65rem;
+  width: 100%;
+  min-height: 4.65rem;
+  padding: 0.8rem 0.9rem;
+  border: 1px solid #f5faff;
+  border-radius: 1.05rem;
+  background: linear-gradient(138deg, #ffffffdf, #eef6fed6 60%, #e7e5f7e0);
+  box-shadow: inset 0 1px 0 #fff, 0 13px 26px -16px #34496876;
+  -webkit-backdrop-filter: blur(9px);
+  backdrop-filter: blur(9px);
+  color: #213852;
+  font-size: clamp(0.85rem, 1.14vw, 1rem);
+  font-weight: 760;
+  line-height: 1.2;
+  text-align: start;
+  text-wrap: balance;
+  transform: perspective(800px) rotateY(var(--node-angle));
+  transition: transform 260ms cubic-bezier(0.22, 1, 0.36, 1), border-color 230ms ease, box-shadow 230ms ease;
+  cursor: pointer;
+}
+
+.ea-workflow-node button > .ea-workflow-icon { width: 2.15rem; border-radius: 0.65rem; }
+.ea-workflow-node button > .ea-workflow-icon svg { width: 1.02rem; height: 1.02rem; }
+
+.ea-workflow-node button[aria-selected="true"] {
+  border-color: #81bfdc;
+  background: linear-gradient(140deg, #ffffff, #ecf8ffe8 60%, #e4ecf9ed);
+  box-shadow: inset 0 1px 0 #fff, 0 0 0 3px #8cd6ee53, 0 0 25px #9ad9f266, 0 15px 27px -17px #3e739d;
+  transform: perspective(800px) rotateY(var(--node-angle)) scale(1.025);
+}
+
+@media (hover: hover) {
+  .ea-workflow-node button:hover {
+    border-color: #98cae3;
+    box-shadow: inset 0 1px 0 #fff, 0 13px 24px -12px #527cae78;
+    transform: translateY(-3px) perspective(800px) rotateY(var(--node-angle));
+  }
+  .ea-workflow-node button[aria-selected="true"]:hover {
+    box-shadow: inset 0 1px 0 #fff, 0 0 0 3px #8cd6ee53, 0 15px 27px -13px #5d8cb4aa;
+    transform: translateY(-3px) perspective(800px) rotateY(var(--node-angle)) scale(1.025);
+  }
+}
+
+.ea-workflow-indicator {
+  width: 0.42rem;
+  height: 0.42rem;
+  border: 1px solid #7397b7;
+  border-radius: 50%;
+}
+
+.ea-workflow-node button[aria-selected="true"] .ea-workflow-indicator {
+  border-color: #2e81ae;
+  background: #2e81ae;
+  box-shadow: 0 0 0 3px #93d2ed68;
+}
+
+.ea-workflow :is(button, [role="tabpanel"]):focus-visible {
+  outline: 2px solid #1d628c;
+  outline-offset: 4px;
+}
+
+@media (max-width: 900px) {
+  .ea-workflow { grid-template-columns: minmax(0, 1fr); gap: clamp(0.7rem, 2vw, 1.15rem); max-width: 39rem; }
+  .ea-workflow-track { height: 25.5rem; }
+}
+
+@media (max-width: 479px) {
+  .ea-workflow-track { height: 25rem; margin-inline: 0.23rem; }
+  .ea-workflow-node { width: 51%; }
+  .ea-workflow-node button {
+    grid-template-columns: auto minmax(0, 1fr);
+    gap: 0.4rem;
+    padding: 0.75rem 0.55rem;
+    font-size: 0.8rem;
+    text-wrap: wrap;
+    overflow-wrap: anywhere;
+  }
+  .ea-workflow-node button > .ea-workflow-icon { width: 1.55rem; }
+  .ea-workflow-node button > .ea-workflow-icon svg { width: 0.86rem; height: 0.86rem; }
+  .ea-workflow-indicator { position: absolute; top: 0.38rem; right: 0.38rem; width: 0.3rem; height: 0.3rem; }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .ea-workflow :is(.ea-workflow-float, button, .ea-workflow-detail) { animation: none; transition: none; }
+  .ea-workflow-particle { display: none; }
+}
