@@ -5,7 +5,6 @@ import { PageTransition } from '../components/layout/PageTransition';
 import { SectionHeading } from '../components/common/SectionHeading';
 import { CTASection } from '../components/common/CTASection';
 import { ServicesCards } from '../components/common/ServicesCards';
-import { HeroInteractiveTabs } from '../components/common/HeroInteractiveTabs';
 import { RotatingText } from '../components/common/RotatingText';
 import { TechOrbitEcosystem } from '../components/common/TechOrbitEcosystem';
 import { AnimatedCounter } from '../components/common/AnimatedCounter';
@@ -39,14 +38,23 @@ export const HomePage: React.FC = () => {
 
   const leadPillars = homeData.whyPrakvi.pillars.slice(0, 2);
   const supportPillars = homeData.whyPrakvi.pillars.slice(2);
+  const introReveal = {
+    hidden: { opacity: 0, y: 22 },
+    visible: {
+      opacity: 1, y: 0,
+      transition: { duration: 0.55, ease: [0.22, 1, 0.36, 1] as const },
+    },
+  };
 
   return (
     <PageTransition>
       <div className="overflow-x-hidden selection:bg-accent selection:text-white">
         {/* 1. COMPACT INTERACTIVE TAB-BASED HERO WITH P-LOGO BACKGROUND VIDEO */}
-        <section className="hero-clay-canvas relative flex min-h-[76svh] w-full items-center overflow-hidden pt-24 pb-10 text-foreground lg:pt-26 lg:pb-12">
+        <section className="hero-clay-canvas relative flex min-h-[100svh] w-full items-center overflow-hidden pt-24 pb-10 text-foreground lg:pt-26 lg:pb-12">
           {/* Full-Bleed Animated P-Logo Background Video */}
-          <div className="pointer-events-none absolute inset-0 overflow-hidden" aria-hidden="true">
+          {/* Anchor the video to the viewport, not the expandable preview's height.
+              Opening a card must never resize or recrop the animated P. */}
+          <div className="pointer-events-none absolute inset-x-0 top-0 h-[100svh] overflow-hidden" aria-hidden="true">
             <video
               autoPlay={!reducedMotion}
               muted
@@ -109,8 +117,12 @@ export const HomePage: React.FC = () => {
                   {homeData.hero.description}
                 </p>
 
-                {/* Compact Interactive 4-Tab Explorer with Nested Subsection Reveals */}
-                <HeroInteractiveTabs />
+                <div className="pt-1">
+                  <Link to="/contact" className="btn-primary">
+                    <span>Schedule Consultation</span>
+                    <ArrowRight className="arrow-shift" aria-hidden="true" />
+                  </Link>
+                </div>
               </motion.div>
 
               {/* Right Column (5 cols): Framing Space for the Video's Animated 3D P Logo */}
@@ -126,42 +138,54 @@ export const HomePage: React.FC = () => {
         <section className="bg-canvas py-section">
           <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
             <div className="grid grid-cols-1 items-center gap-10 lg:grid-cols-12 lg:gap-12">
-              <div className="space-y-6 lg:col-span-6">
+              <motion.div
+                initial={reducedMotion ? false : 'hidden'}
+                whileInView="visible"
+                viewport={{ once: true, amount: 0.15 }}
+                variants={{ visible: { transition: { staggerChildren: reducedMotion ? 0 : 0.1 } } }}
+                className="space-y-6 lg:col-span-6"
+              >
+                <motion.div variants={reducedMotion ? undefined : introReveal}>
                 <SectionHeading
                   badge={homeData.intro.kicker}
                   title={homeData.intro.title}
                   highlightWord="Innovative Enterprise Solutions"
                 />
+                </motion.div>
 
-                <div className="space-y-4 text-base leading-relaxed text-muted">
+                <motion.div variants={reducedMotion ? undefined : introReveal} className="space-y-4 text-base leading-relaxed text-muted">
                   {homeData.intro.paragraphs.map((p, idx) => (
                     <p key={idx}>{p}</p>
                   ))}
-                </div>
+                </motion.div>
 
-                <div className="space-y-2.5 pt-1">
+                <motion.div
+                  variants={{ visible: { transition: { staggerChildren: reducedMotion ? 0 : 0.09 } } }}
+                  className="space-y-2.5 pt-1"
+                >
                   {homeData.intro.proofPoints.map((point) => (
-                    <div
+                    <motion.div
                       key={point}
-                      className="clay-soft flex items-center gap-3 px-4 py-3 text-sm font-medium text-foreground"
+                      variants={reducedMotion ? undefined : introReveal}
+                      className="intro-proof-point clay-soft flex items-center gap-3 px-4 py-3 text-sm font-medium text-foreground"
                     >
                       <CheckCircle2 className="h-4 w-4 shrink-0 text-accent" aria-hidden="true" />
                       <span>{point}</span>
-                    </div>
+                    </motion.div>
                   ))}
-                </div>
+                </motion.div>
 
-                <div className="pt-2">
+                <motion.div variants={reducedMotion ? undefined : introReveal} className="pt-2">
                   <Link to={homeData.intro.ctaPath} className="btn-blue">
                     <span>{homeData.intro.ctaText}</span>
                     <ArrowRight className="arrow-shift" aria-hidden="true" />
                   </Link>
-                </div>
-              </div>
+                </motion.div>
+              </motion.div>
 
               <motion.div
-                initial={reducedMotion ? false : { opacity: 0, y: 18 }}
-                whileInView={{ opacity: 1, y: 0 }}
+                initial={reducedMotion ? false : { opacity: 0, x: 28, scale: 0.97 }}
+                whileInView={{ opacity: 1, x: 0, scale: 1 }}
                 viewport={{ once: true, amount: 0.15 }}
                 transition={{ duration: reducedMotion ? 0 : 0.48, ease: [0.32, 0.72, 0, 1] }}
                 className="lg:col-span-6"

@@ -1,3 +1,4 @@
+import { sortCatalog, enterpriseServiceOrder, businessServiceOrder } from './catalogOrder';
 import { generatedImages } from '../assets/images';
 
 export interface HomeHeroData {
@@ -76,7 +77,7 @@ export const homeData = {
     image: generatedImages.introEnterpriseCampus,
   } as HomeIntroData,
 
-  featuredHomeServices: [
+  featuredHomeServices: sortCatalog([
     {
       id: 'digital-marketing',
       title: 'Digital Marketing',
@@ -125,7 +126,7 @@ export const homeData = {
       path: '/services/accounting',
       iconName: 'Receipt',
     },
-  ],
+  ], [...enterpriseServiceOrder, ...businessServiceOrder]),
 
   whyPrakvi: {
     kicker: 'Why Choose Prakvi?',

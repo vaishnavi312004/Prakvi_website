@@ -1,7 +1,8 @@
+import { sortCatalog, enterpriseServiceOrder, businessServiceOrder } from './catalogOrder';
 import { ServiceItem } from '../types';
 import { generatedImages } from '../assets/images';
 
-export const servicesData: ServiceItem[] = [
+const serviceCatalog: ServiceItem[] = [
   // 1. Staffing
   {
     id: 'staffing',
@@ -2242,3 +2243,5 @@ export const servicesData: ServiceItem[] = [
     featuredImage: generatedImages.serviceMobileDevices3d,
   },
 ];
+
+export const servicesData = sortCatalog(serviceCatalog, [...enterpriseServiceOrder, ...businessServiceOrder]);

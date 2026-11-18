@@ -4,6 +4,7 @@ import { AnimatePresence, motion, useReducedMotion } from 'motion/react';
 import { ArrowRight, ChevronRight, Search } from 'lucide-react';
 import { PrakviLogo } from '../common/PrakviLogo';
 import { PillNav, PillNavItem } from '../common/PillNav';
+import { MegaMenu } from './MegaMenu';
 import { NavigationTree } from './NavigationTree';
 import { ThemeSelector } from './ThemeSelector';
 import { ButtonLink } from '../ui/Button';
@@ -174,6 +175,10 @@ export const Header: React.FC = () => {
   const renderTreeDropdown = (sectionKey: NavSectionKey) => {
     const section = navigationTrees[sectionKey];
     const isOpen = activeDropdown === sectionKey;
+
+    if (sectionKey === 'what') {
+      return <MegaMenu isOpen={isOpen} onClose={() => setActiveDropdown(null)} />;
+    }
 
     return (
       <AnimatePresence>

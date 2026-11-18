@@ -65,10 +65,10 @@ export const MegaMenu: React.FC<MegaMenuProps> = ({ isOpen, onClose }) => {
           animate={{ opacity: 1, y: 0 }}
           exit={{ opacity: 0, y: -8 }}
           transition={{ duration: 0.18, ease: 'easeOut' }}
-          className="pointer-events-auto absolute top-full left-0 w-full z-50 px-3 sm:px-6 pt-3"
+          className="pointer-events-auto fixed top-20 left-0 w-full z-50 px-3 sm:px-6 pt-3"
           onMouseLeave={onClose}
         >
-          <div className="mx-auto max-w-[1380px] clay-card bg-card/94 backdrop-blur-2xl p-6 lg:p-8 shadow-2xl border border-line">
+          <div className="mx-auto max-w-[1720px] max-h-[calc(100dvh-7rem)] overflow-y-auto clay-card bg-card/94 backdrop-blur-2xl p-6 lg:p-8 shadow-2xl border border-line">
             <div className="grid grid-cols-1 lg:grid-cols-12 gap-8">
               {/* Column 1: Enterprise Solutions (13 Practices) */}
               <div className="lg:col-span-6 lg:pr-4">

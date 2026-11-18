@@ -198,20 +198,36 @@ export const RotatingText = forwardRef<RotatingTextRef, RotatingTextProps>(
 
     return (
       <motion.span
-        className={`inline-flex flex-wrap whitespace-pre-wrap relative align-baseline ${mainClassName}`}
+        className={`inline-grid max-w-full whitespace-pre-wrap relative align-baseline ${mainClassName}`}
         style={highlight ? { color: highlightColor } : undefined}
         onMouseEnter={() => pauseOnHover && setIsPaused(true)}
         onMouseLeave={() => pauseOnHover && setIsPaused(false)}
         transition={transition}
       >
+        {/* Keep every phrase in the same grid cell so the largest wrapped
+            phrase reserves space throughout the exit/enter animation. */}
+        {texts.map((text, index) => (
+          <span
+            key={`measure-${index}`}
+            aria-hidden="true"
+            className="invisible col-start-1 row-start-1 inline-flex flex-wrap pointer-events-none"
+          >
+            {text.split(' ').map((word, wordIndex, words) => (
+              <span key={wordIndex} className={`inline-flex ${splitLevelClassName}`}>
+                {word}
+                {wordIndex < words.length - 1 && <span className="whitespace-pre"> </span>}
+              </span>
+            ))}
+          </span>
+        ))}
         <span className="sr-only">{texts[currentTextIndex]}</span>
         <AnimatePresence mode="wait" initial={false}>
           <motion.span
             key={currentTextIndex}
             className={
               splitBy === 'lines'
-                ? 'flex flex-col w-full'
-                : 'inline-flex flex-wrap whitespace-pre-wrap relative'
+                ? 'col-start-1 row-start-1 flex flex-col w-full'
+                : 'col-start-1 row-start-1 inline-flex flex-wrap whitespace-pre-wrap relative'
             }
             aria-hidden="true"
           >

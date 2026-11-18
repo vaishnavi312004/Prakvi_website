@@ -1,3 +1,4 @@
+import { sortCatalog, enterpriseServiceOrder, businessServiceOrder, productOrder } from './catalogOrder';
 import { servicesData } from './servicesData';
 import { productsData } from './productsData';
 import { insightsData } from './insightsData';
@@ -105,7 +106,7 @@ export const navigationData = {
     },
   ] as SolutionLink[],
 
-  enterpriseSolutions: [
+  enterpriseSolutions: sortCatalog([
     {
       id: 'staffing',
       title: 'Staffing',
@@ -197,9 +198,9 @@ export const navigationData = {
       path: '/services/project-management',
       iconName: 'CheckSquare',
     },
-  ] as SolutionLink[],
+  ] as SolutionLink[], enterpriseServiceOrder),
 
-  businessSolutions: [
+  businessSolutions: sortCatalog([
     {
       id: 'web-design',
       title: 'Web Design',
@@ -228,15 +229,22 @@ export const navigationData = {
       path: '/services/mobile-app-development',
       iconName: 'Smartphone',
     },
-  ] as SolutionLink[],
+  ] as SolutionLink[], businessServiceOrder),
 
-  products: [
+  products: sortCatalog([
     {
       id: 'data-analytics',
       title: 'Data Analytics',
       description: 'Turn raw enterprise data into predictive, actionable insights',
       path: '/products/data-analytics',
       iconName: 'Database',
+    },
+    {
+      id: 'hr-management-system',
+      title: 'HR Management System',
+      description: 'Employee lifecycle automation',
+      path: '/products/hr-management-system',
+      iconName: 'Users',
     },
     {
       id: 'vendor-management',
@@ -252,7 +260,7 @@ export const navigationData = {
       path: '/products/relationship-management',
       iconName: 'Contact',
     },
-  ] as SolutionLink[],
+  ] as SolutionLink[], productOrder),
 
   headerCta: {
     label: "Let's Talk",

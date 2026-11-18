@@ -62,8 +62,8 @@ export const Footer: React.FC = () => (
           </h2>
           <ul className="space-y-2.5 text-sm text-muted">
             <li><Link to="/services/staffing" className="transition-colors hover:text-accent">Staffing Services</Link></li>
-            <li><Link to="/services/cloud-services" className="transition-colors hover:text-accent">Cloud Services</Link></li>
             <li><Link to="/services/business-intelligence" className="transition-colors hover:text-accent">Business Intelligence</Link></li>
+            <li><Link to="/services/cloud-services" className="transition-colors hover:text-accent">Cloud Services</Link></li>
             <li><Link to="/products/vendor-management" className="transition-colors hover:text-accent">Vendor Management System</Link></li>
             <li><a href={`mailto:${companyData.contact.primaryEmail}`} className="transition-colors hover:text-accent">Contact Support</a></li>
             <li><a href={`mailto:${companyData.contact.primaryEmail}?subject=Privacy%20inquiry`} className="transition-colors hover:text-accent">Privacy Inquiries</a></li>

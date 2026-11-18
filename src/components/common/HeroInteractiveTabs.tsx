@@ -15,6 +15,7 @@ import {
 } from 'lucide-react';
 import { servicesData } from '../../data/servicesData';
 import { productsData } from '../../data/productsData';
+import { navigationData, SolutionLink } from '../../data/navigationData';
 
 interface SubSolutionItem {
   id: string;
@@ -40,214 +41,32 @@ const findService = (slug: string) =>
 const findProduct = (slug: string) =>
   productsData.find((p) => p.slug === slug);
 
+const serviceSubsections = (items: SolutionLink[]): SubSolutionItem[] =>
+  items.map((item) => ({
+    id: item.id, label: item.title, title: item.title,
+    summary: findService(item.id)?.shortDesc || item.description,
+    highlight: item.description, path: item.path,
+  }));
+
 const HERO_DOMAIN_TABS: HeroDomainTab[] = [
   {
-    id: 'it-solutions',
-    label: 'IT Solutions',
-    caption: 'Cloud, Infra & Integration',
-    accentType: 'blue',
-    icon: Server,
-    subsections: [
-      {
-        id: 'cloud-services',
-        label: 'Cloud Services',
-        title: findService('cloud-services')?.title || 'Cloud Services',
-        summary:
-          findService('cloud-services')?.shortDesc ||
-          'Scalable cloud migration, hybrid architecture, and security governance.',
-        highlight: 'Multi-Cloud & Hybrid Ready',
-        path: '/services/cloud-services',
-      },
-      {
-        id: 'infrastructure-management',
-        label: 'Infrastructure',
-        title:
-          findService('infrastructure-management')?.title ||
-          'Infrastructure Management',
-        summary:
-          findService('infrastructure-management')?.shortDesc ||
-          'Proactive 24/7 monitoring, patch orchestration, and high-availability IT systems.',
-        highlight: '99.9% Uptime Reliability',
-        path: '/services/infrastructure-management',
-      },
-      {
-        id: 'system-integration',
-        label: 'System Integration',
-        title: findService('system-integration')?.title || 'System Integration',
-        summary:
-          findService('system-integration')?.shortDesc ||
-          'Unified enterprise software ecosystems and custom API integration pipelines.',
-        highlight: 'Unified ERP & APIs',
-        path: '/services/system-integration',
-      },
-      {
-        id: 'enterprise-architecture',
-        label: 'Architecture',
-        title:
-          findService('enterprise-architecture')?.title ||
-          'Enterprise Architecture',
-        summary:
-          findService('enterprise-architecture')?.shortDesc ||
-          'Strategic technology roadmaps and scalable architecture modernization.',
-        highlight: 'TOGAF-Aligned Blueprints',
-        path: '/services/enterprise-architecture',
-      },
-    ],
+    id: 'enterprise-solutions', label: 'Enterprise Solutions',
+    caption: '13 Enterprise Practices', accentType: 'blue', icon: Server,
+    subsections: serviceSubsections(navigationData.enterpriseSolutions),
   },
   {
-    id: 'workforce-consulting',
-    label: 'Workforce & Advisory',
-    caption: 'Staffing, Mobility & PMO',
-    accentType: 'cyan',
-    icon: Users,
-    subsections: [
-      {
-        id: 'staffing',
-        label: 'Staffing Services',
-        title: findService('staffing')?.title || 'Staffing',
-        summary:
-          findService('staffing')?.shortDesc ||
-          'Pre-vetted IT, engineering, and healthcare professionals for permanent and contract roles.',
-        highlight: 'Day-One Ready Talent',
-        path: '/services/staffing',
-      },
-      {
-        id: 'workforce-solution',
-        label: 'Workforce Solutions',
-        title: findService('workforce-solution')?.title || 'Workforce Solution',
-        summary:
-          findService('workforce-solution')?.shortDesc ||
-          'End-to-end workforce scaling, onboarding workflows, and compliance delivery.',
-        highlight: '7-Stage Delivery Model',
-        path: '/services/workforce-solution',
-      },
-      {
-        id: 'mobility-practice',
-        label: 'Mobility (BYOD/CYOD)',
-        title:
-          findService('mobility-practice')?.title ||
-          'Mobility Practice (BYOD & CYOD)',
-        summary:
-          findService('mobility-practice')?.shortDesc ||
-          'Custom BYOD & CYOD frameworks, MDM/EMM endpoint security, and enterprise mobile apps.',
-        highlight: 'Zero-Trust Endpoints',
-        path: '/services/mobility-practice',
-      },
-      {
-        id: 'it-consulting',
-        label: 'IT Consulting',
-        title: findService('it-consulting')?.title || 'IT Consulting',
-        summary:
-          findService('it-consulting')?.shortDesc ||
-          'Advisory on digital transformation, modernization, and technology governance.',
-        highlight: 'Delhi & Nashik Delivery',
-        path: '/services/it-consulting',
-      },
-    ],
+    id: 'business-solutions', label: 'Business Solutions',
+    caption: 'Design, Development & Marketing', accentType: 'cyan', icon: Briefcase,
+    subsections: serviceSubsections(navigationData.businessSolutions),
   },
   {
-    id: 'data-digital',
-    label: 'Data & Digital',
-    caption: 'BI, Analytics & Growth',
-    accentType: 'lavender',
-    icon: BarChart3,
-    subsections: [
-      {
-        id: 'business-intelligence',
-        label: 'Business Intelligence',
-        title:
-          findService('business-intelligence')?.title || 'Business Intelligence',
-        summary:
-          findService('business-intelligence')?.shortDesc ||
-          'Actionable executive intelligence via modern data warehouses and dashboards.',
-        highlight: 'Real-Time KPI Clarity',
-        path: '/services/business-intelligence',
-      },
-      {
-        id: 'business-analytics',
-        label: 'Business Analytics',
-        title: findService('business-analytics')?.title || 'Business Analytics',
-        summary:
-          findService('business-analytics')?.shortDesc ||
-          'Predictive modeling, operational telemetry, and decision support analytics.',
-        highlight: 'Forecasting & Insights',
-        path: '/services/business-analytics',
-      },
-      {
-        id: 'digital-marketing',
-        label: 'Digital Marketing',
-        title: findService('digital-marketing')?.title || 'Digital Marketing',
-        summary:
-          findService('digital-marketing')?.shortDesc ||
-          'SEO, SEM, B2B lead generation, and measurable omni-channel growth.',
-        highlight: 'Growth & Brand Reach',
-        path: '/services/digital-marketing',
-      },
-      {
-        id: 'mobile-app-development',
-        label: 'Web & Mobile Apps',
-        title:
-          findService('mobile-app-development')?.title ||
-          'Mobile App Development',
-        summary:
-          findService('mobile-app-development')?.shortDesc ||
-          'Native iOS, Android, and modern web applications engineered for scale.',
-        highlight: 'Cross-Platform Quality',
-        path: '/services/mobile-app-development',
-      },
-    ],
-  },
-  {
-    id: 'enterprise-platforms',
-    label: 'Platforms',
-    caption: 'Analytics, VMS & CRM',
-    accentType: 'orange',
-    icon: Layers,
-    subsections: [
-      {
-        id: 'data-analytics',
-        label: 'Data Analytics Suite',
-        title: findProduct('data-analytics')?.name || 'Data Analytics',
-        summary:
-          findProduct('data-analytics')?.shortDesc ||
-          'Enterprise data analytics suite turning raw operational records into predictive insights.',
-        highlight: 'BI & Predictive Engine',
-        path: '/products/data-analytics',
-      },
-      {
-        id: 'vendor-management',
-        label: 'Vendor Management',
-        title: findProduct('vendor-management')?.name || 'Vendor Management',
-        summary:
-          findProduct('vendor-management')?.shortDesc ||
-          'Centralize vendor onboarding, procurement approvals, SLAs, and contract lifecycles.',
-        highlight: 'Supplier Governance',
-        path: '/products/vendor-management',
-      },
-      {
-        id: 'relationship-management',
-        label: 'Relationship (CRM)',
-        title:
-          findProduct('relationship-management')?.name ||
-          'Relationship Management',
-        summary:
-          findProduct('relationship-management')?.shortDesc ||
-          'Unified 360-degree customer CRM, pipeline automation, and service workflows.',
-        highlight: '360° Customer Hub',
-        path: '/products/relationship-management',
-      },
-      {
-        id: 'enterprise-solution',
-        label: 'Enterprise Portals',
-        title:
-          findService('enterprise-solution')?.title || 'Enterprise Solution',
-        summary:
-          findService('enterprise-solution')?.shortDesc ||
-          'Large-scale integrated enterprise systems built for complex organizational workflows.',
-        highlight: 'Custom Core Systems',
-        path: '/services/enterprise-solution',
-      },
-    ],
+    id: 'products', label: 'Products',
+    caption: 'Analytics, HR, VMS & CRM', accentType: 'orange', icon: Layers,
+    subsections: navigationData.products.map((item) => ({
+      id: item.id, label: item.title, title: item.title,
+      summary: findProduct(item.id)?.shortDesc || item.description,
+      highlight: item.description, path: item.path,
+    })),
   },
 ];
 
@@ -314,7 +133,7 @@ export const HeroInteractiveTabs: React.FC = () => {
       <div
         role="tablist"
         aria-label="Explore Prakvi solution capabilities"
-        className="grid grid-cols-2 gap-2.5 sm:grid-cols-4"
+        className="grid grid-cols-1 gap-2.5 sm:grid-cols-3"
       >
         {HERO_DOMAIN_TABS.map((tab) => {
           const Icon = tab.icon;
@@ -370,8 +189,10 @@ export const HeroInteractiveTabs: React.FC = () => {
         })}
       </div>
 
-      {/* Smooth Animated Nested Reveal Panel (Hidden until a tab is interacted with) */}
-      <AnimatePresence initial={false}>
+      {/* A fixed preview slot keeps the hero and following sections stable.
+          Long service lists scroll inside the slot instead of growing the page. */}
+      <div className="relative h-[360px] sm:h-[320px] [overflow-anchor:none]">
+      <AnimatePresence mode="wait" initial={false}>
         {activeTab && activeSub && (
           <motion.div
             key={activeTab.id}
@@ -384,7 +205,8 @@ export const HeroInteractiveTabs: React.FC = () => {
                 ? { duration: 0 }
                 : { type: 'spring', stiffness: 380, damping: 30 }
             }
-            className="glass-panel relative overflow-hidden p-4 sm:p-5"
+            className="glass-panel absolute inset-0 overflow-y-auto overscroll-contain p-4 sm:p-5"
+            data-lenis-prevent
           >
             {/* Nested Subsection Selector Row + Close Control */}
             <div className="flex items-start justify-between gap-3 border-b border-line/80 pb-3">
@@ -471,7 +293,7 @@ export const HeroInteractiveTabs: React.FC = () => {
         )}
       </AnimatePresence>
 
-      {/* Quiet Compact Action Footer shown when drawer is collapsed */}
+      {/* Collapsed actions share the same reserved preview slot. */}
       {!activeTab && (
         <div className="flex flex-wrap items-center gap-3 pt-1">
           <Link to="/contact" className="btn-primary">
@@ -490,6 +312,7 @@ export const HeroInteractiveTabs: React.FC = () => {
           </span>
         </div>
       )}
+      </div>
     </div>
   );
 };

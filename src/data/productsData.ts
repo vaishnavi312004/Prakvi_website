@@ -105,6 +105,18 @@ export const productsData: ProductItem[] = [
     image: generatedImages.serviceBiAnalytics3d,
   },
   {
+    id: 'hr-management-system', slug: 'hr-management-system',
+    name: 'HR Management System', tagline: 'Simplify the Employee Lifecycle',
+    shortDesc: 'Centralize employee records, onboarding, attendance, leave, and HR workflows.',
+    fullDesc: 'Manage people operations in one workspace, from employee onboarding and records to attendance, leave requests, and payroll preparation. Structured approvals and reporting help HR teams coordinate everyday tasks.',
+    features: ['Employee directory and records', 'Onboarding and offboarding workflows', 'Attendance and leave management', 'Payroll input preparation', 'Employee self-service requests', 'HR reports and approval tracking'],
+    benefits: ['Reduce repetitive administration', 'Organize employee information', 'Track requests and approvals'],
+    useCases: ['Employee onboarding', 'Leave administration', 'Workforce reporting'],
+    architecturePoints: ['Role-based access', 'Central employee directory', 'Approval workflows'],
+    stats: [{ label: 'Focus', value: 'Employee Lifecycle' }, { label: 'Workflows', value: 'HR Operations' }],
+    iconName: 'Users', badge: 'Employee Lifecycle Automation', image: generatedImages.serviceStaffingTeam,
+  },
+  {
     id: 'vendor-management',
     slug: 'vendor-management',
     name: 'Vendor Management',
