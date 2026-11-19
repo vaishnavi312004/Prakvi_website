@@ -1,0 +1,242 @@
+.recognition-showcase { position: relative; isolation: isolate; }
+.recognition-showcase::before {
+  content: '';
+  position: absolute;
+  inset: 5% 0;
+  z-index: -1;
+  pointer-events: none;
+  background:
+    radial-gradient(ellipse at 20% 48%, #e6eafa99, transparent 61%),
+    radial-gradient(ellipse at 78% 51%, #fbede482, transparent 60%),
+    radial-gradient(ellipse at 57% 62%, #f8fbffd6, transparent 66%);
+  mask-image: linear-gradient(transparent, #000 22%, #000 77%, transparent);
+}
+.recognition-heading { max-width: 48rem; margin-inline: auto; text-align: center; }
+
+.recognition-navigation {
+  display: flex;
+  justify-content: flex-end;
+  align-items: center;
+  gap: 0.62rem;
+  margin: clamp(0.95rem, 2vw, 1.35rem) 0 0.72rem;
+}
+.recognition-nav-button {
+  display: grid;
+  place-items: center;
+  width: 2.75rem;
+  height: 2.75rem;
+  border: 1px solid #b8b9cc;
+  border-radius: 50%;
+  background: #fafbffcb;
+  color: #405674;
+  cursor: pointer;
+  transition: background 200ms ease, border-color 200ms ease;
+}
+.recognition-nav-button:hover { background: #fff; border-color: #869db9; }
+.recognition-nav-button svg { width: 1rem; height: 1rem; }
+.recognition-gallery-status { display: flex; align-items: center; gap: 0.18rem; }
+.recognition-progress-segment { display: grid; place-items: center; width: 1.8rem; height: 2.4rem; border-radius: 0.45rem; cursor: pointer; }
+.recognition-progress-segment > svg { display: none; }
+.recognition-progress-rail { position: relative; display: block; width: 74%; height: 4px; overflow: hidden; border-radius: 3px; background: #d6dce8; }
+.recognition-progress-segment:is(:hover, [aria-pressed='true']) .recognition-progress-rail { background: #bccce0; }
+.recognition-progress-rail i { position: absolute; inset: 0; transform-origin: left; border-radius: inherit; background: linear-gradient(90deg, #689bbb, #8278a7); }
+
+.recognition-gallery {
+  --recognition-row: clamp(17rem, calc(23rem - 6vw), 19rem);
+  display: grid;
+  grid-template-columns: repeat(12, minmax(0, 1fr));
+  grid-template-rows: repeat(2, var(--recognition-row)) 8.25rem;
+  grid-template-areas:
+    'featured featured featured featured featured first first first second second second second'
+    'featured featured featured featured featured third third third third fourth fourth fourth'
+    'featured featured featured featured featured fifth fifth fifth fifth fifth fifth fifth';
+  gap: clamp(0.7rem, 1.25vw, 1rem);
+}
+
+.recognition-tile {
+  --recognition-tint: #e5edf9;
+  --recognition-accent: #567ba4;
+  --recognition-period: 8.5s;
+  --recognition-phase: -1.4s;
+  min-width: 0;
+}
+.recognition-tile[data-achievement='industry-leader-award'] { --recognition-tint: #f6e8dd; --recognition-accent: #98805e; }
+.recognition-tile[data-achievement='five-star-client-rating'] { --recognition-tint: #f4e9ea; --recognition-accent: #98744f; }
+.recognition-tile[data-achievement='iso-certified'] { --recognition-tint: #e3eef9; --recognition-accent: #52799e; }
+.recognition-tile[data-achievement='global-reach'] { --recognition-tint: #ddeffc; --recognition-accent: #538abc; }
+.recognition-tile[data-achievement='innovation-award'] { --recognition-tint: #ece5f8; --recognition-accent: #7e72a7; }
+.recognition-tile[data-achievement='trusted-partner'] { --recognition-tint: #e7edf9; --recognition-accent: #626a9e; }
+.recognition-tile[data-slot='second'] { padding-top: 0.45rem; --recognition-period: 10s; --recognition-phase: -3.7s; }
+.recognition-tile[data-slot='third'] { padding-inline-start: 0.45rem; --recognition-period: 9.3s; --recognition-phase: -1.8s; }
+.recognition-tile[data-slot='fourth'] { --recognition-period: 11s; --recognition-phase: -5.8s; }
+.recognition-tile[data-slot='fifth'] { --recognition-period: 8s; --recognition-phase: -2.7s; }
+.recognition-tile[data-featured='true'] { --recognition-period: 10.4s; --recognition-phase: -2.1s; }
+
+.recognition-tile-surface {
+  position: relative;
+  isolation: isolate;
+  display: grid;
+  overflow: clip;
+  height: 100%;
+  border: 1px solid #fff;
+  border-radius: 1.05rem;
+  background: linear-gradient(147deg, #fffffff2, #ffffff2d 81%), var(--recognition-tint);
+  box-shadow: inset 0 1px #fff, 0 9px 24px -15px #415b7b7d;
+  transition: transform 270ms ease, background-color 430ms ease, border-color 240ms ease, box-shadow 260ms ease;
+}
+.recognition-tile[data-featured='true'] .recognition-tile-surface {
+  border-radius: 1.4rem;
+  border-color: color-mix(in srgb, var(--recognition-accent) 31%, #fff);
+  box-shadow: inset 0 1px #fff, 0 17px 35px -24px #435a8278;
+}
+.recognition-tile-content {
+  grid-area: 1 / 1;
+  min-width: 0;
+  min-height: 0;
+  display: grid;
+  grid-template: minmax(0, 1fr) auto / minmax(0, 1fr);
+  gap: 0.5rem;
+  padding: clamp(0.9rem, 1.65vw, 1.4rem);
+}
+.recognition-tile[data-featured='true'] .recognition-tile-content {
+  gap: clamp(0.8rem, 1.45vw, 1.2rem);
+  padding: clamp(1.2rem, 2.8vw, 2.25rem);
+}
+.recognition-tile[data-slot='fifth'] .recognition-tile-content {
+  grid-template: minmax(0, 1fr) / minmax(0, 1fr) minmax(6.2rem, 27%);
+  align-items: center;
+}
+.recognition-tile[data-slot='fifth'] .recognition-tile-copy { grid-area: 1 / 1; }
+.recognition-tile[data-slot='fifth'] .recognition-art { grid-area: 1 / 2; }
+
+.recognition-art {
+  position: relative;
+  isolation: isolate;
+  display: grid;
+  place-items: center;
+  min-width: 0;
+  min-height: 0;
+  height: 100%;
+  pointer-events: none;
+}
+.recognition-art::before {
+  content: '';
+  position: absolute;
+  z-index: -1;
+  inset: 0 2%;
+  background: radial-gradient(ellipse at 55% 49%, #fff 1%, color-mix(in srgb, var(--recognition-accent) 19%, #f3f8ff) 34%, transparent 70%);
+  opacity: 0.58;
+  animation: recognition-glow var(--recognition-period) var(--recognition-phase) ease-in-out infinite paused;
+}
+.recognition-art-object {
+  position: relative;
+  width: min(100%, 640px);
+  height: 100%;
+  min-height: 0;
+  filter: drop-shadow(0 4px 5px #627c9b39);
+  animation: recognition-drift var(--recognition-period) var(--recognition-phase) ease-in-out infinite paused;
+  transition: filter 300ms ease;
+}
+.recognition-art img {
+  position: absolute;
+  inset: 0;
+  display: block;
+  width: 100%;
+  height: 100%;
+  object-fit: contain;
+}
+.recognition-art-reflection {
+  position: absolute;
+  inset: 0;
+  overflow: hidden;
+  mask: var(--recognition-artwork) center / contain no-repeat;
+  display: none;
+}
+.recognition-tile-content:is([data-achievement='industry-leader-award'], [data-achievement='iso-certified'], [data-achievement='innovation-award']) .recognition-art-reflection {
+  display: block;
+}
+.recognition-art-reflection::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(115deg, transparent 38%, #fff9 48%, #edf9ffb5 50%, transparent 63%);
+  animation: recognition-reflection 9.5s var(--recognition-phase) ease-in-out infinite paused;
+}
+.recognition-gallery[data-moving='true'] .recognition-art-object,
+.recognition-gallery[data-moving='true'] .recognition-art::before,
+.recognition-gallery[data-moving='true'] .recognition-art-reflection::before { animation-play-state: running; }
+@keyframes recognition-drift { 0%, 100% { transform: translateY(2px); } 50% { transform: translateY(-3px); } }
+@keyframes recognition-glow { 0%, 100% { opacity: 0.48; transform: scale(0.99); } 50% { opacity: 0.75; transform: scale(1.04); } }
+@keyframes recognition-reflection {
+  0%, 24% { transform: translateX(-95%); opacity: 0; }
+  36% { opacity: 0.45; }
+  50%, 100% { transform: translateX(95%); opacity: 0; }
+}
+@media (hover: hover) {
+  .recognition-tile-surface:hover {
+    transform: translateY(-3px);
+    border-color: color-mix(in srgb, var(--recognition-accent) 43%, #fff);
+    box-shadow: inset 0 1px #fff, 0 14px 28px -18px #46638c91;
+  }
+  .recognition-tile-surface:hover .recognition-art-object {
+    filter: drop-shadow(0 4px 8px color-mix(in srgb, var(--recognition-accent) 44%, transparent));
+  }
+}
+
+.recognition-tile h3 { color: #223951; font: 800 clamp(1rem, 1.7vw, 1.18rem)/1.17 var(--font-display); overflow-wrap: anywhere; }
+.recognition-tile p { margin-top: 0.36rem; color: #405671; font-size: 0.9rem; line-height: 1.45; overflow-wrap: anywhere; }
+.recognition-tile[data-featured='true'] h3 { font-size: clamp(1.58rem, 3vw, 2.7rem); }
+.recognition-tile[data-featured='true'] p { max-width: 23rem; font-size: 1rem; }
+.recognition-tile-select { position: absolute; inset: 0; border-radius: inherit; cursor: pointer; }
+.recognition-tile .recognition-tile-select:focus-visible { outline-offset: -4px; }
+
+@media (max-width: 1000px) {
+  .recognition-gallery {
+    --recognition-row: clamp(16.2rem, calc(24rem - 10vw), 18.5rem);
+    grid-template-columns: repeat(6, minmax(0, 1fr));
+    grid-template-rows: 15rem repeat(2, var(--recognition-row)) 8.25rem;
+    grid-template-areas:
+      'featured featured featured featured featured featured'
+      'first first first second second second'
+      'third third third third fourth fourth'
+      'fifth fifth fifth fifth fifth fifth';
+  }
+  .recognition-tile[data-featured='true'] .recognition-tile-content {
+    grid-template: minmax(0, 1fr) / minmax(0, 1.16fr) minmax(0, 1fr);
+    align-items: center;
+  }
+  .recognition-tile[data-featured='true'] .recognition-tile-copy { grid-area: 1 / 1; }
+  .recognition-tile[data-featured='true'] .recognition-art { grid-area: 1 / 2; }
+}
+@media (max-width: 620px) {
+  .recognition-showcase > .about-inner { display: flex; flex-direction: column; }
+  .recognition-navigation { justify-content: center; gap: 0.33rem; margin-bottom: 0.8rem; }
+  .recognition-nav-button { width: 2.1rem; height: 2.1rem; flex: none; }
+  .recognition-gallery-status { gap: 0.12rem; }
+  .recognition-progress-segment { width: clamp(1.55rem, 7vw, 2.55rem); height: 2.35rem; align-content: center; gap: 0.24rem; background: #f8fbffe0; color: #475e7d; border: 1px solid #fff; }
+  .recognition-progress-segment[aria-pressed='true'] { border-color: #a1b5cd; background: #fff; }
+  .recognition-progress-segment > svg { display: block; width: 0.8rem; height: 0.8rem; }
+  .recognition-progress-rail { height: 2px; }
+}
+@media (max-width: 540px) {
+  .recognition-gallery {
+    grid-template-columns: minmax(0, 1fr);
+    grid-template-rows: minmax(20rem, auto) repeat(5, minmax(8.35rem, auto));
+    grid-template-areas: 'featured' 'first' 'second' 'third' 'fourth' 'fifth';
+  }
+  .recognition-tile:is([data-slot='second'], [data-slot='third']) { padding: 0; }
+  .recognition-tile[data-featured='true'] .recognition-tile-content { grid-template: minmax(9rem, 1fr) auto / minmax(0, 1fr); }
+  .recognition-tile[data-featured='true'] .recognition-tile-copy { grid-area: 2 / 1; }
+  .recognition-tile[data-featured='true'] .recognition-art { grid-area: 1 / 1; }
+  .recognition-tile[data-featured='false'] .recognition-tile-content {
+    grid-template: auto / minmax(0, 1fr) minmax(4.1rem, 28%);
+    align-items: center;
+    column-gap: 0.45rem;
+  }
+  .recognition-tile[data-featured='false'] .recognition-tile-copy { grid-area: 1 / 1; }
+  .recognition-tile[data-featured='false'] .recognition-art { grid-area: 1 / 2; min-height: 4.5rem; }
+}
+@media (prefers-reduced-motion: reduce) {
+  .recognition-tile-surface:hover { transform: none; }
+}
+

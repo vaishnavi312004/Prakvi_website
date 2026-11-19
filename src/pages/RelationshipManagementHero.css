@@ -1,0 +1,39 @@
+.relationship-hero {
+  --service-hero-start: 40%;
+  --relationship-hero-tail: linear-gradient(to bottom, transparent 87%, color-mix(in srgb, var(--theme-canvas) 45%, transparent) 95%, var(--theme-canvas));
+  --relationship-hero-lower-edge: linear-gradient(to bottom, #000 88%, #000e 93%, #0008 97%, transparent);
+  --service-hero-fade:
+    linear-gradient(to right, transparent 7%, #0001 12%, #0004 17%, #0009 22%, #000d 27%, #000 33%),
+    var(--relationship-hero-lower-edge);
+  --service-hero-mobile-fade: var(--relationship-hero-lower-edge);
+  display: flex;
+  align-items: center;
+  min-height: clamp(36rem, 37vw, 46rem);
+  background:
+    var(--relationship-hero-tail),
+    radial-gradient(ellipse 66% 81% at 13% 85%, #f8d8e5b3, transparent 83%),
+    radial-gradient(ellipse 53% 70% at 49% 103%, #f5b6ad8c, transparent 84%),
+    radial-gradient(ellipse 53% 59% at 97% 4%, #ffe0adb3, transparent 78%),
+    linear-gradient(111deg, #f8f5ff 4%, #eee5f7 28%, #dbdff4 53%, #c7e9fa 79%, #d9d1ee);
+}
+
+.relationship-hero-content { width: 100%; }
+.relationship-hero-copy { width: min(43%, 34rem); }
+.relationship-hero-copy .text-accent { color: #365180; }
+.relationship-hero-copy .text-muted { color: #354866; }
+.relationship-hero .service-hero-frame { mask-composite: intersect; }
+
+@media (max-width: 1023px) {
+  .relationship-hero {
+    display: block;
+    min-height: 0;
+    padding-bottom: 0;
+    background:
+      var(--relationship-hero-tail),
+      radial-gradient(ellipse 91% 49% at 0% 44%, #f8d8e5a8, transparent 83%),
+      radial-gradient(ellipse 83% 47% at 100% 83%, #f5b6ad66, transparent 77%),
+      linear-gradient(158deg, #f8f5ff 1%, #eee7f7 44%, #dcdcf5 67%, #c7e9fa 89%, #ded6f3);
+  }
+
+  .relationship-hero-copy { width: 100%; max-width: 40rem; }
+}

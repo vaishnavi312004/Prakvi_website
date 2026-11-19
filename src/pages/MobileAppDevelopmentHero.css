@@ -1,0 +1,35 @@
+.mobile-app-hero {
+  --service-hero-start: 40%;
+  --service-hero-fade: linear-gradient(to right, transparent 7%, #0001 12%, #0004 17%, #0009 23%, #000d 28%, black 35%);
+  --service-hero-mobile-fade: linear-gradient(to right, transparent, #0007 4%, black 14%);
+  display: flex;
+  align-items: center;
+  min-height: clamp(36rem, 37vw, 46rem);
+  background:
+    radial-gradient(ellipse 56% 71% at 92% 34%, #377aa454, transparent 84%),
+    radial-gradient(ellipse 58% 92% at 79% 107%, #6356aa86, transparent 86%),
+    radial-gradient(ellipse 60% 71% at 2% 107%, #483a7e66, transparent 84%),
+    linear-gradient(107deg, #192b48 6%, #203851 37%, #28476a 64%, #254d8b 100%);
+}
+
+.mobile-app-hero-content { width: 100%; }
+.mobile-app-hero-copy { width: min(43%, 34rem); }
+.mobile-app-hero-copy .text-foreground { color: #f5f8ff; }
+.mobile-app-hero-copy .text-muted { color: #dfebfb; }
+.mobile-app-hero-copy .text-accent { color: #aee9ff; }
+.mobile-app-hero nav .text-muted { color: #cadbf1; }
+.mobile-app-hero nav :is(a:hover, [aria-current='page']) { color: #aee9ff; }
+
+@media (max-width: 1023px) {
+  .mobile-app-hero {
+    display: block;
+    min-height: 0;
+    padding-bottom: 0;
+    background:
+      radial-gradient(ellipse 100% 53% at 100% 87%, #387dad72, transparent 82%),
+      radial-gradient(ellipse 85% 44% at 14% 110%, #6253ad8c, transparent 87%),
+      linear-gradient(151deg, #192b48 12%, #233e62 63%, #254d8b 100%);
+  }
+
+  .mobile-app-hero-copy { width: 100%; max-width: 40rem; }
+}

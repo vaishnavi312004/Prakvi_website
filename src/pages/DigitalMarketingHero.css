@@ -1,0 +1,39 @@
+.digital-marketing-hero {
+  --service-hero-start: 45%;
+  --digital-hero-tail: linear-gradient(to bottom, transparent 86%, color-mix(in srgb, var(--theme-canvas) 45%, transparent) 96%, var(--theme-canvas));
+  --digital-media-tail: linear-gradient(to bottom, black 89%, #000c 94%, #0007 97%, transparent);
+  --service-hero-fade:
+    linear-gradient(to right, transparent 5%, #0001 10%, #0004 16%, #0009 22%, #000d 27%, black 33%),
+    var(--digital-media-tail);
+  --service-hero-mobile-fade: var(--digital-media-tail);
+  display: flex;
+  align-items: center;
+  min-height: clamp(36rem, 37vw, 46rem);
+  background:
+    var(--digital-hero-tail),
+    radial-gradient(ellipse 61% 72% at 84% 38%, #a9e7f460, transparent 85%),
+    radial-gradient(ellipse 56% 67% at 77% 95%, #bba9ed82, transparent 81%),
+    radial-gradient(ellipse 49% 63% at 28% 100%, #e9c5ea75, transparent 86%),
+    linear-gradient(111deg, #f0f8fd 2%, #e6f1fa 28%, #dbe8f9 57%, #c7d5f0 100%);
+}
+
+.digital-marketing-hero-content { width: 100%; }
+.digital-marketing-hero-copy { width: min(45%, 35rem); }
+.digital-marketing-hero-copy .text-accent { color: #2e5986; }
+.digital-marketing-hero-copy .text-muted { color: #344968; }
+.digital-marketing-hero .service-hero-frame { mask-composite: intersect; }
+
+@media (max-width: 1023px) {
+  .digital-marketing-hero {
+    display: block;
+    min-height: 0;
+    padding-bottom: 0;
+    background:
+      var(--digital-hero-tail),
+      radial-gradient(ellipse 89% 49% at 98% 77%, #c8d5fa9c, transparent 84%),
+      radial-gradient(ellipse 97% 48% at 4% 81%, #e6ccf49c, transparent 86%),
+      linear-gradient(157deg, #f0f8fd 4%, #e7f2fa 45%, #deecfa 66%, #cedff3 88%, #d8cff4);
+  }
+
+  .digital-marketing-hero-copy { width: 100%; max-width: 40rem; }
+}
