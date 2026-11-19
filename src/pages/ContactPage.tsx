@@ -96,7 +96,12 @@ export const ContactPage: React.FC = () => {
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
           <Breadcrumbs items={[{ label: 'Contact Us' }]} />
 
-          <div className="mt-8 max-w-3xl">
+          <motion.div
+            className="mt-8 max-w-3xl"
+            initial={reducedMotion ? false : { opacity: 0, y: 18 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: reducedMotion ? 0 : 0.55, ease: [0.22, 1, 0.36, 1] }}
+          >
             <div className="mb-3 text-xs font-mono font-bold uppercase tracking-[0.2em] text-accent-text">
               {contactData.kicker}
             </div>
@@ -108,18 +113,24 @@ export const ContactPage: React.FC = () => {
             <p className="mt-5 text-base sm:text-lg text-muted leading-relaxed">
               {contactData.subtitle}
             </p>
-          </div>
+          </motion.div>
         </div>
       </section>
 
       {/* 2. FORM & OFFICES */}
       <section className="py-section bg-canvas text-foreground">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-          <div className="grid grid-cols-1 lg:grid-cols-12 gap-10">
+          <div className="grid grid-cols-1 lg:grid-cols-12 items-start gap-8 lg:gap-10 xl:gap-12">
             {/* Left Column: Consultation Form (7 cols) */}
-            <div className="lg:col-span-7">
-              <div className="clay-card p-7 sm:p-10">
-                <div className="mb-7">
+            <motion.div
+              className="lg:col-span-7 min-w-0"
+              initial={reducedMotion ? false : { opacity: 0, y: 22 }}
+              whileInView={{ opacity: 1, y: 0 }}
+              viewport={{ once: true, amount: 0.12 }}
+              transition={{ duration: reducedMotion ? 0 : 0.55, ease: [0.22, 1, 0.36, 1] }}
+            >
+              <div className="clay-card p-6 sm:p-8 lg:p-9">
+                <div className="mb-7 sm:mb-8">
                   <div className="text-xs font-mono font-bold uppercase tracking-wider text-accent-text">
                     Start a Conversation
                   </div>
@@ -164,8 +175,8 @@ export const ContactPage: React.FC = () => {
                     </button>
                   </div>
                 ) : (
-                  <form onSubmit={handleSubmit} className="space-y-5">
-                    <div className="grid grid-cols-1 sm:grid-cols-2 gap-5">
+                  <form onSubmit={handleSubmit} className="space-y-6">
+                    <div className="grid grid-cols-1 sm:grid-cols-2 gap-5 sm:gap-6">
                       <Input
                         label="Full Name *"
                         type="text"
@@ -185,7 +196,7 @@ export const ContactPage: React.FC = () => {
                       />
                     </div>
 
-                    <div className="grid grid-cols-1 sm:grid-cols-2 gap-5">
+                    <div className="grid grid-cols-1 sm:grid-cols-2 gap-5 sm:gap-6">
                       <Input
                         label="Company / Organization *"
                         type="text"
@@ -205,28 +216,8 @@ export const ContactPage: React.FC = () => {
                     </div>
 
                     <div>
-                      <label htmlFor="contact-service" className="field-label">
-                        Service or Product of Interest
-                      </label>
-                      <select
-                        id="contact-service"
-                        value={formData.serviceInterestedIn}
-                        onChange={(e) =>
-                          setFormData({ ...formData, serviceInterestedIn: e.target.value })
-                        }
-                        className="field"
-                      >
-                        {contactData.serviceTopics.map((topic) => (
-                          <option key={topic.id} value={topic.label}>
-                            {topic.label}
-                          </option>
-                        ))}
-                      </select>
-                    </div>
-
-                    <div>
                       <label htmlFor="contact-message" className="field-label">
-                        Project Requirements or Inquiry *
+                        Message *
                       </label>
                       <textarea
                         id="contact-message"
@@ -276,10 +267,16 @@ export const ContactPage: React.FC = () => {
                   </form>
                 )}
               </div>
-            </div>
+            </motion.div>
 
             {/* Right Column: Delhi & Nashik Office Switcher (5 cols) */}
-            <div className="lg:col-span-5 space-y-6">
+            <motion.div
+              className="lg:col-span-5 min-w-0 space-y-6 lg:sticky lg:top-24"
+              initial={reducedMotion ? false : { opacity: 0, y: 22 }}
+              whileInView={{ opacity: 1, y: 0 }}
+              viewport={{ once: true, amount: 0.12 }}
+              transition={{ duration: reducedMotion ? 0 : 0.6, delay: reducedMotion ? 0 : 0.08, ease: [0.22, 1, 0.36, 1] }}
+            >
               <div>
                 <div className="text-xs font-mono font-bold uppercase tracking-wider text-accent mb-2.5">
                   Our Offices
@@ -317,7 +314,7 @@ export const ContactPage: React.FC = () => {
                 </div>
               </div>
 
-              <div className="clay-card p-8 overflow-hidden">
+              <div className="clay-card p-6 sm:p-7 overflow-hidden">
                 <AnimatePresence mode="wait" initial={false}>
                   <motion.div
                     key={activeOffice.id}
@@ -399,7 +396,7 @@ export const ContactPage: React.FC = () => {
                   Reach out directly via phone at {companyData.contact.phone} or email {companyData.contact.primaryEmail} for staffing, consulting, or enterprise platform inquiries.
                 </p>
               </div>
-            </div>
+            </motion.div>
           </div>
         </div>
       </section>
