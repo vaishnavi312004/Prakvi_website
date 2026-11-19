@@ -1,9 +1,11 @@
 import React from 'react';
+import { ScrollRevealText } from './ScrollRevealText';
 import { motion, useReducedMotion } from 'motion/react';
 import { ArrowRight, CheckCircle2, MessageSquare } from 'lucide-react';
 import { ButtonLink } from '../ui/Button';
 
 interface CTASectionProps {
+  animateTitle?: boolean;
   title?: string;
   subtitle?: string;
   primaryButtonText?: string;
@@ -14,6 +16,7 @@ interface CTASectionProps {
 }
 
 export const CTASection: React.FC<CTASectionProps> = ({
+  animateTitle = false,
   title = "Let's Start Your Digital Transformation",
   subtitle = 'Get in touch with us today to discuss your project requirements and discover how we can help your business grow.',
   primaryButtonText = 'Schedule Consultation',
@@ -51,7 +54,7 @@ export const CTASection: React.FC<CTASectionProps> = ({
           Prakvi Techno Solutions
         </div>
         <h2 className="mx-auto max-w-4xl font-display text-3xl font-extrabold leading-tight text-foreground text-balance sm:text-4xl lg:text-5xl">
-          {title}
+          {animateTitle ? <ScrollRevealText text={title} /> : title}
         </h2>
         <p className="mx-auto mt-4 max-w-2xl text-base leading-relaxed text-muted sm:text-lg">
           {subtitle}

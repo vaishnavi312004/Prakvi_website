@@ -1,48 +1,30 @@
-import React, { useState } from 'react';
+import React from 'react';
 import { Link } from 'react-router-dom';
-import { AnimatePresence, motion, useReducedMotion } from 'motion/react';
+import { motion, useReducedMotion } from 'motion/react';
 import { PageTransition } from '../components/layout/PageTransition';
+import { AboutImageCollage } from '../components/common/AboutImageCollage';
+import { ScrollRevealText } from '../components/common/ScrollRevealText';
 import { SectionHeading } from '../components/common/SectionHeading';
 import { CTASection } from '../components/common/CTASection';
 import { ServicesCards } from '../components/common/ServicesCards';
+import { AnimatedWhyFeed } from '../components/common/AnimatedWhyFeed';
 import { RotatingText } from '../components/common/RotatingText';
 import { TechOrbitEcosystem } from '../components/common/TechOrbitEcosystem';
 import { AnimatedCounter } from '../components/common/AnimatedCounter';
 import { homeData } from '../data/homeData';
 import { statsData } from '../data/statsData';
-import { servicesData } from '../data/servicesData';
 import {
   ArrowRight,
-  Award,
   CheckCircle2,
-  Clock,
-  Layers,
-  ShieldCheck,
-  TrendingUp,
 } from 'lucide-react';
-
-const whyIconMap: Record<string, React.FC<{ className?: string }>> = {
-  Award,
-  CheckCircle2,
-  Clock,
-  TrendingUp,
-  ShieldCheck,
-  Layers,
-};
 
 export const HomePage: React.FC = () => {
   const reducedMotion = useReducedMotion();
-  const [activeServiceId, setActiveServiceId] = useState(servicesData[0].id);
-  const activeService =
-    servicesData.find((s) => s.id === activeServiceId) || servicesData[0];
-
-  const leadPillars = homeData.whyPrakvi.pillars.slice(0, 2);
-  const supportPillars = homeData.whyPrakvi.pillars.slice(2);
   const introReveal = {
-    hidden: { opacity: 0, y: 22 },
+    hidden: { opacity: 0, y: 16 },
     visible: {
       opacity: 1, y: 0,
-      transition: { duration: 0.55, ease: [0.22, 1, 0.36, 1] as const },
+      transition: { duration: 0.3, ease: [0.22, 1, 0.36, 1] as const },
     },
   };
 
@@ -88,7 +70,7 @@ export const HomePage: React.FC = () => {
                 </div>
 
                 <h1 className="font-display text-3xl font-extrabold leading-[1.1] tracking-tight text-foreground text-balance sm:text-5xl lg:text-[3.35rem]">
-                  {homeData.hero.headlinePrefix}{' '}
+                  <ScrollRevealText text={homeData.hero.headlinePrefix} />{' '}
                   <RotatingText
                     texts={[
                       homeData.hero.headlineHighlight,
@@ -99,7 +81,7 @@ export const HomePage: React.FC = () => {
                     effect="slide"
                     direction="up"
                     highlight
-                    highlightColor="#079CEB"
+                    highlightColor="var(--theme-accent)"
                     staggerFrom="last"
                     staggerDuration={0.025}
                     splitLevelClassName="overflow-hidden pb-0.5 sm:pb-1 md:pb-1"
@@ -110,7 +92,7 @@ export const HomePage: React.FC = () => {
                     loop
                     pauseOnHover={false}
                   />{' '}
-                  {homeData.hero.headlineSuffix}
+                  <ScrollRevealText text={homeData.hero.headlineSuffix} />
                 </h1>
 
                 <p className="max-w-xl text-sm leading-relaxed text-muted sm:text-base">
@@ -141,26 +123,28 @@ export const HomePage: React.FC = () => {
               <motion.div
                 initial={reducedMotion ? false : 'hidden'}
                 whileInView="visible"
-                viewport={{ once: true, amount: 0.15 }}
-                variants={{ visible: { transition: { staggerChildren: reducedMotion ? 0 : 0.1 } } }}
+                viewport={{ once: false, amount: 0.02 }}
+                variants={{ visible: { transition: { staggerChildren: reducedMotion ? 0 : 0.06 } } }}
                 className="space-y-6 lg:col-span-6"
               >
                 <motion.div variants={reducedMotion ? undefined : introReveal}>
                 <SectionHeading
+                  animate={false}
+                  animateWords
                   badge={homeData.intro.kicker}
                   title={homeData.intro.title}
                   highlightWord="Innovative Enterprise Solutions"
                 />
                 </motion.div>
 
-                <motion.div variants={reducedMotion ? undefined : introReveal} className="space-y-4 text-base leading-relaxed text-muted">
+                <motion.div variants={{ visible: { transition: { staggerChildren: reducedMotion ? 0 : 0.04 } } }} className="space-y-4 text-base leading-relaxed text-muted">
                   {homeData.intro.paragraphs.map((p, idx) => (
-                    <p key={idx}>{p}</p>
+                    <motion.p key={idx} variants={reducedMotion ? undefined : introReveal}>{p}</motion.p>
                   ))}
                 </motion.div>
 
                 <motion.div
-                  variants={{ visible: { transition: { staggerChildren: reducedMotion ? 0 : 0.09 } } }}
+                  variants={{ visible: { transition: { staggerChildren: reducedMotion ? 0 : 0.04 } } }}
                   className="space-y-2.5 pt-1"
                 >
                   {homeData.intro.proofPoints.map((point) => (
@@ -176,7 +160,7 @@ export const HomePage: React.FC = () => {
                 </motion.div>
 
                 <motion.div variants={reducedMotion ? undefined : introReveal} className="pt-2">
-                  <Link to={homeData.intro.ctaPath} className="btn-blue">
+                  <Link to={homeData.intro.ctaPath} className="btn-primary">
                     <span>{homeData.intro.ctaText}</span>
                     <ArrowRight className="arrow-shift" aria-hidden="true" />
                   </Link>
@@ -190,17 +174,7 @@ export const HomePage: React.FC = () => {
                 transition={{ duration: reducedMotion ? 0 : 0.48, ease: [0.32, 0.72, 0, 1] }}
                 className="lg:col-span-6"
               >
-                <div className="clay-card p-3 sm:p-4">
-                  <div className="overflow-hidden rounded-2xl">
-                    <img
-                      src={homeData.intro.image}
-                      alt="Prakvi Techno Solutions modern enterprise office campus"
-                      className="h-80 w-full object-cover sm:h-96"
-                      loading="lazy"
-                      referrerPolicy="no-referrer"
-                    />
-                  </div>
-                </div>
+                <AboutImageCollage />
               </motion.div>
             </div>
           </div>
@@ -210,151 +184,15 @@ export const HomePage: React.FC = () => {
         <ServicesCards />
 
         {/* 4. CIRCULAR ROTATIONAL TECHNOLOGY & SKILLS ORBITAL ECOSYSTEM */}
-        <TechOrbitEcosystem />
+        <TechOrbitEcosystem animateTitles />
 
-        {/* 5. INTERACTIVE DOMAIN CAPABILITIES PRACTICE EXPLORER */}
-        <section className="bg-section-alt/80 py-section">
-          <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
-            <div className="mb-10 flex flex-col justify-between gap-4 md:flex-row md:items-end">
-              <SectionHeading
-                badge="Practice Explorer"
-                title="Specialized Enterprise & Business Practices"
-                highlightWord="Enterprise & Business"
-                description="Explore our full-spectrum capabilities across staffing, mobility, BI, cloud engineering, analytics, and modern application delivery."
-              />
-              <Link
-                to="/services"
-                className="inline-flex shrink-0 items-center gap-1.5 text-sm font-bold text-accent-text transition-colors hover:text-highlight"
-              >
-                <span>View all {servicesData.length} practices</span>
-                <ArrowRight className="h-4 w-4" aria-hidden="true" />
-              </Link>
-            </div>
-
-            <div className="clay-card overflow-hidden">
-              {/* Practice Selector Tabs (iOS Segmented Control) */}
-              <div className="flex gap-1.5 overflow-x-auto border-b border-line bg-surface/80 p-2.5 sm:p-3">
-                {servicesData.slice(0, 8).map((service) => {
-                  const active = activeServiceId === service.id;
-                  return (
-                    <button
-                      key={service.id}
-                      type="button"
-                      onClick={() => setActiveServiceId(service.id)}
-                      className={`relative shrink-0 rounded-full px-4 py-2 text-xs font-semibold transition-colors active:scale-95 sm:text-sm ${
-                        active
-                          ? 'text-white'
-                          : 'text-muted hover:text-foreground'
-                      }`}
-                    >
-                      {active && (
-                        <motion.span
-                          layoutId="home-practice-pill"
-                          transition={
-                            reducedMotion
-                              ? { duration: 0 }
-                              : { type: 'spring', stiffness: 440, damping: 32 }
-                          }
-                          className="absolute inset-0 rounded-full bg-accent shadow-md shadow-accent/25"
-                          aria-hidden="true"
-                        />
-                      )}
-                      <span className="relative z-10">{service.title.split('(')[0].trim()}</span>
-                    </button>
-                  );
-                })}
-              </div>
-
-              {/* Active Practice Preview */}
-              <AnimatePresence mode="wait" initial={false}>
-                <motion.div
-                  key={activeService.id}
-                  initial={reducedMotion ? false : { opacity: 0, y: 10, scale: 0.99 }}
-                  animate={{ opacity: 1, y: 0, scale: 1 }}
-                  exit={reducedMotion ? { opacity: 0 } : { opacity: 0, y: -8, scale: 0.992 }}
-                  transition={{ duration: reducedMotion ? 0 : 0.24, ease: [0.32, 0.72, 0, 1] }}
-                  className="grid grid-cols-1 items-center gap-8 p-6 sm:p-10 lg:grid-cols-12 lg:p-12"
-                >
-                  <div className="space-y-5 lg:col-span-7">
-                    <div className="text-xs font-mono font-bold uppercase tracking-wider text-accent-text">
-                      {activeService.badge || 'Enterprise Practice'}
-                    </div>
-
-                    <h3 className="font-display text-2xl font-extrabold text-foreground sm:text-3xl">
-                      {activeService.title}
-                    </h3>
-
-                    <p className="text-sm leading-relaxed text-muted sm:text-base">
-                      {activeService.fullDesc}
-                    </p>
-
-                    <div className="grid grid-cols-1 gap-3 pt-1 sm:grid-cols-2">
-                      {activeService.capabilities.slice(0, 4).map((cap, i) => (
-                        <div
-                          key={i}
-                          className="clay-soft flex items-start gap-2.5 p-4 text-xs text-foreground"
-                        >
-                          <CheckCircle2
-                            className="mt-0.5 h-4 w-4 shrink-0 text-accent"
-                            aria-hidden="true"
-                          />
-                          <div>
-                            <div className="font-bold text-foreground">{cap.title}</div>
-                            <div className="mt-0.5 line-clamp-2 text-muted">
-                              {cap.description}
-                            </div>
-                          </div>
-                        </div>
-                      ))}
-                    </div>
-
-                    <div className="flex flex-wrap items-center gap-4 pt-3">
-                      <Link to={`/services/${activeService.slug}`} className="btn-primary">
-                        <span>Explore {activeService.title.split('(')[0].trim()}</span>
-                        <ArrowRight className="arrow-shift" aria-hidden="true" />
-                      </Link>
-
-                      <Link
-                        to="/contact"
-                        className="text-sm font-semibold text-accent-text transition-colors hover:text-highlight"
-                      >
-                        Schedule consultation →
-                      </Link>
-                    </div>
-                  </div>
-
-                  <div className="lg:col-span-5">
-                    <div className="clay-soft p-3">
-                      <div className="group relative overflow-hidden rounded-2xl">
-                        <img
-                          src={activeService.featuredImage}
-                          alt={activeService.title}
-                          className="h-80 w-full object-cover transition-transform duration-700 group-hover:scale-105"
-                          loading="lazy"
-                          referrerPolicy="no-referrer"
-                        />
-                        <div className="border-t border-line bg-card/95 p-4">
-                          <div className="text-[11px] font-mono font-bold uppercase tracking-wider text-accent-text">
-                            Practice Focus
-                          </div>
-                          <div className="mt-0.5 font-display text-base font-bold text-foreground">
-                            {activeService.businessBenefits[0]?.title || activeService.tagline}
-                          </div>
-                        </div>
-                      </div>
-                    </div>
-                  </div>
-                </motion.div>
-              </AnimatePresence>
-            </div>
-          </div>
-        </section>
-
-        {/* 6. WHY CHOOSE PRAKVI — DISTINCT 2-TIER ASYMMETRIC CLAY ARCHITECTURE */}
+        {/* 6. WHY CHOOSE PRAKVI */}
         <section className="bg-canvas py-section">
           <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
             <div className="flex flex-col gap-6 md:flex-row md:items-end md:justify-between">
               <SectionHeading
+                animate={false}
+                animateWords
                 badge={homeData.whyPrakvi.kicker}
                 title={homeData.whyPrakvi.title}
                 highlightWord="Prakvi?"
@@ -365,84 +203,8 @@ export const HomePage: React.FC = () => {
                 <ArrowRight className="arrow-shift" aria-hidden="true" />
               </Link>
             </div>
-
-            {/* Tier 1: Flagship Dual Asymmetric Cards (7 / 5 split) */}
-            <div className="mt-12 grid grid-cols-1 gap-6 lg:grid-cols-12">
-              {leadPillars.map((pillar, idx) => {
-                const IconComp = whyIconMap[pillar.iconName] || Award;
-                const isFirst = idx === 0;
-                return (
-                  <motion.div
-                    key={pillar.id}
-                    initial={reducedMotion ? false : { opacity: 0, y: 18 }}
-                    whileInView={{ opacity: 1, y: 0 }}
-                    viewport={{ once: true, amount: 0.15 }}
-                    transition={{ duration: 0.48, delay: idx * 0.08 }}
-                    className={`${
-                      isFirst ? 'lg:col-span-7 clay-pastel' : 'lg:col-span-5 clay-pastel-orange'
-                    } clay-card-interactive flex flex-col justify-between p-7 sm:p-8`}
-                  >
-                    <div>
-                      <div className="flex items-center justify-between gap-4">
-                        <div
-                          className={`${
-                            isFirst ? 'clay-icon-box' : 'clay-icon-orange'
-                          } flex h-12 w-12 items-center justify-center`}
-                        >
-                          <IconComp className="h-6 w-6" aria-hidden="true" />
-                        </div>
-                        <span
-                          className={`font-mono text-xs font-bold ${
-                            isFirst ? 'text-accent-text' : 'text-orange-text'
-                          }`}
-                        >
-                          0{idx + 1}
-                        </span>
-                      </div>
-                      <h3 className="mt-6 font-display text-xl font-extrabold text-foreground sm:text-2xl">
-                        {pillar.title}
-                      </h3>
-                      <p className="mt-3 text-sm leading-relaxed text-muted sm:text-base">
-                        {pillar.description}
-                      </p>
-                    </div>
-                  </motion.div>
-                );
-              })}
-            </div>
-
-            {/* Tier 2: 4 Supporting Precision Clay Tiles */}
-            <div className="mt-6 grid grid-cols-1 gap-5 sm:grid-cols-2 lg:grid-cols-4">
-              {supportPillars.map((pillar, idx) => {
-                const IconComp = whyIconMap[pillar.iconName] || Award;
-                return (
-                  <motion.div
-                    key={pillar.id}
-                    initial={reducedMotion ? false : { opacity: 0, y: 16 }}
-                    whileInView={{ opacity: 1, y: 0 }}
-                    viewport={{ once: true, amount: 0.15 }}
-                    transition={{ duration: 0.45, delay: 0.12 + idx * 0.06 }}
-                    className="clay-card clay-card-interactive flex flex-col justify-between p-6"
-                  >
-                    <div>
-                      <div className="mb-4 flex items-center justify-between">
-                        <div className="clay-icon-box flex h-10 w-10 items-center justify-center rounded-xl">
-                          <IconComp className="h-5 w-5" aria-hidden="true" />
-                        </div>
-                        <span className="font-mono text-[11px] font-bold text-subtle">
-                          0{idx + 3}
-                        </span>
-                      </div>
-                      <h3 className="font-display text-base font-bold text-foreground">
-                        {pillar.title}
-                      </h3>
-                      <p className="mt-2 text-xs leading-relaxed text-muted sm:text-sm">
-                        {pillar.description}
-                      </p>
-                    </div>
-                  </motion.div>
-                );
-              })}
+            <div className="mt-10">
+              <AnimatedWhyFeed />
             </div>
           </div>
         </section>
@@ -494,7 +256,7 @@ export const HomePage: React.FC = () => {
                 </div>
 
                 <h2 className="font-display text-3xl font-extrabold leading-tight tracking-tight text-foreground text-balance sm:text-4xl">
-                  {homeData.careersPreview.title}
+                  <ScrollRevealText text={homeData.careersPreview.title} />
                 </h2>
 
                 <p className="text-base leading-relaxed text-muted">
@@ -529,7 +291,7 @@ export const HomePage: React.FC = () => {
         </section>
 
         {/* 9. CONSULTATION CTA */}
-        <CTASection />
+        <CTASection animateTitle />
       </div>
     </PageTransition>
   );

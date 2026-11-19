@@ -1,4 +1,5 @@
 import React from 'react';
+import { ScrollRevealText } from './ScrollRevealText';
 import { motion, useReducedMotion } from 'motion/react';
 
 interface SectionHeadingProps {
@@ -10,6 +11,8 @@ interface SectionHeadingProps {
   /** Retained for backwards compatibility across page callers */
   theme?: 'dark' | 'light';
   className?: string;
+  animate?: boolean;
+  animateWords?: boolean;
 }
 
 export const SectionHeading: React.FC<SectionHeadingProps> = ({
@@ -19,6 +22,8 @@ export const SectionHeading: React.FC<SectionHeadingProps> = ({
   description,
   align = 'left',
   className = '',
+  animate = true,
+  animateWords = false,
 }) => {
   const reducedMotion = useReducedMotion();
 
@@ -40,10 +45,10 @@ export const SectionHeading: React.FC<SectionHeadingProps> = ({
 
   return (
     <motion.div
-      initial={reducedMotion ? false : { opacity: 0, y: 14 }}
+      initial={reducedMotion || !animate ? false : { opacity: 0, y: 14 }}
       whileInView={{ opacity: 1, y: 0 }}
       viewport={{ once: true, amount: 0.25 }}
-      transition={{ duration: reducedMotion ? 0 : 0.42, ease: [0.32, 0.72, 0, 1] }}
+      transition={{ duration: reducedMotion || !animate ? 0 : 0.42, ease: [0.32, 0.72, 0, 1] }}
       className={`max-w-3xl ${
         align === 'center' ? 'text-center mx-auto' : 'text-left'
       } ${className}`}
@@ -54,7 +59,7 @@ export const SectionHeading: React.FC<SectionHeadingProps> = ({
         </div>
       )}
       <h2 className="font-display text-2xl sm:text-3xl lg:text-4xl font-extrabold leading-tight text-foreground text-balance">
-        {renderTitle()}
+        {animateWords ? <ScrollRevealText text={title} highlight={highlightWord} /> : renderTitle()}
       </h2>
       {description && (
         <p className="mt-4 text-base sm:text-lg leading-relaxed text-muted">

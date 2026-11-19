@@ -164,77 +164,6 @@ export const Header: React.FC = () => {
     ? '/careers'
     : '/';
 
-  const closeDropdownAndReturnFocus = (sectionKey: NavSectionKey) => {
-    setActiveDropdown(null);
-    setFocusFirstNode(false);
-    requestAnimationFrame(() => {
-      document.getElementById(`nav-trigger-${sectionKey}`)?.focus();
-    });
-  };
-
-  const renderTreeDropdown = (sectionKey: NavSectionKey) => {
-    const section = navigationTrees[sectionKey];
-    const isOpen = activeDropdown === sectionKey;
-
-    if (sectionKey === 'what') {
-      return <MegaMenu isOpen={isOpen} onClose={() => setActiveDropdown(null)} />;
-    }
-
-    return (
-      <AnimatePresence>
-        {isOpen && (
-          <motion.div
-            key={`dropdown-${sectionKey}`}
-            initial={reducedMotion ? false : { opacity: 0, y: -8, scale: 0.94 }}
-            animate={{ opacity: 1, y: 0, scale: 1 }}
-            exit={reducedMotion ? undefined : { opacity: 0, y: -6, scale: 0.96 }}
-            transition={
-              reducedMotion
-                ? { duration: 0 }
-                : { type: 'spring', stiffness: 440, damping: 32, mass: 0.8 }
-            }
-            onPointerDown={(e) => e.stopPropagation()}
-            className="pointer-events-auto absolute left-0 top-full z-50 pt-3 w-[min(410px,calc(100vw-2rem))] origin-top-left"
-          >
-            <div
-              data-lenis-prevent
-              role="region"
-              aria-label={`${section.label} navigation tree`}
-              className="clay-card bg-card/92 backdrop-blur-2xl border border-line rounded-2xl shadow-2xl overflow-hidden flex flex-col max-h-[55vh]"
-            >
-              <div className="px-3.5 py-2.5 border-b border-line flex items-center justify-between gap-3 shrink-0 bg-surface/45">
-                <span className="font-display text-xs font-bold tracking-tight text-foreground">
-                  {section.label}
-                </span>
-                <span className="font-mono text-[10px] font-medium text-muted">
-                  Expand to explore
-                </span>
-              </div>
-
-              <div
-                data-lenis-prevent
-                className="overflow-y-auto overscroll-contain p-2.5"
-              >
-                <NavigationTree
-                  key={sectionKey}
-                  nodes={section.nodes}
-                  treeLabel={section.label}
-                  variant="dropdown"
-                  autoFocusFirst={focusFirstNode}
-                  onNavigate={() => {
-                    setActiveDropdown(null);
-                    setFocusFirstNode(false);
-                  }}
-                  onEscape={() => closeDropdownAndReturnFocus(sectionKey)}
-                />
-              </div>
-            </div>
-          </motion.div>
-        )}
-      </AnimatePresence>
-    );
-  };
-
   const pillNavItems: PillNavItem[] = sectionOrder.map((key) => {
     const section = navigationTrees[key];
     const isOpen = activeDropdown === key;
@@ -262,7 +191,17 @@ export const Header: React.FC = () => {
           setFocusFirstNode(false);
         }
       },
-      dropdown: renderTreeDropdown(key),
+      dropdown: (
+        <MegaMenu
+          section={section}
+          isOpen={isOpen}
+          focusFirstLink={focusFirstNode}
+          onClose={() => {
+            setActiveDropdown(null);
+            setFocusFirstNode(false);
+          }}
+        />
+      ),
     };
   });
 

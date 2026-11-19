@@ -206,7 +206,7 @@ const ORBIT_TECHNOLOGIES: OrbitTechItem[] = [
   },
 ];
 
-export const TechOrbitEcosystem: React.FC = () => {
+export const TechOrbitEcosystem: React.FC<{ animateTitles?: boolean }> = ({ animateTitles = false }) => {
   const reducedMotion = useReducedMotion();
   const [selectedId, setSelectedId] = useState<string>(ORBIT_TECHNOLOGIES[0].id);
   const [innerPaused, setInnerPaused] = useState(false);
@@ -450,6 +450,8 @@ export const TechOrbitEcosystem: React.FC = () => {
           {/* RIGHT: Editorial Heading + Live Orbital Technology Inspector (5 cols) */}
           <div className="lg:col-span-5 space-y-6">
             <SectionHeading
+              animateWords={animateTitles}
+              animate={!animateTitles}
               badge="Technology & Skills Ecosystem"
               title="Connected Platforms, Cloud & Engineering Mastery"
             />
@@ -503,9 +505,7 @@ export const TechOrbitEcosystem: React.FC = () => {
                       <ArrowRight className="arrow-shift" aria-hidden="true" />
                     </Link>
 
-                    <span className="text-[11px] font-medium text-muted">
-                      Hover node to pause orbit
-                    </span>
+                  
                   </div>
                 </motion.div>
               </AnimatePresence>
