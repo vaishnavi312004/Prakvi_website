@@ -1,0 +1,25 @@
+.consultation-card {
+  box-shadow: 0 22px 48px -16px color-mix(in srgb, var(--theme-accent) 20%, transparent), inset 0 2px 4px #fffffff5;
+}
+
+.consultation-card--interactive:focus-within {
+  border-color: color-mix(in srgb, var(--theme-accent) 50%, transparent);
+  box-shadow: 0 26px 56px -16px color-mix(in srgb, var(--theme-accent) 34%, transparent), inset 0 2px 4px #fff;
+}
+
+@media (hover: hover) {
+  .consultation-card--interactive:hover {
+    border-color: color-mix(in srgb, var(--theme-accent) 50%, transparent);
+    box-shadow: 0 26px 56px -16px color-mix(in srgb, var(--theme-accent) 34%, transparent), inset 0 2px 4px #fff;
+  }
+}
+
+@media (hover: hover) and (prefers-reduced-motion: no-preference) {
+  .consultation-card--interactive {
+    transition: translate 260ms ease-out, border-color 260ms ease-out, box-shadow 260ms ease-out;
+  }
+
+  .consultation-card--interactive:hover {
+    translate: 0 -4px;
+  }
+}

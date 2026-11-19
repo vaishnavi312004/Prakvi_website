@@ -546,7 +546,9 @@
 
   .hero-clay-canvas {
     position: relative;
-    background: var(--hero-gradient);
+    background:
+      linear-gradient(to top, var(--theme-canvas), transparent clamp(2.5rem, 10vw, 7rem)),
+      var(--hero-gradient);
   }
 
   .enterprise-hero {
@@ -652,6 +654,15 @@
   .service-video-hero {
     background: var(--service-hero-gradient);
   }
+  .service-video-hero::after {
+    content: "";
+    position: absolute;
+    inset: auto 0 0;
+    height: clamp(2.5rem, 10vw, 7rem);
+    z-index: 1;
+    pointer-events: none;
+    background: linear-gradient(to top, var(--theme-canvas), transparent);
+  }
   .service-video-hero .enterprise-hero-copy { width: var(--service-hero-copy-width, 48%); }
   .service-hero-media {
     position: absolute;
@@ -720,7 +731,7 @@
   }
 
   .mobility-content {
-    background: linear-gradient(180deg, #e5f2fc 0%, #f0f7fd 30%, #e7f3fb 64%, #edf6fd 100%);
+    background: linear-gradient(180deg, var(--theme-canvas), #f0f7fd 30%, #e7f3fb 64%, var(--theme-canvas));
   }
 
   .mobility-content-atmosphere {
@@ -732,7 +743,6 @@
 
   .mobility-introduction {
     padding-block: clamp(2.5rem, 4vw, 3.5rem);
-    background: linear-gradient(115deg, rgba(210, 232, 251, 0.8), rgba(200, 238, 247, 0.55) 65%, transparent);
   }
 
   .mobility-section { padding-block: clamp(3rem, 5.5vw, 4.75rem); }
@@ -819,7 +829,7 @@
   }
 
   .scm-content {
-    background: linear-gradient(180deg, #e3f1fb 0%, #ebf5fc 25%, #dfeefa 55%, #e8f3fb 100%);
+    background: linear-gradient(180deg, var(--theme-canvas), #ebf5fc 25%, #dfeefa 55%, var(--theme-canvas));
   }
 
   .scm-content .mobility-content-atmosphere {
@@ -827,12 +837,6 @@
       radial-gradient(ellipse 50% 18% at 93% 19%, rgba(17, 164, 202, 0.14), transparent 80%),
       radial-gradient(ellipse 55% 22% at 0% 51%, rgba(27, 101, 169, 0.12), transparent 80%),
       radial-gradient(ellipse 48% 18% at 88% 79%, rgba(235, 158, 69, 0.14), transparent 80%);
-  }
-
-  .scm-content .mobility-introduction {
-    background:
-      radial-gradient(ellipse at 96% 100%, rgba(244, 181, 118, 0.15), transparent 54%),
-      linear-gradient(115deg, rgba(194, 223, 247, 0.84), rgba(189, 230, 243, 0.6) 68%, transparent);
   }
 
   .scm-content .mobility-service-card {
@@ -860,7 +864,7 @@
     --integration-blue: #008fe5;
     --integration-cyan: #22c5f3;
     --integration-orange: #ff914d;
-    background: linear-gradient(180deg, #dcefff 0%, #e9f5fd 26%, #dceefa 60%, #e8f5fd 100%);
+    background: linear-gradient(180deg, var(--theme-canvas), #e9f5fd 26%, #dceefa 60%, var(--theme-canvas));
     color: #142b49;
   }
   .integration-content .mobility-content-atmosphere {
@@ -868,11 +872,6 @@
       radial-gradient(ellipse 48% 20% at 93% 18%, rgba(34, 197, 243, 0.12), transparent 80%),
       radial-gradient(ellipse 55% 22% at 0% 52%, rgba(0, 143, 229, 0.1), transparent 80%),
       radial-gradient(ellipse 44% 18% at 92% 78%, rgba(255, 145, 77, 0.1), transparent 80%);
-  }
-  .integration-content .mobility-introduction {
-    background:
-      radial-gradient(ellipse at 97% 90%, rgba(255, 145, 77, 0.14), transparent 45%),
-      linear-gradient(110deg, rgba(196, 225, 249, 0.88), rgba(185, 233, 247, 0.64), rgba(202, 230, 249, 0.4));
   }
   .integration-intro-network { position: absolute; right: 1%; top: 8%; width: 27%; height: 84%; pointer-events: none; }
   .integration-content .mobility-service-card { background: linear-gradient(135deg, rgba(232, 247, 255, 0.92), rgba(196, 226, 248, 0.7)); border-color: rgba(34, 197, 243, 0.27); }
@@ -985,7 +984,7 @@
   @media (max-width: 1023px) {
     .project-hero .enterprise-hero-copy { width: 100%; max-width: 44rem; }
   }
-  .project-content { background: linear-gradient(180deg, #e4f1fb, #f0f6fb 29%, #e0effa 59%, #e4f4fc); }
+  .project-content { background: linear-gradient(180deg, var(--theme-canvas), #f0f6fb 29%, #e0effa 59%, var(--theme-canvas)); }
   .project-content .mobility-content-atmosphere {
     background:
       radial-gradient(ellipse 48% 18% at 94% 14%, rgba(247, 176, 99, 0.14), transparent 80%),
@@ -1120,17 +1119,6 @@
 
   .about-hero-edge-bottom {
     background: linear-gradient(to top, var(--theme-canvas) 0%, rgba(247, 250, 253, 0) 100%);
-  }
-
-  .metrics-panel {
-    padding: clamp(1.75rem, 4vw, 3rem);
-    border-radius: 1.75rem;
-    background: linear-gradient(145deg, #FFFFFF 0%, color-mix(in srgb, var(--theme-surface) 84%, #FFFFFF) 100%);
-    border: 1px solid var(--theme-border);
-    box-shadow:
-      0 18px 38px -14px var(--clay-shadow),
-      inset 0 2px 4px var(--clay-specular),
-      inset 0 -4px 10px var(--clay-inner-dark);
   }
 
   /* Header & Restrained Glassmorphism Capsule Navigation */

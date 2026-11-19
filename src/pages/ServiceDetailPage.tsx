@@ -192,7 +192,7 @@ export const ServiceDetailPage: React.FC = () => {
             services={service.capabilities}
           />
         ) : (
-        <section id="capabilities" className="py-section bg-section-alt">
+        <section id="capabilities" className="py-section bg-canvas">
           <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
             <SectionHeading
               badge="Capabilities"
@@ -331,7 +331,7 @@ export const ServiceDetailPage: React.FC = () => {
         {isEnterpriseArchitecturePage ? (
           <EnterpriseArchitectureJourney title={processTitle} description={processDescription} steps={service.deliverySteps} />
         ) : (
-        <section className={`py-section ${isMobilityPage ? 'bg-surface/75' : 'bg-canvas'}`}>
+        <section className="py-section bg-canvas">
           <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
             <SectionHeading
               badge="Our Process"
@@ -405,7 +405,7 @@ export const ServiceDetailPage: React.FC = () => {
         {isEnterpriseArchitecturePage ? (
           <ArchitectureCarousel title={service.stackTitle || service.title} description={service.stackSummary} categories={stackTabs} />
         ) : stackTabs.length > 0 && (
-          <section className="py-section bg-surface/65">
+          <section className="py-section bg-canvas">
             <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
               <SectionHeading
                 badge={isEnterpriseArchitecturePage ? undefined : 'Capabilities & Stack'}
@@ -532,7 +532,7 @@ export const ServiceDetailPage: React.FC = () => {
         </section>
 
         {/* 8. FAQ */}
-        <section className="py-section bg-section-alt">
+        <section className="py-section bg-canvas">
           <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8">
             <SectionHeading
               badge="Frequently Asked Questions"

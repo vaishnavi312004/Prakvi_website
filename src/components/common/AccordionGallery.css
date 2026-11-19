@@ -1,0 +1,125 @@
+.prakvi-accordion-gallery {
+  display: flex;
+  width: 100%;
+  min-width: 0;
+  height: clamp(360px, 42vw, 460px);
+  gap: var(--gallery-gap, 10px);
+}
+
+.prakvi-accordion-gallery__panel {
+  position: relative;
+  display: block;
+  min-width: 2.25rem;
+  overflow: hidden;
+  padding: 0;
+  border: 1px solid rgba(15, 23, 42, 0.12);
+  border-radius: var(--gallery-radius, 16px);
+  background: #dce5eb;
+  color: #fff;
+  cursor: pointer;
+  isolation: isolate;
+  text-align: left;
+  touch-action: pan-y;
+}
+
+.prakvi-accordion-gallery__panel:focus-visible {
+  outline: 3px solid var(--theme-accent, #00aeef);
+  outline-offset: 3px;
+  z-index: 1;
+}
+
+.prakvi-accordion-gallery__image {
+  position: absolute;
+  inset: -2%;
+  width: 104%;
+  height: 104%;
+  object-fit: cover;
+  transform: translate3d(var(--parallax-x, 0px), var(--parallax-y, 0px), 0) scale(1.08);
+  transition:
+    filter 650ms cubic-bezier(0.22, 1, 0.36, 1),
+    transform 650ms cubic-bezier(0.22, 1, 0.36, 1);
+}
+
+.prakvi-accordion-gallery__panel[data-grayscale='true'] .prakvi-accordion-gallery__image {
+  filter: grayscale(0.32);
+}
+
+.prakvi-accordion-gallery__panel.is-active .prakvi-accordion-gallery__image {
+  transform: translate3d(var(--parallax-x, 0px), var(--parallax-y, 0px), 0) scale(1.12);
+}
+
+.prakvi-accordion-gallery__panel.is-active[data-grayscale='true'] .prakvi-accordion-gallery__image {
+  filter: grayscale(0);
+}
+
+.prakvi-accordion-gallery__overlay {
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(180deg, rgba(6, 16, 30, 0.04) 20%, rgba(6, 16, 30, 0.28) 58%, rgba(6, 16, 30, 0.86) 100%);
+  pointer-events: none;
+}
+
+.prakvi-accordion-gallery__label {
+  position: absolute;
+  right: 50%;
+  bottom: 18px;
+  left: auto;
+  max-height: calc(100% - 36px);
+  color: #fff;
+  font-size: 0.75rem;
+  font-weight: 700;
+  line-height: 1.25;
+  text-shadow: 0 1px 8px rgba(0, 0, 0, 0.38);
+  writing-mode: vertical-rl;
+  transform: translateX(50%);
+  transition:
+    opacity 350ms ease,
+    transform 350ms cubic-bezier(0.22, 1, 0.36, 1);
+}
+
+.prakvi-accordion-gallery__panel.is-active .prakvi-accordion-gallery__label {
+  right: 14px;
+  bottom: 16px;
+  left: 14px;
+  max-height: none;
+  font-size: clamp(0.8rem, 1vw, 0.95rem);
+  writing-mode: horizontal-tb;
+  transform: translateY(0);
+}
+
+@media (max-width: 1023px) {
+  .prakvi-accordion-gallery {
+    height: 400px;
+  }
+}
+
+@media (max-width: 639px) {
+  .prakvi-accordion-gallery {
+    height: 360px;
+    gap: 7px;
+  }
+
+  .prakvi-accordion-gallery__panel {
+    min-width: 2rem;
+    border-radius: 12px;
+  }
+
+  .prakvi-accordion-gallery__label {
+    bottom: 12px;
+    font-size: 0.68rem;
+  }
+
+  .prakvi-accordion-gallery__panel.is-active .prakvi-accordion-gallery__label {
+    right: 12px;
+    bottom: 12px;
+    left: 12px;
+    font-size: 0.8rem;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .prakvi-accordion-gallery__image,
+  .prakvi-accordion-gallery__label {
+    transition: none;
+  }
+}

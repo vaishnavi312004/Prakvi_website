@@ -124,7 +124,7 @@ const catalogItems: ServiceCarouselItem[] = [
 export const ServicesCards: React.FC = () => {
   const reducedMotion = useReducedMotion();
   return (
-    <section aria-labelledby="home-services-title" className="relative overflow-hidden bg-surface py-section">
+    <section aria-labelledby="home-services-title" className="relative overflow-hidden bg-canvas py-section">
       <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
         <motion.div
           initial={reducedMotion ? false : { opacity: 0, y: 18 }}

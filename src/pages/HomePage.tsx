@@ -7,12 +7,12 @@ import { ScrollRevealText } from '../components/common/ScrollRevealText';
 import { SectionHeading } from '../components/common/SectionHeading';
 import { CTASection } from '../components/common/CTASection';
 import { ServicesCards } from '../components/common/ServicesCards';
-import { AnimatedWhyFeed } from '../components/common/AnimatedWhyFeed';
+import { WhyPrakviBenefits } from '../components/common/WhyPrakviBenefits';
+import { AccordionGallery } from '../components/common/AccordionGallery';
 import { RotatingText } from '../components/common/RotatingText';
 import { TechOrbitEcosystem } from '../components/common/TechOrbitEcosystem';
-import { AnimatedCounter } from '../components/common/AnimatedCounter';
+import { CompanyStatistics } from '../components/common/CompanyStatistics';
 import { homeData } from '../data/homeData';
-import { statsData } from '../data/statsData';
 import {
   ArrowRight,
   CheckCircle2,
@@ -189,109 +189,60 @@ export const HomePage: React.FC = () => {
         {/* 6. WHY CHOOSE PRAKVI */}
         <section className="bg-canvas py-section">
           <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
-            <div className="flex flex-col gap-6 md:flex-row md:items-end md:justify-between">
-              <SectionHeading
-                animate={false}
-                animateWords
-                badge={homeData.whyPrakvi.kicker}
-                title={homeData.whyPrakvi.title}
-                highlightWord="Prakvi?"
-                description={homeData.whyPrakvi.description}
+            <div className="grid items-center gap-8 md:grid-cols-[minmax(0,0.9fr)_minmax(0,1.1fr)] lg:grid-cols-[minmax(0,0.88fr)_minmax(0,1.12fr)] xl:gap-14">
+              <div>
+                <SectionHeading
+                  animate={false}
+                  badge={homeData.whyPrakvi.kicker}
+                  title={homeData.whyPrakvi.title}
+                  highlightWord="Prakvi?"
+                  description={homeData.whyPrakvi.description}
+                />
+                <div className="mt-7">
+                  <WhyPrakviBenefits />
+                </div>
+              </div>
+              <AccordionGallery
+                items={[
+                  {
+                    image: '/assets/why-prakvi/expert-team.webp',
+                    label: 'Expert Team',
+                    alt: 'IT professionals collaborating around a laptop in a modern office',
+                  },
+                  {
+                    image: '/assets/why-prakvi/monitoring-support.webp',
+                    label: 'Monitoring & Support',
+                    alt: 'Technology team working together at a computer',
+                  },
+                  {
+                    image: '/assets/why-prakvi/it-infrastructure.webp',
+                    label: 'IT Infrastructure',
+                    alt: 'Rows of enterprise servers in a data center',
+                  },
+                  {
+                    image: '/assets/why-prakvi/security-practices.webp',
+                    label: 'Security & Best Practices',
+                    alt: 'Close-up of circuit-board traces and components representing secure IT infrastructure',
+                  },
+                  {
+                    image: '/assets/why-prakvi/business-partnership.webp',
+                    label: 'Business Partnership',
+                    alt: 'Business and technology professionals collaborating on a laptop',
+                  },
+                ]}
+                defaultIndex={2}
+                expandRatio={0.52}
+                duration={0.6}
+                grayscale
               />
-              <Link to="/about" className="btn-secondary w-fit">
-                <span>About Our Governance</span>
-                <ArrowRight className="arrow-shift" aria-hidden="true" />
-              </Link>
-            </div>
-            <div className="mt-10">
-              <AnimatedWhyFeed />
             </div>
           </div>
         </section>
 
-        {/* 7. VERIFIED STATISTICS PANEL WITH STRATEGIC ORANGE ACCENT NUMBERS */}
-        <section className="bg-surface py-section">
-          <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
-            <motion.div
-              initial={reducedMotion ? false : { opacity: 0, y: 18, scale: 0.988 }}
-              whileInView={{ opacity: 1, y: 0, scale: 1 }}
-              viewport={{ once: true, amount: 0.2 }}
-              transition={{ duration: reducedMotion ? 0 : 0.45, ease: [0.32, 0.72, 0, 1] }}
-              className="metrics-panel grid grid-cols-2 gap-8 text-center lg:grid-cols-4"
-            >
-              {statsData.metrics.map((metric, index) => (
-                <div key={index} className="space-y-2">
-                  <div
-                    className={`font-display text-4xl font-extrabold tracking-tight tabular-nums sm:text-5xl ${
-                      index % 2 === 0 ? 'text-orange' : 'text-accent'
-                    }`}
-                  >
-                    <AnimatedCounter value={metric.value} suffix={metric.suffix} />
-                  </div>
-                  <div className="pt-1 text-sm font-bold text-foreground">
-                    {metric.label}
-                  </div>
-                  <p className="mx-auto max-w-xs text-xs leading-relaxed text-muted">
-                    {metric.description}
-                  </p>
-                </div>
-              ))}
-            </motion.div>
-          </div>
-        </section>
-
-        {/* 8. CAREERS PREVIEW SPLIT */}
-        <section className="bg-canvas py-section">
-          <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
-            <motion.div
-              initial={reducedMotion ? false : { opacity: 0, y: 18, scale: 0.988 }}
-              whileInView={{ opacity: 1, y: 0, scale: 1 }}
-              viewport={{ once: true, amount: 0.2 }}
-              transition={{ duration: reducedMotion ? 0 : 0.45, ease: [0.32, 0.72, 0, 1] }}
-              className="clay-card grid grid-cols-1 items-center gap-10 p-6 sm:p-10 lg:grid-cols-12 lg:p-12"
-            >
-              <div className="space-y-5 lg:col-span-6">
-                <div className="text-xs font-mono font-bold uppercase tracking-widest text-accent-text">
-                  {homeData.careersPreview.kicker}
-                </div>
-
-                <h2 className="font-display text-3xl font-extrabold leading-tight tracking-tight text-foreground text-balance sm:text-4xl">
-                  <ScrollRevealText text={homeData.careersPreview.title} />
-                </h2>
-
-                <p className="text-base leading-relaxed text-muted">
-                  {homeData.careersPreview.description}
-                </p>
-
-                <div className="flex flex-wrap gap-4 pt-2">
-                  <Link to={homeData.careersPreview.primaryCta.path} className="btn-primary">
-                    <span>{homeData.careersPreview.primaryCta.label}</span>
-                    <ArrowRight className="arrow-shift" aria-hidden="true" />
-                  </Link>
-
-                  <Link to={homeData.careersPreview.secondaryCta.path} className="btn-secondary">
-                    <span>{homeData.careersPreview.secondaryCta.label}</span>
-                  </Link>
-                </div>
-              </div>
-
-              <div className="lg:col-span-6">
-                <div className="overflow-hidden rounded-2xl border border-line shadow-md">
-                  <img
-                    src={homeData.careersPreview.image}
-                    alt="Prakvi Collaborative Engineering Culture"
-                    className="h-72 w-full object-cover sm:h-80"
-                    loading="lazy"
-                    referrerPolicy="no-referrer"
-                  />
-                </div>
-              </div>
-            </motion.div>
-          </div>
-        </section>
+        <CompanyStatistics />
 
         {/* 9. CONSULTATION CTA */}
-        <CTASection animateTitle />
+        <CTASection compact title="Let's Start Your" titleAccent="Digital Transformation" />
       </div>
     </PageTransition>
   );

@@ -1,0 +1,7 @@
+.company-statistics__number {
+  text-shadow:
+    0 -0.025em 0 color-mix(in srgb, currentColor 38%, white),
+    0 0.035em 0 color-mix(in srgb, currentColor 82%, #172b45),
+    0 0.065em 0 color-mix(in srgb, currentColor 63%, #172b45),
+    0 0.14em 0.24em color-mix(in srgb, currentColor 32%, transparent);
+}

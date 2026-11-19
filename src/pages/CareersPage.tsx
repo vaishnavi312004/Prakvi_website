@@ -200,7 +200,7 @@ export const CareersPage: React.FC = () => {
         </section>
 
         {/* 3. HIRING JOURNEY */}
-        <section id="hiring-journey" className="py-section bg-section-alt text-foreground">
+        <section id="hiring-journey" className="py-section bg-canvas text-foreground">
           <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
             <SectionHeading
               badge="Hiring Journey"

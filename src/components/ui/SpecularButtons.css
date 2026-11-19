@@ -1,0 +1,27 @@
+@layer base {
+  :where(button, [role="button"], a:is(.btn-primary, .btn-secondary, .btn-blue)) {
+    position: relative;
+  }
+
+  :where(button, [role="button"], a:is(.btn-primary, .btn-secondary, .btn-blue))::after {
+    content: "";
+    position: absolute;
+    inset: 0;
+    border: 1.2px solid transparent;
+    border-radius: inherit;
+    background: radial-gradient(circle at var(--specular-x, 24%) var(--specular-y, 0%), #fff 10px, transparent 44px) border-box;
+    mask: linear-gradient(#fff 0 0) padding-box, linear-gradient(#fff 0 0);
+    mask-composite: exclude;
+    opacity: var(--specular-opacity, .35);
+    pointer-events: none;
+  }
+
+  :where(input:is([type="button"], [type="submit"], [type="reset"])) {
+    outline: 1px solid rgb(255 255 255 / .35);
+    outline-offset: -2px;
+  }
+
+  :where(button, [role="button"], a:is(.btn-primary, .btn-secondary, .btn-blue)):where(:hover, :focus-visible):not(:disabled, [aria-disabled="true"])::after {
+    opacity: 1;
+  }
+}

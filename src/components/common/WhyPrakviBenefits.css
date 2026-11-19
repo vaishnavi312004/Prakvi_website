@@ -1,0 +1,23 @@
+@media (hover: hover) {
+  .why-prakvi-benefit:hover {
+    background: linear-gradient(135deg, #ffffffeb 5%, #eafbf3d9 48%, #f5fbffe6 100%);
+    border-color: #b5ddcb;
+    box-shadow: inset 0 1px 0 #fff, 0 10px 26px -12px #21675155;
+    backdrop-filter: blur(12px);
+  }
+}
+
+@media (hover: hover) and (prefers-reduced-motion: no-preference) {
+  .why-prakvi-benefit {
+    transition: border-color 240ms ease, box-shadow 240ms ease;
+  }
+
+  .why-prakvi-benefit:hover .why-prakvi-benefit__badge {
+    animation: why-prakvi-check-turn 640ms ease-in-out;
+  }
+}
+
+@keyframes why-prakvi-check-turn {
+  45% { transform: translateY(-5px) rotate(160deg); }
+  100% { transform: translateY(0) rotate(360deg); }
+}
