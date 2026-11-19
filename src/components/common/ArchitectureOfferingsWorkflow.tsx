@@ -1,16 +1,289 @@
-import React, { useEffect, useId, useRef, useState } from 'react';
-import { motion, useInView } from 'motion/react';
-import { Headphones, Layers, Plug, Server } from 'lucide-react';
+import React, { useEffect, useRef, useState } from 'react';
+import {
+  Activity,
+  ArrowLeft,
+  ArrowRight,
+  BarChart3,
+  Cloud,
+  Database,
+  Headphones,
+  Layers,
+  Network,
+  Plug,
+  Server,
+  Users,
+} from 'lucide-react';
+import {
+  AnimatePresence,
+  motion,
+  useInView,
+  useMotionValue,
+  useReducedMotion,
+  useTransform,
+} from 'motion/react';
+import type { MotionValue } from 'motion/react';
 import type { ServiceItem } from '../../types';
-import { SectionHeading } from './SectionHeading';
+import {
+  getServiceCardDepthOrder,
+  getServiceCardOpacity,
+  getServiceCardTransform,
+  ServiceCardClock,
+  serviceCardEase as ease,
+  serviceCardEntranceDelay,
+  serviceCardSelectionDuration,
+} from './ServiceCardMotion';
 import './ArchitectureOfferingsWorkflow.css';
 
 const serviceIcons = { Headphones, Server, Plug, Layers };
-const path = 'M162 56.25 C162 113 438 112 438 168.75 C438 225 162 225 162 281.25 C162 338 438 337 438 393.75';
-const viewWidth = 600;
-const viewHeight = 450;
-const ease = [0.22, 1, 0.36, 1] as const;
-const pulseDuration = 650;
+const revealViewport = { once: true, amount: 0.24 } as const;
+
+function getIcon(service: ServiceItem['capabilities'][number]) {
+  return serviceIcons[service.icon as keyof typeof serviceIcons] ?? Layers;
+}
+
+function relativePosition(index: number, active: number, count: number, group: number) {
+  const offset = group * count + index - (count + active);
+  if (offset === 0) return { position: 'center', offset };
+  if (offset === 1) return { position: 'right', offset };
+  if (offset === -1) return { position: 'left', offset };
+  if (Math.abs(offset) === 2) return { position: 'far', offset };
+  return { position: 'hidden', offset };
+}
+
+function ServiceScene({ index }: { index: number }) {
+  if (index === 0) {
+    return (
+      <div className="ea-scene ea-scene-strategy" aria-hidden="true">
+        <svg className="ea-scene-links" viewBox="0 0 320 190" fill="none">
+          <path d="M92 68 156 49l68 34M92 68l33 77 99-62m-99 62 99 5" />
+          <circle cx="92" cy="68" r="3" /><circle cx="156" cy="49" r="3" />
+          <circle cx="224" cy="83" r="3" /><circle cx="125" cy="145" r="3" />
+          <circle cx="224" cy="150" r="3" />
+        </svg>
+        <div className="ea-strategy-module ea-strategy-module-main"><Layers /></div>
+        <div className="ea-strategy-module ea-strategy-module-top"><Activity /></div>
+        <div className="ea-strategy-module ea-strategy-module-left"><Database /></div>
+        <div className="ea-strategy-module ea-strategy-module-right"><Network /></div>
+        <i className="ea-scene-particle ea-scene-particle-one" />
+        <i className="ea-scene-particle ea-scene-particle-two" />
+        <i className="ea-scene-particle ea-scene-particle-three" />
+      </div>
+    );
+  }
+
+  if (index === 1) {
+    return (
+      <div className="ea-scene ea-scene-infrastructure" aria-hidden="true">
+        <div className="ea-infra-cloud"><Cloud /></div>
+        <div className="ea-infra-racks">
+          {[0, 1, 2].map(rack => (
+            <div className="ea-infra-rack" key={rack}>
+              <span><i /><i /><i /></span>
+              <span><i /><i /><i /></span>
+              <span><i /><i /><i /></span>
+            </div>
+          ))}
+        </div>
+        <div className="ea-infra-node ea-infra-node-one" />
+        <div className="ea-infra-node ea-infra-node-two" />
+        <div className="ea-infra-node ea-infra-node-three" />
+        <i className="ea-infra-packet ea-infra-packet-one" />
+        <i className="ea-infra-packet ea-infra-packet-two" />
+      </div>
+    );
+  }
+
+  if (index === 2) {
+    return (
+      <div className="ea-scene ea-scene-integration" aria-hidden="true">
+        <svg className="ea-scene-links" viewBox="0 0 320 190" fill="none">
+          <path d="M83 96h61m32 0h61M160 66v60" />
+          <circle cx="144" cy="96" r="4" /><circle cx="176" cy="96" r="4" />
+        </svg>
+        <div className="ea-integration-module ea-integration-left"><Database /></div>
+        <div className="ea-integration-module ea-integration-center"><Network /></div>
+        <div className="ea-integration-module ea-integration-right"><Cloud /></div>
+        <div className="ea-integration-module ea-integration-bottom"><Layers /></div>
+        <i className="ea-integration-packet ea-integration-packet-one" />
+        <i className="ea-integration-packet ea-integration-packet-two" />
+      </div>
+    );
+  }
+
+  return (
+    <div className="ea-scene ea-scene-enterprise" aria-hidden="true">
+      <div className="ea-dashboard">
+        <div className="ea-dashboard-top"><span /><span /><span /><i><Users /></i></div>
+        <div className="ea-dashboard-content">
+          <div className="ea-dashboard-sidebar"><i /><i /><i /><i /></div>
+          <div className="ea-dashboard-main">
+            <div className="ea-dashboard-metrics"><span /><span /><span /></div>
+            <div className="ea-dashboard-chart">
+              <i /><i /><i /><i /><i /><i />
+            </div>
+          </div>
+        </div>
+      </div>
+      <div className="ea-enterprise-customer"><Users /></div>
+      <div className="ea-enterprise-chart"><BarChart3 /></div>
+      <i className="ea-enterprise-spark ea-enterprise-spark-one" />
+      <i className="ea-enterprise-spark ea-enterprise-spark-two" />
+    </div>
+  );
+}
+
+function ServiceCard({
+  service,
+  index,
+  count,
+  group,
+  activeIndex,
+  selectedIndex,
+  reduced,
+  progress,
+  onSelect,
+  onPreview,
+  onClearPreview,
+}: {
+  service: ServiceItem['capabilities'][number];
+  index: number;
+  count: number;
+  group: number;
+  activeIndex: number;
+  selectedIndex: number;
+  reduced: boolean;
+  progress: MotionValue<number>;
+  onSelect: (index: number) => void;
+  onPreview: (index: number) => void;
+  onClearPreview: () => void;
+}) {
+  const Icon = getIcon(service);
+  const delay = `${index * -1.35}s`;
+  const position = relativePosition(index, activeIndex, count, group);
+  const globalIndex = group * count + index;
+  const depthOffset = (value: number) => globalIndex - count - count * value;
+  const depthTransform = useTransform(progress, value => getServiceCardTransform(depthOffset(value), 'Y'));
+  const depthOpacity = useTransform(progress, value => getServiceCardOpacity(depthOffset(value)));
+  const depthOrder = useTransform(progress, value => getServiceCardDepthOrder(depthOffset(value)));
+
+  return (
+    <motion.div
+      className="ea-gallery-card"
+      data-service={index}
+      data-position={position.position}
+      data-offset={position.offset}
+      data-selected={selectedIndex === index}
+      style={{
+        transform: reduced ? 'none' : depthTransform,
+        opacity: reduced ? 1 : depthOpacity,
+        zIndex: reduced ? 1 : depthOrder,
+      }}
+    >
+      <motion.div
+        className="ea-gallery-card-entry"
+        initial={reduced || group !== 1 ? false : { opacity: 0.86, y: 25, x: index % 2 ? 22 : -22 }}
+        whileInView={{ opacity: 1, y: 0, x: 0 }}
+        viewport={revealViewport}
+        transition={{ duration: reduced ? 0 : 0.72, delay: reduced ? 0 : 0.12 + index * 0.09 + group * 0.04, ease }}
+      >
+        <div
+          className="ea-gallery-card-float"
+          style={{
+            '--ea-float-delay': delay,
+            '--ea-float-duration': `${6.1 + index * 0.47}s`,
+          } as React.CSSProperties}
+        >
+          <button
+            type="button"
+            className="ea-gallery-card-surface"
+            tabIndex={group === 1 && selectedIndex === index ? 0 : -1}
+            aria-pressed={selectedIndex === index}
+            onClick={() => onSelect(index)}
+            onFocus={() => onSelect(index)}
+            onPointerEnter={event => { if (event.pointerType === 'mouse') onPreview(index); }}
+            onPointerLeave={event => { if (event.pointerType === 'mouse') onClearPreview(); }}
+            onKeyDown={event => {
+              if (event.key === 'ArrowLeft' || event.key === 'ArrowUp') {
+                event.preventDefault();
+                onSelect((index + 3) % 4);
+              } else if (event.key === 'ArrowRight' || event.key === 'ArrowDown') {
+                event.preventDefault();
+                onSelect((index + 1) % 4);
+              }
+            }}
+          >
+            <div className="ea-gallery-scene">
+              <ServiceScene index={index} />
+              <span className="ea-gallery-scene-glint" />
+            </div>
+            <div className="ea-gallery-card-copy">
+              <span className="ea-gallery-card-meta">
+                <Icon aria-hidden="true" />
+                <span>{String(index + 1).padStart(2, '0')} / 04</span>
+              </span>
+              <h3>{service.title}</h3>
+            </div>
+          </button>
+        </div>
+      </motion.div>
+    </motion.div>
+  );
+}
+
+function ServiceDetails({
+  service,
+  index,
+  count,
+  reduced,
+  onSelect,
+}: {
+  service: ServiceItem['capabilities'][number];
+  index: number;
+  count: number;
+  reduced: boolean;
+  onSelect: (index: number) => void;
+}) {
+  const Icon = getIcon(service);
+  const previous = (index - 1 + count) % count;
+  const next = (index + 1) % count;
+
+  return (
+    <div className="ea-gallery-details">
+      <div className="ea-gallery-details-content" aria-live="polite">
+        <AnimatePresence mode="wait" initial={false}>
+          <motion.article
+            key={service.title}
+            className="ea-gallery-detail"
+            initial={reduced ? false : { opacity: 0, y: 10 }}
+            animate={{ opacity: 1, y: 0 }}
+            exit={reduced ? undefined : { opacity: 0, y: -8 }}
+            transition={{ duration: reduced ? 0 : serviceCardSelectionDuration, ease }}
+          >
+            <div className="ea-gallery-detail-icon"><Icon aria-hidden="true" /></div>
+            <div className="ea-gallery-detail-copy">
+              <h3>{service.title}</h3>
+              <p>{service.description}</p>
+              {service.points?.length ? (
+                <ul>
+                  {service.points.map(point => <li key={point}>{point}</li>)}
+                </ul>
+              ) : null}
+            </div>
+          </motion.article>
+        </AnimatePresence>
+      </div>
+      <div className="ea-gallery-navigation" aria-label="Select a service">
+        <button type="button" aria-label="Previous service" onClick={() => onSelect(previous)}>
+          <ArrowLeft aria-hidden="true" />
+        </button>
+        <span>{String(index + 1).padStart(2, '0')} <i>/</i> {String(count).padStart(2, '0')}</span>
+        <button type="button" aria-label="Next service" onClick={() => onSelect(next)}>
+          <ArrowRight aria-hidden="true" />
+        </button>
+      </div>
+    </div>
+  );
+}
 
 interface ArchitectureOfferingsWorkflowProps {
   title: string;
@@ -18,225 +291,167 @@ interface ArchitectureOfferingsWorkflowProps {
   services: ServiceItem['capabilities'];
 }
 
-export const ArchitectureOfferingsWorkflow: React.FC<ArchitectureOfferingsWorkflowProps> = ({
-  title, description, services,
-}) => {
-  const [selection, setSelection] = useState({ index: 0, previous: 0 });
-  const [reduced, setReduced] = useState(() => window.matchMedia('(prefers-reduced-motion: reduce)').matches);
-  const [pageVisible, setPageVisible] = useState(() => !document.hidden);
-  const track = useRef<HTMLDivElement>(null);
-  const svg = useRef<SVGSVGElement>(null);
-  const nodes = useRef<(HTMLDivElement | null)[]>([]);
-  const buttons = useRef<(HTMLButtonElement | null)[]>([]);
-  const cutouts = useRef<(SVGRectElement | null)[]>([]);
-  const id = useId();
-  const activeIndex = selection.index;
-  const inView = useInView(track, { amount: 0.15 });
-  const moving = inView && pageVisible && !reduced;
+export function ArchitectureOfferingsWorkflow({ title, description, services }: ArchitectureOfferingsWorkflowProps) {
+  const section = useRef<HTMLElement>(null);
+  const touchStart = useRef<{ x: number; y: number } | null>(null);
+  const [activeIndex, setActiveIndex] = useState(0);
+  const [manualIndex, setManualIndex] = useState<number | null>(null);
+  const [previewIndex, setPreviewIndex] = useState<number | null>(null);
+  const [hovering, setHovering] = useState(false);
+  const [focused, setFocused] = useState(false);
+  const [pageVisible, setPageVisible] = useState(() => typeof document === 'undefined' || !document.hidden);
+  const [ready, setReady] = useState(false);
+  const reduced = Boolean(useReducedMotion());
+  const inView = useInView(section, { amount: 0.08 });
+  const progress = useMotionValue(0);
+  const trackOffset = useTransform(progress, value => `${-33.333333 - 33.333334 * value}%`);
+  const moving = inView && pageVisible && ready && !reduced && !hovering && !focused;
+  const visible = inView && pageVisible && !reduced;
+  const selectedIndex = previewIndex ?? manualIndex ?? activeIndex;
+  const selectedService = services[selectedIndex] ?? services[0];
 
   useEffect(() => {
-    const preference = window.matchMedia('(prefers-reduced-motion: reduce)');
-    const updateMotion = () => setReduced(preference.matches);
     const updateVisibility = () => setPageVisible(!document.hidden);
-    updateMotion();
     updateVisibility();
-    preference.addEventListener('change', updateMotion);
     document.addEventListener('visibilitychange', updateVisibility);
-    return () => {
-      preference.removeEventListener('change', updateMotion);
-      document.removeEventListener('visibilitychange', updateVisibility);
-    };
+    return () => document.removeEventListener('visibilitychange', updateVisibility);
   }, []);
 
   useEffect(() => {
-    if (moving) {
-      svg.current?.unpauseAnimations();
-    } else {
-      svg.current?.pauseAnimations();
-      setSelection((current) => current.index === current.previous ? current : { ...current, previous: current.index });
+    if (!inView || ready) return;
+    if (reduced) {
+      setReady(true);
+      return;
     }
-  }, [moving]);
+    const entranceDelay = window.setTimeout(() => setReady(true), serviceCardEntranceDelay);
+    return () => window.clearTimeout(entranceDelay);
+  }, [inView, ready, reduced]);
 
-  useEffect(() => {
-    if (!moving || selection.previous === selection.index) return;
-    const timeout = window.setTimeout(() => {
-      setSelection((current) => current === selection ? { ...current, previous: current.index } : current);
-    }, pulseDuration);
-    return () => window.clearTimeout(timeout);
-  }, [moving, selection]);
+  const selectManually = (index: number) => {
+    setManualIndex((index + services.length) % services.length);
+  };
 
-  useEffect(() => {
-    const stage = track.current;
-    if (!stage) return;
-    // Use the unanimated card footprints so the line stays behind the glass and its text.
-    const measure = () => {
-      const bounds = stage.getBoundingClientRect();
-      if (!bounds.width || !bounds.height) return;
-      const sx = viewWidth / bounds.width;
-      const sy = viewHeight / bounds.height;
-      nodes.current.forEach((node, index) => {
-        const cutout = cutouts.current[index];
-        if (!node || !cutout) return;
-        const box = node.getBoundingClientRect();
-        const inset = 4;
-        cutout.setAttribute('x', String((box.left - bounds.left + inset) * sx));
-        cutout.setAttribute('y', String((box.top - bounds.top + inset) * sy));
-        cutout.setAttribute('width', String(Math.max(0, box.width - 2 * inset) * sx));
-        cutout.setAttribute('height', String(Math.max(0, box.height - 2 * inset) * sy));
-        cutout.setAttribute('rx', String(12 * sx));
-        cutout.setAttribute('ry', String(12 * sy));
-      });
-    };
-    const observer = new ResizeObserver(measure);
-    observer.observe(stage);
-    nodes.current.forEach((node) => { if (node) observer.observe(node); });
-    measure();
-    return () => observer.disconnect();
-  }, [services.length]);
+  const updateActiveService = (index: number) => {
+    setManualIndex(null);
+    setActiveIndex(index);
+  };
 
-  const select = (index: number) => {
-    setSelection((current) => current.index === index ? current : { index, previous: current.index });
+  const startSwipe = (event: React.TouchEvent<HTMLDivElement>) => {
+    const touch = event.changedTouches[0];
+    touchStart.current = { x: touch.clientX, y: touch.clientY };
+  };
+
+  const finishSwipe = (event: React.TouchEvent<HTMLDivElement>) => {
+    if (!touchStart.current) return;
+    const touch = event.changedTouches[0];
+    const deltaX = touch.clientX - touchStart.current.x;
+    const deltaY = touch.clientY - touchStart.current.y;
+    touchStart.current = null;
+    if (Math.abs(deltaX) < 48 || Math.abs(deltaX) < Math.abs(deltaY) * 1.15) return;
+    selectManually((selectedIndex + (deltaX < 0 ? 1 : -1) + services.length) % services.length);
   };
 
   return (
-    <section id="capabilities" className="ea-offerings py-section">
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-        <SectionHeading title={title} description={description} align="center" />
+    <section
+      ref={section}
+      id="capabilities"
+      className="ea-offerings"
+      aria-labelledby="ea-offerings-heading"
+      data-visible={visible}
+      data-reduced={reduced}
+    >
+      <div className="ea-workflow-inner">
+        <header className="ea-workflow-heading">
+          <motion.h2
+            id="ea-offerings-heading"
+            initial={reduced ? false : { opacity: 0, y: 26 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            viewport={revealViewport}
+            transition={{ duration: reduced ? 0 : 0.62, ease }}
+          >{title}</motion.h2>
+          <motion.p
+            initial={reduced ? false : { opacity: 0, y: 12 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            viewport={revealViewport}
+            transition={{ duration: reduced ? 0 : 0.61, delay: reduced ? 0 : 0.13, ease }}
+          >{description}</motion.p>
+        </header>
 
-        <div className="ea-workflow" data-moving={moving}>
-          <div className="ea-workflow-details">
-            {services.map((service, index) => {
-              const selected = index === activeIndex;
-              const Icon = serviceIcons[service.icon as keyof typeof serviceIcons] ?? Layers;
-              return (
-                <motion.article
-                  key={service.title}
-                  id={`${id}-panel-${index}`}
-                  role="tabpanel"
-                  aria-labelledby={`${id}-tab-${index}`}
-                  aria-hidden={!selected}
-                  tabIndex={selected ? 0 : -1}
-                  className="ea-workflow-detail"
-                  data-active={selected}
-                  initial={false}
-                  animate={{ opacity: selected ? 1 : 0, y: selected || reduced ? 0 : 9 }}
-                  transition={reduced ? { duration: 0 } : {
-                    opacity: { duration: selected ? 0.24 : 0.12, delay: selected ? 0.09 : 0, ease },
-                    y: { duration: 0.32, ease },
-                  }}
-                >
-                  <div className="ea-workflow-detail-heading">
-                    <span className="ea-workflow-icon"><Icon aria-hidden="true" /></span>
-                    <h3>{service.title}</h3>
-                  </div>
-                  <p>{service.description}</p>
-                  {service.points && (
-                    <ul>{service.points.map((point) => <li key={point}>{point}</li>)}</ul>
-                  )}
-                </motion.article>
-              );
-            })}
-          </div>
-
-          <div ref={track} className="ea-workflow-track" role="tablist" aria-label={title} aria-orientation="vertical">
-            <svg
-              ref={svg}
-              className="ea-workflow-path"
-              viewBox={`0 0 ${viewWidth} ${viewHeight}`}
-              preserveAspectRatio="none"
-              aria-hidden="true"
+        <div
+          className="ea-gallery-stage"
+          data-moving={moving}
+          data-hovering={hovering}
+          onPointerEnter={event => { if (event.pointerType === 'mouse') setHovering(true); }}
+          onPointerLeave={event => {
+            if (event.pointerType === 'mouse') {
+              setHovering(false);
+              setPreviewIndex(null);
+            }
+          }}
+          onFocusCapture={event => setFocused(event.target.matches(':focus-visible'))}
+          onBlurCapture={event => {
+            if (!event.currentTarget.contains(event.relatedTarget)) setFocused(false);
+          }}
+        >
+          {moving && services.length > 1 && (
+            <ServiceCardClock progress={progress} count={services.length} onActiveChange={updateActiveService} />
+          )}
+          <div
+            className="ea-gallery-viewport"
+            aria-label="Enterprise Architecture services"
+            onTouchStart={startSwipe}
+            onTouchEnd={finishSwipe}
+          >
+            <motion.div
+              className="ea-gallery-track"
+              data-moving={moving}
+              style={{ x: reduced ? '0%' : trackOffset, y: reduced ? '0%' : '-50%' }}
             >
-              <defs>
-                <linearGradient id={`${id}-current`} x1="0%" y1="0%" x2="100%" y2="100%">
-                  <stop offset="0%" stopColor="#74d8ef" />
-                  <stop offset="48%" stopColor="#478fdb" />
-                  <stop offset="100%" stopColor="#8bcbe9" />
-                </linearGradient>
-                <radialGradient id={`${id}-spark`}>
-                  <stop offset="0%" stopColor="#f9feff" />
-                  <stop offset="28%" stopColor="#d6f8ff" />
-                  <stop offset="58%" stopColor="#71d4f1" stopOpacity="0.75" />
-                  <stop offset="100%" stopColor="#71d4f1" stopOpacity="0" />
-                </radialGradient>
-                <mask id={`${id}-cards`} maskUnits="userSpaceOnUse" x="0" y="0" width={viewWidth} height={viewHeight}>
-                  <rect width={viewWidth} height={viewHeight} fill="white" />
-                  {services.map((service, index) => (
-                    <rect key={service.title} ref={(node) => { cutouts.current[index] = node; }} fill="black" />
-                  ))}
-                </mask>
-              </defs>
-              <g mask={`url(#${id}-cards)`}>
-                <path className="ea-workflow-path-aura" d={path} stroke={`url(#${id}-current)`} />
-                <path className="ea-workflow-path-line" d={path} stroke={`url(#${id}-current)`} />
-                {([0, -3.4, -6.8] as const).map((start) => (
-                  <circle key={start} className="ea-workflow-particle" r="8" fill={`url(#${id}-spark)`} opacity="0">
-                    <animateMotion dur="10.2s" begin={`${start}s`} repeatCount="indefinite" path={path} />
-                    <animate attributeName="opacity" values="0;1;1;0" keyTimes="0;0.07;0.93;1" dur="10.2s" begin={`${start}s`} repeatCount="indefinite" />
-                  </circle>
-                ))}
-                {moving && selection.previous !== activeIndex && (
-                  <path
-                    key={activeIndex}
-                    className="ea-workflow-pulse"
-                    d={path}
-                    pathLength={1}
-                    style={{
-                      animationDuration: `${pulseDuration}ms`,
-                      '--pulse-from': 0.045 - selection.previous / (services.length - 1),
-                      '--pulse-to': 0.045 - activeIndex / (services.length - 1),
-                    } as React.CSSProperties}
-                  />
-                )}
-              </g>
-            </svg>
-
-            {services.map((service, index) => {
-              const Icon = serviceIcons[service.icon as keyof typeof serviceIcons] ?? Layers;
-              return (
+              {[0, 1, 2].map(group => (
                 <div
-                  key={service.title}
-                  ref={(node) => { nodes.current[index] = node; }}
-                  className="ea-workflow-node"
+                  className="ea-gallery-set"
+                  key={group}
+                  data-primary={group === 1}
+                  aria-hidden={group !== 1}
                 >
-                  <div className="ea-workflow-float">
-                    <button
-                      ref={(node) => { buttons.current[index] = node; }}
-                      id={`${id}-tab-${index}`}
-                      type="button"
-                      role="tab"
-                      aria-selected={index === activeIndex}
-                      aria-controls={`${id}-panel-${index}`}
-                      tabIndex={index === activeIndex ? 0 : -1}
-                      onClick={() => select(index)}
-                      onKeyDown={(event) => {
-                        if (event.altKey || event.ctrlKey || event.metaKey || event.shiftKey) return;
-                        let next: number;
-                        switch (event.key) {
-                          case 'ArrowUp':
-                          case 'ArrowLeft': next = (index - 1 + services.length) % services.length; break;
-                          case 'ArrowDown':
-                          case 'ArrowRight': next = (index + 1) % services.length; break;
-                          case 'Home': next = 0; break;
-                          case 'End': next = services.length - 1; break;
-                          default: return;
-                        }
-                        event.preventDefault();
-                        select(next);
-                        buttons.current[next]?.focus();
+                  {services.map((service, index) => (
+                    <ServiceCard
+                      key={`${group}-${service.title}`}
+                      service={service}
+                      index={index}
+                      count={services.length}
+                      group={group}
+                      activeIndex={activeIndex}
+                      selectedIndex={selectedIndex}
+                      reduced={reduced}
+                      progress={progress}
+                      onSelect={index => {
+                        selectManually(index);
+                        setPreviewIndex(index);
                       }}
-                    >
-                      <span className="ea-workflow-icon"><Icon aria-hidden="true" /></span>
-                      <span>{service.title}</span>
-                      <i className="ea-workflow-indicator" aria-hidden="true" />
-                    </button>
-                  </div>
+                      onPreview={setPreviewIndex}
+                      onClearPreview={() => setPreviewIndex(null)}
+                    />
+                  ))}
                 </div>
-              );
-            })}
+              ))}
+            </motion.div>
           </div>
-          <p className="sr-only" role="status">{services[activeIndex].title}</p>
+
+          {selectedService && (
+            <ServiceDetails
+              service={selectedService}
+              index={selectedIndex}
+              count={services.length}
+              reduced={reduced}
+              onSelect={index => {
+                selectManually(index);
+                setPreviewIndex(null);
+              }}
+            />
+          )}
         </div>
       </div>
     </section>
   );
-};
+}

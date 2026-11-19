@@ -1,17 +1,32 @@
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useRef, useState } from 'react';
 import { useParams, Link, Navigate } from 'react-router-dom';
 import { AnimatePresence, motion, useReducedMotion } from 'motion/react';
 import { Breadcrumbs } from '../components/common/Breadcrumbs';
 import { SectionHeading } from '../components/common/SectionHeading';
 import { CTASection } from '../components/common/CTASection';
+import { ServiceHeroMedia } from '../components/common/ServiceHeroMedia';
 import { PageTransition } from '../components/layout/PageTransition';
 import { IosModal } from '../components/ui/IosModal';
 import { productsData } from '../data/productsData';
 import { ArrowRight, CheckCircle2, Server } from 'lucide-react';
+import './RelationshipManagementHero.css';
+import './VendorManagementHero.css';
+import './DataAnalyticsHero.css';
+import './HRManagementHero.css';
+
+const videoHeroStyles: Partial<Record<string, string>> = {
+  'data-analytics': 'data-analytics-hero',
+  'hr-management-system': 'hr-management-hero',
+  'relationship-management': 'relationship-hero',
+  'vendor-management': 'vendor-hero',
+};
 
 export const ProductDetailPage: React.FC = () => {
   const reducedMotion = useReducedMotion();
   const { slug } = useParams<{ slug: string }>();
+  const heroStyle = slug ? videoHeroStyles[slug] : undefined;
+  const visualOnlyHero = heroStyle === 'hr-management-hero';
+  const heroVideo = useRef<HTMLVideoElement>(null);
   const [isDemoModalOpen, setIsDemoModalOpen] = useState(false);
   const [isSubmitted, setIsSubmitted] = useState(false);
   const [email, setEmail] = useState('');
@@ -21,6 +36,14 @@ export const ProductDetailPage: React.FC = () => {
     setActiveStackTab(0);
   }, [slug]);
 
+  useEffect(() => {
+    if (!heroStyle || !heroVideo.current) return;
+    const video = heroVideo.current;
+    if (reducedMotion) video.pause();
+    else void video.play().catch(() => { /* Leave the opening frame visible when autoplay is blocked. */ });
+    return () => video.pause();
+  }, [heroStyle, reducedMotion]);
+
   const product = productsData.find((p) => p.slug === slug);
 
   if (!product) {
@@ -29,6 +52,13 @@ export const ProductDetailPage: React.FC = () => {
 
   const stackTabs = product.stackTabs || [];
   const currentStack = stackTabs[activeStackTab] || stackTabs[0];
+  const heroMedia = heroStyle && (
+    <ServiceHeroMedia key={product.slug} videoRef={heroVideo} autoPlay={!reducedMotion}
+      poster={`${import.meta.env.BASE_URL}videos/${product.slug}-poster.webp`}
+      preload={reducedMotion ? 'none' : 'metadata'}>
+      {!reducedMotion && <source src={`${import.meta.env.BASE_URL}videos/${product.slug}.mp4`} type="video/mp4" />}
+    </ServiceHeroMedia>
+  );
 
   const handleDemo = (e: React.FormEvent) => {
     e.preventDefault();
@@ -43,8 +73,13 @@ export const ProductDetailPage: React.FC = () => {
   return (
     <PageTransition className="min-h-screen overflow-x-hidden pt-20 selection:bg-accent selection:text-white">
       {/* 1. PRODUCT HERO */}
-      <section className="hero-clay-canvas py-section relative overflow-hidden">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
+      {visualOnlyHero && (
+        <section className="hr-management-hero relative isolate overflow-hidden" aria-label={product.name}>
+          {heroMedia}
+        </section>
+      )}
+      <section className={visualOnlyHero ? 'hr-management-intro bg-canvas' : `hero-clay-canvas py-section relative overflow-hidden${heroStyle ? ` ${heroStyle} isolate` : ''}`}>
+        <div className={`max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10${heroStyle && !visualOnlyHero ? ` ${heroStyle}-content` : ''}`}>
           <Breadcrumbs
             items={[
               { label: 'Products', path: '/products' },
@@ -52,7 +87,7 @@ export const ProductDetailPage: React.FC = () => {
             ]}
           />
 
-          <div className="mt-8 grid grid-cols-1 lg:grid-cols-12 gap-10 items-center">
+          <div className={visualOnlyHero ? 'mt-6 max-w-3xl' : heroStyle ? `mt-8 ${heroStyle}-copy` : 'mt-8 grid grid-cols-1 lg:grid-cols-12 gap-10 items-center'}>
             <div className="lg:col-span-7 space-y-5">
               <div className="text-xs font-mono font-bold uppercase tracking-[0.2em] text-accent">
                 {product.badge || 'Prakvi Platform'}
@@ -84,18 +119,21 @@ export const ProductDetailPage: React.FC = () => {
               </div>
             </div>
 
-            <div className="lg:col-span-5">
-              <div className="clay-card p-3">
-                <img
-                  src={product.image}
-                  alt={product.name}
-                  className="w-full h-72 sm:h-80 object-cover rounded-2xl"
-                  referrerPolicy="no-referrer"
-                />
+            {!heroStyle && (
+              <div className="lg:col-span-5">
+                <div className="clay-card p-3">
+                  <img
+                    src={product.image}
+                    alt={product.name}
+                    className="w-full h-72 sm:h-80 object-cover rounded-2xl"
+                    referrerPolicy="no-referrer"
+                  />
+                </div>
               </div>
-            </div>
+            )}
           </div>
         </div>
+        {!visualOnlyHero && heroMedia}
       </section>
 
       {/* 2. CAPABILITIES & BENEFITS */}

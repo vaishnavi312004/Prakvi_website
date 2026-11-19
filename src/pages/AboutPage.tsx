@@ -73,7 +73,7 @@ export const AboutPage: React.FC = () => {
 
   return (
     <PageTransition>
-      <div className="overflow-x-hidden pt-20 selection:bg-accent selection:text-white">
+      <div className="about-page-theme overflow-x-hidden pt-20 selection:bg-accent selection:text-white">
         <section
           ref={heroSectionRef}
           className="about-hero-backdrop relative w-full overflow-hidden pt-12 pb-0 sm:pt-16 lg:py-20 lg:min-h-[640px] xl:min-h-[680px] lg:flex lg:items-center"

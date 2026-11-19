@@ -619,37 +619,36 @@
       linear-gradient(155deg, #f8fbff 20%, #f4f8fc 54%, #f8fbff 86%);
   }
 
-  .architecture-hero {
-    /* The outer edge returns to the page background without a separate media surface. */
-    --architecture-atmosphere: #8397bd 10%, #91aacb 39%, #a8c2dc 61%, #ccdfeeba 76%, #e6f3fb66 90%, transparent 100%;
-    --service-hero-gradient: radial-gradient(ellipse 63% 50% at 83% 50%, var(--architecture-atmosphere));
-    --architecture-mobile-radius: calc(28.125vw + clamp(1.5rem, 5vw, 3rem));
-    --service-hero-mobile-gradient: radial-gradient(
-      ellipse 94% var(--architecture-mobile-radius) at 56% calc(100% - var(--architecture-mobile-radius)),
-      var(--architecture-atmosphere)
-    );
-    --service-hero-copy-width: 46%;
-    --service-hero-start: 47%;
-    --service-hero-fade: none;
-    --service-hero-mobile-fade: none;
-  }
-
-  .architecture-hero .service-hero-video {
-    /* Feather the sides independently, then soften the corners outside the artwork. */
-    --architecture-video-mask:
-      linear-gradient(to right, transparent, #0005 3%, #000c 7%, #000 11%, #000 94%, #000b 97%, transparent),
-      linear-gradient(to bottom, transparent, #0006 2%, #000c 5%, #000 8%, #000 92%, #000c 95%, #0006 98%, transparent),
-      radial-gradient(ellipse 68% 72% at 52% 50%, #000 68%, #000e 77%, #0008 87%, transparent 100%);
-    -webkit-mask-image: var(--architecture-video-mask);
-    -webkit-mask-composite: source-in;
-    mask-image: var(--architecture-video-mask);
-    mask-composite: intersect;
-  }
-
   .mobility-hero {
     --service-hero-gradient: linear-gradient(109deg, #e1eff9, #cadeed 36%, #9fbfd6 53%, #6695b8 70%, #3b6b94 87%, #335377);
     --service-hero-mobile-gradient: linear-gradient(163deg, #e1eff9, #d3e5f1 53%, #abc9df 68%, #6695b8 84%, #3b6b94);
   }
+
+  .architecture-hero {
+    --architecture-hero-outflow: linear-gradient(to bottom, #f5f9fc00 83%, #f5f9fc29 90%, #f5f9fc9e 96%, #f5f9fc);
+    --service-hero-gradient:
+      var(--architecture-hero-outflow),
+      radial-gradient(ellipse 65% 57% at 29% 119%, #f1bf90c4, #e9a46f54 48%, #e9a46f00 91%),
+      radial-gradient(ellipse 74% 89% at 13% 99%, #b1a1dfd9, #c1b7ea8c 42%, #c1b7ea00 87%),
+      radial-gradient(ellipse 66% 92% at 75% 42%, #6d9bcb61, #7f9ece2e 49%, #7f9ece00 94%),
+      radial-gradient(ellipse 65% 84% at 59% 111%, #4566aa7a, #526cb538 42%, #526cb500 94%),
+      linear-gradient(117deg, #e2eff8 3%, #d3e3f2 31%, #a8bedf 51%, #7195bf 68%, #436e9c 85%, #344f78);
+    --service-hero-mobile-gradient:
+      var(--architecture-hero-outflow),
+      radial-gradient(ellipse 125% 32% at 18% 77%, #e9a46f69, #e9a46f21 54%, #e9a46f00 95%),
+      radial-gradient(ellipse 120% 48% at 5% 68%, #aa9ddcaa, #b6abe550 52%, #b6abe500 96%),
+      linear-gradient(163deg, #e2eff8, #cadcf0 45%, #a8bae0 65%, #6b94bd 83%, #3b5f8d);
+    --service-hero-start: 45%;
+    --architecture-hero-bottom-fade: linear-gradient(to bottom, #000 87%, #000f 90%, #000b 94%, #0005 97%, transparent);
+    /* A shallow diagonal follows the artwork. The first mask keeps the frame edge transparent at every aspect ratio. */
+    --service-hero-fade:
+      linear-gradient(to right, transparent, #0002 3%, #0009 7%, #000 12%),
+      linear-gradient(97deg, transparent 5%, #0001 9%, #0003 14%, #0007 19%, #000b 24%, #000e 29%, #000 34%),
+      var(--architecture-hero-bottom-fade);
+    --service-hero-mobile-fade: linear-gradient(to right, transparent, #0007 6%, #000 16%), var(--architecture-hero-bottom-fade);
+  }
+
+  .architecture-hero .service-hero-frame { mask-composite: intersect; }
 
   .service-video-hero {
     background: var(--service-hero-gradient);

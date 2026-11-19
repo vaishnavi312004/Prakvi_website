@@ -1,12 +1,135 @@
-import React, { useEffect, useId, useRef, useState } from 'react';
-import { AnimatePresence, motion, useInView } from 'motion/react';
-import { Activity, Cable, Network, Pause, Play, Route, ScanSearch, ShieldCheck } from 'lucide-react';
+﻿import React, { useCallback, useEffect, useId, useRef, useState, useSyncExternalStore } from 'react';
+import { AnimatePresence, motion, useAnimationFrame, useInView, useMotionValue } from 'motion/react';
+import { Activity, ArrowUpRight, Cable, Layers3, Network, Pause, Play, Route, ScanSearch, ShieldCheck } from 'lucide-react';
 import type { ServiceItem } from '../../types';
-import { SectionHeading } from './SectionHeading';
 import './EnterpriseArchitectureJourney.css';
 
 const stepIcons = [ScanSearch, Network, ShieldCheck, Route, Cable, Activity];
-const journeyPath = 'M100 36 Q200 58 300 36 T500 36 T700 36 T900 36 T1100 36';
+const stageDuration = 4000;
+const hoverDelay = 650;
+const ease = [0.22, 1, 0.36, 1] as const;
+const revealViewport = { once: true, amount: 0.2 } as const;
+const compactQuery = '(max-width: 639px)';
+const reducedQuery = '(prefers-reduced-motion: reduce)';
+
+function subscribe(query: string, update: () => void) {
+  const media = window.matchMedia(query);
+  media.addEventListener('change', update);
+  return () => media.removeEventListener('change', update);
+}
+
+const subscribeCompact = (update: () => void) => subscribe(compactQuery, update);
+const subscribeReduced = (update: () => void) => subscribe(reducedQuery, update);
+
+interface JourneyLayout {
+  width: number;
+  height: number;
+  start: string;
+  stages: { x: number; y: number; curve: string }[];
+  finish: string;
+}
+
+const landscape: JourneyLayout = {
+  width: 800,
+  height: 560,
+  start: 'M12 145',
+  stages: [
+    { x: 168, y: 119, curve: 'C63 143 105 128 168 119' },
+    { x: 571, y: 84, curve: 'C271 104 449 83 571 84' },
+    { x: 608, y: 248, curve: 'C676 85 752 94 761 146 S707 231 608 248' },
+    { x: 229, y: 291, curve: 'C498 267 373 279 229 291' },
+    { x: 173, y: 454, curve: 'C129 299 56 337 61 388 S114 444 173 454' },
+    { x: 592, y: 475, curve: 'C274 471 456 465 592 475' },
+  ],
+  finish: 'C690 482 750 495 786 524',
+};
+
+const portrait: JourneyLayout = {
+  width: 400,
+  height: 680,
+  start: 'M65 5',
+  stages: [
+    { x: 167, y: 58, curve: 'C65 25 167 32 167 58' },
+    { x: 229, y: 169, curve: 'C167 98 229 129 229 169' },
+    { x: 167, y: 280, curve: 'C229 209 167 240 167 280' },
+    { x: 229, y: 391, curve: 'C167 320 229 351 229 391' },
+    { x: 167, y: 502, curve: 'C229 431 167 462 167 502' },
+    { x: 229, y: 613, curve: 'C167 542 229 573 229 613' },
+  ],
+  finish: 'C229 639 159 659 159 677',
+};
+
+function JourneyPath({ layout, active, moving, revealed, reduced }: {
+  layout: JourneyLayout;
+  active: number;
+  moving: boolean;
+  revealed: boolean;
+  reduced: boolean;
+}) {
+  const id = useId();
+  const svg = useRef<SVGSVGElement>(null);
+  const curves = layout.stages.map(stage => stage.curve);
+  const path = [layout.start, ...curves, layout.finish].join(' ');
+  const activePath = [layout.start, ...curves.slice(0, active + 1)].join(' ');
+
+  useEffect(() => {
+    if (moving) svg.current?.unpauseAnimations();
+    else svg.current?.pauseAnimations();
+  }, [moving, layout]);
+
+  return (
+    <svg ref={svg} className="ea-journey-paths" viewBox={`0 0 ${layout.width} ${layout.height}`} preserveAspectRatio="none" aria-hidden="true">
+      <defs>
+        <path id={`${id}-path`} d={path} pathLength={1} />
+        <linearGradient id={`${id}-route`} x2="0.86" y2="1">
+          <stop stopColor="#7ab9d7" stopOpacity="0.35" />
+          <stop offset="0.32" stopColor="#6badd2" />
+          <stop offset="0.68" stopColor="#8b96cf" />
+          <stop offset="1" stopColor="#cf9572" stopOpacity="0.65" />
+        </linearGradient>
+        <linearGradient id={`${id}-active`} x2="1" y2="0.54">
+          <stop stopColor="#51a0ca" />
+          <stop offset="0.62" stopColor="#438fcd" />
+          <stop offset="1" stopColor="#ce895e" />
+        </linearGradient>
+        <radialGradient id={`${id}-signal`}>
+          <stop stopColor="#fff" offset="0.24" />
+          <stop stopColor="#9eeaff" offset="0.43" />
+          <stop stopColor="#52c6eb" stopOpacity="0" offset="1" />
+        </radialGradient>
+        <mask id={`${id}-reveal`} maskUnits="userSpaceOnUse" x="0" y="0" width={layout.width} height={layout.height}>
+          <motion.path d={path} stroke="white" strokeWidth="50" fill="none" strokeLinecap="round"
+            initial={reduced ? false : { pathLength: 0 }}
+            animate={{ pathLength: reduced || revealed ? 1 : 0 }}
+            transition={{ duration: reduced ? 0 : 1.32, ease }} />
+        </mask>
+      </defs>
+      <g mask={`url(#${id}-reveal)`}>
+        <path className="ea-journey-track-aura" d={path} />
+        <path className="ea-journey-track" d={path} stroke={`url(#${id}-route)`} />
+        <motion.path key={active} className="ea-journey-track-active" d={activePath} stroke={`url(#${id}-active)`}
+          initial={reduced ? false : { opacity: 0 }} animate={{ opacity: 1 }} transition={{ duration: reduced ? 0 : 0.42 }} />
+        {!reduced && [0, -4, -8].map(start => (
+          <g key={start} className="ea-journey-signal">
+            <use href={`#${id}-path`} className="ea-journey-signal-trail" style={{ animationDelay: `${start}s` }} />
+            {[0, 0.17, 0.32].map((offset, index) => (
+              <circle key={offset} r={8 - index * 2} fill={`url(#${id}-signal)`} opacity="0">
+                <animateMotion dur="12s" begin={`${start + offset}s`} repeatCount="indefinite"><mpath href={`#${id}-path`} /></animateMotion>
+                <animate attributeName="opacity" values={`0;${1 - index * 0.22};${1 - index * 0.22};0`}
+                  keyTimes="0;0.045;0.94;1" dur="12s" begin={`${start + offset}s`} repeatCount="indefinite" />
+              </circle>
+            ))}
+          </g>
+        ))}
+      </g>
+    </svg>
+  );
+}
+
+function StageClock({ tick }: { tick: (delta: number) => void }) {
+  useAnimationFrame(useCallback((_time: number, delta: number) => tick(Math.min(delta, 100)), [tick]));
+  return null;
+}
 
 interface EnterpriseArchitectureJourneyProps {
   title: string;
@@ -14,252 +137,181 @@ interface EnterpriseArchitectureJourneyProps {
   steps: ServiceItem['deliverySteps'];
 }
 
-export const EnterpriseArchitectureJourney: React.FC<EnterpriseArchitectureJourneyProps> = ({
-  title, description, steps,
-}) => {
-  const [activeIndex, setActiveIndex] = useState(0);
-  const [playing, setPlaying] = useState(true);
-  const [hovered, setHovered] = useState(false);
+export function EnterpriseArchitectureJourney({ title, description, steps }: EnterpriseArchitectureJourneyProps) {
+  const id = useId();
+  const workspace = useRef<HTMLDivElement>(null);
+  const tabs = useRef<(HTMLButtonElement | null)[]>([]);
+  const resumeTimer = useRef<ReturnType<typeof setTimeout> | null>(null);
+  const progress = useMotionValue(0);
+  const reduced = useSyncExternalStore(subscribeReduced, () => window.matchMedia(reducedQuery).matches, () => false);
+  const compact = useSyncExternalStore(subscribeCompact, () => window.matchMedia(compactQuery).matches, () => false);
+  const inView = useInView(workspace, { amount: 0.08 });
+  const revealed = useInView(workspace, { ...revealViewport, amount: 0.13 });
+  const [active, setActive] = useState(0);
+  const [hovering, setHovering] = useState(false);
   const [focused, setFocused] = useState(false);
-  const [touching, setTouching] = useState(false);
+  const [reading, setReading] = useState(false);
+  const [playing, setPlaying] = useState(true);
   const [pageVisible, setPageVisible] = useState(true);
-  const [reducedMotion, setReducedMotion] = useState(() => window.matchMedia('(prefers-reduced-motion: reduce)').matches);
-  const [detailHeight, setDetailHeight] = useState<number>();
-  const sectionRef = useRef<HTMLElement>(null);
-  const selectorRef = useRef<HTMLDivElement>(null);
-  const pathRef = useRef<SVGSVGElement>(null);
-  const detailContentRef = useRef<HTMLDivElement>(null);
-  const tabRefs = useRef<(HTMLButtonElement | null)[]>([]);
-  const swipeStart = useRef<{ x: number; y: number } | null>(null);
-  const journeyId = useId();
-  const inView = useInView(sectionRef, { amount: 0.35 });
-  const animatePath = playing && !reducedMotion && pageVisible && inView;
-  const progressing = animatePath && !hovered && !focused && !touching;
-  const active = steps[activeIndex];
+  const moving = inView && pageVisible && !reduced;
+  const advancing = moving && playing && !hovering && !focused && !reading && steps.length > 1;
+  const layout = compact ? portrait : landscape;
 
   useEffect(() => {
-    const preference = window.matchMedia('(prefers-reduced-motion: reduce)');
-    const updateMotion = () => setReducedMotion(preference.matches);
-    const updateVisibility = () => setPageVisible(!document.hidden);
-    updateMotion();
-    updateVisibility();
-    preference.addEventListener('change', updateMotion);
-    document.addEventListener('visibilitychange', updateVisibility);
+    const update = () => setPageVisible(!document.hidden);
+    update();
+    document.addEventListener('visibilitychange', update);
     return () => {
-      preference.removeEventListener('change', updateMotion);
-      document.removeEventListener('visibilitychange', updateVisibility);
+      document.removeEventListener('visibilitychange', update);
+      if (resumeTimer.current !== null) clearTimeout(resumeTimer.current);
     };
   }, []);
 
-  useEffect(() => {
-    if (!progressing) return;
-    const timeout = window.setTimeout(() => {
-      setActiveIndex((index) => (index + 1) % steps.length);
-    }, 6000);
-    return () => window.clearTimeout(timeout);
-  }, [activeIndex, progressing, steps.length]);
+  const tick = useCallback((delta: number) => {
+    const next = progress.get() + delta / stageDuration;
+    progress.set(next % 1);
+    if (next >= 1) setActive(current => (current + 1) % steps.length);
+  }, [progress, steps.length]);
 
-  useEffect(() => {
-    if (animatePath) pathRef.current?.unpauseAnimations();
-    else pathRef.current?.pauseAnimations();
-  }, [animatePath]);
+  const select = (index: number) => {
+    if (active === index) return;
+    progress.set(0);
+    setActive(index);
+  };
 
-  useEffect(() => {
-    const content = detailContentRef.current;
-    if (!content) return;
-    const observer = new ResizeObserver(([entry]) => {
-      const height = entry.contentRect.height;
-      if (height > 0) setDetailHeight(height);
-    });
-    observer.observe(content);
-    return () => observer.disconnect();
-  }, []);
+  const preview = (index: number) => {
+    if (resumeTimer.current !== null) clearTimeout(resumeTimer.current);
+    setHovering(true);
+    select(index);
+  };
 
-  useEffect(() => {
-    const selector = selectorRef.current;
-    const tab = tabRefs.current[activeIndex];
-    if (!selector || !tab || selector.scrollWidth <= selector.clientWidth) return;
+  const resume = () => {
+    if (resumeTimer.current !== null) clearTimeout(resumeTimer.current);
+    resumeTimer.current = setTimeout(() => {
+      resumeTimer.current = null;
+      setHovering(false);
+    }, hoverDelay);
+  };
 
-    const viewport = selector.getBoundingClientRect();
-    const node = tab.getBoundingClientRect();
-    if (node.left >= viewport.left && node.right <= viewport.right) return;
-
-    // Reveal the selected step inside the horizontal strip without moving the page.
-    selector.scrollTo({
-      left: selector.scrollLeft + node.left - viewport.left - (viewport.width - node.width) / 2,
-      behavior: reducedMotion ? 'instant' : 'smooth',
-    });
-  }, [activeIndex, reducedMotion]);
+  const handleKeys = (event: React.KeyboardEvent<HTMLButtonElement>, index: number) => {
+    if (event.altKey || event.ctrlKey || event.metaKey || event.shiftKey) return;
+    const next = {
+      ArrowLeft: (index - 1 + steps.length) % steps.length,
+      ArrowUp: (index - 1 + steps.length) % steps.length,
+      ArrowRight: (index + 1) % steps.length,
+      ArrowDown: (index + 1) % steps.length,
+      Home: 0,
+      End: steps.length - 1,
+    }[event.key];
+    if (next === undefined) return;
+    event.preventDefault();
+    select(next);
+    tabs.current[next]?.focus();
+  };
 
   return (
-    <section
-      ref={sectionRef}
-      id="enterprise-process"
-      className="ea-journey"
-      aria-label={title}
-      data-animated={animatePath}
-      onPointerEnter={(event) => {
-        if (event.pointerType !== 'touch') setHovered(true);
-      }}
-      onPointerLeave={() => setHovered(false)}
-      onFocus={() => setFocused(true)}
-      onBlur={(event) => {
-        if (!event.currentTarget.contains(event.relatedTarget)) setFocused(false);
-      }}
-      onTouchStart={() => setTouching(true)}
-      onTouchEnd={(event) => {
-        if (event.touches.length === 0) setTouching(false);
-      }}
-      onTouchCancel={() => setTouching(false)}
-    >
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-        <SectionHeading title={title} description={description} align="center" className="ea-journey-heading" />
-
-        <div className="ea-journey-scroll" ref={selectorRef}>
-          <div className="ea-journey-track">
-            <svg
-              ref={pathRef}
-              className="ea-journey-path"
-              viewBox="0 0 1200 72"
-              preserveAspectRatio="none"
-              aria-hidden="true"
-            >
-              <defs>
-                <linearGradient id={`${journeyId}-line`}>
-                  <stop offset="0%" stopColor="#309ccc" />
-                  <stop offset="100%" stopColor="#d18a51" />
-                </linearGradient>
-                <radialGradient id={`${journeyId}-light`}>
-                  <stop offset="0%" stopColor="#fffaf0" />
-                  <stop offset="52%" stopColor="#f2b267" stopOpacity="0.6" />
-                  <stop offset="100%" stopColor="#f2b267" stopOpacity="0" />
-                </radialGradient>
-              </defs>
-              <path d={journeyPath} fill="none" stroke="#a1b8c7" strokeWidth="1.3" vectorEffect="non-scaling-stroke" />
-              <motion.path
-                d={journeyPath}
-                fill="none"
-                stroke={`url(#${journeyId}-line)`}
-                strokeWidth="2"
-                strokeLinecap="round"
-                vectorEffect="non-scaling-stroke"
-                initial={false}
-                animate={{ pathLength: activeIndex / (steps.length - 1) }}
-                transition={{ duration: reducedMotion ? 0 : 0.65, ease: [0.22, 1, 0.36, 1] }}
-              />
-              <g className="ea-journey-light" opacity="0">
-                <circle r="8" fill={`url(#${journeyId}-light)`} />
-                <circle r="2.5" fill="#ffd9a1" />
-                <animateMotion dur="8s" repeatCount="indefinite" path={journeyPath} />
-                <animate attributeName="opacity" values="0;1;1;0" keyTimes="0;0.08;0.92;1" dur="8s" repeatCount="indefinite" />
-              </g>
-            </svg>
-
-            <div role="tablist" aria-label="Enterprise Architecture journey" className="ea-journey-nodes">
-              {steps.map((step, index) => {
-                const Icon = stepIcons[index];
-                const selected = index === activeIndex;
-
-                return (
-                  <button
-                    key={step.step}
-                    ref={(element) => { tabRefs.current[index] = element; }}
-                    id={`${journeyId}-step-${index}`}
-                    type="button"
-                    role="tab"
-                    tabIndex={selected ? 0 : -1}
-                    aria-selected={selected}
-                    aria-controls={`${journeyId}-detail`}
-                    className="ea-journey-node"
-                    onClick={() => setActiveIndex(index)}
-                    onKeyDown={(event) => {
-                      if (event.altKey || event.ctrlKey || event.metaKey || event.shiftKey) return;
-                      let next: number;
-                      switch (event.key) {
-                        case 'ArrowLeft': next = (index - 1 + steps.length) % steps.length; break;
-                        case 'ArrowRight': next = (index + 1) % steps.length; break;
-                        case 'Home': next = 0; break;
-                        case 'End': next = steps.length - 1; break;
-                        default: return;
-                      }
-                      event.preventDefault();
-                      setActiveIndex(next);
-                      tabRefs.current[next]?.focus({ preventScroll: true });
-                    }}
-                  >
-                    <span className="ea-journey-node-icon" aria-hidden="true"><Icon /></span>
-                    <span className="ea-journey-node-title">
-                      <span className="ea-journey-step-number">{step.step}</span>
-                      {step.title}
-                    </span>
+    <section id="enterprise-process" className="ea-journey" aria-labelledby={`${id}-title`} data-moving={moving}>
+      {/* Scroll reveals run independently from the route entrance on direct visits. */}
+      <AnimatePresence>
+        <div className="ea-journey-inner">
+          <header className="ea-journey-heading">
+            <motion.h2 id={`${id}-title`} initial={reduced ? false : { opacity: 0, y: 30 }}
+              whileInView={{ opacity: 1, y: 0 }} viewport={revealViewport} transition={{ duration: reduced ? 0 : 0.63, ease }}>{title}</motion.h2>
+            <motion.p initial={reduced ? false : { opacity: 0, y: 13 }}
+              whileInView={{ opacity: 1, y: 0 }} viewport={revealViewport} transition={{ duration: reduced ? 0 : 0.62, delay: reduced ? 0 : 0.14, ease }}>{description}</motion.p>
+          </header>
+          <div ref={workspace} className="ea-journey-workspace" data-revealed={revealed}
+            onFocusCapture={event => setFocused(event.target.matches(':focus-visible'))}
+            onBlurCapture={event => { if (!event.currentTarget.contains(event.relatedTarget)) setFocused(false); }}>
+            {advancing && <StageClock tick={tick} />}
+            <div className="ea-journey-route">
+              <div className="ea-journey-atmosphere" aria-hidden="true"><i /><i /><i /><i /><i /></div>
+              <JourneyPath layout={layout} active={active} moving={moving} reduced={reduced} revealed={revealed} />
+              <div role="tablist" aria-label="Enterprise Architecture stages" aria-orientation={compact ? 'vertical' : 'horizontal'} className="ea-journey-nodes">
+                {steps.map((step, index) => {
+                  const Icon = stepIcons[index] ?? Layers3;
+                  const position = layout.stages[index];
+                  return (
+                    <div className="ea-journey-node-position" key={step.step}
+                      style={{ left: `${position.x / layout.width * 100}%`, top: `${position.y / layout.height * 100}%` }}
+                      onPointerEnter={event => { if (event.pointerType === 'mouse') preview(index); }}
+                      onPointerLeave={event => { if (event.pointerType === 'mouse') resume(); }}>
+                      <motion.div
+                        initial={reduced ? false : { opacity: 0, x: index % 2 ? 26 : -26 }}
+                        whileInView={{ opacity: 1, x: 0 }} viewport={revealViewport}
+                        transition={{ duration: reduced ? 0 : 0.68, delay: reduced ? 0 : 0.12 + index * 0.09, ease }}>
+                        <div className="ea-journey-node-float">
+                          <button ref={node => { tabs.current[index] = node; }} id={`${id}-step-${index}`}
+                            type="button" role="tab" className="ea-journey-node" tabIndex={active === index ? 0 : -1}
+                            aria-selected={active === index} aria-controls={`${id}-detail-${index}`}
+                            onClick={() => select(index)} onKeyDown={event => handleKeys(event, index)}>
+                            <span className="ea-journey-node-icon"><Icon aria-hidden="true" /></span>
+                            <span className="ea-journey-node-number" aria-hidden="true">{step.step}</span>
+                            <span className="ea-journey-node-title">{step.title}</span>
+                            <ArrowUpRight className="ea-journey-node-arrow" aria-hidden="true" />
+                          </button>
+                        </div>
+                      </motion.div>
+                    </div>
+                  );
+                })}
+              </div>
+            </div>
+            <motion.div className="ea-journey-glass" initial={reduced ? false : { opacity: 0, x: 36 }}
+              whileInView={{ opacity: 1, x: 0 }} viewport={revealViewport}
+              transition={{ duration: reduced ? 0 : 0.75, delay: reduced ? 0 : 0.26, ease }}
+              onPointerEnter={event => { if (event.pointerType === 'mouse') setReading(true); }}
+              onPointerLeave={event => { if (event.pointerType === 'mouse') setReading(false); }}>
+              <div className="ea-journey-details">
+                {steps.map((step, index) => {
+                  const selected = index === active;
+                  const Icon = stepIcons[index] ?? Layers3;
+                  return (
+                    <motion.div key={step.step} id={`${id}-detail-${index}`} className="ea-journey-detail" role="tabpanel"
+                      aria-labelledby={`${id}-step-${index}`} aria-hidden={!selected} tabIndex={selected ? 0 : -1} inert={!selected}
+                      initial={false} animate={selected ? 'shown' : 'hidden'}
+                      variants={{
+                        shown: { opacity: 1, y: reduced ? 0 : [14, 0], visibility: 'visible',
+                          transition: { duration: reduced ? 0 : 0.39, delay: reduced ? 0 : 0.10, ease, staggerChildren: reduced ? 0 : 0.05, delayChildren: reduced ? 0 : 0.13 } },
+                        hidden: { opacity: 0, y: reduced ? 0 : -12, transitionEnd: { visibility: 'hidden' }, transition: { duration: reduced ? 0 : 0.16 } },
+                      }}>
+                      <div className="ea-journey-detail-meta">
+                        <span className="ea-journey-detail-icon"><Icon aria-hidden="true" /></span>
+                        <motion.span className="ea-journey-detail-number"
+                          variants={{ shown: { opacity: 1, y: reduced ? 0 : [9, 0] }, hidden: { opacity: 0, y: reduced ? 0 : -6 } }}>{step.step}</motion.span>
+                      </div>
+                      <h3>{step.title}</h3>
+                      <p>{step.description}</p>
+                      {step.points?.length ? <ul>{step.points.map(point => (
+                        <motion.li key={point} variants={{ shown: { opacity: 1, y: 0 }, hidden: { opacity: 0, y: reduced ? 0 : 6 } }}
+                          transition={{ duration: reduced ? 0 : 0.24, ease }}>{point}</motion.li>
+                      ))}</ul> : null}
+                    </motion.div>
+                  );
+                })}
+              </div>
+              <div className="ea-journey-status">
+                <div className="ea-journey-progress" role="group" aria-label="Select a workflow step">
+                  {steps.map((step, index) => (
+                    <button type="button" key={step.step} data-past={index < active} data-current={index === active}
+                      aria-label={step.title} aria-pressed={index === active} onClick={() => select(index)}>
+                      <span>{index === active && <motion.i style={{ scaleX: reduced || !playing || hovering ? 1 : progress }} />}</span>
+                    </button>
+                  ))}
+                </div>
+                {!reduced && (
+                  <button type="button" className="ea-journey-playback"
+                    aria-label={playing ? 'Pause automatic progression' : 'Resume automatic progression'}
+                    onClick={() => setPlaying(current => !current)}>
+                    {playing ? <Pause aria-hidden="true" /> : <Play aria-hidden="true" />}
                   </button>
-                );
-              })}
-            </div>
+                )}
+              </div>
+            </motion.div>
           </div>
         </div>
-
-        <div className="ea-journey-glass">
-          <div
-            id={`${journeyId}-detail`}
-            className="ea-journey-detail"
-            role="tabpanel"
-            aria-labelledby={`${journeyId}-step-${activeIndex}`}
-            tabIndex={0}
-            style={{ height: detailHeight }}
-            onTouchStart={(event) => {
-              swipeStart.current = event.touches.length === 1
-                ? { x: event.touches[0].clientX, y: event.touches[0].clientY }
-                : null;
-            }}
-            onTouchEnd={(event) => {
-              const start = swipeStart.current;
-              swipeStart.current = null;
-              if (!start) return;
-              const end = event.changedTouches[0];
-              const dx = end.clientX - start.x;
-              const dy = end.clientY - start.y;
-              if (Math.abs(dx) > 48 && Math.abs(dx) > Math.abs(dy) * 1.4) {
-                setActiveIndex((index) => (index + (dx < 0 ? 1 : -1) + steps.length) % steps.length);
-              }
-            }}
-            onTouchCancel={() => { swipeStart.current = null; }}
-          >
-            <div ref={detailContentRef}>
-              <AnimatePresence mode="wait" initial={false}>
-                <motion.div
-                  key={active.step}
-                  className="ea-journey-detail-content"
-                  initial={reducedMotion ? false : { opacity: 0, y: 7 }}
-                  animate={{ opacity: 1, y: 0 }}
-                  exit={reducedMotion ? { opacity: 1 } : { opacity: 0, y: -4 }}
-                  transition={{ duration: reducedMotion ? 0 : 0.19, ease: [0.22, 1, 0.36, 1] }}
-                >
-                  <div>
-                    <h3>{active.title}</h3>
-                    <p>{active.description}</p>
-                  </div>
-                  {active.points && (
-                    <ul>{active.points.map((point) => <li key={point}>{point}</li>)}</ul>
-                  )}
-                </motion.div>
-              </AnimatePresence>
-            </div>
-          </div>
-
-          {!reducedMotion && (
-            <button
-              type="button"
-              className="ea-journey-playback"
-              aria-label={playing ? 'Pause automatic progression' : 'Resume automatic progression'}
-              title={playing ? 'Pause automatic progression' : 'Resume automatic progression'}
-              onClick={() => setPlaying((current) => !current)}
-            >
-              {playing ? <Pause aria-hidden="true" /> : <Play aria-hidden="true" />}
-            </button>
-          )}
-        </div>
-      </div>
+      </AnimatePresence>
     </section>
   );
-};
+}
+

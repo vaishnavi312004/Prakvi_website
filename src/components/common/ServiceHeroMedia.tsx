@@ -4,6 +4,7 @@ interface ServiceHeroMediaProps {
   videoRef: React.RefObject<HTMLVideoElement | null>;
   autoPlay: boolean;
   poster?: string;
+  preload?: 'none' | 'metadata' | 'auto';
   extendRightEdge?: boolean;
   sampleEdges?: boolean;
   children: React.ReactNode;
@@ -83,7 +84,7 @@ function paintEdge(
   context.fillRect(0, 0, width, height);
 }
 
-export const ServiceHeroMedia: React.FC<ServiceHeroMediaProps> = ({ videoRef, autoPlay, poster, extendRightEdge = false, sampleEdges = true, children }) => {
+export const ServiceHeroMedia: React.FC<ServiceHeroMediaProps> = ({ videoRef, autoPlay, poster, preload = 'auto', extendRightEdge = false, sampleEdges = true, children }) => {
   const frameRef = useRef<HTMLDivElement>(null);
 
   useEffect(() => {
@@ -189,7 +190,7 @@ export const ServiceHeroMedia: React.FC<ServiceHeroMediaProps> = ({ videoRef, au
           loop
           playsInline
           poster={poster}
-          preload="auto"
+          preload={preload}
           tabIndex={-1}
         >
           {children}

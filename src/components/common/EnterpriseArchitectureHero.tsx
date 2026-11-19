@@ -53,7 +53,6 @@ export const EnterpriseArchitectureHero: React.FC<{ service: ServiceItem }> = ({
         videoRef={videoRef}
         autoPlay={!reducedMotion}
         poster="/assets/aistudio/enterprise-architecture-poster.webp"
-        sampleEdges={false}
       >
         <source src="/assets/aistudio/enterprise-architecture-clean.mp4" type="video/mp4" />
       </ServiceHeroMedia>

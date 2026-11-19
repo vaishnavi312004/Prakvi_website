@@ -11,6 +11,13 @@ import { ServicePracticeSections } from './ServicePracticeSections';
 
 const serviceIcons = [Network, Cloud, ArrowLeftRight, Workflow, ShieldCheck];
 const journeyIcons = [Search, Network, Settings2, TestTube2, Rocket, Activity];
+const cardVisualIcons = [
+  [Building2, Server],
+  [Cloud, Container],
+  [Database, DatabaseZap],
+  [GitBranch, Plug],
+  [ShieldCheck, HardDrive],
+];
 const featureIcons = [
   [Building2, Server, Layers, Cloud, Truck],
   [Workflow, ArrowLeftRight, Plug, Network, Boxes],
@@ -44,8 +51,10 @@ export const SystemIntegrationSections: React.FC = () => (
   <ServicePracticeSections
     content={systemIntegrationData}
     serviceIcons={serviceIcons}
+    cardVisualIcons={cardVisualIcons}
     featureIcons={featureIcons}
     journeyIcons={journeyIcons}
+    cardTheme="integration"
     idPrefix="integration"
     explorerLabel="System Integration"
     className="integration-content"

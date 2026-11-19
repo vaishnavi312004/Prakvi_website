@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useRef, useState } from 'react';
 import { useParams, Link, Navigate } from 'react-router-dom';
 import { AnimatePresence, motion, useReducedMotion } from 'motion/react';
 import { Breadcrumbs } from '../components/common/Breadcrumbs';
@@ -14,6 +14,7 @@ import { SystemIntegrationSections } from '../components/common/SystemIntegratio
 import { SystemIntegrationHero } from '../components/common/SystemIntegrationHero';
 import { ProjectManagementHero } from '../components/common/ProjectManagementHero';
 import { ProjectManagementSections } from '../components/common/ProjectManagementSections';
+import { ServiceHeroMedia } from '../components/common/ServiceHeroMedia';
 import { SectionHeading } from '../components/common/SectionHeading';
 import { CTASection } from '../components/common/CTASection';
 import { PageTransition } from '../components/layout/PageTransition';
@@ -31,6 +32,8 @@ import {
   Target,
   Users,
 } from 'lucide-react';
+import './MobileAppDevelopmentHero.css';
+import './DigitalMarketingHero.css';
 
 export const ServiceDetailPage: React.FC = () => {
   const reducedMotion = useReducedMotion();
@@ -38,11 +41,40 @@ export const ServiceDetailPage: React.FC = () => {
   const [openFaqIndex, setOpenFaqIndex] = useState<number | null>(0);
   const [activeStackTab, setActiveStackTab] = useState(0);
   const [mobilityTab, setMobilityTab] = useState<'byod' | 'cyod' | 'security' | 'tools'>('byod');
+  const digitalMarketingHero = slug === 'digital-marketing';
+  const heroStyle = digitalMarketingHero ? 'digital-marketing-hero' : slug === 'mobile-app-development' ? 'mobile-app-hero' : null;
+  const heroVideo = useRef<HTMLVideoElement>(null);
 
   useEffect(() => {
     setActiveStackTab(0);
     setOpenFaqIndex(0);
   }, [slug]);
+
+  useEffect(() => {
+    const video = heroVideo.current;
+    if (!heroStyle || !video) return;
+    const play = () => { void video.play().catch(() => { /* Keep the poster visible if autoplay is blocked. */ }); };
+
+    if (reducedMotion) {
+      video.pause();
+      return;
+    }
+
+    if (!digitalMarketingHero) {
+      play();
+      return () => video.pause();
+    }
+
+    const observer = new IntersectionObserver(([entry]) => {
+      if (entry.isIntersecting && entry.intersectionRatio >= 0.12) play();
+      else video.pause();
+    }, { threshold: 0.12 });
+    observer.observe(video);
+    return () => {
+      observer.disconnect();
+      video.pause();
+    };
+  }, [digitalMarketingHero, heroStyle, reducedMotion]);
 
   const slugAliases: Record<string, string> = {
     'staffing-workforce-solutions': 'staffing',
@@ -94,8 +126,8 @@ export const ServiceDetailPage: React.FC = () => {
         ) : service.slug === 'system-integration' ? (
           <SystemIntegrationHero service={service} />
         ) : (
-        <section className="hero-clay-canvas py-section relative overflow-hidden">
-          <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
+        <section className={`hero-clay-canvas py-section relative overflow-hidden${heroStyle ? ` ${heroStyle} isolate` : ''}`}>
+          <div className={`max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10${heroStyle ? ` ${heroStyle}-content` : ''}`}>
             <Breadcrumbs
               items={[
                 { label: 'Services', path: '/services' },
@@ -103,7 +135,7 @@ export const ServiceDetailPage: React.FC = () => {
               ]}
             />
 
-            <div className="mt-8 grid grid-cols-1 lg:grid-cols-12 gap-10 items-center">
+            <div className={heroStyle ? `mt-8 ${heroStyle}-copy` : 'mt-8 grid grid-cols-1 lg:grid-cols-12 gap-10 items-center'}>
               <div className="lg:col-span-7 space-y-5">
                 <div className="text-xs font-mono font-bold uppercase tracking-[0.2em] text-accent">
                   {service.badge || 'Prakvi Service'}
@@ -132,18 +164,27 @@ export const ServiceDetailPage: React.FC = () => {
                 </div>
               </div>
 
-              <div className="lg:col-span-5">
-                <div className="clay-card p-3">
-                  <img
-                    src={service.featuredImage}
-                    alt={service.title}
-                    className="w-full h-72 sm:h-80 object-cover rounded-2xl"
-                    referrerPolicy="no-referrer"
-                  />
+              {!heroStyle && (
+                <div className="lg:col-span-5">
+                  <div className="clay-card p-3">
+                    <img
+                      src={service.featuredImage}
+                      alt={service.title}
+                      className="w-full h-72 sm:h-80 object-cover rounded-2xl"
+                      referrerPolicy="no-referrer"
+                    />
+                  </div>
                 </div>
-              </div>
+              )}
             </div>
           </div>
+          {heroStyle && (
+            <ServiceHeroMedia key={heroStyle} videoRef={heroVideo} autoPlay={!reducedMotion && !digitalMarketingHero}
+              poster={`${import.meta.env.BASE_URL}videos/${service.slug}-poster.webp`}
+              preload={reducedMotion ? 'none' : 'metadata'}>
+              {!reducedMotion && <source src={`${import.meta.env.BASE_URL}videos/${service.slug}.mp4`} type="video/mp4" />}
+            </ServiceHeroMedia>
+          )}
         </section>
         )}
 

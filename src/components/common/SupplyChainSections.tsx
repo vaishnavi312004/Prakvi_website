@@ -10,6 +10,13 @@ import { ServicePracticeSections } from './ServicePracticeSections';
 
 const serviceIcons = [Truck, Warehouse, ChartNoAxesCombined, Handshake, Network];
 const journeyIcons = [ChartNoAxesCombined, Handshake, Factory, Truck, RotateCcw];
+const cardVisualIcons = [
+  [Route, Globe2],
+  [Boxes, PackageSearch],
+  [BarChart3, CircleGauge],
+  [Handshake, Truck],
+  [BrainCircuit, Plug],
+];
 const featureIcons = [
   [ChartNoAxesCombined, Factory, CircleGauge, Network],
   [Truck, Warehouse, Route, Globe2],
@@ -21,8 +28,10 @@ export const SupplyChainSections: React.FC = () => (
   <ServicePracticeSections
     content={supplyChainData}
     serviceIcons={serviceIcons}
+    cardVisualIcons={cardVisualIcons}
     featureIcons={featureIcons}
     journeyIcons={journeyIcons}
+    cardTheme="supply"
     idPrefix="scm"
     explorerLabel="Supply Chain Management"
     className="scm-content"

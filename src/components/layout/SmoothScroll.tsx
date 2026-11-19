@@ -1,4 +1,4 @@
-import React, { useEffect } from 'react';
+import React, { useEffect, useRef } from 'react';
 import { useLocation } from 'react-router-dom';
 import Lenis from 'lenis';
 import 'lenis/dist/lenis.css';
@@ -10,17 +10,24 @@ export function scrollToTop() {
   else window.scrollTo({ top: 0, behavior: window.matchMedia('(prefers-reduced-motion: reduce)').matches ? 'instant' : 'smooth' });
 }
 
-export function resetRouteScroll() {
+export function resetRouteScroll(smoothHash = false) {
   activeScroller?.resize();
   let target: HTMLElement | null = null;
   try { target = document.getElementById(decodeURIComponent(window.location.hash.slice(1))); } catch { /* Ignore malformed fragment identifiers. */ }
-  if (activeScroller) activeScroller.scrollTo(target || 0, { immediate: true, force: true, offset: target ? -96 : 0 });
+  const smooth = smoothHash && target !== null && !window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+  if (target && window.location.pathname === '/about') {
+    // A numeric target applies the header offset once, independent of CSS anchor spacing.
+    const top = window.scrollY + target.getBoundingClientRect().top - 96;
+    if (activeScroller) activeScroller.scrollTo(top, { immediate: !smooth, force: true });
+    else window.scrollTo({ top, behavior: smooth ? 'smooth' : 'instant' });
+  } else if (activeScroller) activeScroller.scrollTo(target || 0, { immediate: true, force: true, offset: target ? -96 : 0 });
   else if (target) target.scrollIntoView({ behavior: 'instant' });
   else window.scrollTo({ top: 0, left: 0, behavior: 'instant' });
 }
 
 export const SmoothScroll: React.FC = () => {
   const { pathname, hash } = useLocation();
+  const previousLocation = useRef({ pathname, hash });
   useEffect(() => {
     const scroller = new Lenis({
       autoRaf: true,
@@ -36,7 +43,10 @@ export const SmoothScroll: React.FC = () => {
   }, []);
 
   useEffect(() => {
-    const frame = requestAnimationFrame(resetRouteScroll);
+    const previous = previousLocation.current;
+    previousLocation.current = { pathname, hash };
+    const aboutAnchorChanged = pathname === '/about' && previous.pathname === pathname && previous.hash !== hash;
+    const frame = requestAnimationFrame(() => resetRouteScroll(aboutAnchorChanged));
     return () => cancelAnimationFrame(frame);
   }, [pathname, hash]);
   return null;

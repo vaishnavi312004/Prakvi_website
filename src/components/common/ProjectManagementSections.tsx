@@ -10,6 +10,14 @@ import { ServicePracticeSections } from './ServicePracticeSections';
 
 const serviceIcons = [CalendarDays, Target, ShieldCheck, MessagesSquare, BarChart3, Handshake];
 const journeyIcons = [ClipboardList, Users, Activity, ShieldCheck, Flag];
+const cardVisualIcons = [
+  [ListTree, Milestone],
+  [Workflow, Rocket],
+  [ShieldCheck, Activity],
+  [Users, MessagesSquare],
+  [Gauge, ChartNoAxesCombined],
+  [ClipboardCheck, Flag],
+];
 const featureIcons = [
   [Target, ListTree, CalendarDays, Users],
   [Network, Workflow, ShieldCheck, Milestone],
@@ -21,8 +29,10 @@ export const ProjectManagementSections: React.FC = () => (
   <ServicePracticeSections
     content={projectManagementData}
     serviceIcons={serviceIcons}
+    cardVisualIcons={cardVisualIcons}
     featureIcons={featureIcons}
     journeyIcons={journeyIcons}
+    cardTheme="project"
     idPrefix="project"
     explorerLabel="Project Management"
     className="project-content"

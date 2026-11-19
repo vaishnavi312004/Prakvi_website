@@ -3,6 +3,8 @@ import { AnimatePresence, motion, useReducedMotion, useScroll } from 'motion/rea
 import { ArrowRight, type LucideIcon } from 'lucide-react';
 import { SectionHeading } from './SectionHeading';
 import { ServiceCapabilityOrbit } from './ServiceCapabilityOrbit';
+import type { PracticeCardTheme } from './PracticeServiceArtwork';
+import { VerticalAnimatedServiceCards } from './VerticalAnimatedServiceCards';
 
 const ease = [0.22, 1, 0.36, 1] as const;
 interface PracticeContent {
@@ -22,11 +24,14 @@ interface PracticeSectionsProps {
   connectedServices?: boolean;
   introDecoration?: React.ReactNode;
   showIntroduction?: boolean;
+  cardTheme: PracticeCardTheme;
+  cardVisualIcons?: LucideIcon[][];
 }
 
 export const ServicePracticeSections: React.FC<PracticeSectionsProps> = ({
   content, serviceIcons, featureIcons, journeyIcons, idPrefix, explorerLabel,
   className = '', connectedServices = false, introDecoration, showIntroduction = true,
+  cardTheme, cardVisualIcons,
 }) => {
   const reducedMotion = useReducedMotion();
   const journeyRef = useRef<HTMLOListElement>(null);
@@ -41,13 +46,6 @@ export const ServicePracticeSections: React.FC<PracticeSectionsProps> = ({
     viewport: { once: true, amount: 0.15 },
     transition: { duration: reducedMotion ? 0 : 0.5, delay: reducedMotion ? 0 : delay, ease },
   });
-
-  const moveHighlight = (event: React.PointerEvent<HTMLElement>) => {
-    if (reducedMotion || event.pointerType === 'touch') return;
-    const bounds = event.currentTarget.getBoundingClientRect();
-    event.currentTarget.style.setProperty('--spot-x', `${event.clientX - bounds.left}px`);
-    event.currentTarget.style.setProperty('--spot-y', `${event.clientY - bounds.top}px`);
-  };
 
   return (
     <div className={`mobility-content ${className} relative isolate overflow-hidden`}>
@@ -74,30 +72,14 @@ export const ServicePracticeSections: React.FC<PracticeSectionsProps> = ({
         </div>
       </section>}
 
-      <section id="capabilities" className="mobility-section relative">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-          <SectionHeading title={content.services.title} description={content.services.description} align="center" />
-          <div className={`mobility-services-grid${connectedServices ? ' relative' : ''} mt-9`}>
-            {connectedServices && <svg className="practice-service-connectors" viewBox="0 0 1000 500" preserveAspectRatio="none" fill="none" aria-hidden="true"><motion.path d="M150 130 C300 90 360 170 500 130 S710 90 850 130 C940 150 760 340 700 360 S380 390 280 360" stroke={`url(#${idPrefix}-connector-gradient)`} strokeWidth="2" strokeDasharray="5 11" animate={reducedMotion ? undefined : { strokeDashoffset: [0, -32] }} transition={{ duration: 8, repeat: Infinity, ease: 'linear' }} /><defs><linearGradient id={`${idPrefix}-connector-gradient`}><stop stopColor="#119bd6"/><stop offset="0.6" stopColor="#15becb"/><stop offset="1" stopColor="#ed9a48"/></linearGradient></defs></svg>}
-            {content.services.cards.map((card, index) => {
-              const Icon = serviceIcons[index];
-              return (
-                <motion.article
-                  key={card.title}
-                  className="mobility-service-card relative overflow-hidden"
-                  onPointerMove={moveHighlight}
-                  whileHover={reducedMotion ? undefined : { y: -5 }}
-                  {...reveal(index * 0.055)}
-                >
-                  <div className="mobility-service-icon"><Icon className="w-6 h-6" aria-hidden="true" /></div>
-                  <h3 className="relative mt-5 font-display text-lg font-bold text-foreground leading-snug">{card.title}</h3>
-                  <p className="relative mt-3 text-sm text-muted leading-relaxed">{card.description}</p>
-                </motion.article>
-              );
-            })}
-          </div>
-        </div>
-      </section>
+      <VerticalAnimatedServiceCards
+        title={content.services.title}
+        description={content.services.description}
+        cards={content.services.cards}
+        theme={cardTheme}
+        icons={serviceIcons}
+        detailIcons={cardVisualIcons}
+      />
 
       <section id={`${idPrefix}-process`} className="mobility-section mobility-journey-section relative">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
