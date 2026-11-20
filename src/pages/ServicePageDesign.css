@@ -1,0 +1,343 @@
+.service-design {
+  --service-hero-title-size: 3rem;
+  --service-section-title-size: 2.25rem;
+  --service-card-title-size: 1.25rem;
+  --service-hero-description-size: 1.0625rem;
+  --service-section-description-size: 1rem;
+  --service-card-description-size: 0.875rem;
+  --service-process-title-size: 1.5rem;
+  --service-tab-size: 0.875rem;
+  --service-button-size: 0.875rem;
+  --service-button-height: 2.875rem;
+  --service-content-max-width: 82.5rem;
+  --service-wide-content-max-width: 90rem;
+  --service-heading-max-width: 47.5rem;
+  --service-gutter: clamp(1.25rem, 4vw, 4rem);
+  --service-hero-min-height: clamp(35rem, 37vw, 40rem);
+  --service-section-padding: 5.5rem;
+  --service-heading-gap: 0.875rem;
+  --service-content-gap: 2.75rem;
+  --service-card-width: clamp(17rem, 25vw, 21rem);
+  --service-card-height: 24rem;
+  --service-card-scene-height: 13.5rem;
+  --service-card-gap: 1.5rem;
+  --service-card-radius: 1.5rem;
+  --service-card-padding: 1rem;
+  --service-card-clearance: 5rem;
+  --service-control-size: 2.75rem;
+  --service-node-title-size: 1rem;
+  --service-node-height: 6.625rem;
+  --service-orbit-x: 17.5rem;
+  --service-orbit-y: 8rem;
+  --service-orbit-node-width: 11rem;
+  --service-orbit-node-height: 5.5rem;
+}
+
+.service-design :is(.service-video-hero, .hero-clay-canvas) {
+  display: flex;
+  align-items: center;
+  min-height: var(--service-hero-min-height);
+  padding-block: clamp(3.25rem, 5vw, 4.5rem);
+}
+
+.service-design :is(.service-video-hero, .hero-clay-canvas, .ea-carousel-section) > .max-w-7xl {
+  width: min(100% - 2 * var(--service-gutter), var(--service-content-max-width));
+  max-width: none;
+  margin-inline: auto;
+  padding-inline: 0;
+}
+
+.service-design :is(.service-video-hero, .hero-clay-canvas) :is(.enterprise-hero-copy, [class*="-hero-copy"]) {
+  width: min(48%, 38rem);
+  max-width: none;
+  margin-top: 1.75rem;
+}
+
+.service-design :is(.service-video-hero, .hero-clay-canvas) h1 {
+  margin-block: 0;
+  font-family: var(--font-display);
+  font-size: var(--service-hero-title-size);
+  font-weight: 700;
+  line-height: 1.12;
+  letter-spacing: -0.035em;
+  text-wrap: balance;
+}
+
+.service-design .enterprise-hero-label { margin-bottom: 0.75rem; }
+.service-design .enterprise-hero-tagline {
+  margin-top: var(--service-heading-gap);
+  font-size: var(--service-hero-description-size);
+  line-height: 1.5;
+}
+.service-design :is(.enterprise-hero-description, .hero-clay-canvas [class*="-hero-copy"] p.text-muted) {
+  margin-block: var(--service-heading-gap) 0;
+  font-size: var(--service-hero-description-size);
+  font-weight: 400;
+  line-height: 1.6;
+}
+.service-design :is(.enterprise-hero-actions, .hero-clay-canvas [class*="-hero-copy"] .flex.flex-wrap) {
+  margin-block: 1.25rem 0;
+  padding-top: 0;
+  gap: 0.75rem;
+}
+.service-design .enterprise-hero-actions > div { width: auto; max-width: 100%; }
+.service-design :is(.service-video-hero, .hero-clay-canvas) :is(.btn-primary, .btn-secondary) {
+  width: auto;
+  max-width: 100%;
+  min-height: var(--service-button-height);
+  padding: 0.625rem 1.25rem;
+  font-size: var(--service-button-size);
+  font-weight: 600;
+  white-space: normal;
+}
+.service-design :is(.service-video-hero, .hero-clay-canvas) .btn-secondary {
+  color: #172b45;
+  background: var(--btn-secondary-bg, #f3f8ff);
+  border-color: #a9bfd5;
+  box-shadow: inset 0 1px #fff, 0 8px 16px -12px #284c72;
+}
+.service-design :is(.service-video-hero, .hero-clay-canvas) .btn-secondary:hover {
+  color: #172b45;
+  background: var(--btn-secondary-hover-bg, #fff);
+}
+@media (min-width: 1024px) {
+  .service-design .integration-hero .service-hero-frame {
+    mask-image: var(--service-hero-mask), linear-gradient(to left, transparent, black 5%);
+    mask-composite: intersect;
+  }
+}
+
+.service-design :is(.ea-offerings, .ea-journey, .ea-carousel-section) {
+  padding-block: var(--service-section-padding);
+}
+.service-design :is(.ea-workflow-inner, .ea-journey-inner) {
+  width: min(100% - 2 * var(--service-gutter), var(--service-wide-content-max-width));
+  margin-inline: auto;
+}
+.service-design :is(.ea-workflow-heading, .ea-journey-heading, .ea-carousel-section > div > :first-child) {
+  max-width: var(--service-heading-max-width);
+  margin-inline: auto;
+  text-align: center;
+}
+.service-design :is(.ea-workflow-heading, .ea-journey-heading, .ea-carousel-section) h2 {
+  color: #172b45;
+  font-family: var(--font-display);
+  font-size: var(--service-section-title-size);
+  font-weight: 700;
+  line-height: 1.16;
+  letter-spacing: -0.03em;
+  text-wrap: balance;
+}
+.service-design :is(.ea-workflow-heading, .ea-journey-heading, .ea-carousel-section > div > :first-child) p {
+  margin-block: var(--service-heading-gap) 0;
+  color: #405a74;
+  font-size: var(--service-section-description-size);
+  font-weight: 400;
+  line-height: 1.6;
+  text-wrap: pretty;
+}
+.service-design :is(.ea-gallery-stage, .ea-journey-workspace, .ea-carousel-interaction) {
+  margin-top: var(--service-content-gap);
+}
+.service-design .ea-gallery-viewport {
+  --ea-card-width: var(--service-card-width);
+  --ea-card-half: calc(var(--service-card-width) / 2);
+  --ea-card-gap: var(--service-card-gap);
+}
+.service-design .ea-gallery-card-surface {
+  gap: 0.875rem;
+  padding: var(--service-card-padding);
+  border-radius: var(--service-card-radius);
+}
+.service-design .ea-gallery-scene { height: var(--service-card-scene-height); }
+.service-design .integration-intro-network { height: auto; aspect-ratio: 1; }
+.service-design .ea-gallery-card-meta svg { width: 1.125rem; height: 1.125rem; }
+.service-design .ea-gallery-details { width: min(100%, 72rem); }
+.service-design :is(.ea-gallery-card-copy, .ea-gallery-detail-copy) h3 {
+  font-family: var(--font-display);
+  font-size: var(--service-card-title-size);
+  font-weight: 700;
+  line-height: 1.25;
+}
+.service-design :is(.ea-gallery-detail-copy p, .ea-gallery-detail-copy li, .ea-journey-detail) {
+  font-size: var(--service-card-description-size);
+  font-weight: 400;
+  line-height: 1.6;
+}
+.service-design :is(.ea-gallery-navigation button, .ea-journey-playback) {
+  width: var(--service-control-size);
+  height: var(--service-control-size);
+}
+
+@media (prefers-reduced-motion: no-preference) {
+  .service-design .ea-gallery-viewport { height: calc(var(--service-card-height) + var(--service-card-clearance)); }
+  .service-design .ea-gallery-card { height: var(--service-card-height); }
+}
+@media (prefers-reduced-motion: reduce) {
+  .service-design .ea-gallery-set[data-primary="true"] { gap: var(--service-card-gap); }
+}
+
+.service-design .ea-journey-workspace { gap: clamp(1.25rem, 3vw, 2.5rem); }
+.service-design .ea-journey-node {
+  min-height: var(--service-node-height);
+  padding: clamp(0.625rem, 1.2vw, 0.875rem);
+}
+.service-design .ea-journey-node-title {
+  font-size: var(--service-node-title-size);
+  font-weight: 700;
+  line-height: 1.22;
+  overflow-wrap: anywhere;
+}
+.service-design .ea-journey-node-number { font-size: 0.75rem; }
+.service-design .ea-journey-detail h3 {
+  font-size: var(--service-process-title-size);
+  font-weight: 700;
+  line-height: 1.2;
+}
+.service-design .ea-journey-details { min-height: 13rem; }
+.service-design .ea-journey-status { margin-top: 0.875rem; }
+@media (min-width: 981px) {
+  .service-design .ea-journey-workspace { grid-template-columns: minmax(0, 1.25fr) minmax(0, 1fr); }
+}
+
+.service-design .ea-carousel-interaction { max-width: none; }
+.service-design .ea-category-navigation { overflow: visible; }
+.service-design .ea-category-tabs {
+  min-width: 0;
+  max-width: 68rem;
+  gap: 0.75rem;
+}
+.service-design .ea-category-tab {
+  flex-direction: row;
+  gap: 0.5rem;
+  min-width: 0;
+  min-height: 3.75rem;
+  padding: 0.625rem 0.75rem;
+  font-size: var(--service-tab-size);
+  font-weight: 600;
+  line-height: 1.3;
+}
+.service-design .ea-category-tab > svg { width: 1.25rem; height: 1.25rem; }
+.service-design .ea-category-tab > span { min-width: 0; overflow-wrap: anywhere; }
+.service-design .ea-carousel-capabilities { min-height: 0; }
+.service-design .ea-carousel-section .ea-orbit-stage {
+  --ea-orbit-x: var(--service-orbit-x);
+  --ea-orbit-y: var(--service-orbit-y);
+  --ea-panel-width: var(--service-orbit-node-width);
+  --ea-panel-height: var(--service-orbit-node-height);
+  width: 100%;
+  max-width: 68rem;
+  height: calc(2 * var(--ea-orbit-y) + var(--ea-panel-height) + 2rem);
+}
+.service-design .ea-orbit-panel {
+  font-size: var(--service-tab-size);
+  font-weight: 600;
+  line-height: 1.25;
+}
+.service-design .ea-orbit-node-button {
+  position: absolute;
+  inset: 0;
+  display: grid;
+  justify-items: center;
+  align-content: center;
+  gap: 0.35rem;
+  padding: 0.4rem;
+  border-radius: inherit;
+  overflow-wrap: anywhere;
+  cursor: pointer;
+}
+.service-design .ea-orbit-node-button[aria-pressed="true"] { box-shadow: inset 0 0 0 2px #b9773d; }
+.service-design .ea-orbit-node-button:focus-visible { outline: 2px solid #17658e; outline-offset: 3px; }
+.service-design .ea-orbit-controls {
+  position: relative;
+  width: min(100%, 68rem);
+  min-height: var(--service-control-size);
+  margin-inline: auto;
+  padding-inline: calc(var(--service-control-size) + 0.5rem);
+  display: grid;
+  place-content: center;
+  text-align: center;
+  font-size: var(--service-tab-size);
+  font-weight: 600;
+}
+.service-design .ea-orbit-playback {
+  position: absolute;
+  inset: 0 0 auto auto;
+  display: grid;
+  place-items: center;
+  width: var(--service-control-size);
+  height: var(--service-control-size);
+  border: 1px solid #a9bfd5;
+  border-radius: 50%;
+  background: #f6fcff;
+  color: #155775;
+  cursor: pointer;
+}
+.service-design .ea-orbit-playback svg { width: 1rem; height: 1rem; }
+.service-design .ea-orbit-playback:hover { background: #fff; }
+.service-design .ea-orbit-playback:focus-visible { outline: 2px solid #17658e; outline-offset: 3px; }
+
+@media (max-width: 1279px) {
+  .service-design {
+    --service-hero-title-size: 2.5rem;
+    --service-section-title-size: 1.875rem;
+    --service-card-title-size: 1.1875rem;
+    --service-hero-description-size: 1rem;
+    --service-section-description-size: 0.9375rem;
+    --service-process-title-size: 1.375rem;
+    --service-section-padding: 4rem;
+    --service-content-gap: 2.25rem;
+    --service-card-gap: 1.375rem;
+    --service-card-height: 22.5rem;
+    --service-card-scene-height: 12rem;
+    --service-orbit-x: 14rem;
+    --service-orbit-node-width: 9rem;
+  }
+}
+@media (max-width: 1023px) {
+  .service-design :is(.service-video-hero, .hero-clay-canvas) {
+    display: block;
+    min-height: 0;
+    padding-block: 2.75rem 0;
+  }
+  .service-design :is(.service-video-hero, .hero-clay-canvas) :is(.enterprise-hero-copy, [class*="-hero-copy"]) {
+    width: 100%;
+    max-width: 38rem;
+  }
+  .service-design { --service-card-width: clamp(15.75rem, 34vw, 19rem); }
+}
+@media (max-width: 767px) {
+  .service-design {
+    --service-hero-title-size: 1.875rem;
+    --service-section-title-size: 1.625rem;
+    --service-card-title-size: 1.125rem;
+    --service-hero-description-size: 0.9375rem;
+    --service-section-description-size: 0.875rem;
+    --service-card-description-size: 0.8125rem;
+    --service-process-title-size: 1.25rem;
+    --service-tab-size: 0.8125rem;
+    --service-section-padding: 3rem;
+    --service-content-gap: 1.75rem;
+    --service-card-width: min(76vw, 18rem);
+    --service-card-height: 20.5rem;
+    --service-card-scene-height: 10.75rem;
+    --service-card-gap: 1.25rem;
+    --service-card-padding: 0.875rem;
+    --service-card-radius: 1.25rem;
+    --service-card-clearance: 4rem;
+    --service-node-title-size: 0.875rem;
+    --service-node-height: 4.25rem;
+    --service-orbit-x: clamp(4.75rem, 29vw, 12rem);
+    --service-orbit-y: 9.5rem;
+    --service-orbit-node-width: 6.25rem;
+    --service-orbit-node-height: 5.5rem;
+  }
+  .service-design :is(.service-video-hero, .hero-clay-canvas) { padding-top: 2rem; }
+  .service-design .ea-category-tabs { grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 0.625rem; }
+  .service-design .ea-category-tab { min-height: 3.25rem; padding-inline: 0.4rem; }
+  .service-design .ea-category-tab > svg { width: 1.0625rem; height: 1.0625rem; }
+  .service-design .ea-carousel-section .ea-orbit-stage[data-item-count="6"] {
+    --ea-panel-width: 5.25rem;
+    --ea-panel-height: 5rem;
+  }
+}
