@@ -14,6 +14,7 @@ interface SectionHeadingProps {
   className?: string;
   animate?: boolean;
   animateWords?: boolean;
+  animateWordsOnce?: boolean;
 }
 
 export const SectionHeading: React.FC<SectionHeadingProps> = ({
@@ -25,9 +26,12 @@ export const SectionHeading: React.FC<SectionHeadingProps> = ({
   className = '',
   animate = true,
   animateWords = false,
+  animateWordsOnce = false,
 }) => {
   const reducedMotion = useReducedMotion();
   const sharedReveal = React.useContext(ServiceTextRevealContext);
+  /* Word-reveal headings keep a Journey-style entrance even under page-level service text reveal. */
+  const motionReveal = animate && !reducedMotion && (!sharedReveal || animateWords);
 
   const renderTitle = () => {
     if (!highlightWord || !title.includes(highlightWord)) {
@@ -47,10 +51,10 @@ export const SectionHeading: React.FC<SectionHeadingProps> = ({
 
   return (
     <motion.div
-      initial={sharedReveal || reducedMotion || !animate ? false : { opacity: 0, y: 14 }}
-      whileInView={sharedReveal ? undefined : { opacity: 1, y: 0 }}
-      viewport={{ once: true, amount: 0.25 }}
-      transition={{ duration: reducedMotion || !animate ? 0 : 0.42, ease: [0.32, 0.72, 0, 1] }}
+      initial={motionReveal ? { opacity: 0, y: animateWords ? 30 : 14 } : false}
+      whileInView={motionReveal ? { opacity: 1, y: 0 } : undefined}
+      viewport={{ once: true, amount: 0.35 }}
+      transition={{ duration: motionReveal ? (animateWords ? 0.63 : 0.42) : 0, ease: [0.32, 0.72, 0, 1] }}
       className={`max-w-3xl ${
         align === 'center' ? 'text-center mx-auto' : 'text-left'
       } ${className}`}
@@ -60,8 +64,10 @@ export const SectionHeading: React.FC<SectionHeadingProps> = ({
           {badge}
         </div>
       )}
-      <h2 className="font-display text-2xl sm:text-3xl lg:text-4xl font-extrabold leading-tight text-foreground text-balance">
-        {animateWords ? <ScrollRevealText text={title} highlight={highlightWord} preserveLayout /> : renderTitle()}
+      <h2 className="font-display text-2xl sm:text-3xl lg:text-4xl font-extrabold leading-tight text-foreground text-balance" {...(animateWords ? { 'data-animate-words': '' } : {})}>
+        {animateWords
+          ? <ScrollRevealText text={title} highlight={highlightWord} preserveLayout once={animateWordsOnce} />
+          : renderTitle()}
       </h2>
       {description && (
         <p className="mt-4 text-base sm:text-lg leading-relaxed text-muted">

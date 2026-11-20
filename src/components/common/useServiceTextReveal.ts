@@ -5,7 +5,7 @@ import './serviceTextReveal.css';
 export const ServiceTextRevealContext = createContext(false);
 
 const selector = 'h1, h2, h3, h4, p, li';
-const excluded = 'nav, button, [role="tablist"], [aria-hidden="true"], .sr-only';
+const excluded = 'nav, button, [role="tablist"], [aria-hidden="true"], .sr-only, [data-animate-words], [data-animate-words] *';
 const listContent = 'h1, h2, h3, h4, p, ul, ol, a, button';
 
 export function useServiceTextReveal(ref: RefObject<HTMLElement | null>, enabled: boolean) {

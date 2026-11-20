@@ -35,7 +35,7 @@ export const MobilityPracticeHero: React.FC<{ service: ServiceItem }> = ({ servi
             {service.badge}
           </div>
           <motion.h1 id="mobility-hero-title" className="enterprise-hero-title font-display font-extrabold tracking-tight" {...entrance(0.05)}>
-            <ScrollRevealText text={service.title} highlight={service.title} />
+            <ScrollRevealText text={mobilityPracticeData.intro.title} preserveLayout />
           </motion.h1>
           {service.tagline !== mobilityPracticeData.intro.title && (
             <motion.p className="enterprise-hero-tagline font-semibold" {...entrance(0.13)}>

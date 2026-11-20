@@ -1,45 +1,70 @@
 .mobile-app-hero {
-  --service-hero-start: 25%;
-  --mobile-app-hero-tail: linear-gradient(to bottom, transparent 90%, color-mix(in srgb, var(--theme-canvas) 45%, transparent) 96%, var(--theme-canvas));
-  --mobile-app-media-tail: linear-gradient(to bottom, black 86%, #000e 90%, #0008 96%, transparent);
+  --service-hero-start: 28%;
+  --mobile-app-hero-tail: linear-gradient(to bottom, transparent 85%, color-mix(in srgb, var(--theme-canvas) 42%, transparent) 95%, var(--theme-canvas));
+  --mobile-app-media-bottom: linear-gradient(to bottom, black 87%, #000e 92%, #0008 96%, transparent);
   --service-hero-fade:
-    linear-gradient(to right, transparent 7%, #0001 12%, #0004 17%, #0009 23%, #000d 28%, black 35%),
-    var(--mobile-app-media-tail);
-  --service-hero-mobile-fade:
-    linear-gradient(to right, transparent, #0007 4%, black 14%),
-    var(--mobile-app-media-tail);
+    linear-gradient(to right, transparent 8%, #0001 12%, #0004 17%, #0009 22%, #000d 27%, black 32%),
+    var(--mobile-app-media-bottom);
+  --service-hero-mobile-fade: linear-gradient(to bottom, transparent, #0004 5%, #000b 11%, black 17%, black 88%, #000b 95%, transparent);
   display: flex;
   align-items: center;
   min-height: clamp(36rem, 37vw, 46rem);
   background:
     var(--mobile-app-hero-tail),
-    radial-gradient(ellipse 56% 71% at 92% 34%, #377aa454, transparent 84%),
-    radial-gradient(ellipse 58% 92% at 79% 107%, #6356aa86, transparent 86%),
-    radial-gradient(ellipse 60% 71% at 2% 107%, #483a7e66, transparent 84%),
-    linear-gradient(107deg, #192b48 6%, #203851 37%, #28476a 64%, #254d8b 100%);
+    radial-gradient(ellipse 64% 58% at 51% 8%, #d5f5ff70, transparent 80%),
+    radial-gradient(ellipse 52% 73% at 89% 81%, #59afea9c, transparent 83%),
+    radial-gradient(ellipse 53% 64% at 10% 91%, #92ddf55a, transparent 83%),
+    linear-gradient(112deg, #f3fbff 2%, #e1f4fc 28%, #c5eafb 44%, #9dd5f3 62%, #71b8e7 79%, #508cc5 100%) !important;
 }
 
-.mobile-app-hero .service-hero-frame { mask-composite: intersect; }
+/* Beat .service-detail-page > section.hero-clay-canvas in index.css */
+.service-detail-page > section.hero-clay-canvas.mobile-app-hero {
+  background:
+    var(--mobile-app-hero-tail),
+    radial-gradient(ellipse 64% 58% at 51% 8%, #d5f5ff70, transparent 80%),
+    radial-gradient(ellipse 52% 73% at 89% 81%, #59afea9c, transparent 83%),
+    radial-gradient(ellipse 53% 64% at 10% 91%, #92ddf55a, transparent 83%),
+    linear-gradient(112deg, #f3fbff 2%, #e1f4fc 28%, #c5eafb 44%, #9dd5f3 62%, #71b8e7 79%, #508cc5 100%) !important;
+}
+
+/* Remove excessive overlays from index.css */
+.service-detail-page > section.hero-clay-canvas.mobile-app-hero::before,
+.service-detail-page > section.hero-clay-canvas.mobile-app-hero::after {
+  content: none !important;
+  display: none !important;
+}
 
 .mobile-app-hero-content { width: 100%; }
 .mobile-app-hero-copy { width: min(43%, 34rem); }
-.mobile-app-hero-copy .text-foreground { color: #f5f8ff; }
-.mobile-app-hero-copy .text-muted { color: #dfebfb; }
-.mobile-app-hero-copy .text-accent { color: #aee9ff; }
-.mobile-app-hero nav .text-muted { color: #cadbf1; }
-.mobile-app-hero nav :is(a:hover, [aria-current='page']) { color: #aee9ff; }
+.mobile-app-hero-copy .text-foreground,
+.mobile-app-hero h1 { color: #172B4D !important; }
+.mobile-app-hero-copy .text-muted,
+.mobile-app-hero-copy p { color: #334e68 !important; }
+.mobile-app-hero-copy .text-accent { color: #1d5e92 !important; }
+.mobile-app-hero nav .text-muted { color: #365f82 !important; }
+.mobile-app-hero nav :is(a:hover, [aria-current='page']) { color: #176da8 !important; }
+.mobile-app-hero .service-hero-frame { mask-composite: intersect; }
+.mobile-app-hero h1 { color: #172B4D; }
+.mobile-app-hero-copy .text-muted,
+.mobile-app-hero-copy p { color: #526581; }
+.mobile-app-hero-copy .text-accent,
+.mobile-app-hero .text-accent { color: #2e5986; }
+.mobile-app-hero nav .text-muted { color: #526581; }
+.mobile-app-hero nav :is(a:hover, [aria-current='page']) { color: #172B4D; }
 
 @media (max-width: 1023px) {
-  .mobile-app-hero {
+  .mobile-app-hero,
+  .service-detail-page > section.hero-clay-canvas.mobile-app-hero {
     display: block;
     min-height: 0;
     padding-bottom: 0;
     background:
       var(--mobile-app-hero-tail),
-      radial-gradient(ellipse 100% 53% at 100% 87%, #387dad72, transparent 82%),
-      radial-gradient(ellipse 85% 44% at 14% 110%, #6253ad8c, transparent 87%),
-      linear-gradient(151deg, #192b48 12%, #233e62 63%, #254d8b 100%);
+      radial-gradient(ellipse 92% 31% at 2% 75%, #a9eaff96, transparent 80%),
+      radial-gradient(ellipse 93% 28% at 100% 90%, #75baf099, transparent 84%),
+      linear-gradient(160deg, #f3fbff 3%, #e4f5fd 35%, #d0edfa 60%, #b9e2f6 74%, #a6d9f3 87%, #92c6eb) !important;
   }
 
   .mobile-app-hero-copy { width: 100%; max-width: 40rem; }
+  .mobile-app-hero .service-hero-frame { grid-template-rows: clamp(2rem, 8vw, 3.25rem) auto clamp(1.5rem, 5vw, 3rem); }
 }

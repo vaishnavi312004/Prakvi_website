@@ -87,15 +87,8 @@ export const ProjectManagementHero: React.FC<{ service: ServiceItem }> = ({ serv
             className="enterprise-hero-title font-display font-extrabold tracking-tight"
             {...entrance(0.05)}
           >
-            <ScrollRevealText text={service.title} highlight={service.title} />
+            <ScrollRevealText text={projectManagementData.intro.title} preserveLayout />
           </motion.h1>
-
-          <motion.p
-            className="enterprise-hero-tagline font-semibold"
-            {...entrance(0.12)}
-          >
-            {projectManagementData.intro.title}
-          </motion.p>
 
           <motion.p
             className="enterprise-hero-description"

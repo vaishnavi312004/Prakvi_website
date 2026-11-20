@@ -412,6 +412,7 @@ export function ArchitectureOfferingsWorkflow({ id = 'capabilities', title, desc
         <header className="ea-workflow-heading">
           <motion.h2
             id={headingId}
+            data-animate-words=""
             initial={reduced ? false : { opacity: 0, y: 26 }}
             whileInView={{ opacity: 1, y: 0 }}
             viewport={revealViewport}

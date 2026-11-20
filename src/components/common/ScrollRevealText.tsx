@@ -1,10 +1,15 @@
 import React, { useLayoutEffect, useRef } from 'react';
 import { useInView, useReducedMotion } from 'motion/react';
 
-/** Masked letter rise for headings, replayed on viewport re-entry. */
-export function ScrollRevealText({ text, highlight, preserveLayout = false }: { text: string; highlight?: string; preserveLayout?: boolean }) {
+/** Masked letter rise for headings, replayed on viewport re-entry by default. */
+export function ScrollRevealText({ text, highlight, preserveLayout = false, once = false }: {
+  text: string;
+  highlight?: string;
+  preserveLayout?: boolean;
+  once?: boolean;
+}) {
   const ref = useRef<HTMLSpanElement>(null);
-  const visible = useInView(ref, { amount: 0.1, margin: '0px 0px -5% 0px' });
+  const visible = useInView(ref, { amount: 0.1, margin: '0px 0px -5% 0px', once });
   const reducedMotion = useReducedMotion();
   useLayoutEffect(() => {
     const element = ref.current;

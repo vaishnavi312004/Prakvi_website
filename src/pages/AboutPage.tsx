@@ -67,7 +67,7 @@ export const AboutPage: React.FC = () => {
           <div className="relative z-10 w-full max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
             <Breadcrumbs items={[{ label: 'About Us' }]} />
 
-            <div className="mt-8 grid grid-cols-1 lg:grid-cols-12 gap-10 items-center">
+            <div className="mt-8 lg:w-[48%]">
               <motion.div
                 initial={
                   reducedMotion
@@ -111,9 +111,9 @@ export const AboutPage: React.FC = () => {
               delay: reducedMotion ? 0 : 0.08,
               ease: smoothEase,
             }}
-            className="about-hero-robot-desktop pointer-events-none select-none absolute inset-y-0 -right-[8%] hidden lg:flex items-center w-[72%]"
+            className="pointer-events-none select-none absolute inset-y-0 right-0 hidden lg:flex items-center w-[64%] max-w-6xl"
           >
-            <motion.div className="relative w-full aspect-video overflow-hidden">
+            <motion.div className="about-hero-robot-frame about-hero-robot-desktop relative w-full aspect-video overflow-hidden">
               <video
                 ref={robotVideoRef}
                 src={ABOUT_ROBOT_VIDEO_SRC}
@@ -161,7 +161,7 @@ export const AboutPage: React.FC = () => {
                       ease: 'easeInOut',
                     }
               }
-              className="relative w-full aspect-video overflow-hidden"
+              className="about-hero-robot-frame relative w-full aspect-video overflow-hidden"
             >
               <video
                 ref={mobileRobotVideoRef}
@@ -175,12 +175,6 @@ export const AboutPage: React.FC = () => {
                 aria-label="Animated AI robot working on a laptop with floating code interfaces"
                 className="w-full h-full object-contain block select-none"
               />
-
-              <div className="about-hero-edge-left pointer-events-none absolute inset-y-0 left-0 w-[10%]" />
-
-              <div className="about-hero-edge-top pointer-events-none absolute inset-x-0 top-0 h-[5%]" />
-
-              <div className="about-hero-edge-bottom pointer-events-none absolute inset-x-0 bottom-0 h-[5%]" />
             </motion.div>
           </motion.div>
         </section>

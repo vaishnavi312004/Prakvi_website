@@ -33,7 +33,7 @@ export const SupplyChainHero: React.FC<{ service: ServiceItem }> = ({ service })
             {service.badge}
           </div>
           <motion.h1 id="supply-chain-hero-title" className="enterprise-hero-title font-display font-extrabold tracking-tight" {...entrance(0.05)}>
-            <ScrollRevealText text={service.title} highlight={service.title} />
+            <ScrollRevealText text={service.tagline} preserveLayout />
           </motion.h1>
           <motion.p className="enterprise-hero-description" {...entrance(0.21)}>
             {service.fullDesc}

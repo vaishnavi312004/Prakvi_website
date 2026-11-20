@@ -812,11 +812,11 @@ const serviceCatalog: ServiceItem[] = [
     shortDesc:
       'End-to-end cloud consulting, migration, multi-cloud deployment, security hardening, and 24/7 managed optimization across AWS, Azure, and GCP.',
     fullDesc:
-      'In today’s digital first world, Prakvi delivers end-to-end cloud services in India, offering speed, scalability, and security. Our cloud migration services, multi-cloud solutions, and managed cloud services help modernize IT infrastructure, cut costs, and boost innovation. Partnering with AWS, Azure, and Google Cloud, we ensure seamless deployment, optimization, and secure, business-driven cloud operations.',
+      "In today's digital first world, Prakvi delivers end-to-end cloud services in India, offering speed, scalability, and security. Our cloud migration services, multicloud solutions, and managed cloud services help modernize IT infrastructure, cut costs, and boost innovation. Partnering with AWS, Azure, and Google Cloud, we ensure seamless deployment, optimization, and secure, business-driven cloud operations.",
     iconName: 'Cloud',
     badge: 'Cloud Migration & Management',
-    offeringsTitle: 'Other Cloud & Hybrid Services Offered',
-    offeringsSubtitle: 'End-to-end cloud services customized to meet your specific business requirements.',
+    offeringsTitle: 'Other Services Offered',
+    offeringsSubtitle: 'We provide end-to-end cloud services customized to meet your specific business requirements.',
     businessChallenge:
       'Rigid legacy infrastructure, unplanned cloud spend, and complex compliance mandates hinder digital agility and application reliability.',
     howWeHelp:
@@ -824,20 +824,20 @@ const serviceCatalog: ServiceItem[] = [
     capabilities: [
       {
         title: 'System Integration (Hybrid Architectures)',
-        description:
-          'Hybrid cloud architecture design, cross-platform data integration, secure migration, and continuous synchronization with on-premises systems.',
+        description: 'Ensure seamless connectivity between cloud and on-premises environments.',
+        points: ['Hybrid cloud architecture design', 'Data integration across platforms', 'Secure migration and continuous synchronization'],
         icon: 'Plug',
       },
       {
         title: 'Cloud Advisory & Migration',
-        description:
-          'Cloud readiness assessments, AWS/Azure/GCP platform selection, ETL migration pipelines, and zero-disruption cutover planning.',
+        description: 'Strategic guidance and execution across cloud use cases.',
+        points: ['Cloud readiness assessments', 'Vendor and platform selection', 'Migration planning and execution'],
         icon: 'Cloud',
       },
       {
-        title: 'Infrastructure Management & Security',
-        description:
-          'Cloud, hybrid, and on-premises monitoring, scalability tuning, security hardening, disaster recovery, and compliance management.',
+        title: 'Infrastructure Management',
+        description: 'Ongoing support and optimization for your cloud and hybrid environments.',
+        points: ['Cloud, hybrid and on-premises environment monitoring', 'Scalability and performance tuning', 'Security hardening and compliance support'],
         icon: 'ShieldCheck',
       },
     ],
@@ -859,7 +859,7 @@ const serviceCatalog: ServiceItem[] = [
       },
     ],
     processTitle: 'Why Choose Prakvi for Cloud Services?',
-    processSubtitle: 'A structured 9-stage methodology for predictable cloud transformation.',
+    processSubtitle: 'A proven methodology that ensures successful project delivery.',
     deliverySteps: [
       {
         step: '01',
@@ -877,37 +877,37 @@ const serviceCatalog: ServiceItem[] = [
         step: '03',
         title: 'Cloud Advisory & Platform Selection',
         description:
-          'Evaluate leading providers (AWS, Azure, Google Cloud), choose environments aligned with objectives, and build a strategic deployment plan.',
+          'Evaluate leading providers (e.g., AWS, Azure, Google Cloud), choose environments that align with objectives, and develop a strategic plan for deployment.',
       },
       {
         step: '04',
         title: 'Migration & Integration Execution',
         description:
-          'Transfer data and applications, implement ETL pipelines where needed, and integrate cloud resources with existing systems.',
+          'Seamlessly transfer data and applications, implement ETL pipelines where needed, and integrate cloud resources with existing systems—including hybrid deployment when applicable.',
       },
       {
         step: '05',
         title: 'System Integration & Orchestration',
         description:
-          'Unify disparate systems into coherent architecture, ensuring secure, efficient data flow across cloud and on-premises platforms.',
+          'Unify disparate systems into coherent architecture, ensuring secure, efficient data flow across cloud and on-prem platforms.',
       },
       {
         step: '06',
         title: 'Launch & Deployment',
         description:
-          'Deploy workloads to your cloud environment, configure access controls, set up backup and disaster recovery, and validate operational readiness.',
+          'Deploy workloads to your cloud environment, configure access controls, set up backup, disaster recovery, and ensure operational readiness.',
       },
       {
         step: '07',
         title: 'Monitoring & Optimization',
         description:
-          'Implement ongoing performance monitoring, cost oversight, fault detection, and resource tuning to continuously improve infrastructure.',
+          'Implement ongoing performance monitoring, cost oversight, fault detection, and tuning to continuously improve the infrastructure.',
       },
       {
         step: '08',
         title: 'Security & Compliance Management',
         description:
-          'Apply rigorous security controls, access management, audits, and compliance frameworks to safeguard enterprise data and operations.',
+          'Apply rigorous security controls, access management, audits, and compliance frameworks to safeguard data and operations.',
       },
       {
         step: '09',
@@ -918,7 +918,7 @@ const serviceCatalog: ServiceItem[] = [
     ],
     stackTitle: 'Cloud Services',
     stackSummary:
-      'Prakvi positions Cloud Services as a core offering, delivering expert consulting, secure migration, and ongoing cloud management to help businesses harness the full power of the cloud.',
+      'Prakvi positions Cloud Services as its lead offering, delivering expert consulting, secure migration, and ongoing cloud management to help businesses harness the full power of the cloud.',
     stackTabs: [
       { label: 'Consulting', items: ['Cloud Strategy', 'Architecture Planning', 'Security Assessment'] },
       { label: 'Migration', items: ['Data Migration', 'App Migration', 'Legacy System Integration'] },
@@ -1111,38 +1111,39 @@ const serviceCatalog: ServiceItem[] = [
     shortDesc:
       'Optimize servers, networks, storage, data centers, and hybrid clouds with AI-powered monitoring, security hardening, and SLA uptime.',
     fullDesc:
-      'In today’s fast-paced digital economy, business success relies on stable, secure, and high-performing IT systems. At Prakvi, we offer comprehensive IT infrastructure management services in India to optimize performance, ensure scalability, and cut operational costs. From data centers, network management services, and server management services to cloud infrastructure management and storage management services, our certified experts use automation, AI-powered monitoring, and best-in-class tools to prevent downtime, improve efficiency, and maximize ROI across industries including IT, manufacturing, BFSI, retail, and healthcare.',
+      "In today's fast-paced digital economy, business success relies on stable, secure, and high-performing IT systems. At Prakvi, we offer comprehensive IT infrastructure management services in India to optimize performance, ensure scalability, and cut operational costs. From data centers, network management services, and server management services to cloud infrastructure management and storage management services, our certified experts use automation, AI-powered monitoring, and best-in-class tools to prevent downtime, improve efficiency, and maximize ROI across industries including IT, manufacturing, BFSI, retail, and healthcare.",
     iconName: 'Server',
     badge: 'IT Infrastructure Solutions',
-    offeringsTitle: 'Additional Infrastructure Offerings',
-    offeringsSubtitle: 'Meticulously engineered infrastructure capabilities aligned to high-availability business systems.',
+    offeringsTitle: 'Additional Service Offerings',
+    offeringsSubtitle: 'Our Infrastructure Management Services are meticulously designed to align with your specific business requirements.',
     businessChallenge:
       'Infrastructure vulnerabilities, unmonitored network bottlenecks, and manual maintenance increase downtime risk and escalate operational costs.',
     howWeHelp:
       'We implement continuous monitoring, load balancing, storage tuning, security audits, and auto-scaling infrastructure architectures.',
     capabilities: [
       {
-        title: 'Cloud Services & Hybrid Readiness',
-        description:
-          'Cloud strategy, workload migration, cloud architecture management, security compliance, and third-party infrastructure integrations.',
+        title: 'Cloud Services',
+        description: 'Tailored strategies and deployments for modern, resilient cloud infrastructure.',
+        points: ['Cloud strategy & consulting', 'Cloud migration & deployment', 'Cloud architecture & infrastructure management',
+          'Cloud security & compliance', 'Third-party integrations'],
         icon: 'Cloud',
       },
       {
         title: 'System Integration Services',
-        description:
-          'Application-to-hardware alignment, database integration, legacy modernization, and end-to-end performance tuning.',
+        description: 'Bridging applications, databases, and hardware to eliminate silos and drive efficient data flow.',
+        points: ['Application-to-hardware alignment', 'Database integration', 'Legacy modernization', 'Performance tuning'],
         icon: 'Plug',
       },
       {
         title: 'Enterprise Architecture & Consulting',
-        description:
-          'Technology-roadmap development, IT governance, and infrastructure transformation aligned with enterprise goals.',
+        description: 'Crafting frameworks that tightly align business strategy and IT systems for cohesive transformation.',
+        points: ['Enterprise architecture planning', 'Technology-roadmap development', 'IT governance & compliance', 'Digital transformation consulting'],
         icon: 'Layers',
       },
       {
-        title: 'Project Management & Enterprise Delivery',
-        description:
-          'Coordinated delivery spanning BI infrastructure, workforce systems, ERP/CRM hosting, and mobile/BYOD endpoint networks.',
+        title: 'Project Management & Enterprise Solutions',
+        description: 'Integrated delivery across business intelligence, CRM/ERP, mobility, and workforce systems.',
+        points: ['BI and analytics', 'Workforce solutions', 'ERP / CRM implementation', 'Mobile & BYOD strategy'],
         icon: 'CheckSquare',
       },
     ],
@@ -1164,43 +1165,49 @@ const serviceCatalog: ServiceItem[] = [
       },
     ],
     processTitle: 'Why Choose Prakvi for Infrastructure Management?',
-    processSubtitle: 'A proven 6-stage lifecycle ensuring secure, scalable IT infrastructure.',
+    processSubtitle: 'A proven methodology that ensures successful project delivery.',
     deliverySteps: [
       {
         step: '01',
         title: 'Discovery & Assessment',
         description:
           'Conduct an initial audit of current infrastructure environments to identify vulnerabilities, inefficiencies, and growth constraints.',
+        points: ['Initial audit of current infrastructure environments', 'Identify vulnerabilities, inefficiencies, and growth constraints'],
       },
       {
         step: '02',
         title: 'Design & Planning',
         description:
           'Architect an optimized infrastructure model with a clear security, compliance, and scalability roadmap.',
+        points: ['Architect an optimized infrastructure model', 'Develop security, compliance, and scalability roadmap'],
       },
       {
         step: '03',
         title: 'Implementation & Integration',
         description:
           'Deploy monitoring tools and configuration automation with seamless integration across on-premises and cloud platforms.',
+        points: ['Deploy monitoring tools, automation, and manage configurations', 'Seamless integration with existing systems or cloud platforms'],
       },
       {
         step: '04',
         title: 'Monitoring & Optimization',
         description:
           'Establish continuous performance tracking, threshold alerts, load balancing, and resource tuning for peak uptime.',
+        points: ['Continuous performance tracking and threshold alerts', 'Load balancing, resource tuning, and optimization for uptime'],
       },
       {
         step: '05',
         title: 'Security & Compliance Management',
         description:
           'Enforce cybersecurity policies and regulatory controls alongside periodic security audits and compliance reviews.',
+        points: ['Enforce cybersecurity policies and regulatory controls', 'Conduct periodic security audits and compliance reviews'],
       },
       {
         step: '06',
         title: 'Support & Continuous Improvement',
         description:
           'Provide ongoing technical support, maintenance, and security patching backed by feedback-driven capacity scaling.',
+        points: ['Ongoing technical support, maintenance, and patching', 'Feedback-driven enhancements and growth alignment'],
       },
     ],
     stackTitle: 'IT Infrastructure Management',

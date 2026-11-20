@@ -63,19 +63,6 @@
   padding-block-start: calc(var(--about-upper-section-gap) / 2);
 }
 
-.about-page-theme .about-hero-backdrop {
-  background: transparent;
-}
-.about-page-theme .about-hero-edge-left {
-  background: linear-gradient(to right, #F9FCFF 0%, rgba(249, 252, 255, 0.72) 28%, transparent 100%);
-}
-.about-page-theme .about-hero-edge-top {
-  background: linear-gradient(to bottom, #F9FCFF 0%, transparent 100%);
-}
-.about-page-theme .about-hero-edge-bottom {
-  background: linear-gradient(to top, #FFFFFF 0%, rgba(255, 255, 255, 0) 100%);
-}
-
 .about-page-theme .about-ambient::before,
 .about-page-theme .about-story-film-glow::before,
 .about-page-theme .about-direction-section::before,

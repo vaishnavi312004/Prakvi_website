@@ -1,4 +1,4 @@
-﻿import React, { useCallback, useEffect, useId, useRef, useState, useSyncExternalStore } from 'react';
+import React, { useCallback, useEffect, useId, useRef, useState, useSyncExternalStore } from 'react';
 import { AnimatePresence, motion, useAnimationFrame, useInView, useMotionValue, useScroll } from 'motion/react';
 import { Activity, ArrowUpRight, Cable, ChartColumn, ClipboardList, FileChartColumn, Layers3, Megaphone, Network, Pause, PenLine, Play, Route, ScanSearch, Search, ShieldCheck, SlidersHorizontal, type LucideIcon } from 'lucide-react';
 import { ScrollRevealText } from './ScrollRevealText';
@@ -269,7 +269,7 @@ export function EnterpriseArchitectureJourney({ title, description, steps, ariaL
       <AnimatePresence>
         <div className="ea-journey-inner">
           <header className="ea-journey-heading">
-            <motion.h2 id={`${id}-title`} initial={reduced ? false : { opacity: 0, y: 30 }}
+            <motion.h2 id={`${id}-title`} data-animate-words="" initial={reduced ? false : { opacity: 0, y: 30 }}
               whileInView={{ opacity: 1, y: 0 }} viewport={revealViewport} transition={{ duration: reduced ? 0 : 0.63, ease }}><ScrollRevealText text={title} preserveLayout /></motion.h2>
             <motion.p initial={reduced ? false : { opacity: 0, y: 13 }}
               whileInView={{ opacity: 1, y: 0 }} viewport={revealViewport} transition={{ duration: reduced ? 0 : 0.62, delay: reduced ? 0 : 0.14, ease }}>{description}</motion.p>

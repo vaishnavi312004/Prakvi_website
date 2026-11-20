@@ -810,3 +810,24 @@
   width: 100%;
   height: 100%;
 }
+.ea-offerings[data-palette='cloud-services'] [data-service='0'] .ea-gallery-card-surface {
+  --ea-card-tint: #f9f7fc; --ea-card-base: #e7e8f7; --ea-card-accent: #655593; --ea-card-edge: #c5bedd; --ea-card-shadow: #65559344;
+}
+.ea-offerings[data-palette='cloud-services'] [data-service='1'] .ea-gallery-card-surface {
+  --ea-card-tint: #f7fbff; --ea-card-base: #e2edf6; --ea-card-accent: #356b94; --ea-card-edge: #a8cae2; --ea-card-shadow: #356b9444;
+}
+.ea-offerings[data-palette='cloud-services'] [data-service='2'] .ea-gallery-card-surface {
+  --ea-card-tint: #fdf9ef; --ea-card-base: #eee6f3; --ea-card-accent: #855f87; --ea-card-edge: #d1bad3; --ea-card-shadow: #855f8744;
+}
+.ea-offerings[data-palette='infrastructure-management'] [data-service='0'] .ea-gallery-card-surface {
+  --ea-card-tint: #fafbfd; --ea-card-base: #e7eaf6; --ea-card-accent: #526189; --ea-card-edge: #b5c0dc; --ea-card-shadow: #52618944;
+}
+.ea-offerings[data-palette='infrastructure-management'] [data-service='1'] .ea-gallery-card-surface {
+  --ea-card-tint: #fdf9f4; --ea-card-base: #efe4de; --ea-card-accent: #8e5d44; --ea-card-edge: #d9bfb2; --ea-card-shadow: #8e5d4444;
+}
+.ea-offerings[data-palette='infrastructure-management'] [data-service='2'] .ea-gallery-card-surface {
+  --ea-card-tint: #f9f7fc; --ea-card-base: #eae5f0; --ea-card-accent: #695782; --ea-card-edge: #c7bed0; --ea-card-shadow: #69578244;
+}
+.ea-offerings[data-palette='infrastructure-management'] [data-service='3'] .ea-gallery-card-surface {
+  --ea-card-tint: #fdf9f0; --ea-card-base: #f1e5dd; --ea-card-accent: #8c613e; --ea-card-edge: #d8c2b4; --ea-card-shadow: #8c613e44;
+}

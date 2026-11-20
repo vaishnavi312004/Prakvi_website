@@ -3,6 +3,8 @@ import type { CSSProperties, ReactElement } from 'react';
 import { integrationScenes, mobilityScenes, projectScenes, supplyScenes } from './practiceScenes';
 import { marketingScenes, mobileScenes } from './growthScenes';
 import { analyticsScenes, crmScenes, hrScenes, vendorScenes } from './businessScenes';
+import { cloudScenes } from './cloudScenes';
+import { infrastructureScenes } from './infrastructureScenes';
 import './ServiceIllustration.css';
 
 const collections = {
@@ -16,6 +18,8 @@ const collections = {
   'hr-management-system': hrScenes,
   'vendor-management': vendorScenes,
   'relationship-management': crmScenes,
+  'cloud-services': cloudScenes,
+  'infrastructure-management': infrastructureScenes,
 } satisfies Record<string, Record<string, ReactElement>>;
 
 export type IllustrationCollection = keyof typeof collections;
