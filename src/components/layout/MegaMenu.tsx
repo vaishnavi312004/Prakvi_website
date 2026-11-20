@@ -1,6 +1,7 @@
 import React, { useEffect, useRef } from 'react';
 import { Link } from 'react-router-dom';
 import { motion, AnimatePresence, useReducedMotion } from 'motion/react';
+import { createPortal } from 'react-dom';
 import { navigationData, type NavTreeSection, type TreeNavNode } from '../../data/navigationData';
 import {
   User,
@@ -114,7 +115,9 @@ export const MegaMenu: React.FC<MegaMenuProps> = ({ section, isOpen, focusFirstL
   const leftEnterprise = navigationData.enterpriseSolutions.slice(0, midPoint);
   const rightEnterprise = navigationData.enterpriseSolutions.slice(midPoint);
 
-  return (
+  if (typeof document === 'undefined') return null;
+
+  return createPortal(
     <AnimatePresence>
       {isOpen && (
         <motion.div
@@ -130,7 +133,7 @@ export const MegaMenu: React.FC<MegaMenuProps> = ({ section, isOpen, focusFirstL
             data-lenis-prevent
             role="region"
             aria-label={section.label}
-            className="mx-auto max-w-[1720px] max-h-[calc(100dvh-7rem)] overflow-y-auto clay-card bg-card/94 backdrop-blur-2xl p-6 lg:p-8 shadow-2xl border border-line overscroll-contain"
+            className="mx-auto max-w-[1380px] max-h-[calc(100dvh-7rem)] overflow-y-auto clay-card bg-card/94 backdrop-blur-2xl p-6 lg:p-8 shadow-2xl border border-line overscroll-contain"
           >
             {section.key === 'what' ? (
               <>
@@ -293,7 +296,7 @@ export const MegaMenu: React.FC<MegaMenuProps> = ({ section, isOpen, focusFirstL
                   {section.nodes.map((group, index) => (
                     <div
                       key={group.id}
-                      className={`w-full min-w-0 sm:w-1/2 sm:px-4 ${section.nodes.length > 2 ? 'xl:w-1/4' : ''} ${index > 0 ? 'xl:border-l xl:border-line' : ''}`}
+                      className={`w-full min-w-0 sm:w-1/2 sm:px-4 ${section.nodes.length > 2 ? 'lg:w-1/3' : ''} ${index > 0 ? 'lg:border-l lg:border-line' : ''}`}
                     >
                       <h3 className="mb-4 border-b border-line pb-3 font-display text-sm font-bold tracking-tight text-foreground">
                         {group.label}
@@ -320,6 +323,7 @@ export const MegaMenu: React.FC<MegaMenuProps> = ({ section, isOpen, focusFirstL
           </div>
         </motion.div>
       )}
-    </AnimatePresence>
+    </AnimatePresence>,
+    document.body,
   );
 };

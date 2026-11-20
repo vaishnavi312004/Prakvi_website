@@ -12,6 +12,7 @@ type HorizonProps = {
   primaryButtonLink: string;
   secondaryButtonText: string;
   secondaryButtonLink: string;
+  showSecondaryButton?: boolean;
 };
 
 const ease = [0.22, 1, 0.36, 1] as const;
@@ -87,7 +88,7 @@ function HorizonTrails({ moving, reduced }: { moving: boolean; reduced: boolean 
   );
 }
 
-export function AboutHorizonCTA({ title, subtitle, primaryButtonText, primaryButtonLink, secondaryButtonText, secondaryButtonLink }: HorizonProps) {
+export function AboutHorizonCTA({ title, subtitle, primaryButtonText, primaryButtonLink, secondaryButtonText, secondaryButtonLink, showSecondaryButton = true }: HorizonProps) {
   const headingId = useId();
   const section = useRef<HTMLElement>(null);
   const reduced = useSyncExternalStore(subscribeToMotionPreference, () => window.matchMedia(motionPreference).matches, () => false);
@@ -141,17 +142,19 @@ export function AboutHorizonCTA({ title, subtitle, primaryButtonText, primaryBut
           </h2>
         </div>
         <motion.p className="mx-auto mt-4 max-w-2xl text-base leading-relaxed text-muted sm:text-lg" {...entrance(0.23)}>{subtitle}</motion.p>
-        <div className="horizon-actions mt-8 flex flex-col items-stretch justify-center gap-4 sm:flex-row sm:items-center">
+        <div className={`horizon-actions mt-8 flex flex-col ${showSecondaryButton ? 'items-stretch' : 'items-center'} justify-center gap-4 sm:flex-row sm:items-center`}>
           <motion.div {...buttonEntrance(0.29)}>
             <ButtonLink to={primaryButtonLink} variant="primary" className="horizon-button horizon-button-primary">
               <MessageSquare aria-hidden="true" /><span>{primaryButtonText}</span><ArrowRight className="arrow-shift" aria-hidden="true" />
             </ButtonLink>
           </motion.div>
-          <motion.div {...buttonEntrance(0.38)}>
-            <ButtonLink to={secondaryButtonLink} variant="blue" className="horizon-button horizon-button-blue">
-              <span>{secondaryButtonText}</span><ArrowRight className="arrow-shift" aria-hidden="true" />
-            </ButtonLink>
-          </motion.div>
+          {showSecondaryButton && (
+            <motion.div {...buttonEntrance(0.38)}>
+              <ButtonLink to={secondaryButtonLink} variant="blue" className="horizon-button horizon-button-blue">
+                <span>{secondaryButtonText}</span><ArrowRight className="arrow-shift" aria-hidden="true" />
+              </ButtonLink>
+            </motion.div>
+          )}
         </div>
         <motion.div className="horizon-trust" {...entrance(0.47, 9)}>
           <div className="horizon-trust-line" aria-hidden="true"><span /></div>

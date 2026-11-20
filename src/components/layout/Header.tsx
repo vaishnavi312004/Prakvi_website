@@ -21,7 +21,7 @@ interface SearchItem {
   path: string;
 }
 
-const sectionOrder: NavSectionKey[] = ['who', 'what', 'how'];
+const sectionOrder: NavSectionKey[] = ['who', 'what'];
 
 export const Header: React.FC = () => {
   const reducedMotion = useReducedMotion();
@@ -222,7 +222,7 @@ export const Header: React.FC = () => {
         itemStyle="pill"
         hoverEffect="fill"
         indicator="dot"
-        layout="split"
+        layout="center"
         surface="glass"
         size="md"
         bounce={0.3}

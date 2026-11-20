@@ -50,8 +50,7 @@ export function StaffingPage({ service }: { service: ServiceItem }) {
           <ServiceHeroMedia
             videoRef={videoRef}
             autoPlay={!reducedMotion}
-            poster={service.featuredImage}
-            preload={reducedMotion ? 'none' : 'metadata'}
+            preload={reducedMotion ? 'none' : 'auto'}
           >
             {!reducedMotion && (
               <source

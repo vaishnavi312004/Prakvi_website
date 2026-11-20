@@ -19,6 +19,7 @@ interface CTASectionProps {
   immersive?: boolean;
   compact?: boolean;
   neutralBackground?: boolean;
+  showSecondaryButton?: boolean;
 }
 
 export const CTASection: React.FC<CTASectionProps> = ({
@@ -33,6 +34,7 @@ export const CTASection: React.FC<CTASectionProps> = ({
   immersive = false,
   compact = false,
   neutralBackground = false,
+  showSecondaryButton = true,
 }) => {
   const reducedMotion = useReducedMotion();
   const paragraphs = typeof subtitle === 'string' ? [subtitle] : subtitle;
@@ -47,6 +49,7 @@ export const CTASection: React.FC<CTASectionProps> = ({
         primaryButtonLink={primaryButtonLink}
         secondaryButtonText={secondaryButtonText}
         secondaryButtonLink={secondaryButtonLink}
+        showSecondaryButton={showSecondaryButton}
       />
     );
   }
@@ -82,7 +85,7 @@ export const CTASection: React.FC<CTASectionProps> = ({
         <div className="mx-auto mt-4 max-w-2xl space-y-3 text-base leading-relaxed text-muted sm:text-lg">
           {paragraphs.map((paragraph, index) => <p key={index}>{paragraph}</p>)}
         </div>
-        <div className="mt-8 flex flex-col items-stretch justify-center gap-4 sm:flex-row sm:items-center">
+        <div className={`mt-8 flex flex-col ${showSecondaryButton ? 'items-stretch' : 'items-center'} justify-center gap-4 sm:flex-row sm:items-center`}>
           <ButtonLink to={primaryButtonLink} variant="primary">
             <MessageSquare aria-hidden="true" />
             <span>{primaryButtonText}</span>
@@ -92,13 +95,15 @@ export const CTASection: React.FC<CTASectionProps> = ({
             />
           </ButtonLink>
 
-          <ButtonLink to={secondaryButtonLink} variant="blue">
-            <span>{secondaryButtonText}</span>
-            <ArrowRight
-              className="arrow-shift"
-              aria-hidden="true"
-            />
-          </ButtonLink>
+          {showSecondaryButton && (
+            <ButtonLink to={secondaryButtonLink} variant="blue">
+              <span>{secondaryButtonText}</span>
+              <ArrowRight
+                className="arrow-shift"
+                aria-hidden="true"
+              />
+            </ButtonLink>
+          )}
         </div>
 
         <div className="mt-10 flex flex-wrap items-center justify-center gap-6 border-t border-accent/15 pt-7 text-xs font-medium text-muted">

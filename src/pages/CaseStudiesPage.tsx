@@ -14,7 +14,6 @@ export const CaseStudiesPage: React.FC = () => (
           <Breadcrumbs items={[{ label: 'Case Studies' }]} />
           <div className="mt-8">
             <SectionHeading
-              badge="How We Help"
               title="Case Studies"
               description="A closer look at our work and the operational challenges we help enterprise businesses solve."
             />

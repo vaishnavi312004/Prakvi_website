@@ -195,7 +195,7 @@ export const HomePage: React.FC = () => {
         <CompanyStatistics />
 
         {/* 9. CONSULTATION CTA */}
-        <CTASection compact neutralBackground title={homeData.contact.title} animatedTitleHighlight="Workforce Together" subtitle={homeData.contact.paragraphs} />
+        <CTASection compact neutralBackground showSecondaryButton={false} title={homeData.contact.title} animatedTitleHighlight="Workforce Together" subtitle={homeData.contact.paragraphs} />
       </div>
     </PageTransition>
   );

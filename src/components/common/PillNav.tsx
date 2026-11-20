@@ -109,11 +109,11 @@ export const PillNav: React.FC<PillNavProps> = ({
       }
       animate={{ opacity: 1, y: 0, scale: 1 }}
       transition={{ type: 'spring', bounce: bounce * 0.85, duration: 0.55 }}
-      className={`${surfaceClass} mx-auto flex ${sizeHeight} max-w-[1380px] items-center justify-between gap-4 px-4 sm:px-6 ${className}`}
+      className={`${surfaceClass} mx-auto flex ${layout === 'center' ? 'xl:grid xl:grid-cols-[minmax(0,1fr)_auto_minmax(0,1fr)]' : ''} ${sizeHeight} max-w-[1380px] items-center justify-between gap-4 px-4 sm:px-6 ${className}`}
     >
       {/* LEFT ZONE: Exact Original Logo Placement + PillNav Navigation */}
       <div
-        className={`flex items-center min-w-0 ${
+        className={`${layout === 'center' ? 'xl:contents' : 'flex'} items-center min-w-0 ${
           layout === 'split' ? 'gap-4 xl:gap-6' : 'gap-6'
         }`}
       >
@@ -128,7 +128,7 @@ export const PillNav: React.FC<PillNavProps> = ({
         <nav
           aria-label="Primary navigation"
           onMouseLeave={() => setHoveredHref(null)}
-          className={`${navVisibility} items-center gap-1 xl:gap-1.5`}
+          className={`${navVisibility} items-center gap-1 xl:gap-1.5 ${layout === 'center' ? 'xl:justify-self-center xl:-translate-x-4' : ''}`}
         >
           {items.map((item) => {
             const isActive = activeHref === item.href;
@@ -233,7 +233,7 @@ export const PillNav: React.FC<PillNavProps> = ({
 
       {/* RIGHT ZONE (Desktop) */}
       {rightSlot && (
-        <div className={`${navVisibility} items-center gap-2 xl:gap-2.5 shrink-0`}>
+        <div className={`${navVisibility} items-center gap-2 xl:gap-2.5 shrink-0 ${layout === 'center' ? 'xl:justify-self-end' : ''}`}>
           {rightSlot}
         </div>
       )}

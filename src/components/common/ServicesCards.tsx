@@ -1,8 +1,6 @@
 import React from 'react';
 import { ScrollRevealText } from './ScrollRevealText';
 import { motion, useReducedMotion } from 'motion/react';
-import { Link } from 'react-router-dom';
-import { ArrowRight } from 'lucide-react';
 import { homeData } from '../../data/homeData';
 import { ServiceTiltCarousel, type ServiceCarouselItem } from './ServiceTiltCarousel';
 
@@ -59,9 +57,6 @@ export const ServicesCards: React.FC = () => {
               {homeData.services.description}
             </p>
           </div>
-          <Link to="/services" className="btn-primary w-fit">
-            <span>View All Services</span><ArrowRight className="arrow-shift" aria-hidden="true" />
-          </Link>
         </motion.div>
         <div className="mt-7">
           <ServiceTiltCarousel items={staffingItems} label="Staffing and business solutions" />
