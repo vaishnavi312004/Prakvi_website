@@ -14,6 +14,8 @@ import { SystemIntegrationSections } from '../components/common/SystemIntegratio
 import { SystemIntegrationHero } from '../components/common/SystemIntegrationHero';
 import { ProjectManagementHero } from '../components/common/ProjectManagementHero';
 import { ProjectManagementSections } from '../components/common/ProjectManagementSections';
+import { InfrastructureManagementHero } from '../components/common/InfrastructureManagementHero';
+import { InfrastructureManagementSections } from '../components/common/InfrastructureManagementSections';
 import { ScrollRevealText } from '../components/common/ScrollRevealText';
 import { ServiceHeroMedia } from '../components/common/ServiceHeroMedia';
 import { SectionHeading } from '../components/common/SectionHeading';
@@ -23,6 +25,7 @@ import {
   businessAnalyticsCategoryIcons,
 } from '../components/common/BusinessAnalyticsStackOrbit';
 import { CTASection } from '../components/common/CTASection';
+import { CloudServicesSections } from '../components/common/CloudServicesSections';
 import { DigitalMarketingSections } from '../components/common/DigitalMarketingSections';
 import { MobileAppDevelopmentSections, mobileProcessId } from '../components/common/MobileAppDevelopmentSections';
 import { PageTransition } from '../components/layout/PageTransition';
@@ -38,6 +41,7 @@ import {
   ArrowUpRight,
   CheckCircle2,
   ChevronDown,
+<<<<<<< Updated upstream
   Database,
   FileText,
   Laptop,
@@ -52,9 +56,12 @@ import {
   TrendingUp,
   Users,
   Zap,
+=======
+>>>>>>> Stashed changes
 } from 'lucide-react';
 import './MobileAppDevelopmentHero.css';
 import './DigitalMarketingHero.css';
+import './CloudServicesHero.css';
 import './ServicePageDesign.css';
 
 const standardizedServiceSlugs = new Set([
@@ -65,15 +72,18 @@ const standardizedServiceSlugs = new Set([
   'system-integration',
   'digital-marketing',
   'mobile-app-development',
+  'cloud-services',
+  'infrastructure-management',
 ]);
 
-const mobilityTabs = [
-  { id: 'byod', label: 'BYOD Architecture', icon: Users },
-  { id: 'cyod', label: 'CYOD Catalog', icon: Laptop },
-  { id: 'security', label: 'Endpoint Security', icon: Lock },
-  { id: 'tools', label: 'MDM / UEM Toolchain', icon: Layers },
-] as const;
-type MobilityTabId = (typeof mobilityTabs)[number]['id'];
+const slugAliases: Record<string, string> = {
+  'staffing-workforce-solutions': 'staffing',
+  'cloud-infrastructure-management': 'cloud-services',
+  'ai-data-analytics-bi': 'business-intelligence',
+  'enterprise-architecture-integration': 'system-integration',
+  'digital-engineering-web-development': 'enterprise-solution',
+  'it-consulting-strategic-advisory': 'it-consulting',
+};
 
 function followSectionLink(event: React.MouseEvent<HTMLAnchorElement>) {
   if (event.button !== 0 || event.metaKey || event.ctrlKey || event.shiftKey || event.altKey) return;
@@ -113,13 +123,14 @@ const businessAnalyticsHeroDescription = 'In today’s data-driven world, raw in
 export const ServiceDetailPage: React.FC = () => {
   const reducedMotion = useReducedMotion();
   const { slug } = useParams<{ slug: string }>();
+  const resolvedSlug = slug ? slugAliases[slug] || slug : '';
+  const cloudServicesHero = resolvedSlug === 'cloud-services';
   const [openFaqIndex, setOpenFaqIndex] = useState<number | null>(0);
   const [activeStackTab, setActiveStackTab] = useState(0);
-  const [mobilityTab, setMobilityTab] = useState<MobilityTabId>('byod');
   const digitalMarketingHero = slug === 'digital-marketing';
   const mobileAppHero = slug === 'mobile-app-development';
   const hasSectionLinks = digitalMarketingHero || mobileAppHero;
-  const heroStyle = digitalMarketingHero ? 'digital-marketing-hero' : mobileAppHero ? 'mobile-app-hero' : null;
+  const heroStyle = digitalMarketingHero ? 'digital-marketing-hero' : mobileAppHero ? 'mobile-app-hero' : cloudServicesHero ? 'cloud-services-hero' : null;
   const heroVideo = useRef<HTMLVideoElement>(null);
   const [activeAnalyticsStep, setActiveAnalyticsStep] = useState(0);
   const [isAnalyticsAutoPlaying, setIsAnalyticsAutoPlaying] = useState(true);
@@ -151,7 +162,18 @@ export const ServiceDetailPage: React.FC = () => {
 
     if (!digitalMarketingHero) {
       play();
-      return () => video.pause();
+      const resume = () => {
+        if (document.visibilityState === 'visible' && video.paused) {
+          play();
+        }
+      };
+      document.addEventListener('visibilitychange', resume);
+      video.addEventListener('loadeddata', resume);
+      return () => {
+        document.removeEventListener('visibilitychange', resume);
+        video.removeEventListener('loadeddata', resume);
+        video.pause();
+      };
     }
 
     const observer = new IntersectionObserver(([entry]) => {
@@ -165,16 +187,6 @@ export const ServiceDetailPage: React.FC = () => {
     };
   }, [digitalMarketingHero, heroStyle, reducedMotion, slug]);
 
-  const slugAliases: Record<string, string> = {
-    'staffing-workforce-solutions': 'staffing',
-    'cloud-infrastructure-management': 'cloud-services',
-    'ai-data-analytics-bi': 'business-intelligence',
-    'enterprise-architecture-integration': 'system-integration',
-    'digital-engineering-web-development': 'enterprise-solution',
-    'it-consulting-strategic-advisory': 'it-consulting',
-  };
-
-  const resolvedSlug = slug ? slugAliases[slug] || slug : '';
   const service = servicesData.find(
     (s) => s.slug === resolvedSlug || s.id === resolvedSlug || s.slug === slug || s.id === slug
   );
@@ -199,8 +211,11 @@ export const ServiceDetailPage: React.FC = () => {
   useEffect(() => {
     setActiveStackTab(0);
     setOpenFaqIndex(0);
+<<<<<<< Updated upstream
     setMobilityTab('byod');
     setIsAnalyticsAutoPlaying(!reducedMotion);
+=======
+>>>>>>> Stashed changes
     const stepCount = service?.deliverySteps.length ?? 0;
     setActiveAnalyticsStep(
       service?.slug === 'business-analytics' && stepCount > 0
@@ -223,6 +238,7 @@ export const ServiceDetailPage: React.FC = () => {
     return <BusinessIntelligencePage service={service} />;
   }
   const isMobilityPage = service.slug === 'mobility-practice';
+<<<<<<< Updated upstream
   const isEnterpriseArchitecturePage = service.slug === 'enterprise-architecture';
   const hasDedicatedServiceSections = standardizedServiceSlugs.has(service.slug) && !isEnterpriseArchitecturePage;
   const isTargetSectionRemovalPage =
@@ -237,6 +253,51 @@ export const ServiceDetailPage: React.FC = () => {
   const servicePageClass = isEnterpriseArchitecturePage
     ? 'ea-service-page'
     : `service-detail-page service-topic-${service.slug}`;
+=======
+
+const isEnterpriseArchitecturePage =
+  service.slug === 'enterprise-architecture';
+
+const isInfrastructurePage =
+  service.slug === 'infrastructure-management';
+
+const animateServiceHeadings =
+  cloudServicesHero || isInfrastructurePage;
+
+const hasDedicatedServiceSections =
+  standardizedServiceSlugs.has(service.slug) &&
+  !isEnterpriseArchitecturePage &&
+  !cloudServicesHero &&
+  !isInfrastructurePage;
+
+const showStandardServiceSections =
+  !hasDedicatedServiceSections &&
+  !isEnterpriseArchitecturePage &&
+  !cloudServicesHero &&
+  !isInfrastructurePage;
+
+const offeringsTitle =
+  service.offeringsTitle || `${service.title} Offerings`;
+
+const offeringsDescription =
+  service.offeringsSubtitle ||
+  'Comprehensive service modules engineered for reliability, compliance, and long-term performance.';
+
+const processTitle =
+  service.processTitle ||
+  `Why Choose Prakvi for ${service.title}?`;
+
+const processDescription =
+  service.processSubtitle ||
+  'A proven methodology that ensures successful project delivery.';
+
+const isBusinessAnalyticsPage =
+  service.slug === 'business-analytics';
+
+const servicePageClass = isEnterpriseArchitecturePage
+  ? 'ea-service-page'
+  : `service-detail-page service-topic-${service.slug}`;
+>>>>>>> Stashed changes
 
   const toggleFaq = (index: number) => setOpenFaqIndex(current => current === index ? null : index);
 
@@ -252,9 +313,7 @@ export const ServiceDetailPage: React.FC = () => {
   const selectedAnalyticsStep = analyticsStepIndex >= 0
     ? service.deliverySteps[analyticsStepIndex]
     : undefined;
-  const mobilityPanelId = `mobility-workbench-panel-${service.slug}`;
   const stackPanelId = `service-stack-panel-${service.slug}`;
-  const mobilityTabId = (tab: MobilityTabId) => `mobility-tab-${service.slug}-${tab}`;
   const stackTabId = (index: number) => `service-stack-tab-${service.slug}-${index}`;
   const ArchitectureStackIcon = [Target, Layers, Database, Server][activeStackTab] || Layers;
   const ActiveAnalyticsIcon = analyticsStepIcons[activeAnalyticsStep] || Database;
@@ -272,30 +331,25 @@ export const ServiceDetailPage: React.FC = () => {
     document.getElementById(stackTabId(nextTab))?.focus();
   };
 
-  const handleMobilityTabKeyDown = (event: React.KeyboardEvent<HTMLButtonElement>, index: number) => {
-    let nextTab = index;
-    if (event.key === 'ArrowRight') nextTab = (index + 1) % mobilityTabs.length;
-    else if (event.key === 'ArrowLeft') nextTab = (index - 1 + mobilityTabs.length) % mobilityTabs.length;
-    else if (event.key === 'Home') nextTab = 0;
-    else if (event.key === 'End') nextTab = mobilityTabs.length - 1;
-    else return;
-
-    event.preventDefault();
-    const nextTabId = mobilityTabs[nextTab].id;
-    setMobilityTab(nextTabId);
-    document.getElementById(mobilityTabId(nextTabId))?.focus();
-  };
 
   const serviceCta = (
     <CTASection
       title={`Let's Discuss Your ${service.title} Goals`}
       subtitle="Connect with Prakvi’s specialists to plan your implementation roadmap, staffing requirements, or managed support SLA."
-      animateHeading={standardizedServiceSlugs.has(service.slug)}
+      animateHeading={animateServiceHeadings || standardizedServiceSlugs.has(service.slug)}
     />
   );
   return (
-    <PageTransition revealServiceText>
-      <div className={`overflow-x-hidden pt-20 selection:bg-accent selection:text-white ${servicePageClass}`}>
+
+<PageTransition revealServiceText>
+  <div
+    className={`overflow-x-hidden pt-20 selection:bg-accent selection:text-white ${servicePageClass}${
+      standardizedServiceSlugs.has(service.slug) ? ' service-design' : ''
+    }${cloudServicesHero ? ' cloud-services-page' : ''}${
+      isInfrastructurePage ? ' infrastructure-services-page' : ''
+    }`}
+  >
+
         {/* 1. SERVICE HERO */}
         {isEnterpriseArchitecturePage ? (
           <EnterpriseArchitectureHero service={service} />
@@ -307,6 +361,8 @@ export const ServiceDetailPage: React.FC = () => {
           <ProjectManagementHero service={service} />
         ) : service.slug === 'system-integration' ? (
           <SystemIntegrationHero service={service} />
+        ) : isInfrastructurePage ? (
+          <InfrastructureManagementHero service={service} onSectionLink={followSectionLink} />
         ) : (
           <section
             className={`hero-clay-canvas py-section relative overflow-hidden${heroStyle ? ` ${heroStyle} isolate` : ''}${isBusinessAnalyticsPage ? ' business-analytics-hero business-analytics-video-hero service-video-hero isolate' : ''}`}
@@ -326,6 +382,7 @@ export const ServiceDetailPage: React.FC = () => {
                   isBusinessAnalyticsPage ? 'md:grid-cols-12' : 'lg:grid-cols-12'
                 } gap-10 items-center`}
               >
+<<<<<<< Updated upstream
                 {isBusinessAnalyticsPage ? (
                   <motion.div
                     initial={reducedMotion ? false : { opacity: 0, y: 16 }}
@@ -342,6 +399,58 @@ export const ServiceDetailPage: React.FC = () => {
                     <div className="pt-2 flex flex-wrap gap-4">
                       <a href="https://prakvi.com/business-analytics.html#services" className="btn-primary">
                         <span>Explore Services</span>
+=======
+                <div className="text-xs font-mono font-bold uppercase tracking-[0.2em] text-accent">
+                  {service.badge || 'Prakvi Service'}
+                </div>
+
+
+<h1 className="font-display text-3xl sm:text-5xl lg:text-[3.35rem] font-extrabold text-foreground tracking-tight leading-[1.1] text-balance">
+  {cloudServicesHero || standardizedServiceSlugs.has(service.slug) ? (
+    <ScrollRevealText
+      text={service.tagline}
+      preserveLayout
+      once={cloudServicesHero}
+    />
+  ) : (
+    <ScrollRevealText
+      text={service.title}
+      preserveLayout
+    />
+  )}
+</h1>
+
+
+
+                {!cloudServicesHero && !hasSectionLinks && !standardizedServiceSlugs.has(service.slug) && <p className="text-lg sm:text-xl font-semibold text-accent">
+                  {service.tagline}
+                </p>}
+
+                <p className="text-base text-muted leading-relaxed">
+                  {service.fullDesc}
+                </p>
+
+                <div className="pt-2 flex flex-wrap gap-4">
+                  {cloudServicesHero ? (
+                    <>
+                      <a href="#capabilities" onClick={followSectionLink} className="btn-primary">
+                        <span>Explore Services</span><ArrowRight className="arrow-shift" aria-hidden="true" />
+                      </a>
+                      <a href="#cloud-services-process" onClick={followSectionLink} className="btn-secondary">
+                        <span>Our Process</span><ArrowRight className="arrow-shift" aria-hidden="true" />
+                      </a>
+                    </>
+                  ) : hasSectionLinks ? (
+                    <>
+                      <a href="#capabilities" onClick={followSectionLink} className="btn-primary">Explore Services</a>
+                      <a href={`#${mobileAppHero ? mobileProcessId : 'digital-marketing-process'}`} onClick={followSectionLink}
+                        className="btn-secondary">Our Process</a>
+                    </>
+                  ) : (
+                    <>
+                      <Link to="/contact" className="btn-primary">
+                        <span>Schedule Consultation</span>
+>>>>>>> Stashed changes
                         <ArrowRight className="arrow-shift" aria-hidden="true" />
                       </a>
                       <a href="https://prakvi.com/business-analytics.html#process" className="btn-secondary">
@@ -397,6 +506,7 @@ export const ServiceDetailPage: React.FC = () => {
                   </motion.div>
                 )}
 
+<<<<<<< Updated upstream
                 {!isBusinessAnalyticsPage && (
                   <motion.div
                     initial={reducedMotion ? false : { opacity: 0, y: 16 }}
@@ -446,6 +556,54 @@ export const ServiceDetailPage: React.FC = () => {
         isMobilityPage ? <MobilityPracticeSections /> : service.slug === 'supply-chain-management' ? <SupplyChainSections /> : service.slug === 'system-integration' ? <SystemIntegrationSections /> : service.slug === 'project-management' ? <ProjectManagementSections /> : (
         <>
         {!isEnterpriseArchitecturePage && !isBusinessAnalyticsPage && !isTargetSectionRemovalPage && (
+=======
+
+{!isBusinessAnalyticsPage && !cloudServicesHero && !digitalMarketingHero && !mobileAppHero && (
+  <motion.div
+    initial={reducedMotion ? false : { opacity: 0, y: 16 }}
+    animate={{ opacity: 1, y: 0 }}
+    transition={{
+      duration: reducedMotion ? 0 : 0.6,
+      delay: reducedMotion ? 0 : 0.16,
+      ease: [0.22, 1, 0.36, 1],
+    }}
+    className="lg:col-span-5"
+  >
+
+                  <div className="clay-card p-3">
+                    <img
+                      src={service.featuredImage}
+                      alt={service.title}
+                      className="service-hero-image w-full h-72 sm:h-80 object-cover rounded-2xl"
+                      referrerPolicy="no-referrer"
+                    />
+                  </div>
+                </motion.div>
+              )}
+            </div>
+          </div>
+          {heroStyle && (
+            <ServiceHeroMedia
+              key={heroStyle}
+              videoRef={heroVideo}
+              autoPlay={!reducedMotion && !digitalMarketingHero}
+              extendRightEdge={!cloudServicesHero}
+              sampleEdges={!cloudServicesHero}
+              poster={`${import.meta.env.BASE_URL}videos/${service.slug}-poster.webp`}
+              preload={reducedMotion ? 'none' : 'metadata'}
+            >
+              {!reducedMotion && <source src={`${import.meta.env.BASE_URL}videos/${service.slug}.mp4`} type="video/mp4" />}
+            </ServiceHeroMedia>
+          )}
+        </section>
+        )}
+
+        {cloudServicesHero && <CloudServicesSections service={service} />}
+        {isInfrastructurePage && <InfrastructureManagementSections service={service} />}
+
+        {/* Challenge & Approach cards are intentionally omitted on redesigned service pages. */}
+        {!standardizedServiceSlugs.has(service.slug) && (
+>>>>>>> Stashed changes
         <section className="py-section bg-canvas">
           <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
             <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
@@ -479,7 +637,7 @@ export const ServiceDetailPage: React.FC = () => {
         </section>
         )}
 
-        {hasDedicatedServiceSections && (
+        {hasDedicatedServiceSections && !cloudServicesHero && !isInfrastructurePage && (
           digitalMarketingHero ? (
             <DigitalMarketingSections service={service} />
           ) : mobileAppHero ? (
@@ -503,6 +661,7 @@ export const ServiceDetailPage: React.FC = () => {
             description={offeringsDescription}
             services={service.capabilities}
           />
+<<<<<<< Updated upstream
         ) : isBusinessAnalyticsPage ? (
           <BusinessAnalyticsCarousel
             title={offeringsTitle}
@@ -519,6 +678,16 @@ export const ServiceDetailPage: React.FC = () => {
                 title={offeringsTitle}
                 description={offeringsDescription}
               />
+=======
+        ) : showStandardServiceSections && (
+        <section id="capabilities" className="py-section bg-canvas">
+          <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <SectionHeading
+              badge="Capabilities"
+              title={offeringsTitle}
+              description={offeringsDescription}
+            />
+>>>>>>> Stashed changes
 
               <div className="mt-12 grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
                 {service.capabilities.map((cap, idx) => (
@@ -540,125 +709,20 @@ export const ServiceDetailPage: React.FC = () => {
           )
         )}
 
-        {/* 4. BESPOKE MOBILITY PRACTICE WORKBENCH */}
-        {isMobilityPage && (
-          <section className="py-section bg-canvas">
-            <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-              <SectionHeading
-                badge="Interactive Mobility Workbench"
-                title="BYOD & CYOD Governance Architecture"
-                description="Explore how Prakvi balances employee device choice with enterprise endpoint security."
-                align="center"
-              />
 
-              <div className="mt-10 flex justify-center">
-                <div className="inline-flex flex-wrap justify-center gap-1.5 rounded-full p-1.5 clay-soft" role="tablist" aria-label="Mobility practice workbench">
-                  {mobilityTabs.map((tab, index) => {
-                    const IconComp = tab.icon;
-                    const active = mobilityTab === tab.id;
-                    return (
-                      <button
-                        key={tab.id}
-                        type="button"
-                        role="tab"
-                        id={mobilityTabId(tab.id)}
-                        aria-selected={active}
-                        aria-controls={mobilityPanelId}
-                        tabIndex={active ? 0 : -1}
-                        onKeyDown={event => handleMobilityTabKeyDown(event, index)}
-                        onClick={() => setMobilityTab(tab.id)}
-                        className={`relative inline-flex items-center gap-2 px-4 sm:px-5 py-2.5 rounded-full text-xs sm:text-sm font-semibold transition-colors active:scale-95 ${
-                          active
-                            ? 'text-white'
-                            : 'text-muted hover:text-foreground'
-                        }`}
-                      >
-                        {active && (
-                          <motion.span
-                            layoutId="mobility-tab-pill"
-                            transition={
-                              reducedMotion
-                                ? { duration: 0 }
-                                : { type: 'spring', stiffness: 440, damping: 32 }
-                            }
-                            className="absolute inset-0 rounded-full bg-accent shadow-md"
-                            aria-hidden="true"
-                          />
-                        )}
-                        <IconComp className="relative z-10 w-4 h-4" aria-hidden="true" />
-                        <span className="relative z-10">{tab.label}</span>
-                      </button>
-                    );
-                  })}
-                </div>
-              </div>
-
-              <div className="mt-8 clay-card p-8 sm:p-10 overflow-hidden">
-                <AnimatePresence mode="wait" initial={false}>
-                  <motion.div
-                    key={mobilityTab}
-                    id={mobilityPanelId}
-                    role="tabpanel"
-                    aria-labelledby={mobilityTabId(mobilityTab)}
-                    tabIndex={0}
-                    initial={reducedMotion ? false : { opacity: 0, y: 8 }}
-                    animate={{ opacity: 1, y: 0 }}
-                    exit={reducedMotion ? { opacity: 0 } : { opacity: 0, y: -6 }}
-                    transition={{ duration: reducedMotion ? 0 : 0.22, ease: [0.32, 0.72, 0, 1] }}
-                  >
-                    {mobilityTab === 'byod' && (
-                      <div className="space-y-3">
-                        <h3 className="font-display text-xl font-bold text-foreground">
-                          Bring Your Own Device (BYOD)
-                        </h3>
-                        <p className="text-sm sm:text-base text-muted leading-relaxed">
-                          Device-agnostic access with user-centric policies and cloud sync management—separating corporate applications cleanly inside work containers (Android Work Profiles, Samsung Knox) without touching personal content.
-                        </p>
-                      </div>
-                    )}
-                    {mobilityTab === 'cyod' && (
-                      <div className="space-y-3">
-                        <h3 className="font-display text-xl font-bold text-foreground">
-                          Choose Your Own Device (CYOD)
-                        </h3>
-                        <p className="text-sm sm:text-base text-muted leading-relaxed">
-                          Pre-approved enterprise device catalogs with custom security configuration and centralized maintenance, giving teams choice while simplifying fleet governance.
-                        </p>
-                      </div>
-                    )}
-                    {mobilityTab === 'security' && (
-                      <div className="space-y-3">
-                        <h3 className="font-display text-xl font-bold text-foreground">
-                          Security & Compliance Controls
-                        </h3>
-                        <p className="text-sm sm:text-base text-muted leading-relaxed">
-                          Zero-trust secure access control, biometric & MFA enforcement, end-to-end data encryption, conditional access rules, and automated patch management.
-                        </p>
-                      </div>
-                    )}
-                    {mobilityTab === 'tools' && (
-                      <div className="space-y-3">
-                        <h3 className="font-display text-xl font-bold text-foreground">
-                          MDM & Enterprise Mobility Tools
-                        </h3>
-                        <p className="text-sm sm:text-base text-muted leading-relaxed">
-                          Seamless enrollment and continuous monitoring powered by Microsoft Intune, Mobile Device Management (MDM), Apple Business Manager, and Android Enterprise.
-                        </p>
-                      </div>
-                    )}
-                  </motion.div>
-                </AnimatePresence>
-              </div>
-            </div>
-          </section>
-        )}
 
         {/* 5. METHODOLOGY / DELIVERY PROCESS */}
         {isEnterpriseArchitecturePage ? (
           <EnterpriseArchitectureJourney title={processTitle} description={processDescription} steps={service.deliverySteps} />
+<<<<<<< Updated upstream
         ) : (isBusinessAnalyticsPage || !hasDedicatedServiceSections) && (
         <section id={isEnterpriseArchitecturePage ? 'enterprise-process' : isBusinessAnalyticsPage ? 'process' : undefined} className={`py-section ${isMobilityPage ? 'bg-surface/75' : 'bg-canvas'}${isBusinessAnalyticsPage ? ' business-analytics-process' : ''}`}>
           <div className={`${isBusinessAnalyticsPage ? 'max-w-[1380px]' : 'max-w-7xl'} mx-auto px-4 sm:px-6 lg:px-8`}>
+=======
+        ) : showStandardServiceSections && (
+        <section className={`py-section bg-canvas ${isBusinessAnalyticsPage ? 'business-analytics-process' : ''}`}>
+          <div className={`${isBusinessAnalyticsPage ? 'max-w-[1060px]' : 'max-w-7xl'} mx-auto px-4 sm:px-6 lg:px-8`}>
+>>>>>>> Stashed changes
             {isBusinessAnalyticsPage ? (
               <div className="business-analytics-process__intro">
                 <h2 className="business-analytics-process__heading">{processTitle}</h2>
@@ -919,8 +983,13 @@ export const ServiceDetailPage: React.FC = () => {
         {/* 6. INTERACTIVE STACK & CAPABILITY MATRIX */}
         {isEnterpriseArchitecturePage ? (
           <ArchitectureCarousel title={service.stackTitle || service.title} description={service.stackSummary} categories={stackTabs} />
+<<<<<<< Updated upstream
         ) : stackTabs.length > 0 && (
           <section className={isBusinessAnalyticsPage ? 'ea-carousel-section py-section bg-canvas' : 'py-section bg-canvas'}>
+=======
+        ) : showStandardServiceSections && stackTabs.length > 0 && (
+          <section className="py-section bg-canvas">
+>>>>>>> Stashed changes
             <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
               <SectionHeading
                 badge="Capabilities & Stack"
@@ -1152,7 +1221,11 @@ export const ServiceDetailPage: React.FC = () => {
         )}
 
         {/* 7. BUSINESS BENEFITS */}
+<<<<<<< Updated upstream
         {!isEnterpriseArchitecturePage && !isBusinessAnalyticsPage && !isTargetSectionRemovalPage && (
+=======
+        {!standardizedServiceSlugs.has(service.slug) && (
+>>>>>>> Stashed changes
         <>
         <section className="py-section bg-canvas">
           <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
@@ -1160,6 +1233,8 @@ export const ServiceDetailPage: React.FC = () => {
               badge="Business Value"
               title="Key Operational Outcomes"
               description="How Prakvi translates technical execution into reliable performance and long-term business value."
+              animateWords={animateServiceHeadings}
+              animateWordsOnce={animateServiceHeadings}
               align="center"
             />
 
@@ -1190,6 +1265,8 @@ export const ServiceDetailPage: React.FC = () => {
             <SectionHeading
               badge="Frequently Asked Questions"
               title="Common Questions"
+              animateWords={animateServiceHeadings}
+              animateWordsOnce={animateServiceHeadings}
               align="center"
             />
 

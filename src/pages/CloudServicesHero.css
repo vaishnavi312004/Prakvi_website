@@ -1,0 +1,118 @@
+/* Cloud Services hero — light-blue theme with soft-edged dark video asset.
+   Root causes addressed:
+   1) .service-detail-page > section.hero-clay-canvas !important was winning background specificity
+   2) Multi-layer masks lacked -webkit-mask-composite, so edge fades never intersected
+   3) Edge-sampling canvases extended the baked-in navy rectangle */
+
+.cloud-services-hero {
+  --service-hero-start: 21%;
+  --service-hero-vertical-space: 2.5rem;
+  --cloud-hero-bg:
+    linear-gradient(to top, var(--cloud-pearl, #f8fafc), transparent 17%),
+    radial-gradient(ellipse at 43% 93%, #ffe7db6b, transparent 47%),
+    radial-gradient(ellipse 52% 48% at 85% 48%, rgba(59, 102, 162, 0.28), transparent 72%),
+    linear-gradient(112deg, #f2f7fb 5%, #e2edf7 36%, #c3cbeb 57%, #91aed5 100%);
+  /* A single mask avoids the hard edge left by compositing multiple gradients over video. */
+  --cloud-video-horizontal-fade: linear-gradient(
+    to right,
+    transparent 10%,
+    rgb(0 0 0 / 18%) 26%,
+    rgb(0 0 0 / 70%) 40%,
+    #000 50% 78%,
+    rgb(0 0 0 / 70%) 88%,
+    rgb(0 0 0 / 22%) 95%,
+    transparent
+  );
+  --cloud-video-vertical-fade: linear-gradient(
+    to bottom,
+    transparent,
+    rgb(0 0 0 / 28%) 7%,
+    #000 16% 82%,
+    rgb(0 0 0 / 32%) 93%,
+    transparent
+  );
+  --service-hero-fade: radial-gradient(ellipse 54% 60% at 58% 50%, #000 52%, transparent 100%);
+  min-height: clamp(32rem, 40vw, 46rem);
+  display: flex;
+  align-items: center;
+  background: var(--cloud-hero-bg);
+}
+
+/* Beat .service-detail-page > section.hero-clay-canvas (0,2,1) + !important */
+.cloud-services-page.service-detail-page > section.hero-clay-canvas.cloud-services-hero {
+  background: var(--cloud-hero-bg) !important;
+}
+
+.cloud-services-page.service-detail-page > section.hero-clay-canvas.cloud-services-hero::before,
+.cloud-services-page.service-detail-page > section.hero-clay-canvas.cloud-services-hero::after {
+  content: none !important;
+  display: none !important;
+}
+
+.cloud-services-hero .service-hero-video {
+  filter: contrast(1.08) saturate(0.86) brightness(0.84);
+}
+
+.cloud-services-hero-content {
+  width: 100%;
+}
+
+.cloud-services-hero-copy {
+  display: block;
+  width: min(43%, 34rem);
+}
+
+.cloud-services-hero .service-hero-media {
+  right: 6%;
+}
+
+.cloud-services-hero .service-hero-frame {
+  margin-inline: auto;
+  -webkit-mask-image: var(--service-hero-mask);
+  mask-image: var(--service-hero-mask);
+  -webkit-mask-composite: source-over;
+  mask-composite: add;
+}
+
+/* Edge canvases re-paint the navy plate outward — hide them on this light hero. */
+.cloud-services-hero .service-hero-frame canvas {
+  display: none;
+}
+
+@media (max-width: 1023px) {
+  .cloud-services-hero {
+    --cloud-hero-bg:
+      linear-gradient(to top, var(--cloud-pearl, #f8fafc), transparent clamp(2rem, 8vw, 5rem)),
+      radial-gradient(ellipse at 25% 69%, #ffe6d96b, transparent 53%),
+      radial-gradient(ellipse 70% 32% at 75% 85%, rgba(82, 124, 180, 0.38), transparent),
+      linear-gradient(160deg, #f2f7fb, #e7eff7 42%, #c8d1ed 68%, #a4bbdb);
+    --cloud-video-horizontal-fade: linear-gradient(
+      to right,
+      transparent,
+      rgb(0 0 0 / 40%) 18%,
+      #000 40% 86%,
+      rgb(0 0 0 / 40%) 94%,
+      transparent
+    );
+    --service-hero-mobile-fade: radial-gradient(ellipse 76% 82% at 50% 50%, #000 50%, transparent 100%);
+    display: block;
+    min-height: auto;
+    padding-block: clamp(1.75rem, 5vw, 3.5rem) 0;
+    background: var(--cloud-hero-bg);
+  }
+
+  .cloud-services-page.service-detail-page > section.hero-clay-canvas.cloud-services-hero {
+    background: var(--cloud-hero-bg) !important;
+  }
+
+  .cloud-services-hero-copy {
+    width: 100%;
+    max-width: 44rem;
+  }
+
+  .cloud-services-hero .service-hero-media {
+    right: auto;
+    margin-inline: auto;
+    max-width: 54rem;
+  }
+}

@@ -1,0 +1,13 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 64 64">
+  <defs>
+    <linearGradient id="azure-front" x1=".15" x2=".7" y2="1" gradientUnits="objectBoundingBox">
+      <stop stop-color="#114a8b"/><stop offset="1" stop-color="#0669bc"/>
+    </linearGradient>
+    <linearGradient id="azure-right" x1=".1" x2=".85" y2="1" gradientUnits="objectBoundingBox">
+      <stop stop-color="#3ccbf4"/><stop offset="1" stop-color="#2892df"/>
+    </linearGradient>
+  </defs>
+  <path d="M22 6h17L21.6 57.5a3 3 0 0 1-2.8 2H5.6a2.6 2.6 0 0 1-2.4-3.5L19.3 8a2.8 2.8 0 0 1 2.7-2Z" fill="url(#azure-front)"/>
+  <path d="M47.4 39.1H23.9c-1.3 0-1.9 1.6-.9 2.5L41.4 59c.5.4 1.2.6 1.8.6h16.2Z" fill="#0078d4"/>
+  <path d="M41 8a2.8 2.8 0 0 0-2.7-2H22a2.8 2.8 0 0 1 2.7 2l16.1 48a2.6 2.6 0 0 1-2.4 3.6h19.9a2.6 2.6 0 0 0 2.5-3.6Z" fill="url(#azure-right)"/>
+</svg>
