@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useRef, useState } from 'react';
 import { useSearchParams } from 'react-router-dom';
 import { AnimatePresence, motion, useReducedMotion } from 'motion/react';
 import { Breadcrumbs } from '../components/common/Breadcrumbs';
@@ -17,6 +17,15 @@ import {
   Phone,
   Send,
 } from 'lucide-react';
+
+declare global {
+  interface Window {
+    turnstile?: {
+      render: (container: HTMLElement, options: { sitekey: string; callback: (token: string) => void; 'expired-callback': () => void; 'error-callback': () => void }) => string;
+      reset: (widgetId?: string) => void;
+    };
+  }
+}
 
 export const ContactPage: React.FC = () => {
   const reducedMotion = useReducedMotion();
@@ -41,7 +50,6 @@ export const ContactPage: React.FC = () => {
     workEmail: '',
     companyName: '',
     phone: '',
-    serviceInterestedIn: contactData.serviceTopics[0]?.label || 'Staffing Services',
     message: '',
     privacyConsent: false,
   });
@@ -49,6 +57,37 @@ export const ContactPage: React.FC = () => {
   const [formErrors, setFormErrors] = useState<Partial<Record<keyof ContactSubmission, string>>>({});
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [isSuccess, setIsSuccess] = useState(false);
+  const [submitError, setSubmitError] = useState('');
+  const [captchaToken, setCaptchaToken] = useState('');
+  const captchaRef = useRef<HTMLDivElement>(null);
+  const captchaWidgetId = useRef<string | undefined>(undefined);
+  const captchaSiteKey = import.meta.env.VITE_TURNSTILE_SITE_KEY;
+
+  useEffect(() => {
+    if (!captchaSiteKey || !captchaRef.current) return;
+    const renderWidget = () => {
+      if (!window.turnstile || !captchaRef.current || captchaWidgetId.current) return;
+      captchaWidgetId.current = window.turnstile.render(captchaRef.current, {
+        sitekey: captchaSiteKey,
+        callback: setCaptchaToken,
+        'expired-callback': () => setCaptchaToken(''),
+        'error-callback': () => setCaptchaToken(''),
+      });
+    };
+    const existingScript = document.querySelector<HTMLScriptElement>('script[data-turnstile-script]');
+    if (existingScript) {
+      existingScript.addEventListener('load', renderWidget, { once: true });
+      renderWidget();
+    } else {
+      const script = document.createElement('script');
+      script.src = 'https://challenges.cloudflare.com/turnstile/v0/api.js?render=explicit';
+      script.async = true;
+      script.defer = true;
+      script.dataset.turnstileScript = 'true';
+      script.addEventListener('load', renderWidget, { once: true });
+      document.head.appendChild(script);
+    }
+  }, [captchaSiteKey]);
 
   const activeOffice =
     companyData.offices.find((o) => o.id === selectedOffice) || companyData.offices[0];
@@ -72,7 +111,7 @@ export const ContactPage: React.FC = () => {
     return errors;
   };
 
-  const handleSubmit = (e: React.FormEvent) => {
+  const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     const validationErrors = validate();
     if (Object.keys(validationErrors).length > 0) {
@@ -81,12 +120,40 @@ export const ContactPage: React.FC = () => {
     }
 
     setFormErrors({});
+    setSubmitError('');
     setIsSubmitting(true);
 
-    setTimeout(() => {
-      setIsSubmitting(false);
+    try {
+      const response = await fetch('/api/contact', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ ...formData, captchaToken }),
+      });
+      const responseText = await response.text();
+      let result: { error?: string; message?: string };
+      try {
+        result = responseText ? JSON.parse(responseText) : {};
+      } catch {
+        throw new Error('The contact service returned an invalid response. Please make sure the PHP API is running, then try again.');
+      }
+      if (!response.ok) {
+        throw new Error(result.error || 'We could not send your inquiry. Please try again.');
+      }
+      if (!result.message) {
+        throw new Error('The contact service returned an incomplete response. Please try again.');
+      }
       setIsSuccess(true);
-    }, 600);
+    } catch (error) {
+      setSubmitError(
+        error instanceof TypeError
+          ? 'Could not reach the contact service. Start the PHP API with “npm run serve:php”, then try again.'
+          : error instanceof Error ? error.message : 'We could not send your inquiry. Please try again.',
+      );
+      setCaptchaToken('');
+      if (captchaWidgetId.current) window.turnstile?.reset(captchaWidgetId.current);
+    } finally {
+      setIsSubmitting(false);
+    }
   };
 
   return (
@@ -159,12 +226,12 @@ export const ContactPage: React.FC = () => {
                       type="button"
                       onClick={() => {
                         setIsSuccess(false);
+                        setSubmitError('');
                         setFormData({
                           fullName: '',
                           workEmail: '',
                           companyName: '',
                           phone: '',
-                          serviceInterestedIn: contactData.serviceTopics[0]?.label || 'Staffing Services',
                           message: '',
                           privacyConsent: false,
                         });
@@ -252,8 +319,17 @@ export const ContactPage: React.FC = () => {
                       )}
                     </div>
 
+                    {captchaSiteKey ? (
+                      <div ref={captchaRef} aria-label="Security verification" />
+                    ) : (
+                      <p role="alert" className="field-error">Security verification is not configured.</p>
+                    )}
+
                     <div className="pt-2">
-                      <Button type="submit" disabled={isSubmitting} className="w-full">
+                      {submitError && (
+                        <p role="alert" className="field-error mb-3">{submitError}</p>
+                      )}
+                      <Button type="submit" disabled={isSubmitting || !captchaToken || !captchaSiteKey} className="w-full">
                         {isSubmitting ? (
                           <span>Sending Message...</span>
                         ) : (
