@@ -30,7 +30,7 @@ export const EnterpriseArchitectureHero: React.FC<{ service: ServiceItem }> = ({
 
         <div className="enterprise-hero-copy">
           <motion.h1 id="enterprise-hero-title" className="enterprise-hero-title font-display font-extrabold tracking-tight" {...entrance(0.05)}>
-            <ScrollRevealText text={service.tagline} preserveLayout />
+            <ScrollRevealText text={service.tagline} highlight={service.tagline} />
           </motion.h1>
           <motion.p className="enterprise-hero-description" {...entrance(0.21)}>
             {service.fullDesc}

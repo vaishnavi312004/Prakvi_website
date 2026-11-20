@@ -69,7 +69,7 @@ export const SystemIntegrationHero: React.FC<{ service: ServiceItem }> = ({ serv
             className="enterprise-hero-title font-display font-extrabold tracking-tight"
             {...entrance(0.05)}
           >
-            <ScrollRevealText text={service.tagline} preserveLayout />
+            <ScrollRevealText text={service.title} highlight={service.title} />
           </motion.h1>
 
           <motion.p

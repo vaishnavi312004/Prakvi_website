@@ -4,33 +4,23 @@ import {
   ArrowLeft,
   ArrowRight,
   BarChart3,
-  Building2,
-  CalendarDays,
-  ChartNoAxesCombined,
-  ClipboardCheck,
+  Briefcase,
   Cloud,
-  Compass,
+  Clock,
+  Code2,
   Database,
   GitBranch,
   Headset,
   Headphones,
   Handshake,
   Layers,
-  Mail,
-  MessagesSquare,
+  Megaphone,
   Network,
-  Paintbrush,
-  PenLine,
+  PieChart,
   Plug,
   Search,
   Server,
-  Share2,
-  ShieldCheck,
-  ShoppingBag,
-  Smartphone,
-  Target,
-  TrendingUp,
-  Truck,
+  Stethoscope,
   Users,
   Warehouse,
   Wrench,
@@ -58,12 +48,7 @@ import {
 import { ServiceIllustration, type IllustrationCollection } from './serviceIllustrations/ServiceIllustration';
 import './ArchitectureOfferingsWorkflow.css';
 
-const serviceIcons = {
-  Headphones, Server, Plug, Layers, Search, Target, Share2, PenLine, Mail, TrendingUp, ShieldCheck,
-  Smartphone, Building2, ShoppingBag, GitBranch, Paintbrush, Wrench,
-  CalendarDays, Handshake, MessagesSquare, BarChart3, Compass, ClipboardCheck, Headset, Network,
-  Truck, Warehouse, ChartNoAxesCombined,
-};
+const serviceIcons = { Headphones, Server, Plug, Layers, Briefcase, Clock, Code2, Stethoscope, BarChart3, Cloud, Megaphone, PieChart, Users };
 const revealViewport = { once: true, amount: 0.24 } as const;
 type Offering = ServiceItem['capabilities'][number];
 
@@ -344,15 +329,14 @@ function ServiceDetails({
 interface ArchitectureOfferingsWorkflowProps {
   id?: string;
   title: string;
-  description?: string;
-  services: Offering[];
-  palette?: 'mobile-app' | 'digital-marketing' | 'project-management' | 'mobility' | 'supply' | 'integration';
+  description: string;
+  services: ServiceItem['capabilities'];
+  ariaLabel?: string;
+  palette?: string;
   illustrationCollection?: IllustrationCollection;
 }
 
-export function ArchitectureOfferingsWorkflow({
-  id = 'capabilities', title, description, services, palette, illustrationCollection,
-}: ArchitectureOfferingsWorkflowProps) {
+export function ArchitectureOfferingsWorkflow({ id = 'capabilities', title, description, services, ariaLabel = 'Enterprise Architecture', palette, illustrationCollection }: ArchitectureOfferingsWorkflowProps) {
   const headingId = useId();
   const section = useRef<HTMLElement>(null);
   const touchStart = useRef<{ x: number; y: number } | null>(null);
@@ -461,7 +445,7 @@ export function ArchitectureOfferingsWorkflow({
           )}
           <div
             className="ea-gallery-viewport"
-            aria-label={title}
+            aria-label={`${ariaLabel} services`}
             onTouchStart={startSwipe}
             onTouchEnd={finishSwipe}
           >

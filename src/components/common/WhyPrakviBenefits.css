@@ -12,12 +12,11 @@
     transition: border-color 240ms ease, box-shadow 240ms ease;
   }
 
-  .why-prakvi-benefit:hover .why-prakvi-benefit__badge {
-    animation: why-prakvi-check-turn 640ms ease-in-out;
+  .why-prakvi-benefit__badge {
+    transition: transform 240ms ease-out;
   }
-}
 
-@keyframes why-prakvi-check-turn {
-  45% { transform: translateY(-5px) rotate(160deg); }
-  100% { transform: translateY(0) rotate(360deg); }
+  .why-prakvi-benefit:hover .why-prakvi-benefit__badge {
+    transform: translateX(4px);
+  }
 }

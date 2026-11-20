@@ -2,6 +2,7 @@
 import { AnimatePresence, motion, useAnimationFrame, useInView, useMotionValue, useScroll } from 'motion/react';
 import { Activity, ArrowUpRight, Cable, ChartColumn, ClipboardList, FileChartColumn, Layers3, Megaphone, Network, Pause, PenLine, Play, Route, ScanSearch, Search, ShieldCheck, SlidersHorizontal, type LucideIcon } from 'lucide-react';
 import { ScrollRevealText } from './ScrollRevealText';
+import type { ServiceItem } from '../../types';
 import './EnterpriseArchitectureJourney.css';
 
 const stepIcons = [ScanSearch, Network, ShieldCheck, Route, Cable, Activity];
@@ -60,58 +61,46 @@ const portrait: JourneyLayout = {
   finish: 'C229 639 159 659 159 677',
 };
 
-const campaignLandscape: JourneyLayout = {
-  width: 800,
-  height: 560,
-  start: 'M18 75',
+const landscapeSeven: JourneyLayout = {
+  ...landscape,
+  height: 720,
   stages: [
-    { x: 178, y: 72, curve: 'C62 96 114 72 178 72' },
-    { x: 605, y: 64, curve: 'C325 67 452 42 605 64' },
-    { x: 605, y: 206, curve: 'C803 78 803 200 605 206' },
-    { x: 195, y: 198, curve: 'C458 223 332 192 195 198' },
-    { x: 178, y: 335, curve: 'C12 192 5 336 178 335' },
-    { x: 605, y: 345, curve: 'C311 318 479 353 605 345' },
-    { x: 605, y: 490, curve: 'C805 337 805 487 605 490' },
-    { x: 195, y: 485, curve: 'C473 505 324 469 195 485' },
+    ...landscape.stages,
+    { x: 390, y: 626, curve: 'C760 486 746 627 390 626' },
   ],
-  finish: 'C115 476 63 494 18 536',
+  finish: 'C260 626 149 656 63 686',
 };
 
-const campaignPortrait: JourneyLayout = {
-  width: 400,
-  height: 750,
-  start: 'M102 4',
-  stages: Array.from({ length: 8 }, (_, index) => {
-    const x = index % 2 ? 229 : 167;
-    const y = 55 + index * 91;
-    const previousX = index === 0 ? 102 : 396 - x;
-    return { x, y, curve: `C${previousX} ${y - 57} ${x} ${y - 34} ${x} ${y}` };
-  }),
-  finish: 'C229 722 159 735 159 747',
+const portraitSeven: JourneyLayout = {
+  ...portrait,
+  height: 795,
+  stages: [
+    ...portrait.stages,
+    { x: 167, y: 724, curve: 'C229 653 167 684 167 724' },
+  ],
+  finish: 'C167 750 223 773 223 792',
 };
 
-const sevenStepLandscape: JourneyLayout = {
-  ...campaignLandscape,
-  stages: campaignLandscape.stages.slice(0, 7),
-  finish: 'C690 492 750 505 786 534',
-};
+function getJourneyLayout(compact: boolean, stepCount: number): JourneyLayout {
+  if (stepCount < 7) return compact ? portrait : landscape;
+  const base = compact ? portraitSeven : landscapeSeven;
+  if (stepCount === 7) return base;
 
-const sevenStepPortrait: JourneyLayout = {
-  width: 400,
-  height: 750,
-  start: 'M102 4',
-  stages: Array.from({ length: 7 }, (_, index) => {
-    const x = index % 2 ? 229 : 167;
-    const y = 55 + index * 91;
-    const previousX = index === 0 ? 102 : 396 - x;
-    return { x, y, curve: `C${previousX} ${y - 57} ${x} ${y - 34} ${x} ${y}` };
-  }),
-  finish: 'C229 648 159 671 159 697',
-};
+  const stages = [...base.stages];
+  const spacing = compact ? 111 : 146;
+  for (let index = stages.length; index < stepCount; index += 1) {
+    const previous = stages[index - 1];
+    const x = index % 2 ? (compact ? 229 : 575) : (compact ? 167 : 230);
+    const y = previous.y + spacing;
+    stages.push({ x, y, curve: `C${previous.x} ${previous.y + spacing / 2} ${x} ${y - spacing / 2} ${x} ${y}` });
+  }
+  const last = stages[stages.length - 1];
+  return { ...base, height: base.height + spacing * (stepCount - 7), stages, finish: `L${last.x} ${last.y + spacing / 2}` };
+}
 
 function ScrollTrace({ path, target }: { path: string; target: React.RefObject<HTMLDivElement | null> }) {
-  const { scrollYProgress } = useScroll({ target, offset: ['start 75%', 'end 65%'] });
-  return <motion.path d={path} className="ea-journey-track-active" stroke="#089fdb" style={{ pathLength: scrollYProgress }} />;
+  const { scrollYProgress } = useScroll({ target, offset: ['start end', 'end center'] });
+  return <motion.path d={path} className="ea-journey-track-active" stroke="currentColor" style={{ pathLength: scrollYProgress }} />;
 }
 
 function JourneyPath({ layout, active, moving, revealed, reduced, traceTarget }: {
@@ -195,12 +184,11 @@ interface EnterpriseArchitectureJourneyProps {
   traceOnScroll?: boolean;
   title: string;
   description: string;
-  steps: { step: string; title: string; description?: string; points?: string[] }[];
+  steps: Array<Omit<ServiceItem['deliverySteps'][number], 'description'> & { description?: string }>;
+  ariaLabel?: string;
 }
 
-export function EnterpriseArchitectureJourney({
-  sectionId = 'enterprise-process', stepsLabel, icons: stepIconOverrides, title, description, steps, traceOnScroll,
-}: EnterpriseArchitectureJourneyProps) {
+export function EnterpriseArchitectureJourney({ title, description, steps, ariaLabel = 'Enterprise Architecture', sectionId = 'enterprise-process', stepsLabel, icons = stepIcons, traceOnScroll = false }: EnterpriseArchitectureJourneyProps) {
   const id = useId();
   const workspace = useRef<HTMLDivElement>(null);
   const route = useRef<HTMLDivElement>(null);
@@ -219,14 +207,8 @@ export function EnterpriseArchitectureJourney({
   const [pageVisible, setPageVisible] = useState(true);
   const moving = inView && pageVisible && !reduced;
   const advancing = moving && playing && !hovering && !focused && !reading && steps.length > 1;
-  const extended = steps.length === campaignIcons.length;
-  const sevenStep = steps.length === 7;
-  const layout = sevenStep
-    ? (compact ? sevenStepPortrait : sevenStepLandscape)
-    : extended
-      ? (compact ? campaignPortrait : campaignLandscape)
-      : (compact ? portrait : landscape);
-  const icons = extended ? campaignIcons : stepIconOverrides ?? stepIcons;
+  const extended = steps.length >= 7;
+  const layout = getJourneyLayout(compact, steps.length);
 
   useEffect(() => {
     const update = () => setPageVisible(!document.hidden);
@@ -282,7 +264,7 @@ export function EnterpriseArchitectureJourney({
 
   return (
     <section id={sectionId} className="ea-journey" aria-labelledby={`${id}-title`} tabIndex={sectionId !== 'enterprise-process' ? -1 : undefined}
-      data-moving={moving} data-extended={extended || undefined} data-seven={sevenStep || undefined}>
+      data-moving={moving} data-extended={extended || undefined}>
       {/* Scroll reveals run independently from the route entrance on direct visits. */}
       <AnimatePresence>
         <div className="ea-journey-inner">
@@ -296,11 +278,11 @@ export function EnterpriseArchitectureJourney({
             onFocusCapture={event => setFocused(event.target.matches(':focus-visible'))}
             onBlurCapture={event => { if (!event.currentTarget.contains(event.relatedTarget)) setFocused(false); }}>
             {advancing && <StageClock tick={tick} />}
-            <div className="ea-journey-route" ref={route}>
+            <div ref={route} className="ea-journey-route" data-extended={extended}
+              style={steps.length > 7 ? { minHeight: `${(compact ? 40.75 : 38) + (steps.length - 7) * 6}rem` } : undefined}>
               <div className="ea-journey-atmosphere" aria-hidden="true"><i /><i /><i /><i /><i /></div>
-              <JourneyPath layout={layout} active={active} moving={moving} reduced={reduced}
-                revealed={revealed} traceTarget={traceOnScroll ? route : undefined} />
-              <div role="tablist" aria-label={stepsLabel ?? (extended ? 'Digital Marketing process steps' : 'Enterprise Architecture stages')} aria-orientation={compact ? 'vertical' : 'horizontal'} className="ea-journey-nodes">
+              <JourneyPath layout={layout} active={active} moving={moving} reduced={reduced} revealed={revealed} traceTarget={traceOnScroll ? route : undefined} />
+              <div role="tablist" aria-label={stepsLabel || `${ariaLabel} stages`} aria-orientation={compact ? 'vertical' : 'horizontal'} className="ea-journey-nodes">
                 {steps.map((step, index) => {
                   const Icon = icons[index] ?? Layers3;
                   const position = layout.stages[index];

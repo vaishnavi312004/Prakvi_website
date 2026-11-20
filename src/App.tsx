@@ -11,6 +11,8 @@ import { SmoothScroll, resetRouteScroll } from './components/layout/SmoothScroll
 import { Header } from './components/layout/Header';
 import { BackToTop } from './components/layout/BackToTop';
 import { Footer } from './components/layout/Footer';
+import { RecruitmentSecurityAlert } from './components/common/RecruitmentSecurityAlert';
+import { CookieLauncher, CookiePreferences, essentialOnly, readCookieChoice, saveCookieChoice, type CookieChoice } from './components/layout/CookiePreferences';
 import { HomePage } from './pages/HomePage';
 import { AboutPage } from './pages/AboutPage';
 import { ServicesPage } from './pages/ServicesPage';
@@ -25,6 +27,7 @@ import { BlogsPage } from './pages/BlogsPage';
 import { BlogDetailPage } from './pages/BlogDetailPage';
 import { ContactPage } from './pages/ContactPage';
 import { NotFoundPage } from './pages/NotFoundPage';
+import { CookieNoticePage, PrivacyStatementPage } from './pages/PrivacyPages';
 
 function IosScrollHairline() {
   const reducedMotion = useReducedMotion();
@@ -65,6 +68,8 @@ function AnimatedRoutes() {
         <Route path="/blogs" element={<BlogsPage />} />
         <Route path="/blogs/:slug" element={<BlogDetailPage />} />
         <Route path="/contact" element={<ContactPage />} />
+        <Route path="/cookie-notice" element={<CookieNoticePage />} />
+        <Route path="/privacy-statement" element={<PrivacyStatementPage />} />
         <Route path="*" element={<NotFoundPage />} />
       </Routes>
     </AnimatePresence>
@@ -72,8 +77,33 @@ function AnimatedRoutes() {
 }
 
 export default function App() {
+  const [cookieChoice, setCookieChoice] = React.useState(readCookieChoice);
+  const [showCookiePreferences, setShowCookiePreferences] = React.useState(cookieChoice === null);
+
+  React.useEffect(() => {
+    if (cookieChoice) saveCookieChoice(cookieChoice);
+  }, [cookieChoice]);
+
+  React.useEffect(() => {
+    function handlePageRestore(event: PageTransitionEvent) {
+      if (!event.persisted) return;
+      const savedChoice = readCookieChoice();
+      setCookieChoice(savedChoice);
+      setShowCookiePreferences(savedChoice === null);
+    }
+
+    window.addEventListener('pageshow', handlePageRestore);
+    return () => window.removeEventListener('pageshow', handlePageRestore);
+  }, []);
+
+  function chooseCookies(choice: CookieChoice) {
+    saveCookieChoice(choice);
+    setCookieChoice(choice);
+    setShowCookiePreferences(false);
+  }
+
   return (
-    <ThemeProvider>
+    <ThemeProvider persistTheme={cookieChoice?.appearance ?? false}>
       <MotionConfig reducedMotion="user">
         <BrowserRouter>
           <SmoothScroll />
@@ -86,9 +116,21 @@ export default function App() {
             <main id="main-content" className="flex-1 flex flex-col w-full relative">
               <AnimatedRoutes />
             </main>
-            <Footer />
+            <Footer onOpenCookiePreferences={() => setShowCookiePreferences(true)} />
             <BackToTop />
           </div>
+          <RecruitmentSecurityAlert canAutoOpen={!showCookiePreferences} />
+          <AnimatePresence mode="wait">
+            {!showCookiePreferences && (
+              <CookieLauncher key="cookie-launcher" onOpen={() => setShowCookiePreferences(true)} />
+            )}
+          </AnimatePresence>
+          <CookiePreferences
+            open={showCookiePreferences}
+            choice={cookieChoice ?? essentialOnly}
+            onChoose={chooseCookies}
+            onDismiss={() => setShowCookiePreferences(false)}
+          />
         </BrowserRouter>
       </MotionConfig>
     </ThemeProvider>

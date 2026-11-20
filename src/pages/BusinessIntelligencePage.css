@@ -1,0 +1,197 @@
+.bi-page {
+  --bi-ink: var(--theme-foreground);
+  --bi-copy: color-mix(in srgb, var(--theme-muted) 76%, var(--bi-ink));
+  --bi-accent: color-mix(in srgb, var(--theme-highlight) 80%, var(--bi-ink));
+  --bi-background: #f8f8f8;
+  --bi-border: color-mix(in srgb, var(--bi-accent) 17%, var(--theme-border));
+  background: var(--bi-background);
+  color: var(--bi-ink);
+}
+
+.bi-wrap {
+  width: min(calc(100% - 2rem), 76rem);
+  margin-inline: auto;
+}
+
+.bi-page :is(.ea-workflow-heading, .ea-journey-heading, .staffing-capabilities__inner) > h2 {
+  color: var(--theme-foreground);
+}
+
+.bi-page :is(.ea-workflow-heading, .ea-journey-heading, .staffing-capabilities__inner) > p {
+  color: var(--theme-muted);
+}
+
+.bi-page :is(.ea-offerings, .ea-journey, .staffing-capabilities)::before {
+  background: none;
+}
+
+.bi-page .ea-gallery-card-surface {
+  background: linear-gradient(148deg,
+    color-mix(in srgb, var(--ea-card-tint) 68%, var(--theme-surface)),
+    color-mix(in srgb, var(--ea-card-base) 64%, var(--theme-pastel)));
+}
+
+.bi-hero {
+  position: relative;
+  isolation: isolate;
+  display: grid;
+  align-items: center;
+  min-height: clamp(39rem, 52vw, 53rem);
+  background: var(--bi-background);
+}
+
+.bi-hero::after {
+  position: absolute;
+  z-index: 1;
+  inset: auto 0 0;
+  height: 9%;
+  background: linear-gradient(transparent, var(--bi-background));
+  pointer-events: none;
+  content: '';
+}
+
+.bi-hero-content {
+  position: relative;
+  z-index: 2;
+  padding-block: clamp(5.25rem, 7vw, 7.5rem) clamp(2.75rem, 5vw, 5rem);
+  pointer-events: none;
+}
+
+.bi-hero-copy {
+  width: min(45%, 36rem);
+  pointer-events: auto;
+}
+
+.bi-hero-eyebrow {
+  margin-top: 0.75rem;
+  color: var(--bi-accent);
+  font-size: 0.875rem;
+  font-weight: 800;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+}
+
+.bi-hero h1 {
+  margin-block: 0.55rem 0.9rem;
+  font-family: var(--font-display);
+  font-size: clamp(2.5rem, 4.5vw, 4.75rem);
+  font-weight: 800;
+  letter-spacing: -0.05em;
+  line-height: 1;
+  text-wrap: balance;
+}
+
+.bi-hero-tagline {
+  margin-bottom: 0.85rem;
+  color: var(--bi-accent);
+  font-size: clamp(1rem, 1.5vw, 1.25rem);
+  font-weight: 750;
+  line-height: 1.4;
+}
+
+.bi-hero-description {
+  color: var(--bi-copy);
+  line-height: 1.65;
+}
+
+.bi-hero-actions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.6rem;
+  margin-top: 1.35rem;
+}
+
+.bi-hero-visual {
+  position: absolute;
+  inset: 0 0 0 40%;
+}
+
+.bi-hero-media {
+  position: absolute;
+  inset: 0;
+  mask-image: linear-gradient(90deg, transparent, #000 28%);
+}
+
+.bi-hero-media :is(img, video) {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  object-position: 78% center;
+}
+
+.bi-hero-media video {
+  opacity: 0;
+  transition: opacity 220ms ease;
+}
+
+.bi-hero-media video[data-visible='true'] {
+  opacity: 1;
+}
+
+.bi-media-toggle {
+  position: absolute;
+  z-index: 2;
+  right: clamp(0.85rem, 3vw, 2rem);
+  bottom: 12%;
+  display: grid;
+  width: 2.75rem;
+  height: 2.75rem;
+  place-items: center;
+  border: 1px solid var(--bi-border);
+  border-radius: 50%;
+  background: color-mix(in srgb, var(--bi-ink) 90%, transparent);
+  color: white;
+}
+
+.bi-media-toggle:hover {
+  background: var(--bi-accent);
+}
+
+.bi-page :is(a, button, summary):focus-visible {
+  outline: 2px solid var(--bi-accent);
+  outline-offset: 3px;
+}
+
+@media (min-width: 48rem) {
+  .bi-wrap {
+    width: min(calc(100% - 4rem), 76rem);
+  }
+}
+
+@media (max-width: 60rem) {
+  .bi-hero {
+    min-height: auto;
+  }
+
+  .bi-hero-content {
+    padding-bottom: 0.25rem;
+  }
+
+  .bi-hero-copy {
+    width: min(100%, 42rem);
+  }
+
+  .bi-hero-visual {
+    position: relative;
+    inset: auto;
+    min-height: clamp(15rem, 52vw, 29rem);
+    margin-top: 0.65rem;
+  }
+
+  .bi-hero-media {
+    mask-image: linear-gradient(transparent, #000 16%);
+  }
+
+  .bi-hero-media :is(img, video) {
+    object-position: 75% center;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .bi-hero-media video,
+  .bi-media-toggle {
+    display: none;
+  }
+}

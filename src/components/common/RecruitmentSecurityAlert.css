@@ -1,0 +1,103 @@
+.recruitment-alert-tab {
+  position: fixed;
+  z-index: 40;
+  top: 50%;
+  left: 0;
+  display: flex;
+  width: 44px;
+  flex-direction: column;
+  align-items: center;
+  gap: 0.45rem;
+  padding: 0.55rem 0.35rem 0.7rem;
+  border: 1px solid rgb(186 230 253 / 55%);
+  border-left: 0;
+  border-radius: 0 0.875rem 0.875rem 0;
+  background: linear-gradient(160deg, #087ba9, #0c416b);
+  color: white;
+  box-shadow: 1px 4px 14px rgb(8 47 73 / 22%);
+  transform: translate(-4px, -50%);
+  transition: transform 180ms ease, box-shadow 180ms ease;
+}
+
+.recruitment-alert-tab-label {
+  writing-mode: vertical-rl;
+  transform: rotate(180deg);
+  font-size: 0.875rem;
+  font-weight: 700;
+  line-height: 1;
+}
+
+.recruitment-alert-tab-icon {
+  display: grid;
+  width: 24px;
+  height: 24px;
+  place-items: center;
+  border-radius: 50%;
+  background: rgb(255 255 255 / 14%);
+  color: #fef3c7;
+  transition: background-color 180ms ease, transform 180ms ease;
+}
+
+.recruitment-alert-tab:focus-visible {
+  outline: 2px solid white;
+  outline-offset: -4px;
+}
+
+.recruitment-alert-tab:focus-visible,
+.recruitment-alert-tab:hover {
+  transform: translate(0, -50%);
+  box-shadow: 3px 6px 18px rgb(8 47 73 / 36%);
+}
+
+.recruitment-alert-tab:focus-visible .recruitment-alert-tab-icon,
+.recruitment-alert-tab:hover .recruitment-alert-tab-icon {
+  background: rgb(255 255 255 / 26%);
+  transform: scale(1.1);
+}
+
+.recruitment-alert-tab:active .recruitment-alert-tab-icon {
+  transform: scale(0.92);
+}
+
+.recruitment-alert {
+  max-height: calc(100dvh - 2rem);
+}
+
+.recruitment-alert::backdrop {
+  background: rgb(8 22 43 / 68%);
+  backdrop-filter: blur(4px);
+}
+
+@media (prefers-reduced-motion: no-preference) {
+  .recruitment-alert[open] {
+    animation: recruitment-alert-enter 240ms cubic-bezier(0.2, 0.75, 0.25, 1);
+  }
+
+  .recruitment-alert[open]::backdrop {
+    animation: recruitment-alert-fade 200ms ease-out;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .recruitment-alert-tab,
+  .recruitment-alert-tab-icon {
+    transition: none;
+  }
+}
+
+@keyframes recruitment-alert-enter {
+  from {
+    opacity: 0;
+    transform: translate(-12px, 6px) scale(0.98);
+  }
+}
+
+@keyframes recruitment-alert-fade {
+  from {
+    opacity: 0;
+  }
+}
+
+html:has(.recruitment-alert[open]) {
+  overflow: hidden;
+}

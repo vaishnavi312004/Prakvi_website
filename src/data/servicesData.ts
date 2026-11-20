@@ -17,7 +17,7 @@ const serviceCatalog: ServiceItem[] = [
     iconName: 'Users',
     badge: 'Staffing Capabilities',
     offeringsTitle: 'Our Staffing Services',
-    offeringsSubtitle: 'Comprehensive staffing solutions tailored to your evolving workforce needs.',
+    offeringsSubtitle: 'Comprehensive staffing solutions tailored to your business needs.',
     businessChallenge:
       'Competitive talent markets, lengthy screening cycles, and niche technical or clinical skill shortages can slow down strategic delivery and inflate recruitment costs.',
     howWeHelp:
@@ -26,26 +26,24 @@ const serviceCatalog: ServiceItem[] = [
       {
         title: 'Healthcare Staffing Solutions',
         description:
-          'Provides skilled healthcare professionals across permanent, temporary, and contract positions to support ongoing clinical, project-based, or seasonal needs.',
+          'Provides skilled healthcare professionals across permanent, temporary, and contract positions:',
         icon: 'Stethoscope',
+        points: [
+          'Permanent staffing for full-time healthcare roles',
+          'Temporary placements to fill short-term needs',
+          'Contract staffing to support project-based or seasonal needs',
+        ],
       },
       {
         title: 'IT Consulting & Workforce Solutions',
         description:
-          'Blends technology consulting with deep industry expertise, workforce planning, and scaling tailored to tech projects across industries needing IT and staffing integration.',
+          'Blends technology consulting with staffing to empower organizations in a dynamic marketplace.',
         icon: 'Code2',
-      },
-      {
-        title: 'Permanent & Executive Hiring',
-        description:
-          'Dedicated search and full-time placement for engineering specialists, leadership hiring, and enterprise-wide talent acquisition.',
-        icon: 'Briefcase',
-      },
-      {
-        title: 'Contract & Temporary Staffing',
-        description:
-          'Flexible IT contracting, project-based roles, short-term talent, and agile team augmentation aligned with budget and timeline goals.',
-        icon: 'Clock',
+        points: [
+          'IT consulting backed by deep industry expertise',
+          'Workforce planning and scaling tailored to tech projects',
+          'Support across industries needing IT and staffing integration',
+        ],
       },
     ],
     businessBenefits: [
@@ -78,7 +76,7 @@ const serviceCatalog: ServiceItem[] = [
         step: '02',
         title: 'Candidate Sourcing & Screening',
         description:
-          'Leveraging a broad talent pool and professional networks, we source suitable candidates and screen them via resumes, interviews, and reference checks.',
+          'Leveraging a broad talent pool and professional networks, they source suitable candidates and screen them via resumes, interviews, and reference checks.',
       },
       {
         step: '03',
@@ -109,7 +107,14 @@ const serviceCatalog: ServiceItem[] = [
       },
       {
         label: 'Contract Staffing',
-        items: ['IT Contracting', 'Temporary Staffing', 'Project-Based Roles', 'Short-Term Talent', 'Support Staff', 'Flexible Contracts'],
+        items: [
+          'IT Contracting',
+          'Temporary Staffing',
+          'Project-Based Roles',
+          'Short-Term Talent',
+          'Support Staff',
+          'Flexible Contracts',
+        ],
       },
       {
         label: 'Specialized Roles',
@@ -281,7 +286,7 @@ const serviceCatalog: ServiceItem[] = [
       'In today’s data driven economy, businesses generate vast amounts of information, but without the right tools and expertise, it remains untapped potential. At Prakvi, we help organizations across India transform complex datasets into actionable insights with our Business Intelligence (BI) services. From interactive dashboards and advanced analytics to real-time reporting, we deliver tailored BI strategies that drive informed decisions, growth, and competitive advantage.',
     iconName: 'BarChart3',
     badge: 'BI Consulting & Analytics',
-    offeringsTitle: 'Additional Services & BI Capabilities',
+    offeringsTitle: 'Additional Services',
     offeringsSubtitle: 'Our comprehensive Business Intelligence solutions are customized to align with your unique business requirements.',
     businessChallenge:
       'Valuable operational data often remains trapped in disconnected databases without ETL automation or cohesive executive dashboards.',
@@ -343,7 +348,7 @@ const serviceCatalog: ServiceItem[] = [
       },
     ],
     processTitle: 'Why Choose Prakvi for Business Intelligence?',
-    processSubtitle: 'A proven 7-step methodology that ensures successful BI delivery.',
+    processSubtitle: 'A proven methodology that ensures successful project delivery',
     deliverySteps: [
       {
         step: '01',
@@ -355,37 +360,37 @@ const serviceCatalog: ServiceItem[] = [
         step: '02',
         title: 'Data Planning & Preparation',
         description:
-          'Architect ETL pipelines, perform data cleaning, conversion, and ensure data quality across source systems.',
+          'Architect ETL pipelines, perform data cleaning, conversion, and ensure quality across systems.',
       },
       {
         step: '03',
         title: 'Analytics Design & Modeling',
         description:
-          'Build descriptive, diagnostic, predictive, and prescriptive models tailored to specific business use cases.',
+          'Build descriptive, diagnostic, predictive, and prescriptive models tailored to business use cases.',
       },
       {
         step: '04',
         title: 'Dashboard & Reporting Setup',
         description:
-          'Develop custom interactive dashboards and self-service BI tools for stakeholders to access insights in real time.',
+          'Develop custom dashboards and self-service BI tools for stakeholders to access insights in real time.',
       },
       {
         step: '05',
         title: 'Deployment & Integration',
         description:
-          'Implement BI frameworks and integrate cleanly with existing infrastructure to ensure smooth adoption.',
+          'Implement BI frameworks and integrate with existing infrastructure; ensure smooth adoption.',
       },
       {
         step: '06',
         title: 'Monitoring & Optimization',
         description:
-          'Ongoing performance tracking, fine-tuning of data flows and analytical models, and iterative improvements.',
+          'Ongoing performance tracking, fine-tuning of data flows and models, and iterative improvements.',
       },
       {
         step: '07',
         title: 'Training & Support',
         description:
-          'Empower end-users through structured training programs, documentation, and dedicated user support for long-term success.',
+          'Empower end-users through training programs, documentation, and user support for long-term success.',
       },
     ],
     stackTitle: 'Business Intelligence Stack',
@@ -543,11 +548,11 @@ const serviceCatalog: ServiceItem[] = [
     shortDesc:
       'End-to-end workforce solutions, permanent and contract talent acquisition, onboarding integration, and strategic workforce planning.',
     fullDesc:
-      'In a rapidly evolving business landscape, having the right talent at the right time is critical for success. At Prakvi, we deliver end-to-end workforce solutions and workforce management services that help organizations across India attract, hire, and retain top talent. Whether you need permanent workforce solutions, contract workforce, or vendor management staffing, our customized approach leverages deep market insights, advanced sourcing strategies, and a commitment to quality. From startups to large enterprises, we enable scalable workforce support, reduce hiring time, and improve talent retention.',
+      'In a rapidly evolving business landscape, having the right talent at the right time is critical for success. At Prakvi, we deliver end-to-end workforce solutions and workforce management services that help organizations across India attract, hire, and retain top talent. Whether you need permanent workforce solutions, contract workforce, or vendor management staffing, our customized approach leverages deep market insights, advanced sourcing strategies, and a commitment to quality.\n\nFrom startups to large enterprises, we enable scalable workforce support, reduce hiring time, and improve talent retention.',
     iconName: 'UserCheck',
     badge: 'Strategic Workforce Solutions',
-    offeringsTitle: 'Our Workforce Offerings',
-    offeringsSubtitle: 'End-to-end workforce solutions customized to meet your specific business needs.',
+    offeringsTitle: 'Our Other Services Offered',
+    offeringsSubtitle: 'We provide end-to-end workforce solutions customized to meet your specific business needs',
     businessChallenge:
       'Peak project workloads, complex compliance overhead, and fragmented hiring processes prevent organizations from scaling agile teams on demand.',
     howWeHelp:
@@ -555,27 +560,32 @@ const serviceCatalog: ServiceItem[] = [
     capabilities: [
       {
         title: 'Professional Staffing Services',
-        description:
-          'Temporary, contract, and direct-hire workforce solutions with specialized acquisition across tech, analytics, and operations.',
+        description: 'Flexible staffing for the changing needs of your organization and industry.',
         icon: 'Users',
+        points: [
+          'Temporary, contract, and direct-hire workforce',
+          'Specialized talent acquisition for tech, analytics, and operations',
+          'On-demand scaling for projects and peak workloads',
+        ],
       },
       {
-        title: 'Talent Pipeline & Compliance',
-        description:
-          'Structured screening, background verification, and statutory compliance workflows supporting seamless team deployment.',
+        title: 'Human Resource Management System (HRMS)',
+        description: 'An integrated platform powered by AI to streamline HR functions.',
         icon: 'Cpu',
+        points: [
+          'Automated recruitment workflows',
+          'Payroll and attendance tracking',
+          'Performance evaluation and employee engagement modules',
+        ],
       },
       {
-        title: 'Enterprise Solutions & Workforce Consulting',
-        description:
-          'Comprehensive digital transformation services blending IT consulting for modern architecture with strategic workforce planning.',
+        title: 'Enterprise Solutions / Tech & Workforce Consulting',
+        description: 'Digital transformation services that combine technology consulting with workforce strategy.',
         icon: 'Layers',
-      },
-      {
-        title: 'On-Demand Project Scaling',
-        description:
-          'Dedicated teams, short-term project specialists, and flexible engagement structures tuned to shifting organizational demand.',
-        icon: 'TrendingUp',
+        points: [
+          'IT consulting for modern architecture and workflows',
+          'Workforce planning tied to business transformation',
+        ],
       },
     ],
     businessBenefits: [
@@ -596,7 +606,7 @@ const serviceCatalog: ServiceItem[] = [
       },
     ],
     processTitle: 'Why Choose Prakvi for Workforce Solutions?',
-    processSubtitle: 'A proven 7-step methodology built for sustainable team performance.',
+    processSubtitle: 'A proven methodology that ensures successful project delivery',
     deliverySteps: [
       {
         step: '01',
@@ -608,7 +618,7 @@ const serviceCatalog: ServiceItem[] = [
         step: '02',
         title: 'Strategic Talent Design',
         description:
-          'Create a flexible staffing blueprint covering short-term, contract, or permanent placements aligned to project goals.',
+          'Create a flexible staffing blueprint—covering short-term, contract, or permanent placements aligned to project goals.',
       },
       {
         step: '03',
@@ -620,19 +630,19 @@ const serviceCatalog: ServiceItem[] = [
         step: '04',
         title: 'Onboarding & Workforce Deployment',
         description:
-          'Seamlessly integrate new resources into client teams, manage documentation and compliance, and expedite time-to-productivity.',
+          'Seamlessly integrate new resources into client teams, manage documentation, compliance, and expedite time-to-productivity.',
       },
       {
         step: '05',
-        title: 'Onboarding & System Integration',
+        title: 'HRMS Integration (Optional)',
         description:
-          'Integrate workflows with existing enterprise attendance, security, and project reporting tools.',
+          'Deploy AI-powered HRMS to centralize tracking of recruitment, payroll, attendance, and performance metrics.',
       },
       {
         step: '06',
         title: 'Performance Monitoring & Scaling',
         description:
-          'Monitor staff effectiveness and project alignment, adjusting workforce size or skill sets as needs evolve.',
+          'Monitor staff effectiveness and project alignment; adjust workforce size or skill sets as needs evolve.',
       },
       {
         step: '07',
@@ -643,7 +653,7 @@ const serviceCatalog: ServiceItem[] = [
     ],
     stackTitle: 'Workforce Solutions',
     stackSummary:
-      'Prakvi offers more than just staffing—we deliver a strategic partnership to optimize human capital, enhance operational efficiency, and drive project success.',
+      'Prakvi positions Workforce Solution as its lead service, offering more than just staffing it delivers a strategic partnership to optimize human capital, enhance operational efficiency, and drive project success.',
     stackTabs: [
       { label: 'Talent Acquisition', items: ['End-to-End Recruitment', 'Candidate Screening', 'Contract Staffing', 'Permanent Hiring'] },
       { label: 'Project-Based Hiring', items: ['Short-Term Projects', 'Dedicated Teams', 'Flexible Engagements'] },

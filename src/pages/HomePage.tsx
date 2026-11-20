@@ -9,7 +9,6 @@ import { CTASection } from '../components/common/CTASection';
 import { ServicesCards } from '../components/common/ServicesCards';
 import { WhyPrakviBenefits } from '../components/common/WhyPrakviBenefits';
 import { AccordionGallery } from '../components/common/AccordionGallery';
-import { RotatingText } from '../components/common/RotatingText';
 import { TechOrbitEcosystem } from '../components/common/TechOrbitEcosystem';
 import { CompanyStatistics } from '../components/common/CompanyStatistics';
 import { homeData } from '../data/homeData';
@@ -70,29 +69,7 @@ export const HomePage: React.FC = () => {
                 </div>
 
                 <h1 className="font-display text-3xl font-extrabold leading-[1.1] tracking-tight text-foreground text-balance sm:text-5xl lg:text-[3.35rem]">
-                  <ScrollRevealText text={homeData.hero.headlinePrefix} />{' '}
-                  <RotatingText
-                    texts={[
-                      homeData.hero.headlineHighlight,
-                      'Enterprise Solutions',
-                      'Cloud Services',
-                      'Workforce Solutions',
-                    ]}
-                    effect="slide"
-                    direction="up"
-                    highlight
-                    highlightColor="var(--theme-accent)"
-                    staggerFrom="last"
-                    staggerDuration={0.025}
-                    splitLevelClassName="overflow-hidden pb-0.5 sm:pb-1 md:pb-1"
-                    rotationInterval={2200}
-                    splitBy="characters"
-                    blur={0}
-                    auto
-                    loop
-                    pauseOnHover={false}
-                  />{' '}
-                  <ScrollRevealText text={homeData.hero.headlineSuffix} />
+                  <ScrollRevealText text={homeData.hero.title} highlight="Staffing & IT Solutions" />
                 </h1>
 
                 <p className="max-w-xl text-sm leading-relaxed text-muted sm:text-base">
@@ -100,8 +77,8 @@ export const HomePage: React.FC = () => {
                 </p>
 
                 <div className="pt-1">
-                  <Link to="/contact" className="btn-primary">
-                    <span>Schedule Consultation</span>
+                  <Link to={homeData.hero.primaryCta.path} className="btn-primary">
+                    <span>{homeData.hero.primaryCta.label}</span>
                     <ArrowRight className="arrow-shift" aria-hidden="true" />
                   </Link>
                 </div>
@@ -113,6 +90,38 @@ export const HomePage: React.FC = () => {
                 aria-hidden="true"
               />
             </div>
+          </div>
+        </section>
+
+        <ServicesCards />
+
+        {/* 6. WHY CHOOSE PRAKVI */}
+        <section className="bg-canvas py-section">
+          <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
+            <div className="grid items-center gap-8 md:grid-cols-[minmax(0,0.9fr)_minmax(0,1.1fr)] lg:grid-cols-[minmax(0,0.88fr)_minmax(0,1.12fr)] xl:gap-14">
+              <div>
+                <SectionHeading
+                  animate={false}
+                  animateWords
+                  title={homeData.whyPrakvi.title}
+                  highlightWord="Staffing Solutions"
+                />
+                <div className="mt-4 space-y-3 text-base leading-relaxed text-muted">
+                  {homeData.whyPrakvi.paragraphs.map((paragraph) => <p key={paragraph}>{paragraph}</p>)}
+                </div>
+              </div>
+              <AccordionGallery
+                items={homeData.whyPrakvi.pillars.map(({ title, gallery }) => ({
+                  ...gallery,
+                  label: title,
+                }))}
+                defaultIndex={2}
+                expandRatio={0.52}
+                duration={0.6}
+                grayscale
+              />
+            </div>
+            <WhyPrakviBenefits />
           </div>
         </section>
 
@@ -180,69 +189,13 @@ export const HomePage: React.FC = () => {
           </div>
         </section>
 
-        {/* 3. BLUE-DOMINANT COMPREHENSIVE IT SOLUTIONS SHOWCASE */}
-        <ServicesCards />
-
         {/* 4. CIRCULAR ROTATIONAL TECHNOLOGY & SKILLS ORBITAL ECOSYSTEM */}
         <TechOrbitEcosystem animateTitles />
-
-        {/* 6. WHY CHOOSE PRAKVI */}
-        <section className="bg-canvas py-section">
-          <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
-            <div className="grid items-center gap-8 md:grid-cols-[minmax(0,0.9fr)_minmax(0,1.1fr)] lg:grid-cols-[minmax(0,0.88fr)_minmax(0,1.12fr)] xl:gap-14">
-              <div>
-                <SectionHeading
-                  animate={false}
-                  badge={homeData.whyPrakvi.kicker}
-                  title={homeData.whyPrakvi.title}
-                  highlightWord="Prakvi?"
-                  description={homeData.whyPrakvi.description}
-                />
-                <div className="mt-7">
-                  <WhyPrakviBenefits />
-                </div>
-              </div>
-              <AccordionGallery
-                items={[
-                  {
-                    image: '/assets/why-prakvi/expert-team.webp',
-                    label: 'Expert Team',
-                    alt: 'IT professionals collaborating around a laptop in a modern office',
-                  },
-                  {
-                    image: '/assets/why-prakvi/monitoring-support.webp',
-                    label: 'Monitoring & Support',
-                    alt: 'Technology team working together at a computer',
-                  },
-                  {
-                    image: '/assets/why-prakvi/it-infrastructure.webp',
-                    label: 'IT Infrastructure',
-                    alt: 'Rows of enterprise servers in a data center',
-                  },
-                  {
-                    image: '/assets/why-prakvi/security-practices.webp',
-                    label: 'Security & Best Practices',
-                    alt: 'Close-up of circuit-board traces and components representing secure IT infrastructure',
-                  },
-                  {
-                    image: '/assets/why-prakvi/business-partnership.webp',
-                    label: 'Business Partnership',
-                    alt: 'Business and technology professionals collaborating on a laptop',
-                  },
-                ]}
-                defaultIndex={2}
-                expandRatio={0.52}
-                duration={0.6}
-                grayscale
-              />
-            </div>
-          </div>
-        </section>
 
         <CompanyStatistics />
 
         {/* 9. CONSULTATION CTA */}
-        <CTASection compact title="Let's Start Your" titleAccent="Digital Transformation" />
+        <CTASection compact neutralBackground title={homeData.contact.title} animatedTitleHighlight="Workforce Together" subtitle={homeData.contact.paragraphs} />
       </div>
     </PageTransition>
   );

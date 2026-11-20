@@ -48,8 +48,10 @@
 .ea-journey-route {
   position: relative;
   isolation: isolate;
-  height: clamp(32.5rem, 40.5vw, 36.5rem);
+  --ea-route-height: clamp(32.5rem, 40.5vw, 36.5rem);
+  height: var(--ea-route-height);
 }
+.ea-journey-route[data-extended='true'] { height: calc(var(--ea-route-height) * 1.26); }
 .ea-journey-atmosphere {
   position: absolute;
   inset: 0;
@@ -347,14 +349,14 @@
 
 @media (max-width: 980px) {
   .ea-journey-workspace { grid-template-columns: minmax(0, 1fr); max-width: 43rem; margin-inline: auto; gap: 1.8rem; }
-  .ea-journey-route { height: clamp(26rem, 61vw, 32.5rem); }
+  .ea-journey-route { --ea-route-height: clamp(26rem, 61vw, 32.5rem); }
   .ea-journey-details { min-height: auto; }
 }
 
 @media (max-width: 639px) {
   .ea-journey { padding-block: 3.4rem 1rem; }
   .ea-journey-workspace { max-width: 29rem; margin-top: 1.65rem; gap: 1.35rem; }
-  .ea-journey-route { height: 40.75rem; }
+  .ea-journey-route { --ea-route-height: 40.75rem; }
   .ea-journey-node-position { width: 76%; }
   .ea-journey-node {
     grid-template-columns: auto minmax(0, 1fr) auto;

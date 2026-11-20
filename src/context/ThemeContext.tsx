@@ -49,9 +49,9 @@ interface ThemeContextValue {
 
 const ThemeContext = createContext<ThemeContextValue | undefined>(undefined);
 
-export const ThemeProvider: React.FC<{ children: React.ReactNode }> = ({ children }) => {
+export const ThemeProvider: React.FC<{ children: React.ReactNode; persistTheme: boolean }> = ({ children, persistTheme }) => {
   const [theme, setThemeState] = useState<PrakviThemeId>(() => {
-    if (typeof window === 'undefined') return 'soft-innovation';
+    if (!persistTheme || typeof window === 'undefined') return 'soft-innovation';
     try {
       const saved = window.localStorage.getItem(STORAGE_KEY) as PrakviThemeId | null;
       if (saved && PRAKVI_THEMES.some((t) => t.id === saved)) {
@@ -67,11 +67,15 @@ export const ThemeProvider: React.FC<{ children: React.ReactNode }> = ({ childre
     document.documentElement.setAttribute('data-theme', theme);
     document.documentElement.setAttribute('data-polarity', 'light');
     try {
-      window.localStorage.setItem(STORAGE_KEY, theme);
+      if (persistTheme) {
+        window.localStorage.setItem(STORAGE_KEY, theme);
+      } else {
+        window.localStorage.removeItem(STORAGE_KEY);
+      }
     } catch {
       // Ignore storage write errors
     }
-  }, [theme]);
+  }, [theme, persistTheme]);
 
   const setTheme = (nextTheme: PrakviThemeId) => {
     setThemeState(nextTheme);

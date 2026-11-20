@@ -375,6 +375,7 @@ export const Header: React.FC = () => {
               {sectionOrder.map((key) => {
                 const section = navigationTrees[key];
                 const isExpanded = mobileSection === key;
+                const isActive = activePillHref === section.href;
 
                 return (
                   <div key={key} className="py-1">
@@ -382,17 +383,17 @@ export const Header: React.FC = () => {
                       type="button"
                       onClick={() => setMobileSection(isExpanded ? null : key)}
                       aria-expanded={isExpanded}
-                      className={`flex w-full min-h-[44px] items-center justify-between rounded-xl px-3 py-2.5 text-left transition-colors ${
-                        isExpanded
-                          ? 'bg-soft-blue/70 text-accent-text'
-                          : 'text-foreground hover:bg-surface'
+                      className={`flex w-full min-h-[44px] items-center justify-between rounded-full px-3 py-2.5 text-left transition-colors focus-visible:outline-2 focus-visible:outline-accent ${
+                        isExpanded || isActive
+                          ? 'bg-soft-blue text-accent-text'
+                          : 'text-foreground hover:bg-soft-blue hover:text-accent-text'
                       }`}
                     >
                       <span className="flex items-center gap-2">
-                        {isExpanded && (
+                        {isActive && (
                           <span
                             aria-hidden="true"
-                            className="h-3.5 w-0.5 shrink-0 rounded-full bg-orange"
+                            className="size-1.5 shrink-0 rounded-full bg-orange"
                           />
                         )}
                         <span className="font-display text-xs font-bold uppercase tracking-wider">

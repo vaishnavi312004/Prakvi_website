@@ -21,7 +21,7 @@ const marketingIcons = {
 export function DigitalMarketingSections({ service }: { service: ServiceItem }) {
   return (
     <>
-      <ArchitectureOfferingsWorkflow title={service.offeringsTitle ?? ''} description={service.offeringsSubtitle}
+      <ArchitectureOfferingsWorkflow title={service.offeringsTitle ?? ''} description={service.offeringsSubtitle ?? service.shortDesc}
         services={service.capabilities} palette="digital-marketing" illustrationCollection="digital-marketing" />
       <EnterpriseArchitectureJourney sectionId="digital-marketing-process" title={service.processTitle ?? ''}
         description={service.processSubtitle ?? ''} steps={service.deliverySteps} />

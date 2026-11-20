@@ -58,7 +58,7 @@ export function ScrollRevealText({ text, highlight, preserveLayout = false }: { 
                 return (
                   <span className="scroll-title__mask" key={letterIndex}>
                     <span
-                      className={`scroll-title__letter${accented ? ' text-accent' : ''}`}
+                      className={`scroll-title__letter${accented ? ' text-accent-text' : ''}`}
                       style={{ '--title-delay': `${position * stagger}s` } as React.CSSProperties}
                     >{letter}</span>
                   </span>

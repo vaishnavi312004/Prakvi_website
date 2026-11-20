@@ -1,6 +1,7 @@
 import React from 'react';
 import { ScrollRevealText } from './ScrollRevealText';
 import { motion, useReducedMotion } from 'motion/react';
+import { ServiceTextRevealContext } from './useServiceTextReveal';
 
 interface SectionHeadingProps {
   badge?: string;
@@ -26,6 +27,7 @@ export const SectionHeading: React.FC<SectionHeadingProps> = ({
   animateWords = false,
 }) => {
   const reducedMotion = useReducedMotion();
+  const sharedReveal = React.useContext(ServiceTextRevealContext);
 
   const renderTitle = () => {
     if (!highlightWord || !title.includes(highlightWord)) {
@@ -45,8 +47,8 @@ export const SectionHeading: React.FC<SectionHeadingProps> = ({
 
   return (
     <motion.div
-      initial={reducedMotion || !animate ? false : { opacity: 0, y: 14 }}
-      whileInView={{ opacity: 1, y: 0 }}
+      initial={sharedReveal || reducedMotion || !animate ? false : { opacity: 0, y: 14 }}
+      whileInView={sharedReveal ? undefined : { opacity: 1, y: 0 }}
       viewport={{ once: true, amount: 0.25 }}
       transition={{ duration: reducedMotion || !animate ? 0 : 0.42, ease: [0.32, 0.72, 0, 1] }}
       className={`max-w-3xl ${

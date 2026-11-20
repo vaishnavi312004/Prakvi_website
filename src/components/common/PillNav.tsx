@@ -64,6 +64,9 @@ export const PillNav: React.FC<PillNavProps> = ({
 }) => {
   const reducedMotion = useReducedMotion();
   const [hoveredHref, setHoveredHref] = useState<string | null>(null);
+  const [focusedHref, setFocusedHref] = useState<string | null>(null);
+  const openHref = items.find((item) => item.isOpen)?.href;
+  const highlightedHref = hoveredHref ?? focusedHref ?? openHref ?? activeHref;
 
   const springTransition = {
     type: 'spring' as const,
@@ -128,28 +131,27 @@ export const PillNav: React.FC<PillNavProps> = ({
           className={`${navVisibility} items-center gap-1 xl:gap-1.5`}
         >
           {items.map((item) => {
-            const isActive = activeHref === item.href || item.isOpen;
+            const isActive = activeHref === item.href;
             const isHovered = hoveredHref === item.href;
-            const showFill =
-              hoverEffect === 'fill' &&
-              (isHovered || (!hoveredHref && isActive));
+            const isHighlighted = highlightedHref === item.href;
+            const showFill = hoverEffect === 'fill' && isHighlighted;
+            const focusHandlers = {
+              onFocus: () => setFocusedHref(item.href),
+              onBlur: () => setFocusedHref(null),
+            };
 
             const innerContent = (
               <>
                 {showFill && (
                   <motion.span
-                    layoutId="pill-nav-active-fill"
+                    layoutId={reducedMotion ? undefined : 'pill-nav-active-fill'}
                     transition={springTransition}
                     initial={false}
                     animate={{
-                      scaleX: isHovered ? 1 + stretch * 0.06 : 1,
+                      scaleX: isHovered && !reducedMotion ? 1 + stretch * 0.1 : 1,
                     }}
-                    className={`absolute inset-0 -z-10 ${
+                    className={`pointer-events-none absolute inset-0 z-0 border border-accent/20 bg-linear-to-br from-soft-blue to-soft-accent shadow-sm ${
                       itemStyle === 'pill' ? 'rounded-full' : 'rounded-lg'
-                    } ${
-                      isActive
-                        ? 'bg-soft-accent border border-accent/25 shadow-sm'
-                        : 'bg-surface border border-line/70'
                     }`}
                     aria-hidden="true"
                   />
@@ -168,19 +170,19 @@ export const PillNav: React.FC<PillNavProps> = ({
 
                 {indicator === 'dot' && isActive && (
                   <motion.span
-                    layoutId="pill-nav-active-dot"
+                    layoutId={reducedMotion ? undefined : 'pill-nav-active-dot'}
                     transition={springTransition}
-                    className="absolute -bottom-0.5 left-1/2 h-1.5 w-1.5 -translate-x-1/2 rounded-full bg-orange"
+                    className="pointer-events-none absolute -bottom-0.5 left-1/2 z-10 h-1.5 w-1.5 -translate-x-1/2 rounded-full bg-orange"
                     aria-hidden="true"
                   />
                 )}
               </>
             );
 
-            const itemClass = `relative z-10 inline-flex items-center gap-1 px-3 xl:px-3.5 py-2 ${
+            const itemClass = `relative isolate inline-flex items-center gap-1 px-3 xl:px-3.5 py-2 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-accent ${
               itemStyle === 'pill' ? 'rounded-full' : 'rounded-lg'
-            } text-[11px] xl:text-xs font-bold uppercase tracking-wider whitespace-nowrap shrink-0 transition-colors active:scale-95 ${
-              isActive || isHovered
+            } text-[11px] xl:text-xs font-bold uppercase tracking-wider whitespace-nowrap shrink-0 transition-colors motion-safe:active:scale-95 ${
+              isActive || isHighlighted || item.isOpen
                 ? 'text-accent-text'
                 : 'text-foreground'
             }`;
@@ -197,6 +199,7 @@ export const PillNav: React.FC<PillNavProps> = ({
                     }}
                     onClick={item.onClick}
                     onKeyDown={item.onKeyDown}
+                    {...focusHandlers}
                     aria-expanded={item.isOpen}
                     aria-haspopup="tree"
                     data-active={isActive}
@@ -218,6 +221,7 @@ export const PillNav: React.FC<PillNavProps> = ({
                   setHoveredHref(item.href);
                   item.onMouseEnter?.();
                 }}
+                {...focusHandlers}
                 className={itemClass}
               >
                 {innerContent}

@@ -1,0 +1,209 @@
+.workforce-page {
+  --workforce-ink: #152d54;
+  --workforce-copy: #334e70;
+  --workforce-blue: #175ba6;
+  --workforce-background: #f8f8f8;
+  color: var(--workforce-ink);
+  background: var(--workforce-background);
+}
+
+.workforce-page :is(.ea-journey, .staffing-capabilities)::before {
+  background: none;
+}
+
+.workforce-wrap {
+  width: min(76rem, calc(100% - clamp(2rem, 7vw, 6rem)));
+  margin-inline: auto;
+}
+
+.workforce-hero {
+  position: relative;
+  isolation: isolate;
+  display: grid;
+  min-height: clamp(38rem, 50vw, 52rem);
+  align-items: center;
+  overflow: hidden;
+  background: var(--workforce-background);
+}
+
+.workforce-hero::after {
+  position: absolute;
+  z-index: 1;
+  inset: auto 0 0;
+  height: 12%;
+  background: linear-gradient(transparent, var(--workforce-background));
+  pointer-events: none;
+  content: '';
+}
+
+.workforce-hero-content {
+  position: relative;
+  z-index: 2;
+  padding-block: clamp(5.5rem, 8vw, 8rem) clamp(2.75rem, 5vw, 5.25rem);
+}
+
+.workforce-hero-copy {
+  width: min(45%, 36rem);
+}
+
+.workforce-actions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.65rem;
+  margin-top: 1.25rem;
+}
+
+.workforce-actions .btn-secondary {
+  border-color: #8caed3;
+  background: #eaf4ff;
+  color: var(--workforce-ink);
+}
+
+.workforce-actions .btn-secondary:hover {
+  background: #d8e9ff;
+  color: var(--workforce-ink);
+}
+
+.workforce-hero-media {
+  position: absolute;
+  z-index: 0;
+  inset: 0 0 0 auto;
+  width: 60%;
+  height: 100%;
+  mask-image: linear-gradient(90deg, transparent, #000 29%);
+}
+
+.workforce-hero-media :is(img, video) {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  object-position: 86% center;
+}
+
+.workforce-hero-media video {
+  opacity: 0;
+  transition: opacity 220ms ease;
+}
+
+.workforce-hero-media video[data-visible='true'] {
+  opacity: 1;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .workforce-hero-media video { display: none; }
+}
+
+.workforce-section {
+  padding-block: clamp(2.6rem, 5vw, 4.2rem);
+  scroll-margin-top: 6rem;
+}
+
+.workforce-offerings {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: clamp(0.85rem, 2vw, 1.4rem);
+  margin-top: 1.6rem;
+}
+
+.workforce-offering {
+  min-width: 0;
+  border: 1px solid #b5d3ee70;
+  border-radius: 1.2rem;
+  padding: clamp(1.05rem, 2.5vw, 1.6rem);
+  background: linear-gradient(145deg, #e4f3ff, #dee6ff);
+  box-shadow: 0 8px 22px #24477812;
+}
+
+.workforce-offering-icon {
+  box-sizing: content-box;
+  width: 1.45rem;
+  height: 1.45rem;
+  border-radius: 0.75rem;
+  padding: 0.6rem;
+  background: #cce6ff;
+  color: var(--workforce-blue);
+}
+
+.workforce-offering h3 {
+  margin-block: 0.65rem 0.45rem;
+  font: 800 1.15rem/1.35 var(--font-display);
+}
+
+.workforce-offering p,
+.workforce-offering li {
+  color: var(--workforce-copy);
+  line-height: 1.55;
+}
+
+.workforce-offering ul {
+  display: grid;
+  gap: 0.35rem;
+  margin-top: 0.75rem;
+  padding-inline-start: 1.1rem;
+  list-style: disc;
+}
+
+.workforce-offering li::marker {
+  color: var(--workforce-blue);
+}
+
+.workforce-page a:focus-visible {
+  outline: 2px solid var(--workforce-blue);
+  outline-offset: 3px;
+}
+
+@media (min-width: 64rem) {
+  .workforce-hero-content {
+    padding-block-start: clamp(7rem, 9vw, 10rem);
+  }
+}
+
+@media (max-width: 63.9375rem) {
+  .workforce-hero {
+    min-height: auto;
+  }
+
+  .workforce-hero-content {
+    padding-bottom: 1rem;
+  }
+
+  .workforce-hero-copy {
+    width: min(100%, 42rem);
+  }
+
+  .workforce-hero-media {
+    position: relative;
+    width: 100%;
+    height: auto;
+    aspect-ratio: 16 / 9;
+    max-height: 30rem;
+    mask-image: linear-gradient(180deg, transparent, #000 20%);
+  }
+}
+
+@media (max-width: 48rem) {
+  .workforce-offerings {
+    grid-template-columns: 1fr;
+  }
+}
+
+@media (hover: hover) and (prefers-reduced-motion: no-preference) {
+  .workforce-offering {
+    transition: transform 210ms ease, box-shadow 210ms ease;
+  }
+
+  .workforce-offering-icon {
+    transition: transform 210ms ease;
+  }
+
+  .workforce-offering:hover {
+    transform: translateY(-3px);
+    box-shadow: 0 13px 24px #24477824;
+  }
+
+  .workforce-offering:hover .workforce-offering-icon {
+    transform: scale(1.08);
+  }
+}

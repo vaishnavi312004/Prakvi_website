@@ -568,9 +568,17 @@
 
   .enterprise-hero-title {
     margin-top: 1.15rem;
-    font-size: clamp(2.25rem, 3.6vw, 3.5rem);
-    line-height: 1.12;
+    font-size: 1.875rem;
+    line-height: 1.1;
     text-wrap: balance;
+  }
+
+  @media (min-width: 640px) {
+    .enterprise-hero-title { font-size: 3rem; }
+  }
+
+  @media (min-width: 1024px) {
+    .enterprise-hero-title { font-size: 3.35rem; }
   }
 
   .enterprise-hero-tagline {
@@ -1536,6 +1544,9 @@ html.lenis {
 
 .service-detail-page > section {
   position: relative;
+}
+
+.service-detail-page > section:not(.staffing-tint):not(.staffing-hero) {
   background-color: transparent !important;
 }
 
@@ -1553,7 +1564,7 @@ html.lenis {
   background-size: 170px 150px, 230px 190px, 100% 100%;
 }
 
-.service-detail-page > section > * {
+.service-detail-page > section > *:not(.service-hero-media):not(.staffing-hero-image) {
   position: relative;
   z-index: 1;
 }
@@ -1928,6 +1939,7 @@ html.lenis {
   .service-detail-page > section.hero-clay-canvas::after,
   .service-hero-image,
   .service-detail-page .clay-icon-box { animation: none !important; }
+  .service-detail-page > section:not(.hero-clay-canvas) > div { animation: none !important; }
 }
 
 @media (prefers-reduced-motion: reduce) {
@@ -1971,14 +1983,13 @@ html.lenis {
 .about-photo-collage__main img { width: 100%; height: 100%; object-fit: cover; object-position: center 42%; transition: transform 700ms ease; }
 .about-photo-collage__practices { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: clamp(0.5rem, 1.2vw, 0.875rem); }
 .about-photo-card { position: relative; display: block; width: 100%; aspect-ratio: 0.95; min-width: 0; padding: 0; border: 0; border-radius: 1rem; background: var(--theme-surface); perspective: 1000px; isolation: isolate; text-align: left; box-shadow: 0 10px 24px -18px rgba(23, 43, 69, 0.4); transition: translate 300ms ease, box-shadow 300ms ease; }
-.about-photo-card__rotor { position: absolute; inset: 0; border-radius: inherit; transform-style: preserve-3d; transition: transform 720ms cubic-bezier(0.22, 0.7, 0.3, 1); }
+.about-photo-card__rotor { position: absolute; inset: 0; border-radius: inherit; transform-style: preserve-3d; transition: transform 380ms cubic-bezier(0.22, 0.7, 0.3, 1); }
 .about-photo-card__rotor[data-flipped="true"] { transform: rotateY(180deg); }
 .about-photo-card__face { position: absolute; inset: 0; display: block; overflow: hidden; border-radius: inherit; backface-visibility: hidden; -webkit-backface-visibility: hidden; transform: rotateY(0deg) translateZ(0.1px); }
 .about-photo-card__face--back { transform: rotateY(180deg) translateZ(0.1px); }
 .about-photo-card__face img { display: block; width: 100%; height: 100%; object-fit: cover; transition: transform 500ms ease; }
 .about-photo-card__shade { position: absolute; inset: 0; border-radius: inherit; background: linear-gradient(180deg, transparent 30%, rgba(10, 29, 49, 0.8)); pointer-events: none; }
 .about-photo-card__label { position: absolute; bottom: 0.8rem; left: 0.75rem; right: 0.6rem; color: white; font-size: clamp(0.65rem, 1.1vw, 0.8rem); line-height: 1.35; font-weight: 600; pointer-events: none; }
-.about-photo-card__hint { position: absolute; top: 0.5rem; right: 0.5rem; display: grid; place-items: center; width: 1.65rem; height: 1.65rem; border-radius: 50%; background: rgba(255, 255, 255, 0.92); color: var(--theme-accent-text); box-shadow: 0 2px 8px rgba(23,43,69,0.12); pointer-events: none; }
 .about-photo-card:focus-visible { outline: 3px solid var(--theme-accent); outline-offset: 4px; box-shadow: 0 0 0 2px color-mix(in srgb, var(--theme-accent) 28%, transparent), 0 12px 30px -8px color-mix(in srgb, var(--theme-accent) 48%, transparent); }
 @media (hover: hover) {
   .about-photo-collage__main:hover,
@@ -2026,7 +2037,7 @@ html.lenis {
 .service-tilt-carousel__slide {
   flex: 0 0 min(78vw, 260px);
   width: min(78vw, 260px);
-  height: 340px;
+  height: 390px;
   transform-style: preserve-3d;
   transform-origin: center;
 }
@@ -2045,15 +2056,27 @@ html.lenis {
 .service-tilt-card__content { position: absolute; bottom: 10px; left: 10px; right: 10px; z-index: 1; padding: 0.9rem; pointer-events: none; background: rgba(245, 251, 255, 0.86); backdrop-filter: blur(14px) saturate(140%); -webkit-backdrop-filter: blur(14px) saturate(140%); border: 1px solid rgba(255,255,255,0.8); border-radius: 14px; box-shadow: 0 8px 22px rgba(16,45,72,0.1); transition: background-color 400ms ease, box-shadow 400ms ease; }
 .service-tilt-card__category { color: var(--theme-accent-text); font: 700 0.6rem var(--font-mono); letter-spacing: 0.12em; text-transform: uppercase; }
 .service-tilt-card__title { margin-top: 0.5rem; color: var(--theme-foreground); font: 700 1.05rem/1.3 var(--font-display); }
-.service-tilt-card__reveal { max-height: 0; opacity: 0; visibility: hidden; overflow: hidden; transform: translateY(12px); transition: max-height 450ms ease, opacity 400ms ease, transform 450ms ease, visibility 450ms; }
-.service-tilt-card__description { display: -webkit-box; overflow: hidden; margin-top: 0.7rem; color: #42566d; font-size: 0.78rem; line-height: 1.6; -webkit-box-orient: vertical; -webkit-line-clamp: 3; }
+.service-tilt-card__reveal {
+  display: grid;
+  grid-template-rows: var(--service-details-row, 0fr);
+  opacity: var(--service-details-opacity, 0);
+  transition: grid-template-rows 320ms ease, opacity 240ms ease;
+}
+.service-tilt-card__details { min-height: 0; overflow: hidden; }
+.service-tilt-card:focus-visible {
+  --service-details-row: 1fr;
+  --service-details-opacity: 1;
+}
+.service-tilt-card__description { margin-top: 0.7rem; color: #42566d; font-size: 0.875rem; line-height: 1.5; }
 .service-tilt-card__link { display: flex; align-items: center; justify-content: space-between; gap: 0.75rem; margin-top: 1rem; padding-top: 0.9rem; border-top: 1px solid rgba(7,118,184,0.2); color: var(--theme-accent-text); font-size: 0.75rem; font-weight: 700; pointer-events: auto; }
 .service-tilt-card__link svg { transition: transform 350ms ease; flex-shrink: 0; }
 .service-tilt-card__link:hover { color: var(--theme-accent); }
 .service-tilt-card__link:hover svg { transform: translateX(4px); }
-.service-tilt-card:focus-within .service-tilt-card__reveal { max-height: 190px; opacity: 1; visibility: visible; transform: translateY(0); }
 @media (hover: hover) {
-  .service-tilt-card:hover .service-tilt-card__reveal { max-height: 190px; opacity: 1; visibility: visible; transform: translateY(0); }
+  .service-tilt-card:hover {
+    --service-details-row: 1fr;
+    --service-details-opacity: 1;
+  }
   .service-tilt-card:hover::after { opacity: 0.72; }
   .service-tilt-card:hover::before { opacity: 1; }
   .service-tilt-carousel__slide:hover .service-tilt-carousel__lift { transform: translateY(-4px); }
@@ -2089,12 +2112,12 @@ html.lenis {
   .service-tilt-carousel__slide {
     flex-basis: min(78vw, 260px);
     width: min(78vw, 260px);
-    height: 340px;
+    height: 390px;
   }
 
 }
 @media (prefers-reduced-motion: reduce) {
-  .service-tilt-carousel__lift, .service-tilt-card, .service-tilt-card__content, .service-tilt-carousel__dot::before, .service-tilt-card__image, .service-tilt-card__reveal, .service-tilt-card::before, .service-tilt-card::after, .service-tilt-card__link svg { transition: none; }
+  .service-tilt-carousel__lift, .service-tilt-card, .service-tilt-card__content, .service-tilt-card__reveal, .service-tilt-carousel__dot::before, .service-tilt-card__image, .service-tilt-card::before, .service-tilt-card::after, .service-tilt-card__link svg { transition: none; }
 }
 
 /* Masked character rise: keep complete words together while letters reveal. */
@@ -2102,6 +2125,10 @@ html.lenis {
 .scroll-title__mask { display: inline-block; overflow: hidden; vertical-align: bottom; padding-bottom: 0.18em; margin-bottom: -0.18em; }
 .scroll-title__letter { display: inline-block; margin-inline-end: var(--scroll-title-letter-spacing, 0px); transform: translateY(115%); transition: transform 480ms cubic-bezier(0.22, 1, 0.36, 1); }
 .scroll-title[data-visible="true"] .scroll-title__letter { transform: translateY(0); transition-delay: var(--title-delay, 0s); }
+.service-detail-page h1 .scroll-title__letter.text-accent-text,
+.ea-service-page h1 .scroll-title__letter.text-accent-text {
+  color: var(--theme-foreground);
+}
 @media (prefers-reduced-motion: reduce) {
   .scroll-title__letter { transform: none; transition: none; }
 }
@@ -2111,7 +2138,6 @@ html.lenis {
 }
 
 @media (hover: none) {
-  .service-tilt-card__reveal { max-height: 190px; opacity: 1; visibility: visible; transform: none; }
 }
 
 .pk-feed {

@@ -14,8 +14,8 @@ import { SystemIntegrationSections } from '../components/common/SystemIntegratio
 import { SystemIntegrationHero } from '../components/common/SystemIntegrationHero';
 import { ProjectManagementHero } from '../components/common/ProjectManagementHero';
 import { ProjectManagementSections } from '../components/common/ProjectManagementSections';
-import { ServiceHeroMedia } from '../components/common/ServiceHeroMedia';
 import { ScrollRevealText } from '../components/common/ScrollRevealText';
+import { ServiceHeroMedia } from '../components/common/ServiceHeroMedia';
 import { SectionHeading } from '../components/common/SectionHeading';
 import { BusinessAnalyticsHelix } from '../components/common/BusinessAnalyticsHelix';
 import { CTASection } from '../components/common/CTASection';
@@ -24,6 +24,9 @@ import { MobileAppDevelopmentSections, mobileProcessId } from '../components/com
 import { PageTransition } from '../components/layout/PageTransition';
 import { scrollToSection } from '../components/layout/SmoothScroll';
 import { servicesData } from '../data/servicesData';
+import { StaffingPage } from './StaffingPage';
+import { WorkforceSolutionsPage } from './WorkforceSolutionsPage';
+import { BusinessIntelligencePage } from './BusinessIntelligencePage';
 import {
   AlertCircle,
   ArrowRight,
@@ -141,23 +144,27 @@ export const ServiceDetailPage: React.FC = () => {
     return <Navigate to="/services" replace />;
   }
 
-  const isStaffingPage = service.slug === 'staffing';
+  if (service.slug === 'staffing') {
+    return <StaffingPage service={service} />;
+  }
+  if (service.slug === 'workforce-solution') {
+    return <WorkforceSolutionsPage service={service} />;
+  }
+  if (service.slug === 'business-intelligence') {
+    return <BusinessIntelligencePage service={service} />;
+  }
   const isMobilityPage = service.slug === 'mobility-practice';
   const isEnterpriseArchitecturePage = service.slug === 'enterprise-architecture';
+  const hasDedicatedServiceSections = standardizedServiceSlugs.has(service.slug) && !isEnterpriseArchitecturePage;
   const offeringsTitle = service.offeringsTitle || `${service.title} Offerings`;
   const offeringsDescription = service.offeringsSubtitle ||
     'Comprehensive service modules engineered for reliability, compliance, and long-term performance.';
   const processTitle = service.processTitle || `Why Choose Prakvi for ${service.title}?`;
   const processDescription = service.processSubtitle || 'A proven methodology that ensures successful project delivery.';
   const isBusinessAnalyticsPage = service.slug === 'business-analytics';
-  const hasDedicatedServiceSections = [
-    'project-management',
-    'mobility-practice',
-    'supply-chain-management',
-    'system-integration',
-    'digital-marketing',
-    'mobile-app-development',
-  ].includes(service.slug);
+  const servicePageClass = isEnterpriseArchitecturePage
+    ? 'ea-service-page'
+    : `service-detail-page service-topic-${service.slug}`;
 
   const toggleFaq = (index: number) => setOpenFaqIndex(current => current === index ? null : index);
 
@@ -212,8 +219,8 @@ export const ServiceDetailPage: React.FC = () => {
     />
   );
   return (
-    <PageTransition>
-      <div className={`overflow-x-hidden pt-20 selection:bg-accent selection:text-white${isEnterpriseArchitecturePage ? ' ea-service-page' : ''}${standardizedServiceSlugs.has(service.slug) ? ' service-design' : ''}`}>
+    <PageTransition revealServiceText>
+      <div className={`overflow-x-hidden pt-20 selection:bg-accent selection:text-white ${servicePageClass}`}>
         {/* 1. SERVICE HERO */}
         {isEnterpriseArchitecturePage ? (
           <EnterpriseArchitectureHero service={service} />
@@ -243,38 +250,28 @@ export const ServiceDetailPage: React.FC = () => {
               ]}
             />
 
-<div
-  className={`${
-    heroStyle ? `${heroStyle}-copy ` : ''
-  }mt-8 grid grid-cols-1 ${
-    isBusinessAnalyticsPage
-      ? 'md:grid-cols-12'
-      : 'lg:grid-cols-12'
-  } gap-10 items-center`}
->
-  <div
-    className={`space-y-5 ${
-      isBusinessAnalyticsPage
-        ? 'md:col-span-6 lg:col-span-5'
-        : 'lg:col-span-7'
-    }`}
-  >
-    {!hasSectionLinks && (
-      <div className="text-xs font-mono font-bold uppercase tracking-[0.2em] text-accent">
-        {service.badge || 'Prakvi Service'}
-      </div>
-    )}
+            <div
+              className={`${heroStyle ? `${heroStyle}-copy ` : ''}mt-8 grid grid-cols-1 ${
+                isBusinessAnalyticsPage ? 'md:grid-cols-12' : 'lg:grid-cols-12'
+              } gap-10 items-center`}
+            >
+              <motion.div
+                initial={reducedMotion ? false : { opacity: 0, y: 16 }}
+                animate={{ opacity: 1, y: 0 }}
+                transition={{ duration: reducedMotion ? 0 : 0.6, delay: reducedMotion ? 0 : 0.05, ease: [0.22, 1, 0.36, 1] }}
+                className={`space-y-5 ${
+                  isBusinessAnalyticsPage
+                    ? 'md:col-span-6 lg:col-span-5'
+                    : 'lg:col-span-7'
+                }`}
+              >
+                <div className="text-xs font-mono font-bold uppercase tracking-[0.2em] text-accent">
+                  {service.badge || 'Prakvi Service'}
+                </div>
 
-    <h1 className="font-display text-4xl sm:text-5xl font-extrabold text-foreground tracking-tight leading-tight text-balance">
-      {standardizedServiceSlugs.has(service.slug) ? (
-        <ScrollRevealText
-          text={hasSectionLinks ? service.tagline : service.title}
-          preserveLayout
-        />
-      ) : (
-        hasSectionLinks ? service.tagline : service.title
-      )}
- </h1>
+                <h1 className="font-display text-3xl sm:text-5xl lg:text-[3.35rem] font-extrabold text-foreground tracking-tight leading-[1.1] text-balance">
+                  <ScrollRevealText text={service.title} highlight={service.title} />
+                </h1>
 
 
                 {!hasSectionLinks && <p className="text-lg sm:text-xl font-semibold text-accent">
@@ -304,19 +301,24 @@ export const ServiceDetailPage: React.FC = () => {
                     </>
                   )}
                 </div>
-              </div>
+              </motion.div>
 
               {!isBusinessAnalyticsPage && (
-                <div className="lg:col-span-5">
+                <motion.div
+                  initial={reducedMotion ? false : { opacity: 0, y: 16 }}
+                  animate={{ opacity: 1, y: 0 }}
+                  transition={{ duration: reducedMotion ? 0 : 0.6, delay: reducedMotion ? 0 : 0.16, ease: [0.22, 1, 0.36, 1] }}
+                  className="lg:col-span-5"
+                >
                   <div className="clay-card p-3">
                     <img
                       src={service.featuredImage}
                       alt={service.title}
-                      className="w-full h-72 sm:h-80 object-cover rounded-2xl"
+                      className="service-hero-image w-full h-72 sm:h-80 object-cover rounded-2xl"
                       referrerPolicy="no-referrer"
                     />
                   </div>
-                </div>
+                </motion.div>
               )}
             </div>
           </div>
@@ -630,33 +632,6 @@ export const ServiceDetailPage: React.FC = () => {
               ))}
             </div>}
 
-            {isStaffingPage && (
-              <div className="mt-14 pt-10 border-t border-line">
-                <h3 className="font-display text-xl font-bold text-foreground text-center mb-6">
-                  Sourcing Verticals & Engagement Scope
-                </h3>
-                <div className="grid grid-cols-2 sm:grid-cols-4 gap-3.5 text-xs">
-                  {[
-                    'Executive Search & Leadership',
-                    'IT & Software Contracting',
-                    'Healthcare & Pharma Staffing',
-                    'Full-Time & Team Augmentation',
-                    'Cybersecurity & Data Science',
-                    'BFSI & Manufacturing',
-                    'Project-Based Roles',
-                    'R&D and Engineering Labs',
-                  ].map((item) => (
-                    <div
-                      key={item}
-                      className="clay-soft p-4 flex items-center gap-2.5 text-foreground font-semibold"
-                    >
-                      <CheckCircle2 className="w-4 h-4 text-accent shrink-0" aria-hidden="true" />
-                      <span>{item}</span>
-                    </div>
-                  ))}
-                </div>
-              </div>
-            )}
           </div>
         </section>
         )}

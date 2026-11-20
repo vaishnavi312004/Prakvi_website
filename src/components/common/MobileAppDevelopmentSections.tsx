@@ -23,7 +23,7 @@ export function MobileAppDevelopmentSections({ service }: { service: ServiceItem
   return (
     <>
       <ArchitectureOfferingsWorkflow title={service.offeringsTitle ?? service.title}
-        description={service.offeringsSubtitle} services={service.capabilities} palette="mobile-app" illustrationCollection="mobile-app-development" />
+        description={service.offeringsSubtitle ?? service.shortDesc} services={service.capabilities} palette="mobile-app" illustrationCollection="mobile-app-development" />
       <EnterpriseArchitectureJourney sectionId={mobileProcessId} title={service.processTitle ?? service.title}
         description={service.processSubtitle ?? ''} steps={service.deliverySteps} stepsLabel="Mobile App Development process steps" />
       <ArchitectureCarousel title={service.stackTitle ?? service.title} description={service.stackSummary}

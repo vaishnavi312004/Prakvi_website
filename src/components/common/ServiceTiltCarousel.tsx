@@ -88,6 +88,7 @@ const ServiceSlide: React.FC<{
           to={item.href}
           className="service-tilt-card"
           aria-label={`Explore ${item.title}`}
+          aria-describedby={`service-description-${item.id}`}
           draggable={false}
           onPointerDown={(event) => { pointerStart.current = { x: event.clientX, y: event.clientY }; }}
           onClick={(event) => {
@@ -112,12 +113,14 @@ const ServiceSlide: React.FC<{
           <div className="service-tilt-card__content">
             <span className="service-tilt-card__category">{item.category}</span>
             <h3 className="service-tilt-card__title">{item.title}</h3>
-            <div className="service-tilt-card__reveal" id={`service-details-${item.id}`}>
-            <p className="service-tilt-card__description">{item.description}</p>
-            <span className="service-tilt-card__link" aria-hidden="true">
-              <span>Explore {item.title}</span>
-              <ArrowRight size={17} aria-hidden="true" />
-            </span>
+            <div className="service-tilt-card__reveal">
+              <div className="service-tilt-card__details">
+                <p className="service-tilt-card__description" id={`service-description-${item.id}`}>{item.description}</p>
+                <span className="service-tilt-card__link" aria-hidden="true">
+                  <span>Explore {item.title}</span>
+                  <ArrowRight size={17} aria-hidden="true" />
+                </span>
+              </div>
             </div>
           </div>
         </Link>
@@ -318,7 +321,6 @@ export const ServiceTiltCarousel: React.FC<{
           </div>
         </div>
       )}
-      <p className="service-tilt-carousel__hint">Drag or swipe to explore, or use the arrow keys.</p>
     </div>
   );
 };

@@ -1,6 +1,5 @@
 import React, { useEffect, useRef, useState } from 'react';
 import { useInView, useReducedMotion } from 'motion/react';
-import { RotateCw } from 'lucide-react';
 
 const imageRoot = '/img/about-collage';
 const practices = [
@@ -39,9 +38,9 @@ function PracticePhotoCard({ practice, index }: { practice: typeof practices[num
     let timer: ReturnType<typeof setTimeout>;
     const flip = () => {
       setFlipped((value) => !value);
-      timer = setTimeout(flip, 4200);
+      timer = setTimeout(flip, 2400);
     };
-    timer = setTimeout(flip, 3000 + index * 900);
+    timer = setTimeout(flip, 650 + index * 200);
     return () => clearTimeout(timer);
   }, [inView, reducedMotion, index]);
 
@@ -74,9 +73,6 @@ function PracticePhotoCard({ practice, index }: { practice: typeof practices[num
       </span>
       <span className="about-photo-card__shade" aria-hidden="true" />
       <span className="about-photo-card__label">{practice.title}</span>
-      <span className="about-photo-card__hint" aria-hidden="true">
-        <RotateCw size={13} />
-      </span>
     </button>
   );
 }

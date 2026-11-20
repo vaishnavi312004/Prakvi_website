@@ -87,7 +87,7 @@ export const ProjectManagementHero: React.FC<{ service: ServiceItem }> = ({ serv
             className="enterprise-hero-title font-display font-extrabold tracking-tight"
             {...entrance(0.05)}
           >
-            <ScrollRevealText text={service.title} preserveLayout />
+            <ScrollRevealText text={service.title} highlight={service.title} />
           </motion.h1>
 
           <motion.p

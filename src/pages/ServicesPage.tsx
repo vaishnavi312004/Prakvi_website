@@ -31,7 +31,7 @@ export const ServicesPage: React.FC = () => {
   });
 
   return (
-    <PageTransition>
+    <PageTransition revealServiceText>
       <div className="overflow-x-hidden pt-20 selection:bg-accent selection:text-white">
         {/* 1. SERVICES HERO */}
         <section className="hero-clay-canvas py-section relative overflow-hidden">

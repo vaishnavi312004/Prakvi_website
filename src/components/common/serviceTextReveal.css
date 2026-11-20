@@ -1,0 +1,48 @@
+@media (prefers-reduced-motion: no-preference) {
+  [data-service-reveal] {
+    animation-delay: var(--service-reveal-delay, 0ms);
+    animation-timing-function: cubic-bezier(0.2, 0.75, 0.2, 1);
+    animation-fill-mode: backwards;
+  }
+
+  [data-service-reveal='heading'] {
+    animation-name: service-heading-rise;
+    animation-duration: 800ms;
+  }
+
+  [data-service-reveal='subheading'],
+  [data-service-reveal='copy'] {
+    animation-name: service-copy-rise;
+    animation-duration: 520ms;
+  }
+
+  [data-service-reveal='subheading'] {
+    animation-duration: 580ms;
+  }
+}
+
+@keyframes service-heading-rise {
+  from {
+    clip-path: inset(0 -0.18em 100%);
+    translate: 0 0.85em;
+    opacity: 0;
+  }
+
+  to {
+    clip-path: inset(-0.16em -0.18em);
+    translate: 0 0;
+    opacity: 1;
+  }
+}
+
+@keyframes service-copy-rise {
+  from {
+    translate: 0 0.45rem;
+    opacity: 0;
+  }
+
+  to {
+    translate: 0 0;
+    opacity: 1;
+  }
+}
