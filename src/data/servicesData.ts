@@ -1008,8 +1008,8 @@ const serviceCatalog: ServiceItem[] = [
       },
       {
         step: '03',
-        title: 'Descriptive Analysis',
-        description: 'Visualize past performance, uncover trends, and monitor key metrics using descriptive techniques.',
+        title: 'Exploratory Data Analysis',
+        description: 'Explore data to uncover patterns, relationships, and anomalies that guide deeper analysis.',
       },
       {
         step: '04',
@@ -1018,7 +1018,7 @@ const serviceCatalog: ServiceItem[] = [
       },
       {
         step: '05',
-        title: 'Prescriptive Insights',
+        title: 'Prescriptive Analytics',
         description: 'Translate predictions into actionable recommendations through optimization and scenario simulation.',
       },
       {

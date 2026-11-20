@@ -1,6 +1,6 @@
 ﻿import React from 'react';
 import { Link } from 'react-router-dom';
-import { Facebook, Twitter, Linkedin, Instagram } from 'lucide-react';
+import { Facebook, Twitter, Linkedin, Instagram, Mail, MapPin, Phone } from 'lucide-react';
 import { PrakviLogo } from '../common/PrakviLogo';
 import { companyData } from '../../data/companyData';
 
@@ -11,12 +11,6 @@ const socialLinks = [
   { label: 'Instagram', icon: Instagram, href: companyData.socialLinks.instagram },
 ];
 
-const companyLinks = [
-  { label: 'About Us', path: '/about' },
-  { label: 'Services', path: '/services' },
-  { label: 'Contact', path: '/contact' },
-];
-
 const supportEmail = `mailto:${companyData.contact.primaryEmail}`;
 const legalLinks = [
   { label: 'Privacy Policy', href: `${supportEmail}?subject=Privacy%20Policy%20request` },
@@ -25,44 +19,94 @@ const legalLinks = [
 const footerLink = 'transition-colors hover:text-white focus-visible:text-white';
 
 export const Footer: React.FC = () => (
-  <footer className="bg-[#2a3444] px-4 text-[#b2c4da] sm:px-6 lg:px-8">
-    <div className="mx-auto grid max-w-6xl gap-8 pt-10 pb-8 sm:grid-cols-2 sm:gap-10 md:grid-cols-3">
-      <div>
-        <PrakviLogo className="brightness-0 invert" />
-        <p className="mt-2 max-w-sm leading-relaxed">{companyData.tagline}</p>
-        <div className="mt-4 flex flex-wrap gap-4">
-          {socialLinks.map(({ label, icon: Icon, href }) => (
-            <a
-              key={label}
-              href={href}
-              target="_blank"
-              rel="noreferrer"
-              aria-label={`Prakvi on ${label}`}
-              className="inline-flex size-10 items-center justify-center rounded-xl bg-[#475365] transition-colors hover:bg-[#58677b] hover:text-white focus-visible:text-white"
-            >
-              <Icon className="size-4" aria-hidden="true" />
-            </a>
-          ))}
+  <footer
+    className="border-t border-line bg-section-alt/85 backdrop-blur-xl text-foreground"
+    role="contentinfo"
+  >
+    <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
+      <div className="grid grid-cols-1 gap-10 py-12 md:grid-cols-12">
+        {/* Brand Column */}
+        <div className="md:col-span-4 space-y-4">
+          <PrakviLogo size="sm" />
+          <p className="max-w-xs text-sm leading-relaxed text-muted">
+            {companyData.tagline}
+          </p>
+          <div className="flex items-center gap-2.5 pt-1">
+            {socialLinks.map(({ label, icon: Icon, href }) => (
+              <a
+                key={label}
+                href={href}
+                target="_blank"
+                rel="noreferrer"
+                aria-label={`Prakvi on ${label}`}
+                className="clay-icon-box inline-flex h-9 w-9 items-center justify-center rounded-xl text-accent hover:scale-105 transition-transform"
+              >
+                <Icon className="h-4 w-4" aria-hidden="true" />
+              </a>
+            ))}
+          </div>
+        </div>
+
+        {/* Navigation Links */}
+        <nav aria-label="Footer company links" className="md:col-span-2">
+          <h2 className="mb-3.5 font-display text-sm font-bold uppercase tracking-wider text-foreground">
+            Company
+          </h2>
+          <ul className="space-y-2.5 text-sm text-muted">
+            <li><Link to="/about" className="transition-colors hover:text-accent">About Us</Link></li>
+            <li><Link to="/services" className="transition-colors hover:text-accent">Services</Link></li>
+            <li><Link to="/products" className="transition-colors hover:text-accent">Products</Link></li>
+            <li><Link to="/insights" className="transition-colors hover:text-accent">Insights</Link></li>
+            <li><Link to="/contact" className="transition-colors hover:text-accent">Contact</Link></li>
+          </ul>
+        </nav>
+
+        {/* Key Practices & Support */}
+        <nav aria-label="Footer solutions and support links" className="md:col-span-3">
+          <h2 className="mb-3.5 font-display text-sm font-bold uppercase tracking-wider text-foreground">
+            Solutions & Support
+          </h2>
+          <ul className="space-y-2.5 text-sm text-muted">
+            <li><Link to="/services/staffing" className="transition-colors hover:text-accent">Staffing Services</Link></li>
+            <li><Link to="/services/business-intelligence" className="transition-colors hover:text-accent">Business Intelligence</Link></li>
+            <li><Link to="/services/cloud-services" className="transition-colors hover:text-accent">Cloud Services</Link></li>
+            <li><Link to="/products/vendor-management" className="transition-colors hover:text-accent">Vendor Management System</Link></li>
+            <li><a href={`mailto:${companyData.contact.primaryEmail}`} className="transition-colors hover:text-accent">Contact Support</a></li>
+            <li><a href={`mailto:${companyData.contact.primaryEmail}?subject=Privacy%20inquiry`} className="transition-colors hover:text-accent">Privacy Inquiries</a></li>
+          </ul>
+        </nav>
+
+        {/* Verified Offices */}
+        <div className="md:col-span-3 space-y-3.5">
+          <h2 className="font-display text-sm font-bold uppercase tracking-wider text-foreground">
+            Offices
+          </h2>
+          <div className="space-y-3 text-xs text-muted leading-relaxed">
+            {companyData.offices.map((office) => (
+              <div key={office.id} className="flex items-start gap-2">
+                <MapPin className="mt-0.5 h-3.5 w-3.5 shrink-0 text-accent" aria-hidden="true" />
+                <div>
+                  <span className="font-semibold text-foreground">{office.name}: </span>
+                  <span>{office.address.join(', ')}</span>
+                </div>
+              </div>
+            ))}
+            <div className="flex items-center gap-2 pt-1">
+              <Phone className="h-3.5 w-3.5 shrink-0 text-accent" aria-hidden="true" />
+              <a href={`tel:${companyData.contact.phone}`} className="font-semibold text-foreground hover:text-accent">
+                {companyData.contact.phone}
+              </a>
+            </div>
+            <div className="flex items-center gap-2">
+              <Mail className="h-3.5 w-3.5 shrink-0 text-accent" aria-hidden="true" />
+              <a href={`mailto:${companyData.contact.primaryEmail}`} className="font-semibold text-foreground hover:text-accent">
+                {companyData.contact.primaryEmail}
+              </a>
+            </div>
+          </div>
         </div>
       </div>
 
-      <nav aria-label="Footer company links">
-        <h2 className="mb-1 text-lg font-bold text-white">Company</h2>
-        <ul className="space-y-2">
-          {companyLinks.map(({ label, path }) => (
-            <li key={path}><Link to={path} className={footerLink}>{label}</Link></li>
-          ))}
-        </ul>
-      </nav>
-
-      <nav aria-label="Footer support links">
-        <h2 className="mb-1 text-lg font-bold text-white">Support</h2>
-        <ul className="space-y-2">
-          <li><Link to="/contact" className={footerLink}>Help Center</Link></li>
-          <li><a href={supportEmail} className={footerLink}>Contact Support</a></li>
-          <li><a href={legalLinks[0].href} className={footerLink} aria-label="Request the Privacy Policy by email">Privacy Policy</a></li>
-        </ul>
-      </nav>
     </div>
 
     <div className="border-t border-white/15 pt-7 pb-4 text-center text-sm leading-relaxed sm:text-base">

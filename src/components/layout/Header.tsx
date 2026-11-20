@@ -21,7 +21,7 @@ interface SearchItem {
   path: string;
 }
 
-const sectionOrder: NavSectionKey[] = ['who', 'what', 'how', 'careers'];
+const sectionOrder: NavSectionKey[] = ['who', 'what', 'how'];
 
 export const Header: React.FC = () => {
   const reducedMotion = useReducedMotion();
@@ -152,16 +152,15 @@ export const Header: React.FC = () => {
     pathname === '/case-studies' ||
     pathname === '/insights' ||
     pathname.startsWith('/insights/');
-  const isCareersActive = pathname === '/careers';
-
+  const isBlogsActive = pathname === '/blogs' || pathname.startsWith('/blogs/');
   const activePillHref = isWhoActive
     ? '/about'
     : isWhatActive
     ? '/services'
     : isHowActive
     ? '/case-studies'
-    : isCareersActive
-    ? '/careers'
+    : isBlogsActive
+    ? '/blogs'
     : '/';
 
   const pillNavItems: PillNavItem[] = sectionOrder.map((key) => {
@@ -204,6 +203,7 @@ export const Header: React.FC = () => {
       ),
     };
   });
+  pillNavItems.push({ label: 'BLOGS', href: '/blogs' });
 
   return (
     <header
@@ -370,7 +370,7 @@ export const Header: React.FC = () => {
               )}
             </form>
 
-            {/* Hierarchical Accordion Tree for All 4 Main Navigation Sections */}
+            {/* Hierarchical Accordion Tree for the Main Navigation Sections */}
             <div className="divide-y divide-line/70">
               {sectionOrder.map((key) => {
                 const section = navigationTrees[key];
@@ -433,6 +433,16 @@ export const Header: React.FC = () => {
                   </div>
                 );
               })}
+              <Link
+                to="/blogs"
+                aria-current={isBlogsActive ? 'page' : undefined}
+                onClick={() => setMobileOpen(false)}
+                className={`flex w-full min-h-[44px] items-center rounded-xl px-3 py-2.5 font-display text-xs font-bold uppercase tracking-wider transition-colors ${
+                  isBlogsActive ? 'bg-soft-blue/70 text-accent-text' : 'text-foreground hover:bg-surface'
+                }`}
+              >
+                Blogs
+              </Link>
             </div>
 
             <div className="mt-4 pt-3 border-t border-line">

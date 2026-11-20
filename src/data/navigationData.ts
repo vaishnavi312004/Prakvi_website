@@ -2,7 +2,6 @@ import { sortCatalog, enterpriseServiceOrder, businessServiceOrder, productOrder
 import { servicesData } from './servicesData';
 import { productsData } from './productsData';
 import { insightsData } from './insightsData';
-import { jobsData } from './careersData';
 
 export interface NavItem {
   label: string;
@@ -19,7 +18,7 @@ export interface SolutionLink {
   badge?: string;
 }
 
-export type NavSectionKey = 'who' | 'what' | 'how' | 'careers';
+export type NavSectionKey = 'who' | 'what' | 'how';
 
 export interface TreeNavNode {
   id: string;
@@ -41,7 +40,7 @@ export const navigationData = {
     { label: 'WHO WE ARE', path: '/about', hasDropdown: true },
     { label: 'WHAT WE DO', path: '/services', hasDropdown: true },
     { label: 'HOW WE HELP', path: '/case-studies', hasDropdown: true },
-    { label: 'CAREERS', path: '/careers', hasDropdown: true },
+    { label: 'BLOGS', path: '/blogs', hasDropdown: false },
   ] as NavItem[],
 
   whoWeAreLinks: [
@@ -65,13 +64,6 @@ export const navigationData = {
       description: 'New Delhi headquarters & Nashik operations center',
       path: '/contact',
       iconName: 'MapPin',
-    },
-    {
-      id: 'join-team',
-      title: 'Life at Prakvi & Careers',
-      description: 'Culture, open engineering roles & talent opportunities',
-      path: '/careers',
-      iconName: 'Users',
     },
   ] as SolutionLink[],
 
@@ -329,30 +321,6 @@ function buildProductTreeNodes(): TreeNavNode[] {
   return [catalogNode, ...productNodes];
 }
 
-function buildCareerDepartmentNodes(): TreeNavNode[] {
-  const departments = Array.from(new Set(jobsData.map((job) => job.department)));
-  return [
-    {
-      id: 'careers-open-all',
-      label: `All Open Positions (${jobsData.length})`,
-      path: '/careers#open-positions',
-    },
-    ...departments.map((department) => {
-      const deptJobs = jobsData.filter((job) => job.department === department);
-      const encodedDept = encodeURIComponent(department);
-      return {
-        id: `careers-dept-${department.toLowerCase().replace(/[^a-z0-9]+/g, '-')}`,
-        label: department,
-        children: deptJobs.map((job) => ({
-          id: `careers-job-${job.id}`,
-          label: job.title,
-          path: `/careers?dept=${encodedDept}#open-positions`,
-        })),
-      };
-    }),
-  ];
-}
-
 export const navigationTrees: Record<NavSectionKey, NavTreeSection> = {
   who: {
     key: 'who',
@@ -407,23 +375,6 @@ export const navigationTrees: Record<NavSectionKey, NavTreeSection> = {
             id: 'who-offices-nashik',
             label: 'Nashik Office (Regional Hub)',
             path: '/contact?office=nashik-office',
-          },
-        ],
-      },
-      {
-        id: 'who-life',
-        label: 'Life at Prakvi & Careers',
-        iconName: 'Users',
-        children: [
-          {
-            id: 'who-life-careers',
-            label: 'Careers at Prakvi',
-            path: '/careers',
-          },
-          {
-            id: 'who-life-culture',
-            label: 'Employee Experience & Benefits',
-            path: '/careers#culture',
           },
         ],
       },
@@ -514,36 +465,5 @@ export const navigationTrees: Record<NavSectionKey, NavTreeSection> = {
     ],
   },
 
-  careers: {
-    key: 'careers',
-    label: 'Careers',
-    href: '/careers',
-    nodes: [
-      {
-        id: 'careers-culture',
-        label: 'Life & Culture at Prakvi',
-        iconName: 'Users',
-        children: [
-          { id: 'careers-overview', label: 'Careers Overview', path: '/careers' },
-          {
-            id: 'careers-benefits',
-            label: 'Employee Experience & Benefits',
-            path: '/careers#culture',
-          },
-          {
-            id: 'careers-hiring',
-            label: '5-Stage Hiring Journey',
-            path: '/careers#hiring-journey',
-          },
-        ],
-      },
-      {
-        id: 'careers-positions',
-        label: 'Open Positions',
-        iconName: 'Briefcase',
-        children: buildCareerDepartmentNodes(),
-      },
-    ],
-  },
 };
 

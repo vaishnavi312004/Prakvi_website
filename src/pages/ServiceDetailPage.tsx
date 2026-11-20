@@ -16,6 +16,7 @@ import { ProjectManagementHero } from '../components/common/ProjectManagementHer
 import { ProjectManagementSections } from '../components/common/ProjectManagementSections';
 import { ServiceHeroMedia } from '../components/common/ServiceHeroMedia';
 import { SectionHeading } from '../components/common/SectionHeading';
+import { BusinessAnalyticsHelix } from '../components/common/BusinessAnalyticsHelix';
 import { CTASection } from '../components/common/CTASection';
 import { PageTransition } from '../components/layout/PageTransition';
 import { servicesData } from '../data/servicesData';
@@ -44,10 +45,12 @@ export const ServiceDetailPage: React.FC = () => {
   const digitalMarketingHero = slug === 'digital-marketing';
   const heroStyle = digitalMarketingHero ? 'digital-marketing-hero' : slug === 'mobile-app-development' ? 'mobile-app-hero' : null;
   const heroVideo = useRef<HTMLVideoElement>(null);
+  const [activeAnalyticsStep, setActiveAnalyticsStep] = useState(6);
 
   useEffect(() => {
     setActiveStackTab(0);
     setOpenFaqIndex(0);
+    setActiveAnalyticsStep(slug === 'business-analytics' ? 6 : 0);
   }, [slug]);
 
   useEffect(() => {
@@ -102,6 +105,7 @@ export const ServiceDetailPage: React.FC = () => {
     'Comprehensive service modules engineered for reliability, compliance, and long-term performance.';
   const processTitle = service.processTitle || `Why Choose Prakvi for ${service.title}?`;
   const processDescription = service.processSubtitle || 'A proven methodology that ensures successful project delivery.';
+  const isBusinessAnalyticsPage = service.slug === 'business-analytics';
 
   const toggleFaq = (index: number) => {
     setOpenFaqIndex(openFaqIndex === index ? null : index);
@@ -126,8 +130,16 @@ export const ServiceDetailPage: React.FC = () => {
         ) : service.slug === 'system-integration' ? (
           <SystemIntegrationHero service={service} />
         ) : (
-        <section className={`hero-clay-canvas py-section relative overflow-hidden${heroStyle ? ` ${heroStyle} isolate` : ''}`}>
-          <div className={`max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10${heroStyle ? ` ${heroStyle}-content` : ''}`}>
+        <section
+          className={`hero-clay-canvas py-section relative overflow-hidden${heroStyle ? ` ${heroStyle} isolate` : ''}${isBusinessAnalyticsPage ? ' business-analytics-hero' : ''}`}
+        >
+          <div
+            className={`${
+              isBusinessAnalyticsPage
+                ? 'business-analytics-hero__content max-w-[1680px]'
+                : 'max-w-7xl'
+            } mx-auto px-4 sm:px-6 lg:px-8 relative z-10${heroStyle ? ` ${heroStyle}-content` : ''}`}
+          >
             <Breadcrumbs
               items={[
                 { label: 'Services', path: '/services' },
@@ -135,8 +147,18 @@ export const ServiceDetailPage: React.FC = () => {
               ]}
             />
 
-            <div className={heroStyle ? `mt-8 ${heroStyle}-copy` : 'mt-8 grid grid-cols-1 lg:grid-cols-12 gap-10 items-center'}>
-              <div className="lg:col-span-7 space-y-5">
+            <div
+              className={`${heroStyle ? `${heroStyle}-copy ` : ''}mt-8 grid grid-cols-1 ${
+                isBusinessAnalyticsPage ? 'md:grid-cols-12' : 'lg:grid-cols-12'
+              } gap-10 items-center`}
+            >
+              <div
+                className={`space-y-5 ${
+                  isBusinessAnalyticsPage
+                    ? 'md:col-span-6 lg:col-span-5'
+                    : 'lg:col-span-7'
+                }`}
+              >
                 <div className="text-xs font-mono font-bold uppercase tracking-[0.2em] text-accent">
                   {service.badge || 'Prakvi Service'}
                 </div>
@@ -164,7 +186,7 @@ export const ServiceDetailPage: React.FC = () => {
                 </div>
               </div>
 
-              {!heroStyle && (
+              {!isBusinessAnalyticsPage && (
                 <div className="lg:col-span-5">
                   <div className="clay-card p-3">
                     <img
@@ -372,16 +394,70 @@ export const ServiceDetailPage: React.FC = () => {
         {isEnterpriseArchitecturePage ? (
           <EnterpriseArchitectureJourney title={processTitle} description={processDescription} steps={service.deliverySteps} />
         ) : (
-        <section className="py-section bg-canvas">
-          <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-            <SectionHeading
-              badge="Our Process"
-              title={processTitle}
-              description={processDescription}
-              align="center"
-            />
+        <section id={isEnterpriseArchitecturePage ? 'enterprise-process' : undefined} className={`py-section ${isMobilityPage ? 'bg-surface/75' : 'bg-canvas'} ${isBusinessAnalyticsPage ? 'business-analytics-process' : ''}`}>
+          <div className={`${isBusinessAnalyticsPage ? 'max-w-[1060px]' : 'max-w-7xl'} mx-auto px-4 sm:px-6 lg:px-8`}>
+            {isBusinessAnalyticsPage ? (
+              <h2 className="business-analytics-process__heading">{processTitle}</h2>
+            ) : (
+              <SectionHeading
+                badge="Our Process"
+                title={processTitle}
+                description={processDescription}
+                align="center"
+              />
+            )}
 
-            <div
+            {isBusinessAnalyticsPage ? (
+              <div className="business-analytics-process__layout">
+                <div className="business-analytics-process__panel">
+                  <div
+                    key={activeAnalyticsStep}
+                    className="business-analytics-process__selected-step business-analytics-process__copy"
+                    aria-live="polite"
+                  >
+                    <div className="business-analytics-process__heading-row">
+                      <span className="business-analytics-process__number">
+                        {service.deliverySteps[activeAnalyticsStep].step}
+                      </span>
+                      <h3 className="business-analytics-process__title">
+                        {service.deliverySteps[activeAnalyticsStep].title}
+                      </h3>
+                    </div>
+                    <p className="business-analytics-process__description">
+                      {service.deliverySteps[activeAnalyticsStep].description}
+                    </p>
+                  </div>
+                  <div className="business-analytics-process__progress">
+                    <span>Step {service.deliverySteps[activeAnalyticsStep].step}</span>
+                  </div>
+                </div>
+
+                <div className="business-analytics-process__cards-wrap">
+                  <BusinessAnalyticsHelix reducedMotion={Boolean(reducedMotion)} />
+                  <div className="business-analytics-process__cards" aria-label="Business analytics process steps">
+                  {service.deliverySteps.map((step, idx) => {
+                    const isActive = activeAnalyticsStep === idx;
+                    return (
+                      <button
+                        key={step.step}
+                        type="button"
+                        aria-pressed={isActive}
+                        aria-label={`Step ${step.step}: ${step.title}${isActive ? ', selected' : ''}`}
+                        onClick={() => setActiveAnalyticsStep(idx)}
+                        className={`business-analytics-process__card${isActive ? ' is-active' : ''}`}
+                      >
+                        <span className="business-analytics-process__badge">
+                          {step.step}
+                        </span>
+                        <span className="business-analytics-process__card-title">{step.title}</span>
+                        <span className="business-analytics-process__dot" aria-hidden="true">✓</span>
+                      </button>
+                    );
+                  })}
+                  </div>
+                </div>
+              </div>
+            ) : <div
               className={`mt-12 grid grid-cols-1 gap-5 ${
                 service.deliverySteps.length <= 5
                   ? 'md:grid-cols-2 lg:grid-cols-5'
@@ -409,7 +485,7 @@ export const ServiceDetailPage: React.FC = () => {
                   </div>
                 </div>
               ))}
-            </div>
+            </div>}
 
             {isStaffingPage && (
               <div className="mt-14 pt-10 border-t border-line">

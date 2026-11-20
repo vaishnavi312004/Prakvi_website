@@ -1,5 +1,5 @@
 import React, { useEffect, useRef } from 'react';
-import { motion, useReducedMotion, useScroll, useSpring, useTransform } from 'motion/react';
+import { motion, useReducedMotion } from 'motion/react';
 import { Breadcrumbs } from '../components/common/Breadcrumbs';
 import { AboutContent } from '../components/common/AboutContent';
 import { PageTransition } from '../components/layout/PageTransition';
@@ -14,51 +14,32 @@ export const AboutPage: React.FC = () => {
   const reducedMotion = useReducedMotion();
   const { about } = companyData;
 
-  const heroSectionRef = useRef<HTMLElement>(null);
   const robotVideoRef = useRef<HTMLVideoElement>(null);
   const mobileRobotVideoRef = useRef<HTMLVideoElement>(null);
-
-  const prefersReducedMotion = useReducedMotion();
-
-  const { scrollYProgress } = useScroll({
-    target: heroSectionRef,
-    offset: ['start start', 'end start'],
-  });
-
-  const rawParallaxY = useTransform(scrollYProgress, [0, 1], [0, 20]);
-
-  const parallaxY = useSpring(rawParallaxY, {
-    stiffness: 110,
-    damping: 26,
-    mass: 0.45,
-  });
+  const prefersReducedMotion = reducedMotion;
 
   useEffect(() => {
-    const videos = [
-      robotVideoRef.current,
-      mobileRobotVideoRef.current,
-    ].filter((v): v is HTMLVideoElement => v !== null);
+    const video = mobileRobotVideoRef.current;
+    if (!video) return;
 
-    videos.forEach((video) => {
-      if (prefersReducedMotion) {
-        video.pause();
+    if (prefersReducedMotion) {
+      video.pause();
 
-        if (video.readyState >= 2) {
-          video.currentTime = 2.0;
-        }
-
-        return;
+      if (video.readyState >= 2) {
+        video.currentTime = 2.0;
       }
 
-      const playPromise = video.play();
+      return;
+    }
 
-      if (playPromise && typeof playPromise.catch === 'function') {
-        playPromise.catch(() => {
-          // Autoplay may be blocked by browser policy.
-          // Muted and playsInline handle standard cases.
-        });
-      }
-    });
+    const playPromise = video.play();
+
+    if (playPromise && typeof playPromise.catch === 'function') {
+      playPromise.catch(() => {
+        // Autoplay may be blocked by browser policy.
+        // Muted and playsInline handle standard cases.
+      });
+    }
   }, [prefersReducedMotion]);
 
   const handleVideoLoadedData = (
@@ -75,12 +56,11 @@ export const AboutPage: React.FC = () => {
     <PageTransition>
       <div className="about-page-theme overflow-x-hidden pt-20 selection:bg-accent selection:text-white">
         <section
-          ref={heroSectionRef}
           className="about-hero-backdrop relative w-full overflow-hidden pt-12 pb-0 sm:pt-16 lg:py-20 lg:min-h-[640px] xl:min-h-[680px] lg:flex lg:items-center"
         >
           <div className="relative z-10 w-full max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
             <Breadcrumbs items={[{ label: 'About Us' }]} />
-            <div className="mt-8 lg:w-[48%]">
+            <div className="mt-8 grid grid-cols-1 lg:grid-cols-12 gap-10 items-center">
               <motion.div
                 initial={reducedMotion ? false : { opacity: 0, y: 16 }}
                 animate={{ opacity: 1, y: 0 }}
@@ -90,8 +70,7 @@ export const AboutPage: React.FC = () => {
                 <div className="text-xs font-mono font-bold uppercase tracking-[0.2em] text-accent-text">
                   {about.hero.kicker}
                 </div>
-
-                <h1 className="font-display text-4xl sm:text-5xl font-extrabold text-foreground leading-tight">
+                <h1 className="font-display text-4xl sm:text-5xl font-extrabold text-foreground tracking-tight leading-tight text-balance">
                   {about.hero.title}
                 </h1>
 
@@ -110,7 +89,6 @@ export const AboutPage: React.FC = () => {
             className="about-hero-robot-desktop pointer-events-none select-none absolute inset-y-0 -right-[8%] hidden lg:flex items-center w-[72%]"
           >
                 <motion.div
-                  style={{ y: prefersReducedMotion ? 0 : parallaxY }}
                   className="relative w-full aspect-video overflow-hidden"
                 >
                   <video
