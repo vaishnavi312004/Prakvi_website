@@ -954,7 +954,7 @@ const serviceCatalog: ServiceItem[] = [
     iconName: 'PieChart',
     badge: 'Data Insights & Predictive Analytics',
     offeringsTitle: 'Our Business Analytics Services',
-    offeringsSubtitle: 'Customized analytics capabilities designed to transform raw business data into measurable advantage.',
+    offeringsSubtitle: 'Our comprehensive Business Analytics services are customized to meet your unique business requirements.',
     businessChallenge:
       'Abundant raw data without structured cleaning, predictive modeling, or decision workflows leaves critical commercial insights hidden.',
     howWeHelp:
@@ -966,23 +966,23 @@ const serviceCatalog: ServiceItem[] = [
         icon: 'BarChart3',
       },
       {
-        title: 'Diagnostic & Predictive Analytics',
-        description: 'Our experts leverage AI and machine learning to understand root causes and forecast future outcomes.',
+        title: 'Predictive Analytics',
+        description: 'Our team of experts leverages AI and machine learning to forecast future outcomes.',
         icon: 'Sparkles',
       },
       {
         title: 'Prescriptive Analytics',
-        description: 'We implement data-backed optimization strategies and simulations for confident decision-making.',
+        description: 'We implement data-backed strategies for optimal decision-making.',
         icon: 'Target',
       },
       {
         title: 'Real-Time Data Processing',
-        description: 'Deliver instant operational insights and alerts for agile business operations.',
+        description: 'We get you instant insights for agile business operations.',
         icon: 'Zap',
       },
       {
         title: 'Custom Dashboard & Reporting',
-        description: 'Create and visualize enterprise metrics through interactive, dynamic analytics tools.',
+        description: 'We create and visualize data with interactive and dynamic analytics tools.',
         icon: 'Monitor',
       },
     ],
@@ -1004,42 +1004,77 @@ const serviceCatalog: ServiceItem[] = [
       },
     ],
     processTitle: 'Why Choose Prakvi for Business Analytics?',
-    processSubtitle: 'A proven 7-step analytics methodology from ingestion through continuous model refinement.',
+    processSubtitle: 'A proven methodology that ensures successful project delivery',
     deliverySteps: [
       {
         step: '01',
         title: 'Data Collection & Integration',
         description: 'Gather structured and unstructured data across systems and integrate them into a unified repository.',
+        points: [
+          'Connect ERP, CRM, cloud, and operational data sources',
+          'Unify structured and unstructured inputs for analysis',
+          'Bring integrated data into a trusted analytics repository',
+        ],
       },
       {
         step: '02',
         title: 'Data Cleaning & Preparation',
         description: 'Ensure high data quality by standardizing formats, filling gaps, and removing inconsistencies.',
+        points: [
+          'Standardize formats and resolve missing values',
+          'Validate quality, consistency, and readiness',
+          'Prepare clean datasets for reliable analysis',
+        ],
       },
       {
         step: '03',
-        title: 'Exploratory Data Analysis',
-        description: 'Explore data to uncover patterns, relationships, and anomalies that guide deeper analysis.',
+        title: 'Descriptive Analysis',
+        description: 'Visualize past performance, uncover trends, and monitor key metrics using descriptive techniques.',
+        points: [
+          'Surface patterns, relationships, and anomalies',
+          'Use findings to shape the analytical approach',
+          'Reveal trends that merit deeper investigation',
+        ],
       },
       {
         step: '04',
         title: 'Predictive Modeling',
-        description: 'Apply statistical and machine-learning models to forecast future behaviors and business outcomes.',
+        description: 'Apply statistical and machine-learning models to forecast future behaviors and outcomes.',
+        points: [
+          'Build statistical and machine-learning forecasts',
+          'Evaluate models against business outcomes',
+          'Forecast customer, demand, and operational trends',
+        ],
       },
       {
         step: '05',
-        title: 'Prescriptive Analytics',
+        title: 'Prescriptive Insights',
         description: 'Translate predictions into actionable recommendations through optimization and scenario simulation.',
+        points: [
+          'Compare scenarios, constraints, and outcomes',
+          'Turn forecasts into prioritized recommendations',
+          'Identify practical actions to improve business results',
+        ],
       },
       {
         step: '06',
         title: 'Deployment & Automation',
         description: 'Embed analytics into operational systems with live dashboards, alerts, and automated reporting workflows.',
+        points: [
+          'Integrate insights into dashboards and workflows',
+          'Automate reporting, alerts, and scheduled refreshes',
+          'Make analytics available where teams make decisions',
+        ],
       },
       {
         step: '07',
         title: 'Monitoring & Refinement',
         description: 'Continuously evaluate model performance, refine analytics pipelines, and adapt to business changes.',
+        points: [
+          'Track model and analytics pipeline performance',
+          'Refine insights as data and business needs evolve',
+          'Respond to changing trends and business conditions',
+        ],
       },
     ],
     stackTitle: 'Business Analytics',
@@ -1206,7 +1241,7 @@ const serviceCatalog: ServiceItem[] = [
     iconName: 'Receipt',
     badge: 'Bookkeeping, Payroll & Tax',
     offeringsTitle: 'Our Accounting Services',
-    offeringsSubtitle: 'Comprehensive financial operations customized for startups, SMEs, and growing enterprises.',
+    offeringsSubtitle: 'Our comprehensive accounting services are customized to meet your specific business needs.',
     businessChallenge:
       'Disconnected ledgers, manual reconciliations, payroll errors, and complex statutory tax deadlines expose businesses to compliance risk and cash-flow blind spots.',
     howWeHelp:
@@ -1214,27 +1249,27 @@ const serviceCatalog: ServiceItem[] = [
     capabilities: [
       {
         title: 'Bookkeeping & Financial Reporting',
-        description: 'We ensure simplified, clean, and up-to-date ledgers, journals, and real-time financial reporting.',
+        description: 'We ensure simplified, clean, and up-to-date financial records with real-time reporting.',
         icon: 'FileSpreadsheet',
       },
       {
         title: 'Tax Planning & Compliance',
-        description: 'Our experts minimize liabilities and ensure statutory tax compliance with timely, accurate filings.',
+        description: 'Our team of experts minimizes liabilities and ensures tax compliance with proactive strategies.',
         icon: 'ShieldCheck',
       },
       {
         title: 'Payroll Management',
-        description: 'Seamless, accurate payroll processing covering salaries, deductions, benefits, and payslips.',
+        description: 'We offer seamless, accurate payroll processing for improved efficiency.',
         icon: 'Users',
       },
       {
         title: 'Audits & Risk Assessments',
-        description: 'Identify financial risks, reinforce internal controls, and support forensic accounting audits.',
+        description: 'Our team of experts identifies financial risks and ensures internal controls are in place.',
         icon: 'Search',
       },
       {
         title: 'Accounts Payable & Receivable',
-        description: 'Manage cash flow efficiently with structured accounts payable, receivable, and vendor invoice reconciliations.',
+        description: 'Our professionals manage cash flow efficiently with structured financial management.',
         icon: 'Receipt',
       },
     ],
@@ -1256,57 +1291,83 @@ const serviceCatalog: ServiceItem[] = [
       },
     ],
     processTitle: 'Why Choose Prakvi for Accounting Services?',
-    processSubtitle: 'An 8-step financial workflow engineered for accuracy and peace of mind.',
+    processSubtitle: 'A proven methodology that ensures successful project delivery',
     deliverySteps: [
       {
         step: '01',
         title: 'Assessment & Onboarding',
-        description: 'Review your current financial workflows, accounting systems, and reporting structures to tailor our engagement.',
+        description: 'We review your current financial workflows, systems, and reporting structures to tailor our approach.',
       },
       {
         step: '02',
         title: 'Data Collection & Setup',
-        description: 'Gather financial records, ledgers, bank statements, and payroll history, and configure preferred accounting platforms.',
+        description: 'Gather financial data, access ledgers, bank statements, payroll records, and configure our preferred accounting platforms.',
       },
       {
         step: '03',
         title: 'Daily & Monthly Entries',
-        description: 'Record sales, expenses, and receipts consistently, post journal entries, and maintain up-to-date ledgers.',
+        description: 'Record transactions (sales, expenses, receipts) consistently, post journal entries, reconcile accounts, and keep ledgers current.',
       },
       {
         step: '04',
         title: 'Reconciliations & Adjustments',
-        description: 'Match bank statements, vendor invoices, and payroll outputs while performing periodic reconciliations and year-end adjustments.',
+        description: 'Match bank statements, vendor invoices, and payroll outputs; perform periodic reconciliations and year-end adjustments.',
       },
       {
         step: '05',
         title: 'Payroll Management',
-        description: 'Automate and execute payroll cycles covering salaries, deductions, benefits, payslips, and statutory compliances.',
+        description: 'Automate and run payroll cycles, process salaries, deductions, benefits, issue payslips, and handle statutory compliances.',
       },
       {
         step: '06',
         title: 'Reporting & Analysis',
-        description: 'Prepare balance sheets, income statements, and cash flow analyses to highlight financial trends and action areas.',
+        description: 'Prepare standard financial statements and advanced analytics, review results with clients to highlight trends or action areas.',
       },
       {
         step: '07',
         title: 'Taxation & Compliance',
-        description: 'Calculate tax obligations, prepare required returns, and manage timely submissions before statutory deadlines.',
+        description: 'Calculate tax obligations, prepare required returns, manage submissions before deadlines, and ensure statutory compliance.',
       },
       {
         step: '08',
         title: 'Continuous Review & Optimization',
-        description: 'Periodically reassess accounting processes, recommend efficiency gains, and implement automation to improve accuracy.',
+        description: 'Periodically reassess processes, suggest optimizations, and implement automation to enhance accuracy and efficiency.',
       },
     ],
     stackTitle: 'Accounting',
     stackSummary:
       'Streamlined and reliable financial management tailored to your operational needs, designed to ensure accuracy, compliance, and strategic insight.',
     stackTabs: [
-      { label: 'Bookkeeping', items: ['General Ledger Maintenance', 'Journal Entries', 'Accounts Payable & Receivable', 'Financial Transparency'] },
-      { label: 'Tax', items: ['Tax Preparation & Filing', 'Statutory Compliance', 'Deduction Optimization', 'Risk Minimization'] },
-      { label: 'Payroll', items: ['Automated Payroll Runs', 'Salary & Deductions', 'Benefits Administration', 'Regulatory Filings'] },
-      { label: 'Reporting & Forensic', items: ['Balance Sheet & Income Statement', 'Cash Flow Interpretation', 'Forensic Audits', 'Discrepancy Detection'] },
+      {
+        label: 'Bookkeeping',
+        title: 'Bookkeeping & General Ledger Maintenance',
+        description: 'Maintain up-to-date ledgers, journals, and financial records for smooth operations and financial transparency.',
+        items: ['General Ledger Maintenance', 'Journal Entries', 'Accounts Payable & Receivable', 'Financial Transparency'],
+      },
+      {
+        label: 'Tax',
+        title: 'Tax Preparation & Filing',
+        description: 'Ensure compliance with all applicable tax regulations; prepare timely filings to minimize risk and leverage eligible deductions.',
+        items: ['Tax Preparation & Filing', 'Statutory Compliance', 'Deduction Optimization', 'Risk Minimization'],
+      },
+      {
+        label: 'Payroll',
+        title: 'Payroll Services',
+        description: 'Automated, accurate payroll processing to streamline compensation, deductions, benefits, and regulatory filings.',
+        items: ['Automated Payroll Runs', 'Salary & Deductions', 'Benefits Administration', 'Regulatory Filings'],
+      },
+      {
+        label: 'Reporting',
+        title: 'Financial Reporting & Analysis',
+        description: 'Generate periodic financial statements (balance sheet, income, cash flow), with interpretation to inform smarter business decisions.',
+        items: ['Balance Sheet & Income Statement', 'Cash Flow Interpretation'],
+      },
+      {
+        label: 'Forensic',
+        title: 'Forensic Accounting Support',
+        description: 'In-depth investigations and financial audits to detect discrepancies, fraud, or irregularities and safeguard your assets.',
+        items: ['Forensic Audits', 'Discrepancy Detection'],
+      },
     ],
     faqs: [
       {

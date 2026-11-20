@@ -1,6 +1,8 @@
 export interface ServiceStackTab {
   label: string;
   items: string[];
+  title?: string;
+  description?: string;
 }
 
 export interface ServiceItem {

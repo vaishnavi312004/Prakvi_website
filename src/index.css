@@ -1665,252 +1665,453 @@ html.lenis {
   }
 }
 
-/* Business Analytics process section: scoped styles ensure the reference layout
-   remains independent from the generic service delivery card grid. */
-.business-analytics-process__layout {
-  display: grid;
-  grid-template-columns: minmax(0, 1fr);
-  align-items: stretch;
-  gap: clamp(2rem, 5vw, 5rem);
-  margin-top: 2rem;
+/* Business Analytics process workflow */
+.business-analytics-process {
+  isolation: isolate;
+  overflow: hidden;
+  background-color: #f7fafd !important;
+  background-image:
+    radial-gradient(ellipse at 18% 44%, rgba(119, 205, 235, .2), transparent 38%),
+    radial-gradient(ellipse at 53% 72%, rgba(205, 188, 222, .14), transparent 36%);
 }
 
-.business-analytics-process {
-  background: #F7FAFD !important;
-  overflow: hidden;
+.business-analytics-process__intro {
+  text-align: center;
 }
 
 .business-analytics-process__heading {
   margin: 0;
   color: #172b45;
   font-family: var(--font-display, inherit);
-  font-size: clamp(1.5rem, 2.5vw, 2rem);
-  font-weight: 700;
-  line-height: 1.2;
-  text-align: center;
+  font-size: clamp(1.7rem, 3vw, 2.45rem);
+  font-weight: 750;
+  line-height: 1.15;
 }
+
+.business-analytics-process__subtitle {
+  margin: .7rem auto 0;
+  color: #627b92;
+  font-size: .98rem;
+  line-height: 1.5;
+}
+
+.business-analytics-process__layout {
+  display: grid;
+  grid-template-areas: "panel" "flow";
+  grid-template-columns: minmax(0, 1fr);
+  align-items: center;
+  gap: 2.25rem;
+  margin-top: clamp(2rem, 4vw, 3rem);
+}
+
+.business-analytics-process__flow { grid-area: flow; min-width: 0; }
 
 .business-analytics-process__cards-wrap {
   position: relative;
-  display: flex;
-  align-items: center;
+  height: 58rem;
   min-width: 0;
-  min-height: 32rem;
   isolation: isolate;
 }
 
-.business-analytics-process__helix {
+.business-analytics-process__connections {
   position: absolute;
-  z-index: -1;
-  inset: 2% 12%;
-  width: 76%;
-  height: 96%;
+  z-index: 0;
+  inset: 0;
+  width: 100%;
+  height: 100%;
   overflow: visible;
   pointer-events: none;
 }
 
-.business-analytics-process__helix-canvas {
-  display: block;
-  width: 100%;
-  height: 100%;
+.business-analytics-process__connections .is-desktop-flow { display: none; }
+.business-analytics-process__connections .is-mobile-flow { display: inline; }
+
+.business-analytics-process__connection-base,
+.business-analytics-process__connection-active,
+.business-analytics-process__connection-secondary {
+  fill: none;
+  stroke-linecap: round;
+  stroke-linejoin: round;
 }
 
-.business-analytics-process__panel {
-  display: flex;
-  min-height: 19.75rem;
-  flex-direction: column;
-  justify-content: space-between;
-  padding: clamp(1.35rem, 2.5vw, 2rem);
-  border: 1px solid rgba(255, 255, 255, .52);
-  border-radius: 1.1rem;
-  background: linear-gradient(135deg, #a9c7eb 0%, #91b1df 54%, #829fd2 100%);
-  box-shadow: 0 18px 34px -22px rgba(35, 83, 145, .38), inset 0 1px 0 rgba(255,255,255,.42);
+.business-analytics-process__connection-secondary {
+  stroke: rgba(209, 147, 113, .42);
+  stroke-width: 1.4;
 }
 
-.business-analytics-process__selected-step { min-width: 0; }
-
-.business-analytics-process__heading-row {
-  display: flex;
-  align-items: baseline;
-  gap: .55rem;
+.business-analytics-process__connection-base {
+  stroke: rgba(67, 151, 190, .46);
+  stroke-width: 2.15;
+  stroke-dasharray: 1;
+  filter: url(#analytics-flow-glow);
 }
 
-.business-analytics-process__number {
-  flex: 0 0 auto;
-  color: #123b68;
-  font-family: var(--font-display, inherit);
-  font-size: 1.8rem;
-  font-weight: 900;
-  line-height: 1.12;
+.business-analytics-process__connection-active {
+  stroke: url(#analytics-flow-gradient);
+  stroke-width: 2.7;
+  stroke-dasharray: 1;
+  filter: url(#analytics-flow-glow);
 }
 
-.business-analytics-process__copy {
-  min-width: 0;
-  animation: analytics-process-step-enter 180ms ease-out both;
-}
+.business-analytics-process__connection-active.is-current { stroke-width: 3.3; }
 
-@keyframes analytics-process-step-enter {
-  from { opacity: 0; transform: translateY(4px); }
-  to { opacity: 1; transform: translateY(0); }
-}
-
-.business-analytics-process__title {
-  margin: 0;
-  color: #123b68;
-  font-family: var(--font-display, inherit);
-  font-size: clamp(1.2rem, 1.8vw, 1.45rem);
-  font-weight: 800;
-  line-height: 1.17;
-  text-transform: uppercase;
-}
-
-.business-analytics-process__description {
-  max-width: 34rem;
-  margin: .95rem 0 0;
-  color: rgba(255, 255, 255, .96);
-  font-size: .9rem;
-  line-height: 1.55;
-  text-shadow: 0 1px 1px rgba(20, 54, 100, .12);
-}
-
-.business-analytics-process__progress {
-  display: flex;
-  align-items: center;
-  margin-top: 1.4rem;
-  padding-top: .8rem;
-  border-top: 1px solid rgba(255, 255, 255, .6);
-  color: rgba(255, 255, 255, .96);
-  font-size: .82rem;
-  font-weight: 700;
+.business-analytics-process__particle {
+  fill: #effcff;
+  filter: drop-shadow(0 0 4px rgba(39, 159, 202, .95));
 }
 
 .business-analytics-process__cards {
-  display: grid;
-  width: 100%;
-  grid-template-columns: minmax(0, 1fr);
-  align-content: center;
-  gap: .65rem;
-  padding-block: .75rem;
+  position: absolute;
+  z-index: 1;
+  inset: 0;
+}
+
+.business-analytics-process__card-slot {
+  position: absolute;
+  left: var(--mobile-x);
+  top: var(--mobile-y);
+  width: min(68%, 25rem);
+  translate: -50% -50%;
+  z-index: 1;
 }
 
 .business-analytics-process__card {
+  position: relative;
   display: flex;
-  min-width: 0;
-  width: min(78%, 18rem);
-  min-height: 3.75rem;
-  align-items: center;
-  gap: .55rem;
-  padding: .65rem .85rem;
-  border: 1px solid rgba(114, 151, 194, .68);
-  border-radius: .85rem;
-  background: rgba(250, 253, 255, .88);
-  box-shadow: 0 8px 18px -14px rgba(26, 68, 115, .45), inset 0 1px 0 rgba(255,255,255,.92);
-  color: #172b45;
+  width: 100%;
+  min-height: 6.7rem;
+  flex-direction: column;
+  justify-content: space-between;
+  gap: .75rem;
+  padding: .85rem .95rem .9rem;
+  border: 1px solid rgba(137, 171, 198, .45);
+  border-radius: 1.05rem;
+  background: linear-gradient(135deg, rgba(255,255,255,.88), rgba(244,250,255,.76));
+  box-shadow: 0 10px 24px -19px rgba(31, 70, 104, .55), inset 0 1px 0 rgba(255,255,255,.96);
+  backdrop-filter: blur(12px);
+  color: #203851;
   text-align: left;
   cursor: pointer;
-  transition: transform 180ms ease, border-color 180ms ease, background-color 180ms ease, box-shadow 180ms ease;
-  animation: analytics-card-enter 480ms both;
+  transition: border-color 180ms ease, background-color 180ms ease, box-shadow 180ms ease;
+  animation: analytics-card-float 8s ease-in-out infinite;
+  animation-delay: calc(var(--card-index, 0) * -0.42s);
 }
 
-.business-analytics-process__card:nth-child(odd) { justify-self: end; }
-.business-analytics-process__card:nth-child(even) { justify-self: start; }
+.business-analytics-process__card:hover,
+.business-analytics-process__card:focus-visible { animation-play-state: paused; }
 
-.business-analytics-process__card:nth-child(2) { animation-delay: 45ms; }
-.business-analytics-process__card:nth-child(3) { animation-delay: 90ms; }
-.business-analytics-process__card:nth-child(4) { animation-delay: 135ms; }
-.business-analytics-process__card:nth-child(5) { animation-delay: 180ms; }
-.business-analytics-process__card:nth-child(6) { animation-delay: 225ms; }
-.business-analytics-process__card:nth-child(7) { animation-delay: 270ms; }
-
-@keyframes analytics-card-enter { from { opacity: 0; transform: translateY(9px); } to { opacity: 1; } }
-
-.business-analytics-process__card:hover {
-  transform: translateY(-2px);
-  border-color: rgba(72, 174, 231, .78);
-  background: rgba(255,255,255,.98);
-  box-shadow: 0 13px 25px -18px rgba(22, 111, 170, .38);
+@keyframes analytics-card-float {
+  0%, 8%, 100% { translate: 0 0; }
+  4% { translate: 0 -3px; }
 }
 
-.business-analytics-process__card:focus-visible {
-  outline: 3px solid rgba(38, 155, 220, .45);
-  outline-offset: 2px;
+.business-analytics-process__card-top,
+.business-analytics-process__card-bottom {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: .7rem;
 }
 
-.business-analytics-process__card.is-active {
-  border-color: #48bfe9;
-  background: linear-gradient(110deg, rgba(216, 245, 255, .96), rgba(235, 250, 255, .92));
-  box-shadow: 0 10px 22px -14px rgba(0, 143, 220, .5), inset 0 0 0 1px rgba(32,165,237,.14);
+.business-analytics-process__icon,
+.business-analytics-process__panel-icon {
+  display: inline-flex;
+  flex: 0 0 auto;
+  align-items: center;
+  justify-content: center;
+  border: 1px solid color-mix(in srgb, var(--card-accent, #48a8d4) 23%, white);
+  background: color-mix(in srgb, var(--card-accent, #48a8d4) 12%, white);
+  color: color-mix(in srgb, var(--card-accent, #48a8d4) 78%, #345576);
+}
+
+.business-analytics-process__icon {
+  width: 1.85rem;
+  height: 1.85rem;
+  border-radius: .55rem;
 }
 
 .business-analytics-process__badge {
-  flex: 0 0 auto;
-  color: #345576;
-  font-size: .88rem;
-  font-weight: 600;
+  color: #6d849a;
+  font-size: .72rem;
+  font-weight: 700;
+  letter-spacing: .04em;
 }
 
 .business-analytics-process__card-title {
   min-width: 0;
   flex: 1 1 auto;
+  color: #243b55;
   font-family: var(--font-display, inherit);
-  font-size: .88rem;
-  font-weight: 500;
-  line-height: 1.32;
+  font-size: .94rem;
+  font-weight: 680;
+  line-height: 1.25;
 }
 
-.business-analytics-process__dot {
+.business-analytics-process__card-arrow {
+  flex: 0 0 auto;
+  color: color-mix(in srgb, var(--card-accent, #48a8d4) 60%, white);
+  transition: transform 180ms ease, color 180ms ease;
+}
+
+.business-analytics-process__active-dot {
+  position: absolute;
+  top: .55rem;
+  right: .55rem;
+  width: .42rem;
+  height: .42rem;
+  border-radius: 50%;
+  background: var(--card-accent, #48a8d4);
+  opacity: 0;
+  scale: .6;
+  transition: opacity 180ms ease, scale 180ms ease;
+}
+
+.business-analytics-process__card:hover {
+  border-color: color-mix(in srgb, var(--card-accent, #48a8d4) 55%, white);
+  background: rgba(255,255,255,.97);
+  box-shadow: 0 14px 26px -17px rgba(31, 78, 111, .55);
+}
+
+.business-analytics-process__card:hover .business-analytics-process__card-arrow { transform: translate(2px, -2px); }
+
+.business-analytics-process__card:focus-visible {
+  outline: 3px solid rgba(38, 155, 220, .4);
+  outline-offset: 3px;
+}
+
+.business-analytics-process__card.is-active {
+  border-color: color-mix(in srgb, var(--card-accent, #48a8d4) 75%, white);
+  background: linear-gradient(125deg, rgba(255,255,255,.97), color-mix(in srgb, var(--card-accent, #48a8d4) 9%, white));
+  box-shadow: 0 13px 28px -17px color-mix(in srgb, var(--card-accent, #48a8d4) 48%, transparent), inset 0 0 0 1px color-mix(in srgb, var(--card-accent, #48a8d4) 14%, transparent);
+}
+
+.business-analytics-process__card.is-active .business-analytics-process__active-dot {
+  opacity: 1;
+  scale: 1;
+}
+
+.business-analytics-process__panel {
+  position: relative;
+  grid-area: panel;
   display: flex;
-  width: 1.35rem;
-  height: 1.35rem;
-  flex: 0 0 1.35rem;
+  min-width: 0;
+  min-height: 31rem;
+  flex-direction: column;
+  justify-content: space-between;
+  padding: clamp(1.5rem, 3vw, 2.55rem);
+  overflow: hidden;
+  border: 1px solid rgba(255,255,255,.92);
+  border-radius: 1.8rem;
+  background:
+    radial-gradient(ellipse at 100% 0%, rgba(205, 236, 249, .58), transparent 45%),
+    linear-gradient(135deg, rgba(255,255,255,.94), rgba(240,248,252,.9) 62%, rgba(249,238,244,.82));
+  box-shadow: 0 24px 58px -40px rgba(31, 71, 107, .48), inset 0 1px 0 rgba(255,255,255,.98);
+  backdrop-filter: blur(18px);
+}
+
+.business-analytics-process__selected-step { min-width: 0; }
+
+.business-analytics-process__panel-top {
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  gap: 1rem;
+}
+
+.business-analytics-process__panel-icon {
+  width: 3.5rem;
+  height: 3.5rem;
+  border-radius: 1rem;
+  box-shadow: 0 5px 12px -8px rgba(29, 72, 108, .6);
+}
+
+.business-analytics-process__number {
+  color: #456487;
+  font-family: var(--font-display, inherit);
+  font-size: clamp(3.2rem, 5vw, 4.1rem);
+  font-weight: 780;
+  line-height: .95;
+}
+
+.business-analytics-process__title {
+  margin: 1.15rem 0 0;
+  color: #1b3049;
+  font-family: var(--font-display, inherit);
+  font-size: clamp(1.55rem, 2.2vw, 2.15rem);
+  font-weight: 750;
+  line-height: 1.12;
+}
+
+.business-analytics-process__description {
+  max-width: 34rem;
+  margin: .75rem 0 0;
+  color: #71859a;
+  font-size: .96rem;
+  line-height: 1.55;
+}
+
+.business-analytics-process__details {
+  display: grid;
+  gap: .55rem;
+  margin: 1rem 0 0;
+  padding: 0;
+  color: #5d7186;
+  font-size: .9rem;
+  line-height: 1.45;
+  list-style: none;
+}
+
+.business-analytics-process__details li {
+  position: relative;
+  padding-left: 1rem;
+}
+
+.business-analytics-process__details li::before {
+  position: absolute;
+  left: 0;
+  color: #bb7550;
+  content: "•";
+  font-size: 1rem;
+  font-weight: 800;
+}
+
+.business-analytics-process__progress {
+  margin-top: 1.6rem;
+  padding-top: 1rem;
+  border-top: 1px solid rgba(124, 157, 184, .24);
+}
+
+.business-analytics-process__progress-segments {
+  display: grid;
+  grid-template-columns: repeat(7, minmax(0, 1fr));
+  gap: .28rem;
+}
+
+.business-analytics-process__progress-segment {
+  height: .25rem;
+  border-radius: 99px;
+  background: rgba(148, 176, 198, .24);
+  transition: background 250ms ease;
+}
+
+.business-analytics-process__progress-segment.is-complete { background: #8db9d0; }
+.business-analytics-process__progress-segment.is-current { background: linear-gradient(90deg, #729bbb 40%, #bd7652); }
+
+.business-analytics-process__progress-footer {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-top: .75rem;
+  color: #5f7890;
+  font-size: .72rem;
+  font-weight: 750;
+  letter-spacing: .08em;
+}
+
+.business-analytics-process__progress-total { color: #9aabba; }
+
+.business-analytics-process__play-toggle {
+  display: inline-flex;
+  width: 2.45rem;
+  height: 2.45rem;
   align-items: center;
   justify-content: center;
-  border: 1px solid transparent;
+  border: 1px solid rgba(116, 160, 192, .42);
   border-radius: 50%;
-  color: transparent;
-  font-size: .8rem;
-  font-weight: 800;
-  transition: color 180ms ease, background-color 180ms ease, border-color 180ms ease;
+  background: rgba(255,255,255,.82);
+  color: #497294;
+  cursor: pointer;
+  transition: background-color 180ms ease, border-color 180ms ease, transform 180ms ease;
 }
 
-.business-analytics-process__card.is-active .business-analytics-process__dot {
-  border-color: #0b5792;
-  background: #0b5792;
-  color: white;
+.business-analytics-process__play-toggle:hover {
+  transform: translateY(-1px);
+  border-color: #76aecd;
+  background: white;
 }
 
-@media (min-width: 640px) {
-  .business-analytics-process__layout { margin-top: 3rem; }
-  .business-analytics-process__card { padding-inline: .9rem; }
-}
-
-@media (min-width: 768px) {
-  .business-analytics-process__layout {
-    grid-template-columns: minmax(0, .9fr) minmax(0, 1.1fr);
-    gap: 2rem;
-    align-items: center;
-  }
-  .business-analytics-process__cards { grid-template-columns: minmax(0, 1fr); gap: .65rem; }
-  .business-analytics-process__card { width: min(52%, 16.5rem); min-height: 3.75rem; gap: .55rem; padding-inline: .8rem; }
-  .business-analytics-process__card-title { font-size: .84rem; }
+.business-analytics-process__play-toggle:focus-visible {
+  outline: 3px solid rgba(38, 155, 220, .4);
+  outline-offset: 3px;
 }
 
 @media (min-width: 1024px) {
-  .business-analytics-process__layout { gap: 2rem; }
-  .business-analytics-process__cards { gap: .7rem; }
-  .business-analytics-process__card { min-height: 3.8rem; gap: .6rem; padding-inline: .9rem; }
-  .business-analytics-process__card-title { font-size: .9rem; }
+  .business-analytics-process__layout {
+    grid-template-areas: "flow panel";
+    grid-template-columns: minmax(0, 1.52fr) minmax(0, 1fr);
+    gap: clamp(1.5rem, 2.2vw, 2rem);
+  }
+  .business-analytics-process__cards-wrap { height: 43.75rem; }
+  .business-analytics-process__connections .is-desktop-flow { display: inline; }
+  .business-analytics-process__connections .is-mobile-flow { display: none; }
+  .business-analytics-process__card-slot {
+    left: var(--desktop-x);
+    top: var(--desktop-y);
+    width: min(35%, 17rem);
+  }
+  .business-analytics-process__card {
+    min-height: 6.9rem;
+    padding: .9rem 1rem;
+  }
 }
 
 @media (prefers-reduced-motion: reduce) {
   .business-analytics-process__card { animation: none; }
 }
 
-@media (max-width: 380px) {
-  .business-analytics-process__card { gap: .5rem; padding: .65rem; }
-  .business-analytics-process__badge { font-size: .78rem; }
-  .business-analytics-process__card-title { font-size: .78rem; }
-  .business-analytics-process__dot { width: 1.15rem; height: 1.15rem; flex-basis: 1.15rem; }
+.accounting-process-workflow {
+  background-image:
+    radial-gradient(ellipse at 16% 38%, rgba(119, 205, 235, .18), transparent 38%),
+    radial-gradient(ellipse at 78% 64%, rgba(205, 188, 222, .12), transparent 36%),
+    linear-gradient(180deg, #ffffff 0%, #f7fafd 100%);
+}
+
+.accounting-process-workflow .business-analytics-process__cards-wrap {
+  height: 60rem;
+}
+
+.accounting-process-workflow .business-analytics-process__panel {
+  background:
+    radial-gradient(ellipse at 100% 0%, rgba(205, 236, 249, .62), transparent 45%),
+    radial-gradient(ellipse at 10% 100%, rgba(221, 213, 246, .18), transparent 42%),
+    linear-gradient(135deg, rgba(255,255,255,.96), rgba(240,248,252,.92) 62%, rgba(249,238,244,.84));
+  border-color: rgba(220, 233, 243, .92);
+}
+
+.accounting-process-workflow .business-analytics-process__card {
+  min-height: 6.25rem;
+  border-radius: 1rem;
+  background: linear-gradient(135deg, rgba(255,255,255,.92), rgba(244,250,255,.82));
+  box-shadow:
+    0 12px 28px -20px rgba(31, 70, 104, .5),
+    inset 0 1px 0 rgba(255,255,255,.98);
+}
+
+.accounting-process-workflow .business-analytics-process__card.is-active {
+  box-shadow:
+    0 16px 32px -18px color-mix(in srgb, var(--card-accent, #48a8d4) 48%, transparent),
+    0 0 0 3px color-mix(in srgb, var(--card-accent, #48a8d4) 11%, transparent),
+    inset 0 1px 0 rgba(255,255,255,.98);
+}
+
+.accounting-process-workflow .business-analytics-process__connection-base {
+  stroke: rgba(67, 151, 190, .38);
+  stroke-width: 1.85;
+}
+
+.accounting-process-workflow .business-analytics-process__connection-active {
+  stroke: url(#analytics-flow-gradient);
+  stroke-width: 2.45;
+}
+
+@media (min-width: 1024px) {
+  .accounting-process-workflow .business-analytics-process__cards-wrap {
+    height: 43.75rem;
+  }
+
+  .accounting-process-workflow .business-analytics-process__card-slot {
+    width: min(38%, 17rem);
+  }
 }
 
 .service-topic-cloud-services > section.hero-clay-canvas::before,

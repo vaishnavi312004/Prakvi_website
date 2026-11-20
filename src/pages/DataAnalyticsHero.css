@@ -40,3 +40,328 @@
   .data-analytics-hero-copy { width: 100%; max-width: 40rem; }
   .data-analytics-hero .service-hero-frame { grid-template-rows: clamp(2rem, 8vw, 3.25rem) auto clamp(1.5rem, 5vw, 3rem); }
 }
+
+.business-analytics-video-hero {
+  --service-hero-start: 40%;
+  --service-hero-vertical-space: 2rem;
+  --analytics-hero-outflow: linear-gradient(to bottom, transparent 86%, #f7fafd40 93%, #f7fafd);
+  --service-hero-fade: linear-gradient(to right, transparent 5%, #0001 10%, #0004 17%, #0009 24%, #000e 31%, black 38%);
+  --service-hero-mobile-fade:
+    linear-gradient(to bottom, transparent, #0003 4%, #000b 11%, black 18%, black 88%, #000b 95%, transparent);
+  --service-hero-gradient:
+    var(--analytics-hero-outflow),
+    radial-gradient(ellipse 52% 72% at 9% 56%, #79d4ec38, transparent 82%),
+    radial-gradient(ellipse 46% 71% at 41% 15%, #a69ce52b, transparent 82%),
+    radial-gradient(ellipse 45% 77% at 91% 67%, #8ec7ed40, transparent 81%),
+    linear-gradient(112deg, #f8fbff 0%, #edf7fc 37%, #e3edfa 68%, #f4f6fd 100%);
+  --service-hero-mobile-gradient:
+    var(--analytics-hero-outflow),
+    radial-gradient(ellipse 100% 34% at 10% 75%, #79d4ec38, transparent 82%),
+    radial-gradient(ellipse 100% 36% at 92% 91%, #a69ce53b, transparent 82%),
+    linear-gradient(160deg, #f8fbff 0%, #eaf5fb 55%, #e7eafa 100%);
+  display: flex;
+  min-height: clamp(40rem, 44vw, 48rem);
+  align-items: center;
+  padding-block: clamp(1.75rem, 3.5vw, 3rem) clamp(2.5rem, 5vw, 4rem);
+  color: #172b45;
+}
+
+.business-analytics-video-hero::before { content: none; }
+.business-analytics-video-hero .business-analytics-hero__content { width: 100%; }
+.business-analytics-video-hero .service-hero-frame {
+  width: 100%;
+  height: 100%;
+  mask-composite: intersect;
+}
+
+.business-analytics-video-hero .service-hero-video {
+  width: 100%;
+  height: auto;
+  object-fit: contain;
+  -webkit-mask-image: linear-gradient(
+    to bottom,
+    transparent 0%,
+    transparent 5.7%,
+    rgb(0 0 0 / 0.18) 6.3%,
+    rgb(0 0 0 / 0.62) 7.7%,
+    #000 9.1%,
+    #000 90.4%,
+    rgb(0 0 0 / 0.76) 91.6%,
+    rgb(0 0 0 / 0.28) 93.1%,
+    transparent 94.2%,
+    transparent 100%
+  );
+  mask-image: linear-gradient(
+    to bottom,
+    transparent 0%,
+    transparent 5.7%,
+    rgb(0 0 0 / 0.18) 6.3%,
+    rgb(0 0 0 / 0.62) 7.7%,
+    #000 9.1%,
+    #000 90.4%,
+    rgb(0 0 0 / 0.76) 91.6%,
+    rgb(0 0 0 / 0.28) 93.1%,
+    transparent 94.2%,
+    transparent 100%
+  );
+}
+
+@media (max-width: 1023px) {
+  .business-analytics-video-hero {
+    display: block;
+    min-height: 0;
+    padding-bottom: 0;
+  }
+
+  .business-analytics-video-hero .business-analytics-hero__content > .mt-8 {
+    grid-template-columns: minmax(0, 1fr);
+  }
+
+  .business-analytics-video-hero .business-analytics-hero__copy {
+    grid-column: 1 / -1;
+    max-width: 44rem;
+  }
+
+  .business-analytics-video-hero .service-hero-frame {
+    height: auto;
+  }
+}
+
+@media (max-width: 639px) {
+  .business-analytics-video-hero {
+    padding-top: 1.5rem;
+  }
+}
+
+.accounting-video-hero {
+  --service-hero-start: 40%;
+  --service-hero-vertical-space: 2rem;
+  --service-hero-fade: linear-gradient(
+    to right,
+    transparent 0%,
+    rgb(0 0 0 / 0.1) 7%,
+    rgb(0 0 0 / 0.42) 15%,
+    rgb(0 0 0 / 0.78) 23%,
+    #000 32%
+  );
+  --service-hero-mobile-fade:
+    linear-gradient(to bottom, transparent, rgb(0 0 0 / 0.28) 6%, #000 17%, #000 88%, rgb(0 0 0 / 0.3) 96%, transparent);
+  --service-hero-gradient:
+    radial-gradient(ellipse 24% 34% at 59% 55%, transparent 58%, #56caed27 61%, transparent 69%),
+    radial-gradient(ellipse 32% 46% at 59% 55%, transparent 68%, #8195ec1e 71%, transparent 78%),
+    radial-gradient(ellipse 38% 76% at 90% 53%, #24477c35, transparent 82%),
+    radial-gradient(ellipse 43% 74% at 66% 53%, #4a9eea2b, transparent 82%),
+    radial-gradient(ellipse 42% 72% at 82% 50%, #62cce940, transparent 83%),
+    radial-gradient(ellipse 48% 64% at 43% 10%, #aca4e538, transparent 82%),
+    radial-gradient(ellipse 48% 75% at 10% 62%, #8edbe934, transparent 84%),
+    radial-gradient(ellipse 32% 28% at 27% 38%, #ffffffa6, transparent 88%),
+    linear-gradient(112deg, #eef8ff 0%, #e8f6fc 32%, #deeff9 57%, #dce9f9 100%);
+  --service-hero-mobile-gradient:
+    radial-gradient(ellipse 90% 20% at 52% 84%, transparent 45%, #56caed24 49%, transparent 59%),
+    radial-gradient(ellipse 110% 34% at 86% 82%, #62cce93a, transparent 83%),
+    radial-gradient(ellipse 100% 34% at 12% 72%, #8edbe934, transparent 84%),
+    radial-gradient(ellipse 88% 34% at 44% 24%, #aca4e52c, transparent 84%),
+    radial-gradient(ellipse 80% 24% at 23% 22%, #ffffffa1, transparent 88%),
+    linear-gradient(160deg, #eff9ff 0%, #e9f6fc 50%, #dfeefa 100%);
+  display: flex;
+  box-sizing: border-box;
+  min-height: min(42rem, calc(100vh - 5rem));
+  min-height: min(42rem, calc(100svh - 5rem));
+  align-items: center;
+  padding-block: clamp(1.25rem, 2vw, 1.75rem);
+  color: #172b45;
+}
+
+.accounting-video-hero::before,
+.accounting-video-hero::after {
+  content: "";
+  position: absolute;
+  inset: -8%;
+  z-index: 0;
+  pointer-events: none;
+}
+
+.accounting-video-hero::before {
+  background:
+    radial-gradient(ellipse 33% 48% at 46% 31%, #ffffff38, transparent 86%),
+    radial-gradient(ellipse 46% 46% at 55% 67%, #62c9f52b, transparent 84%),
+    radial-gradient(ellipse 38% 52% at 16% 78%, #b7a8ef1d, transparent 86%),
+    linear-gradient(112deg, transparent 25%, #64bde513 48%, transparent 72%);
+  animation: accounting-ambient-drift 38s ease-in-out infinite;
+  will-change: transform, opacity;
+}
+
+.accounting-video-hero::after {
+  inset: -12%;
+  background:
+    radial-gradient(circle at 39% 37%, #ffffff52 0 1px, transparent 2.2px),
+    radial-gradient(circle at 48% 68%, #65d8ff3d 0 1px, transparent 2.4px),
+    radial-gradient(circle at 67% 31%, #a9a8ff38 0 1px, transparent 2.2px),
+    radial-gradient(circle at 35% 77%, #64c8f73d 0 1px, transparent 2.5px),
+    radial-gradient(ellipse 24% 31% at 60% 55%, transparent 63%, #56caed1c 66%, transparent 71%),
+    radial-gradient(ellipse 34% 43% at 60% 55%, transparent 69%, #91a2ed14 72%, transparent 78%);
+  animation: accounting-light-rings 54s ease-in-out infinite;
+  will-change: transform, opacity;
+}
+
+.accounting-video-hero .accounting-video-hero__content {
+  width: 100%;
+}
+
+.accounting-video-hero .service-hero-media {
+  z-index: 1;
+}
+
+.accounting-video-hero .service-hero-media::before {
+  content: "";
+  position: absolute;
+  inset: -8% -3%;
+  z-index: 0;
+  pointer-events: none;
+  background:
+    radial-gradient(ellipse 45% 44% at 69% 47%, #38c7f43d, transparent 75%),
+    radial-gradient(ellipse 34% 34% at 53% 54%, #8c9bf02b, transparent 78%),
+    radial-gradient(ellipse 29% 27% at 82% 62%, #ffffff22, transparent 77%);
+  animation: accounting-video-glow 30s ease-in-out infinite;
+  will-change: transform, opacity;
+}
+
+.accounting-video-hero__copy {
+  width: min(100%, 42rem);
+}
+
+.accounting-video-hero__copy .text-accent {
+  color: #087caa;
+}
+
+.accounting-video-hero__copy .text-muted,
+.accounting-video-hero nav .text-muted {
+  color: #526b83;
+}
+
+.accounting-video-hero nav :is(a:hover, [aria-current='page']) {
+  color: #087caa;
+}
+
+.accounting-video-hero .service-hero-frame {
+  width: 100%;
+  height: 100%;
+  z-index: 1;
+  mask-composite: intersect;
+}
+
+.accounting-video-hero .service-hero-video {
+  width: 100%;
+  height: auto;
+  object-fit: contain;
+  -webkit-mask-image: linear-gradient(
+    to bottom,
+    transparent 0%,
+    transparent 4%,
+    rgb(0 0 0 / 0.2) 5.5%,
+    rgb(0 0 0 / 0.72) 7.5%,
+    #000 9%,
+    #000 91%,
+    rgb(0 0 0 / 0.72) 93%,
+    rgb(0 0 0 / 0.2) 95%,
+    transparent 97%,
+    transparent 100%
+  );
+  mask-image: linear-gradient(
+    to bottom,
+    transparent 0%,
+    transparent 4%,
+    rgb(0 0 0 / 0.2) 5.5%,
+    rgb(0 0 0 / 0.72) 7.5%,
+    #000 9%,
+    #000 91%,
+    rgb(0 0 0 / 0.72) 93%,
+    rgb(0 0 0 / 0.2) 95%,
+    transparent 97%,
+    transparent 100%
+  );
+}
+
+@media (min-width: 768px) and (max-width: 1023px) {
+  .accounting-video-hero.service-video-hero {
+    display: flex;
+    min-height: min(42rem, calc(100vh - 5rem));
+    min-height: min(42rem, calc(100svh - 5rem));
+    padding-block: clamp(1.25rem, 2vw, 1.75rem);
+    background: var(--service-hero-gradient);
+  }
+
+  .accounting-video-hero .service-hero-media {
+    position: absolute;
+    inset: 0 0 0 var(--service-hero-start);
+    container-type: size;
+  }
+
+  .accounting-video-hero .service-hero-frame {
+    --service-hero-mask: var(--service-hero-fade);
+    grid-template-rows: minmax(0, 1fr) auto minmax(0, 1fr);
+    width: min(100%, calc((100cqh - var(--service-hero-vertical-space)) * 16 / 9));
+    height: 100%;
+  }
+}
+
+@media (max-width: 767px) {
+  .accounting-video-hero {
+    display: block;
+    min-height: 0;
+    padding-bottom: 0;
+  }
+
+  .accounting-video-hero .accounting-video-hero__content > .mt-8 {
+    grid-template-columns: minmax(0, 1fr);
+  }
+
+  .accounting-video-hero__copy {
+    grid-column: 1 / -1;
+    max-width: 44rem;
+  }
+
+  .accounting-video-hero .service-hero-frame {
+    height: auto;
+  }
+
+  .accounting-video-hero::after {
+    background:
+      radial-gradient(circle at 22% 50%, #ffffff52 0 1px, transparent 2.2px),
+      radial-gradient(circle at 78% 68%, #65d8ff3d 0 1px, transparent 2.4px),
+      radial-gradient(circle at 66% 25%, #a9a8ff38 0 1px, transparent 2.2px),
+      radial-gradient(ellipse 76% 18% at 56% 84%, transparent 46%, #56caed18 50%, transparent 59%),
+      radial-gradient(ellipse 90% 27% at 56% 84%, transparent 67%, #91a2ed12 71%, transparent 78%);
+  }
+}
+
+@media (max-width: 639px) {
+  .accounting-video-hero {
+    padding-top: 1.5rem;
+  }
+}
+
+@keyframes accounting-ambient-drift {
+  0%, 100% { transform: translate3d(-0.6%, 0, 0) scale(1); opacity: 0.58; }
+  50% { transform: translate3d(0.7%, -0.5%, 0) scale(1.025); opacity: 0.82; }
+}
+
+@keyframes accounting-light-rings {
+  0%, 100% { transform: translate3d(0.6%, -0.3%, 0) scale(1); opacity: 0.5; }
+  50% { transform: translate3d(-0.6%, 0.4%, 0) scale(1.035); opacity: 0.78; }
+}
+
+@keyframes accounting-video-glow {
+  0%, 100% { transform: translate3d(-0.4%, 0.3%, 0) scale(1); opacity: 0.54; }
+  50% { transform: translate3d(0.5%, -0.4%, 0) scale(1.045); opacity: 0.86; }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .accounting-video-hero::before,
+  .accounting-video-hero::after,
+  .accounting-video-hero .service-hero-media::before {
+    animation: none;
+    transform: none;
+    will-change: auto;
+  }
+}
