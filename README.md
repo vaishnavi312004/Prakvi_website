@@ -35,6 +35,17 @@ npm run preview
 npm run lint
 ```
 
+### PHP and MySQL Contact Form Backend
+
+The contact form saves inquiries through a PHP API into MySQL. Install PHP 8.4+ and MySQL 8.4+, then:
+
+1. Create a local `.env` file from `.env.example` and set `DB_PASSWORD`, `TURNSTILE_SECRET_KEY`, and `SMTP_PASSWORD`. `VITE_TURNSTILE_SITE_KEY` is public and is used by the contact form; SMTP and Turnstile secret keys stay server-side.
+2. In MySQL, run `database/schema.sql` to create the database and contact table. Create a `prakvi_app` user and grant it access to `prakvi_website`. If you created the table using the earlier schema, run `database/migrations/2026-11-20-remove-unused-service-field.sql` once to align it with the visible form.
+3. In one terminal, start the PHP API with `npm run serve:php`.
+4. In another terminal, start the site with `npm run dev`. Vite forwards `/api` requests to the PHP server.
+
+The API is available at `POST /api/contact`. It verifies Turnstile server-side, inserts the inquiry using a prepared statement, and sends an SMTP notification. For production, provide the same private environment variables to PHP and `VITE_TURNSTILE_SITE_KEY` to the frontend build, then serve the PHP API and React site behind the same HTTPS domain and route `/api/contact` to `backend/public/api/contact.php`.
+
 ---
 
 ## 3. Brand Identity & Design System

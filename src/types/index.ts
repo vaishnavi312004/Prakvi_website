@@ -114,7 +114,6 @@ export interface ContactSubmission {
   workEmail: string;
   companyName: string;
   phone?: string;
-  serviceInterestedIn: string;
   message: string;
   privacyConsent: boolean;
 }
