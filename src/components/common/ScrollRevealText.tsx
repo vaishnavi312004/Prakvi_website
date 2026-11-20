@@ -1,11 +1,46 @@
-import React, { useRef } from 'react';
+import React, { useLayoutEffect, useRef } from 'react';
 import { useInView, useReducedMotion } from 'motion/react';
 
-/** Masked letter rise for homepage headings, replayed on viewport re-entry. */
-export function ScrollRevealText({ text, highlight }: { text: string; highlight?: string }) {
+/** Masked letter rise for headings, replayed on viewport re-entry. */
+export function ScrollRevealText({ text, highlight, preserveLayout = false }: { text: string; highlight?: string; preserveLayout?: boolean }) {
   const ref = useRef<HTMLSpanElement>(null);
   const visible = useInView(ref, { amount: 0.1, margin: '0px 0px -5% 0px' });
   const reducedMotion = useReducedMotion();
+  useLayoutEffect(() => {
+    const element = ref.current;
+    const parent = element?.parentElement;
+    if (!preserveLayout || !element || !parent) return;
+
+    const preserveWordWidths = () => {
+      const parentRect = parent.getBoundingClientRect();
+      const scale = parent.offsetWidth > 0 && parentRect.width > 0 ? parentRect.width / parent.offsetWidth : 1;
+
+      element.querySelectorAll<HTMLElement>('.scroll-title__word').forEach(word => {
+        const letters = [...word.querySelectorAll<HTMLElement>('.scroll-title__letter')];
+        if (letters.length < 2) return;
+
+        const probe = document.createElement('span');
+        probe.className = 'scroll-title__word';
+        probe.textContent = word.textContent;
+        probe.style.cssText = 'position:absolute;left:-10000px;top:0;visibility:hidden;pointer-events:none;';
+        parent.appendChild(probe);
+        const nativeWidth = probe.getBoundingClientRect().width / scale;
+        probe.remove();
+
+        const letterWidth = letters.reduce((width, letter) => width + letter.getBoundingClientRect().width / scale, 0);
+        const spacing = (nativeWidth - letterWidth) / (letters.length - 1);
+        letters.forEach((letter, index) => {
+          letter.style.setProperty('--scroll-title-letter-spacing', index < letters.length - 1 ? `${spacing}px` : '0px');
+        });
+      });
+    };
+
+    preserveWordWidths();
+    if (typeof ResizeObserver === 'undefined') return;
+    const observer = new ResizeObserver(preserveWordWidths);
+    observer.observe(parent);
+    return () => observer.disconnect();
+  }, [preserveLayout]);
   const highlightStart = highlight ? text.indexOf(highlight) : -1;
   const words = Array.from(text.matchAll(/\S+/g));
   const stagger = Math.min(0.012, 0.32 / Math.max(1, text.length));

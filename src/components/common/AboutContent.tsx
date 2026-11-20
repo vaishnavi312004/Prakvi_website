@@ -22,7 +22,7 @@ const AboutCulture = () => {
   return (
     <section id="culture" className="about-section about-culture-section">
       <div className="about-inner">
-        <SectionHeading badge="Workplace Identity" {...about.cultureIntro} />
+        <SectionHeading badge="Workplace Identity" {...about.cultureIntro} animateWords />
         <CultureOrbit cards={culturePillars.map(pillar => ({ ...pillar, Icon: iconFor(pillar.icon) }))} />
       </div>
     </section>

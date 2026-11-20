@@ -1,17 +1,39 @@
-import React, { useEffect, useRef, useState } from 'react';
+import React, { useEffect, useId, useRef, useState } from 'react';
 import {
   Activity,
   ArrowLeft,
   ArrowRight,
   BarChart3,
+  Building2,
+  CalendarDays,
+  ChartNoAxesCombined,
+  ClipboardCheck,
   Cloud,
+  Compass,
   Database,
+  GitBranch,
+  Headset,
   Headphones,
+  Handshake,
   Layers,
+  Mail,
+  MessagesSquare,
   Network,
+  Paintbrush,
+  PenLine,
   Plug,
+  Search,
   Server,
+  Share2,
+  ShieldCheck,
+  ShoppingBag,
+  Smartphone,
+  Target,
+  TrendingUp,
+  Truck,
   Users,
+  Warehouse,
+  Wrench,
 } from 'lucide-react';
 import {
   AnimatePresence,
@@ -23,6 +45,7 @@ import {
 } from 'motion/react';
 import type { MotionValue } from 'motion/react';
 import type { ServiceItem } from '../../types';
+import { ScrollRevealText } from './ScrollRevealText';
 import {
   getServiceCardDepthOrder,
   getServiceCardOpacity,
@@ -32,10 +55,17 @@ import {
   serviceCardEntranceDelay,
   serviceCardSelectionDuration,
 } from './ServiceCardMotion';
+import { ServiceIllustration, type IllustrationCollection } from './serviceIllustrations/ServiceIllustration';
 import './ArchitectureOfferingsWorkflow.css';
 
-const serviceIcons = { Headphones, Server, Plug, Layers };
+const serviceIcons = {
+  Headphones, Server, Plug, Layers, Search, Target, Share2, PenLine, Mail, TrendingUp, ShieldCheck,
+  Smartphone, Building2, ShoppingBag, GitBranch, Paintbrush, Wrench,
+  CalendarDays, Handshake, MessagesSquare, BarChart3, Compass, ClipboardCheck, Headset, Network,
+  Truck, Warehouse, ChartNoAxesCombined,
+};
 const revealViewport = { once: true, amount: 0.24 } as const;
+type Offering = ServiceItem['capabilities'][number];
 
 function getIcon(service: ServiceItem['capabilities'][number]) {
   return serviceIcons[service.icon as keyof typeof serviceIcons] ?? Layers;
@@ -140,18 +170,24 @@ function ServiceCard({
   activeIndex,
   selectedIndex,
   reduced,
+  iconScene,
+  illustrationCollection,
+  animateArtwork,
   progress,
   onSelect,
   onPreview,
   onClearPreview,
 }: {
-  service: ServiceItem['capabilities'][number];
+  service: Offering;
   index: number;
   count: number;
   group: number;
   activeIndex: number;
   selectedIndex: number;
   reduced: boolean;
+  iconScene: boolean;
+  illustrationCollection?: IllustrationCollection;
+  animateArtwork: boolean;
   progress: MotionValue<number>;
   onSelect: (index: number) => void;
   onPreview: (index: number) => void;
@@ -205,23 +241,27 @@ function ServiceCard({
             onKeyDown={event => {
               if (event.key === 'ArrowLeft' || event.key === 'ArrowUp') {
                 event.preventDefault();
-                onSelect((index + 3) % 4);
+                onSelect((index + count - 1) % count);
               } else if (event.key === 'ArrowRight' || event.key === 'ArrowDown') {
                 event.preventDefault();
-                onSelect((index + 1) % 4);
+                onSelect((index + 1) % count);
               }
             }}
           >
             <div className="ea-gallery-scene">
-              <ServiceScene index={index} />
+              {illustrationCollection ? (
+                <ServiceIllustration collection={illustrationCollection} title={service.title} animate={animateArtwork} />
+              ) : iconScene ? (
+                <div className="ea-scene ea-gallery-icon-scene" aria-hidden="true"><span><Icon /></span></div>
+              ) : <ServiceScene index={index} />}
               <span className="ea-gallery-scene-glint" />
             </div>
             <div className="ea-gallery-card-copy">
               <span className="ea-gallery-card-meta">
                 <Icon aria-hidden="true" />
-                <span>{String(index + 1).padStart(2, '0')} / 04</span>
+                <span>{String(index + 1).padStart(2, '0')} / {String(count).padStart(2, '0')}</span>
               </span>
-              <h3>{service.title}</h3>
+              <h3><ScrollRevealText text={service.title} preserveLayout /></h3>
             </div>
           </button>
         </div>
@@ -230,14 +270,28 @@ function ServiceCard({
   );
 }
 
+function ServiceDetailCopy({ service }: { service: Offering }) {
+  return (
+    <div className="ea-gallery-detail-copy">
+      <h3><ScrollRevealText text={service.title} preserveLayout /></h3>
+      <p>{service.description}</p>
+      {service.points?.length ? (
+        <ul>{service.points.map(point => <li key={point}>{point}</li>)}</ul>
+      ) : null}
+    </div>
+  );
+}
+
 function ServiceDetails({
   service,
+  services,
   index,
   count,
   reduced,
   onSelect,
 }: {
-  service: ServiceItem['capabilities'][number];
+  service: Offering;
+  services: Offering[];
   index: number;
   count: number;
   reduced: boolean;
@@ -249,28 +303,30 @@ function ServiceDetails({
 
   return (
     <div className="ea-gallery-details">
-      <div className="ea-gallery-details-content" aria-live="polite">
-        <AnimatePresence mode="wait" initial={false}>
-          <motion.article
-            key={service.title}
-            className="ea-gallery-detail"
-            initial={reduced ? false : { opacity: 0, y: 10 }}
-            animate={{ opacity: 1, y: 0 }}
-            exit={reduced ? undefined : { opacity: 0, y: -8 }}
-            transition={{ duration: reduced ? 0 : serviceCardSelectionDuration, ease }}
-          >
-            <div className="ea-gallery-detail-icon"><Icon aria-hidden="true" /></div>
-            <div className="ea-gallery-detail-copy">
-              <h3>{service.title}</h3>
-              <p>{service.description}</p>
-              {service.points?.length ? (
-                <ul>
-                  {service.points.map(point => <li key={point}>{point}</li>)}
-                </ul>
-              ) : null}
+      <div className="ea-gallery-details-content">
+        <div className="ea-gallery-measurement" aria-hidden="true">
+          {services.map(item => (
+            <div key={item.title} className="ea-gallery-detail">
+              <div className="ea-gallery-detail-icon" />
+              <ServiceDetailCopy service={item} />
             </div>
-          </motion.article>
-        </AnimatePresence>
+          ))}
+        </div>
+        <div className="ea-gallery-live-detail" aria-live="polite">
+          <AnimatePresence mode="wait" initial={false}>
+            <motion.article
+              key={service.title}
+              className="ea-gallery-detail"
+              initial={reduced ? false : { opacity: 0, y: 10 }}
+              animate={{ opacity: 1, y: 0 }}
+              exit={reduced ? undefined : { opacity: 0, y: -8 }}
+              transition={{ duration: reduced ? 0 : serviceCardSelectionDuration, ease }}
+            >
+              <div className="ea-gallery-detail-icon"><Icon aria-hidden="true" /></div>
+              <ServiceDetailCopy service={service} />
+            </motion.article>
+          </AnimatePresence>
+        </div>
       </div>
       <div className="ea-gallery-navigation" aria-label="Select a service">
         <button type="button" aria-label="Previous service" onClick={() => onSelect(previous)}>
@@ -286,12 +342,18 @@ function ServiceDetails({
 }
 
 interface ArchitectureOfferingsWorkflowProps {
+  id?: string;
   title: string;
-  description: string;
-  services: ServiceItem['capabilities'];
+  description?: string;
+  services: Offering[];
+  palette?: 'mobile-app' | 'digital-marketing' | 'project-management' | 'mobility' | 'supply' | 'integration';
+  illustrationCollection?: IllustrationCollection;
 }
 
-export function ArchitectureOfferingsWorkflow({ title, description, services }: ArchitectureOfferingsWorkflowProps) {
+export function ArchitectureOfferingsWorkflow({
+  id = 'capabilities', title, description, services, palette, illustrationCollection,
+}: ArchitectureOfferingsWorkflowProps) {
+  const headingId = useId();
   const section = useRef<HTMLElement>(null);
   const touchStart = useRef<{ x: number; y: number } | null>(null);
   const [activeIndex, setActiveIndex] = useState(0);
@@ -354,33 +416,34 @@ export function ArchitectureOfferingsWorkflow({ title, description, services }: 
   return (
     <section
       ref={section}
-      id="capabilities"
+      id={id}
       className="ea-offerings"
-      aria-labelledby="ea-offerings-heading"
+      aria-labelledby={headingId}
+      tabIndex={palette ? -1 : undefined}
+      data-palette={palette}
       data-visible={visible}
       data-reduced={reduced}
     >
       <div className="ea-workflow-inner">
         <header className="ea-workflow-heading">
           <motion.h2
-            id="ea-offerings-heading"
+            id={headingId}
             initial={reduced ? false : { opacity: 0, y: 26 }}
             whileInView={{ opacity: 1, y: 0 }}
             viewport={revealViewport}
             transition={{ duration: reduced ? 0 : 0.62, ease }}
-          >{title}</motion.h2>
-          <motion.p
+          ><ScrollRevealText text={title} preserveLayout /></motion.h2>
+          {description && <motion.p
             initial={reduced ? false : { opacity: 0, y: 12 }}
             whileInView={{ opacity: 1, y: 0 }}
             viewport={revealViewport}
             transition={{ duration: reduced ? 0 : 0.61, delay: reduced ? 0 : 0.13, ease }}
-          >{description}</motion.p>
+          >{description}</motion.p>}
         </header>
 
         <div
           className="ea-gallery-stage"
           data-moving={moving}
-          data-hovering={hovering}
           onPointerEnter={event => { if (event.pointerType === 'mouse') setHovering(true); }}
           onPointerLeave={event => {
             if (event.pointerType === 'mouse') {
@@ -398,7 +461,7 @@ export function ArchitectureOfferingsWorkflow({ title, description, services }: 
           )}
           <div
             className="ea-gallery-viewport"
-            aria-label="Enterprise Architecture services"
+            aria-label={title}
             onTouchStart={startSwipe}
             onTouchEnd={finishSwipe}
           >
@@ -424,6 +487,9 @@ export function ArchitectureOfferingsWorkflow({ title, description, services }: 
                       activeIndex={activeIndex}
                       selectedIndex={selectedIndex}
                       reduced={reduced}
+                      iconScene={Boolean(palette)}
+                      illustrationCollection={illustrationCollection}
+                      animateArtwork={visible}
                       progress={progress}
                       onSelect={index => {
                         selectManually(index);
@@ -441,6 +507,7 @@ export function ArchitectureOfferingsWorkflow({ title, description, services }: 
           {selectedService && (
             <ServiceDetails
               service={selectedService}
+              services={services}
               index={selectedIndex}
               count={services.length}
               reduced={reduced}

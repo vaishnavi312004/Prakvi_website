@@ -15,48 +15,80 @@ import { SystemIntegrationHero } from '../components/common/SystemIntegrationHer
 import { ProjectManagementHero } from '../components/common/ProjectManagementHero';
 import { ProjectManagementSections } from '../components/common/ProjectManagementSections';
 import { ServiceHeroMedia } from '../components/common/ServiceHeroMedia';
+import { ScrollRevealText } from '../components/common/ScrollRevealText';
 import { SectionHeading } from '../components/common/SectionHeading';
 import { BusinessAnalyticsHelix } from '../components/common/BusinessAnalyticsHelix';
 import { CTASection } from '../components/common/CTASection';
+import { DigitalMarketingSections } from '../components/common/DigitalMarketingSections';
+import { MobileAppDevelopmentSections, mobileProcessId } from '../components/common/MobileAppDevelopmentSections';
 import { PageTransition } from '../components/layout/PageTransition';
+import { scrollToSection } from '../components/layout/SmoothScroll';
 import { servicesData } from '../data/servicesData';
 import {
   AlertCircle,
   ArrowRight,
   CheckCircle2,
   ChevronDown,
-  Database,
   Laptop,
   Layers,
   Lock,
-  Server,
-  Target,
   Users,
 } from 'lucide-react';
 import './MobileAppDevelopmentHero.css';
 import './DigitalMarketingHero.css';
+import './ServicePageDesign.css';
+
+const standardizedServiceSlugs = new Set([
+  'enterprise-architecture',
+  'project-management',
+  'mobility-practice',
+  'supply-chain-management',
+  'system-integration',
+  'digital-marketing',
+  'mobile-app-development',
+]);
+
+const mobilityTabs = [
+  { id: 'byod', label: 'BYOD Architecture', icon: Users },
+  { id: 'cyod', label: 'CYOD Catalog', icon: Laptop },
+  { id: 'security', label: 'Endpoint Security', icon: Lock },
+  { id: 'tools', label: 'MDM / UEM Toolchain', icon: Layers },
+] as const;
+type MobilityTabId = (typeof mobilityTabs)[number]['id'];
+
+function followSectionLink(event: React.MouseEvent<HTMLAnchorElement>) {
+  if (event.button !== 0 || event.metaKey || event.ctrlKey || event.shiftKey || event.altKey) return;
+  const hash = event.currentTarget.hash;
+  const target = document.getElementById(hash.slice(1));
+  if (!target) return;
+  event.preventDefault();
+  event.stopPropagation();
+  window.history.replaceState(window.history.state, '', hash);
+  scrollToSection(target);
+}
 
 export const ServiceDetailPage: React.FC = () => {
   const reducedMotion = useReducedMotion();
   const { slug } = useParams<{ slug: string }>();
   const [openFaqIndex, setOpenFaqIndex] = useState<number | null>(0);
   const [activeStackTab, setActiveStackTab] = useState(0);
-  const [mobilityTab, setMobilityTab] = useState<'byod' | 'cyod' | 'security' | 'tools'>('byod');
+  const [mobilityTab, setMobilityTab] = useState<MobilityTabId>('byod');
   const digitalMarketingHero = slug === 'digital-marketing';
-  const heroStyle = digitalMarketingHero ? 'digital-marketing-hero' : slug === 'mobile-app-development' ? 'mobile-app-hero' : null;
+  const mobileAppHero = slug === 'mobile-app-development';
+  const hasSectionLinks = digitalMarketingHero || mobileAppHero;
+  const heroStyle = digitalMarketingHero ? 'digital-marketing-hero' : mobileAppHero ? 'mobile-app-hero' : null;
   const heroVideo = useRef<HTMLVideoElement>(null);
   const [activeAnalyticsStep, setActiveAnalyticsStep] = useState(6);
 
   useEffect(() => {
-    setActiveStackTab(0);
-    setOpenFaqIndex(0);
-    setActiveAnalyticsStep(slug === 'business-analytics' ? 6 : 0);
-  }, [slug]);
-
-  useEffect(() => {
     const video = heroVideo.current;
     if (!heroStyle || !video) return;
-    const play = () => { void video.play().catch(() => { /* Keep the poster visible if autoplay is blocked. */ }); };
+    const play = () => {
+      void video.play().catch((error: unknown) => {
+        if (error instanceof Error && (error.name === 'AbortError' || error.name === 'NotAllowedError')) return;
+        console.error('Service hero video playback failed.', error);
+      });
+    };
 
     if (reducedMotion) {
       video.pause();
@@ -93,6 +125,18 @@ export const ServiceDetailPage: React.FC = () => {
     (s) => s.slug === resolvedSlug || s.id === resolvedSlug || s.slug === slug || s.id === slug
   );
 
+  useEffect(() => {
+    setActiveStackTab(0);
+    setOpenFaqIndex(0);
+    setMobilityTab('byod');
+    const stepCount = service?.deliverySteps.length ?? 0;
+    setActiveAnalyticsStep(
+      service?.slug === 'business-analytics' && stepCount > 0
+        ? Math.min(6, stepCount - 1)
+        : 0
+    );
+  }, [slug, service]);
+
   if (!service) {
     return <Navigate to="/services" replace />;
   }
@@ -106,18 +150,70 @@ export const ServiceDetailPage: React.FC = () => {
   const processTitle = service.processTitle || `Why Choose Prakvi for ${service.title}?`;
   const processDescription = service.processSubtitle || 'A proven methodology that ensures successful project delivery.';
   const isBusinessAnalyticsPage = service.slug === 'business-analytics';
+  const hasDedicatedServiceSections = [
+    'project-management',
+    'mobility-practice',
+    'supply-chain-management',
+    'system-integration',
+    'digital-marketing',
+    'mobile-app-development',
+  ].includes(service.slug);
 
-  const toggleFaq = (index: number) => {
-    setOpenFaqIndex(openFaqIndex === index ? null : index);
-  };
+  const toggleFaq = (index: number) => setOpenFaqIndex(current => current === index ? null : index);
 
   const stackTabs = service.stackTabs || [];
-  const currentStack = stackTabs[activeStackTab] || stackTabs[0];
-  const ArchitectureStackIcon = [Target, Layers, Database, Server][activeStackTab] || Layers;
+  const activeStackIndex = stackTabs.length
+    ? Math.min(Math.max(activeStackTab, 0), stackTabs.length - 1)
+    : 0;
+  const currentStack = stackTabs[activeStackIndex];
+  const analyticsStepIndex = service.deliverySteps.length
+    ? Math.min(Math.max(activeAnalyticsStep, 0), service.deliverySteps.length - 1)
+    : -1;
+  const selectedAnalyticsStep = analyticsStepIndex >= 0
+    ? service.deliverySteps[analyticsStepIndex]
+    : undefined;
+  const mobilityPanelId = `mobility-workbench-panel-${service.slug}`;
+  const stackPanelId = `service-stack-panel-${service.slug}`;
+  const mobilityTabId = (tab: MobilityTabId) => `mobility-tab-${service.slug}-${tab}`;
+  const stackTabId = (index: number) => `service-stack-tab-${service.slug}-${index}`;
 
+  const handleStackTabKeyDown = (event: React.KeyboardEvent<HTMLButtonElement>, index: number) => {
+    let nextTab = index;
+    if (event.key === 'ArrowRight') nextTab = (index + 1) % stackTabs.length;
+    else if (event.key === 'ArrowLeft') nextTab = (index - 1 + stackTabs.length) % stackTabs.length;
+    else if (event.key === 'Home') nextTab = 0;
+    else if (event.key === 'End') nextTab = stackTabs.length - 1;
+    else return;
+
+    event.preventDefault();
+    setActiveStackTab(nextTab);
+    document.getElementById(stackTabId(nextTab))?.focus();
+  };
+
+  const handleMobilityTabKeyDown = (event: React.KeyboardEvent<HTMLButtonElement>, index: number) => {
+    let nextTab = index;
+    if (event.key === 'ArrowRight') nextTab = (index + 1) % mobilityTabs.length;
+    else if (event.key === 'ArrowLeft') nextTab = (index - 1 + mobilityTabs.length) % mobilityTabs.length;
+    else if (event.key === 'Home') nextTab = 0;
+    else if (event.key === 'End') nextTab = mobilityTabs.length - 1;
+    else return;
+
+    event.preventDefault();
+    const nextTabId = mobilityTabs[nextTab].id;
+    setMobilityTab(nextTabId);
+    document.getElementById(mobilityTabId(nextTabId))?.focus();
+  };
+
+  const serviceCta = (
+    <CTASection
+      title={`Let's Discuss Your ${service.title} Goals`}
+      subtitle="Connect with Prakvi’s specialists to plan your implementation roadmap, staffing requirements, or managed support SLA."
+      animateHeading={standardizedServiceSlugs.has(service.slug)}
+    />
+  );
   return (
     <PageTransition>
-      <div className={`overflow-x-hidden pt-20 selection:bg-accent selection:text-white${isEnterpriseArchitecturePage ? ' ea-service-page' : ''}`}>
+      <div className={`overflow-x-hidden pt-20 selection:bg-accent selection:text-white${isEnterpriseArchitecturePage ? ' ea-service-page' : ''}${standardizedServiceSlugs.has(service.slug) ? ' service-design' : ''}`}>
         {/* 1. SERVICE HERO */}
         {isEnterpriseArchitecturePage ? (
           <EnterpriseArchitectureHero service={service} />
@@ -147,42 +243,66 @@ export const ServiceDetailPage: React.FC = () => {
               ]}
             />
 
-            <div
-              className={`${heroStyle ? `${heroStyle}-copy ` : ''}mt-8 grid grid-cols-1 ${
-                isBusinessAnalyticsPage ? 'md:grid-cols-12' : 'lg:grid-cols-12'
-              } gap-10 items-center`}
-            >
-              <div
-                className={`space-y-5 ${
-                  isBusinessAnalyticsPage
-                    ? 'md:col-span-6 lg:col-span-5'
-                    : 'lg:col-span-7'
-                }`}
-              >
-                <div className="text-xs font-mono font-bold uppercase tracking-[0.2em] text-accent">
-                  {service.badge || 'Prakvi Service'}
-                </div>
+<div
+  className={`${
+    heroStyle ? `${heroStyle}-copy ` : ''
+  }mt-8 grid grid-cols-1 ${
+    isBusinessAnalyticsPage
+      ? 'md:grid-cols-12'
+      : 'lg:grid-cols-12'
+  } gap-10 items-center`}
+>
+  <div
+    className={`space-y-5 ${
+      isBusinessAnalyticsPage
+        ? 'md:col-span-6 lg:col-span-5'
+        : 'lg:col-span-7'
+    }`}
+  >
+    {!hasSectionLinks && (
+      <div className="text-xs font-mono font-bold uppercase tracking-[0.2em] text-accent">
+        {service.badge || 'Prakvi Service'}
+      </div>
+    )}
 
-                <h1 className="font-display text-4xl sm:text-5xl font-extrabold text-foreground tracking-tight leading-tight text-balance">
-                  {service.title}
-                </h1>
+    <h1 className="font-display text-4xl sm:text-5xl font-extrabold text-foreground tracking-tight leading-tight text-balance">
+      {standardizedServiceSlugs.has(service.slug) ? (
+        <ScrollRevealText
+          text={hasSectionLinks ? service.tagline : service.title}
+          preserveLayout
+        />
+      ) : (
+        hasSectionLinks ? service.tagline : service.title
+      )}
+ </h1>
 
-                <p className="text-lg sm:text-xl font-semibold text-accent">
+
+                {!hasSectionLinks && <p className="text-lg sm:text-xl font-semibold text-accent">
                   {service.tagline}
-                </p>
+                </p>}
 
                 <p className="text-base text-muted leading-relaxed">
                   {service.fullDesc}
                 </p>
 
                 <div className="pt-2 flex flex-wrap gap-4">
-                  <Link to="/contact" className="btn-primary">
-                    <span>Schedule Consultation</span>
-                    <ArrowRight className="arrow-shift" aria-hidden="true" />
-                  </Link>
-                  <a href="#capabilities" className="btn-secondary">
-                    <span>Explore Service Offerings</span>
-                  </a>
+                  {hasSectionLinks ? (
+                    <>
+                      <a href="#capabilities" onClick={followSectionLink} className="btn-primary">Explore Services</a>
+                      <a href={`#${mobileAppHero ? mobileProcessId : 'digital-marketing-process'}`} onClick={followSectionLink}
+                        className="btn-secondary">Our Process</a>
+                    </>
+                  ) : (
+                    <>
+                      <Link to="/contact" className="btn-primary">
+                        <span>Schedule Consultation</span>
+                        <ArrowRight className="arrow-shift" aria-hidden="true" />
+                      </Link>
+                      <a href="#capabilities" className="btn-secondary">
+                        <span>Explore Service Offerings</span>
+                      </a>
+                    </>
+                  )}
                 </div>
               </div>
 
@@ -201,7 +321,7 @@ export const ServiceDetailPage: React.FC = () => {
             </div>
           </div>
           {heroStyle && (
-            <ServiceHeroMedia key={heroStyle} videoRef={heroVideo} autoPlay={!reducedMotion && !digitalMarketingHero}
+            <ServiceHeroMedia key={heroStyle} videoRef={heroVideo} autoPlay={!reducedMotion && !digitalMarketingHero} extendRightEdge
               poster={`${import.meta.env.BASE_URL}videos/${service.slug}-poster.webp`}
               preload={reducedMotion ? 'none' : 'metadata'}>
               {!reducedMotion && <source src={`${import.meta.env.BASE_URL}videos/${service.slug}.mp4`} type="video/mp4" />}
@@ -211,8 +331,6 @@ export const ServiceDetailPage: React.FC = () => {
         )}
 
         {/* 2. CHALLENGE & APPROACH */}
-        {isMobilityPage ? <MobilityPracticeSections /> : service.slug === 'supply-chain-management' ? <SupplyChainSections /> : service.slug === 'system-integration' ? <SystemIntegrationSections /> : service.slug === 'project-management' ? <ProjectManagementSections /> : (
-        <>
         {!isEnterpriseArchitecturePage && (
         <section className="py-section bg-canvas">
           <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
@@ -247,6 +365,22 @@ export const ServiceDetailPage: React.FC = () => {
         </section>
         )}
 
+        {hasDedicatedServiceSections && (
+          digitalMarketingHero ? (
+            <DigitalMarketingSections service={service} />
+          ) : mobileAppHero ? (
+            <MobileAppDevelopmentSections service={service} />
+          ) : isMobilityPage ? (
+            <MobilityPracticeSections />
+          ) : service.slug === 'supply-chain-management' ? (
+            <SupplyChainSections />
+          ) : service.slug === 'system-integration' ? (
+            <SystemIntegrationSections />
+          ) : (
+            <ProjectManagementSections />
+          )
+        )}
+
         {/* 3. CORE SERVICE OFFERINGS */}
         {isEnterpriseArchitecturePage ? (
           <ArchitectureOfferingsWorkflow
@@ -254,7 +388,7 @@ export const ServiceDetailPage: React.FC = () => {
             description={offeringsDescription}
             services={service.capabilities}
           />
-        ) : (
+        ) : !hasDedicatedServiceSections && (
         <section id="capabilities" className="py-section bg-canvas">
           <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
             <SectionHeading
@@ -294,20 +428,21 @@ export const ServiceDetailPage: React.FC = () => {
               />
 
               <div className="mt-10 flex justify-center">
-                <div className="inline-flex flex-wrap justify-center gap-1.5 rounded-full p-1.5 clay-soft">
-                  {[
-                    { id: 'byod', label: 'BYOD Architecture', icon: Users },
-                    { id: 'cyod', label: 'CYOD Catalog', icon: Laptop },
-                    { id: 'security', label: 'Endpoint Security', icon: Lock },
-                    { id: 'tools', label: 'MDM / UEM Toolchain', icon: Layers },
-                  ].map((tab) => {
+                <div className="inline-flex flex-wrap justify-center gap-1.5 rounded-full p-1.5 clay-soft" role="tablist" aria-label="Mobility practice workbench">
+                  {mobilityTabs.map((tab, index) => {
                     const IconComp = tab.icon;
                     const active = mobilityTab === tab.id;
                     return (
                       <button
                         key={tab.id}
                         type="button"
-                        onClick={() => setMobilityTab(tab.id as 'byod' | 'cyod' | 'security' | 'tools')}
+                        role="tab"
+                        id={mobilityTabId(tab.id)}
+                        aria-selected={active}
+                        aria-controls={mobilityPanelId}
+                        tabIndex={active ? 0 : -1}
+                        onKeyDown={event => handleMobilityTabKeyDown(event, index)}
+                        onClick={() => setMobilityTab(tab.id)}
                         className={`relative inline-flex items-center gap-2 px-4 sm:px-5 py-2.5 rounded-full text-xs sm:text-sm font-semibold transition-colors active:scale-95 ${
                           active
                             ? 'text-white'
@@ -338,6 +473,10 @@ export const ServiceDetailPage: React.FC = () => {
                 <AnimatePresence mode="wait" initial={false}>
                   <motion.div
                     key={mobilityTab}
+                    id={mobilityPanelId}
+                    role="tabpanel"
+                    aria-labelledby={mobilityTabId(mobilityTab)}
+                    tabIndex={0}
                     initial={reducedMotion ? false : { opacity: 0, y: 8 }}
                     animate={{ opacity: 1, y: 0 }}
                     exit={reducedMotion ? { opacity: 0 } : { opacity: 0, y: -6 }}
@@ -393,8 +532,8 @@ export const ServiceDetailPage: React.FC = () => {
         {/* 5. METHODOLOGY / DELIVERY PROCESS */}
         {isEnterpriseArchitecturePage ? (
           <EnterpriseArchitectureJourney title={processTitle} description={processDescription} steps={service.deliverySteps} />
-        ) : (
-        <section id={isEnterpriseArchitecturePage ? 'enterprise-process' : undefined} className={`py-section ${isMobilityPage ? 'bg-surface/75' : 'bg-canvas'} ${isBusinessAnalyticsPage ? 'business-analytics-process' : ''}`}>
+        ) : !hasDedicatedServiceSections && (
+        <section className={`py-section bg-canvas ${isBusinessAnalyticsPage ? 'business-analytics-process' : ''}`}>
           <div className={`${isBusinessAnalyticsPage ? 'max-w-[1060px]' : 'max-w-7xl'} mx-auto px-4 sm:px-6 lg:px-8`}>
             {isBusinessAnalyticsPage ? (
               <h2 className="business-analytics-process__heading">{processTitle}</h2>
@@ -411,24 +550,28 @@ export const ServiceDetailPage: React.FC = () => {
               <div className="business-analytics-process__layout">
                 <div className="business-analytics-process__panel">
                   <div
-                    key={activeAnalyticsStep}
+                    key={analyticsStepIndex}
                     className="business-analytics-process__selected-step business-analytics-process__copy"
                     aria-live="polite"
                   >
-                    <div className="business-analytics-process__heading-row">
-                      <span className="business-analytics-process__number">
-                        {service.deliverySteps[activeAnalyticsStep].step}
-                      </span>
-                      <h3 className="business-analytics-process__title">
-                        {service.deliverySteps[activeAnalyticsStep].title}
-                      </h3>
-                    </div>
-                    <p className="business-analytics-process__description">
-                      {service.deliverySteps[activeAnalyticsStep].description}
-                    </p>
+                    {selectedAnalyticsStep && (
+                      <>
+                        <div className="business-analytics-process__heading-row">
+                          <span className="business-analytics-process__number">
+                            {selectedAnalyticsStep.step}
+                          </span>
+                          <h3 className="business-analytics-process__title">
+                            {selectedAnalyticsStep.title}
+                          </h3>
+                        </div>
+                        <p className="business-analytics-process__description">
+                          {selectedAnalyticsStep.description}
+                        </p>
+                      </>
+                    )}
                   </div>
                   <div className="business-analytics-process__progress">
-                    <span>Step {service.deliverySteps[activeAnalyticsStep].step}</span>
+                    {selectedAnalyticsStep && <span>Step {selectedAnalyticsStep.step}</span>}
                   </div>
                 </div>
 
@@ -436,7 +579,7 @@ export const ServiceDetailPage: React.FC = () => {
                   <BusinessAnalyticsHelix reducedMotion={Boolean(reducedMotion)} />
                   <div className="business-analytics-process__cards" aria-label="Business analytics process steps">
                   {service.deliverySteps.map((step, idx) => {
-                    const isActive = activeAnalyticsStep === idx;
+                    const isActive = analyticsStepIndex === idx;
                     return (
                       <button
                         key={step.step}
@@ -521,40 +664,35 @@ export const ServiceDetailPage: React.FC = () => {
         {/* 6. INTERACTIVE STACK & CAPABILITY MATRIX */}
         {isEnterpriseArchitecturePage ? (
           <ArchitectureCarousel title={service.stackTitle || service.title} description={service.stackSummary} categories={stackTabs} />
-        ) : stackTabs.length > 0 && (
+        ) : !hasDedicatedServiceSections && stackTabs.length > 0 && (
           <section className="py-section bg-canvas">
             <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
               <SectionHeading
-                badge={isEnterpriseArchitecturePage ? undefined : 'Capabilities & Stack'}
+                badge="Capabilities & Stack"
                 title={service.stackTitle || service.title}
                 description={service.stackSummary}
                 align="center"
               />
 
               <div className="mt-10 clay-card p-6 sm:p-10">
-                <div className={`flex pb-6 border-b border-line ${isEnterpriseArchitecturePage ? 'overflow-x-auto sm:justify-center' : 'justify-center'}`}>
-                  <div className={`inline-flex justify-center gap-1.5 rounded-full bg-surface/80 p-1.5 border border-line ${isEnterpriseArchitecturePage ? 'shrink-0' : 'flex-wrap'}`} role={isEnterpriseArchitecturePage ? 'tablist' : undefined} aria-label={isEnterpriseArchitecturePage ? 'Enterprise Architecture' : undefined}>
+                <div className="flex justify-center pb-6 border-b border-line">
+                  <div
+                    className="inline-flex flex-wrap justify-center gap-1.5 rounded-full bg-surface/80 p-1.5 border border-line"
+                    role="tablist"
+                    aria-label={`${service.stackTitle || service.title} stack`}
+                  >
                     {stackTabs.map((tab, idx) => {
-                      const active = activeStackTab === idx;
+                      const active = activeStackIndex === idx;
                       return (
                         <button
                           key={tab.label}
                           type="button"
-                          role={isEnterpriseArchitecturePage ? 'tab' : undefined}
-                          id={isEnterpriseArchitecturePage ? `enterprise-tab-${idx}` : undefined}
-                          aria-selected={isEnterpriseArchitecturePage ? active : undefined}
-                          aria-controls={isEnterpriseArchitecturePage ? 'enterprise-tab-panel' : undefined}
-                          onKeyDown={isEnterpriseArchitecturePage ? (event) => {
-                            let nextTab = idx;
-                            if (event.key === 'ArrowRight') nextTab = (idx + 1) % stackTabs.length;
-                            else if (event.key === 'ArrowLeft') nextTab = (idx - 1 + stackTabs.length) % stackTabs.length;
-                            else if (event.key === 'Home') nextTab = 0;
-                            else if (event.key === 'End') nextTab = stackTabs.length - 1;
-                            else return;
-                            event.preventDefault();
-                            setActiveStackTab(nextTab);
-                            document.getElementById(`enterprise-tab-${nextTab}`)?.focus();
-                          } : undefined}
+                          id={stackTabId(idx)}
+                          role="tab"
+                          aria-selected={active}
+                          aria-controls={stackPanelId}
+                          tabIndex={active ? 0 : -1}
+                          onKeyDown={event => handleStackTabKeyDown(event, idx)}
                           onClick={() => setActiveStackTab(idx)}
                           className={`relative px-4 sm:px-5 py-2 rounded-full text-xs sm:text-sm font-semibold transition-colors active:scale-95 ${
                             active
@@ -584,10 +722,11 @@ export const ServiceDetailPage: React.FC = () => {
                 <AnimatePresence mode="wait" initial={false}>
                   {currentStack && (
                     <motion.div
-                      key={activeStackTab}
-                      id={isEnterpriseArchitecturePage ? 'enterprise-tab-panel' : undefined}
-                      role={isEnterpriseArchitecturePage ? 'tabpanel' : undefined}
-                      aria-labelledby={isEnterpriseArchitecturePage ? `enterprise-tab-${activeStackTab}` : undefined}
+                      key={activeStackIndex}
+                      id={stackPanelId}
+                      role="tabpanel"
+                      aria-labelledby={stackTabId(activeStackIndex)}
+                      tabIndex={0}
                       initial={reducedMotion ? false : { opacity: 0, y: 8 }}
                       animate={{ opacity: 1, y: 0 }}
                       exit={reducedMotion ? { opacity: 0 } : { opacity: 0, y: -6 }}
@@ -599,11 +738,7 @@ export const ServiceDetailPage: React.FC = () => {
                           key={item}
                           className="clay-soft px-5 py-4 flex items-center gap-3 text-sm font-semibold text-foreground"
                         >
-                          {isEnterpriseArchitecturePage ? (
-                            <ArchitectureStackIcon className="w-4 h-4 text-accent shrink-0" aria-hidden="true" />
-                          ) : (
-                            <CheckCircle2 className="w-4 h-4 text-accent shrink-0" aria-hidden="true" />
-                          )}
+                          <CheckCircle2 className="w-4 h-4 text-accent shrink-0" aria-hidden="true" />
                           <span>{item}</span>
                         </div>
                       ))}
@@ -702,12 +837,7 @@ export const ServiceDetailPage: React.FC = () => {
         </section>
 
         {/* CTA */}
-        <CTASection
-          title={`Let's Discuss Your ${service.title} Goals`}
-          subtitle="Connect with Prakvi’s specialists to plan your implementation roadmap, staffing requirements, or managed support SLA."
-        />
-        </>
-        )}
+        {serviceCta}
         </>
         )}
       </div>

@@ -77,15 +77,6 @@
 @keyframes horizon-float { 0%, 100% { transform: translate3d(0, 0, 0); } 50% { transform: translate3d(4px, -8px, 0); } }
 
 .horizon-heading-window { overflow: clip; padding-bottom: 0.12rem; }
-@supports (background-clip: text) {
-  .horizon-heading[data-revealed='true'] {
-    background: linear-gradient(108deg, var(--color-foreground) 33%, #4a789c 46%, #99624c 52%, var(--color-foreground) 65%) 100% 50% / 350% 100%;
-    background-clip: text;
-    color: transparent;
-    animation: horizon-heading-reflection 1.65s 0.55s ease-in-out both;
-  }
-}
-@keyframes horizon-heading-reflection { to { background-position: 0% 50%; } }
 
 .horizon-button {
   position: relative;

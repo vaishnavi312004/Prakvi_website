@@ -17,10 +17,19 @@
   width: min(100% - clamp(2rem, 6vw, 6rem), 87.5rem);
   display: grid;
   grid-template-columns: repeat(2, minmax(0, 1fr));
+  grid-template-areas:
+    "mission-visual vision-visual"
+    "mission-copy   vision-copy";
   column-gap: clamp(2.25rem, 5.4vw, 5.5rem);
+  row-gap: clamp(5.5rem, 6.5vw, 6.5rem);
 }
-.about-direction-item { min-width: 0; }
-.about-direction-copy { width: min(100%, 38rem); margin: clamp(1.75rem, 2.35vw, 2.35rem) auto 0; }
+.about-direction-cell { min-width: 0; }
+.mission-visual-cell { grid-area: mission-visual; }
+.vision-visual-cell { grid-area: vision-visual; }
+.mission-copy-cell { grid-area: mission-copy; }
+.vision-copy-cell { grid-area: vision-copy; }
+
+.about-direction-copy { width: min(100%, 38rem); margin-inline: auto; }
 .about-direction-copy h2 { color: #20324e; font: 800 clamp(2rem, 3.15vw, 2.75rem)/1.12 var(--font-display); }
 .about-direction-copy p { margin-top: 0.75rem; color: #405670; font-size: clamp(1rem, 1.25vw, 1.125rem); line-height: 1.7; }
 
@@ -178,10 +187,25 @@
 
 @media (max-width: 760px) {
   .about-section.about-direction-section { padding-block: clamp(3.5rem, 8vw, 4.0625rem); }
-  .about-direction.about-inner { grid-template-columns: minmax(0, 1fr); width: min(100% - 2rem, 36rem); row-gap: 2.25rem; }
+  .about-direction.about-inner {
+    grid-template-columns: minmax(0, 1fr);
+    grid-template-areas:
+      "mission-visual"
+      "mission-copy"
+      "vision-visual"
+      "vision-copy";
+    row-gap: 0;
+    width: min(100% - 2rem, 36rem);
+  }
   .direction-visual { height: clamp(13rem, 62vw, 16rem); }
   .mission-stage { --mission-stage-width: clamp(3.1rem, 13.5vw, 5.2rem); }
-  .about-direction-copy { margin-top: 1.25rem; }
+  .mission-copy-cell,
+  .vision-copy-cell {
+    margin-top: clamp(4.5rem, 14vw, 6rem);
+  }
+  .mission-copy-cell {
+    margin-bottom: clamp(3.5rem, 10vw, 4.5rem);
+  }
 }
 @media (prefers-reduced-motion: reduce) {
   .mission-pathway-signal { display: none; }

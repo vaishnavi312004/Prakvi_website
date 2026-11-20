@@ -4,6 +4,7 @@ import { ArrowRight } from 'lucide-react';
 import { ServiceItem } from '../../types';
 import { projectManagementData } from '../../data/projectManagementData';
 import { Breadcrumbs } from './Breadcrumbs';
+import { ScrollRevealText } from './ScrollRevealText';
 import { ServiceHeroMedia } from './ServiceHeroMedia';
 
 const heroPoster = '/assets/aistudio/project-management-hero.webp';
@@ -15,14 +16,48 @@ export const ProjectManagementHero: React.FC<{ service: ServiceItem }> = ({ serv
   useEffect(() => {
     const video = videoRef.current;
     if (!video) return;
-    if (reducedMotion) {
-      video.pause();
-    } else {
-      void video.play().catch(() => {
-        /* Keep poster frame if autoplay is prevented */
+
+    const reportPlaybackError = (error: unknown) => {
+      console.error('Project Management hero video failed to play.', {
+        source: video.currentSrc,
+        error,
       });
-    }
-  }, [reducedMotion]);
+    };
+    const reportMediaError = () => {
+      console.error('Project Management hero video failed to load.', {
+        source: video.currentSrc,
+        code: video.error?.code,
+        message: video.error?.message,
+      });
+    };
+    let isInViewport = false;
+    const resumePlayback = () => {
+      if (isInViewport && document.visibilityState === 'visible' && video.paused) {
+        void video.play().catch(reportPlaybackError);
+      }
+    };
+    const visibility = new IntersectionObserver(([entry]) => {
+      isInViewport = entry.isIntersecting && entry.intersectionRatio >= 0.12;
+      if (isInViewport) resumePlayback();
+      else video.pause();
+    }, { threshold: 0.12 });
+    const handleVisibilityChange = () => {
+      if (document.visibilityState === 'visible') resumePlayback();
+      else video.pause();
+    };
+
+    visibility.observe(video);
+    document.addEventListener('visibilitychange', handleVisibilityChange);
+    video.addEventListener('loadeddata', resumePlayback);
+    video.addEventListener('error', reportMediaError);
+    return () => {
+      visibility.disconnect();
+      document.removeEventListener('visibilitychange', handleVisibilityChange);
+      video.removeEventListener('loadeddata', resumePlayback);
+      video.removeEventListener('error', reportMediaError);
+      video.pause();
+    };
+  }, []);
 
   const entrance = (delay: number) => ({
     initial: reducedMotion ? false as const : { opacity: 0, y: 16 },
@@ -52,7 +87,7 @@ export const ProjectManagementHero: React.FC<{ service: ServiceItem }> = ({ serv
             className="enterprise-hero-title font-display font-extrabold tracking-tight"
             {...entrance(0.05)}
           >
-            {service.title}
+            <ScrollRevealText text={service.title} preserveLayout />
           </motion.h1>
 
           <motion.p
@@ -86,9 +121,9 @@ export const ProjectManagementHero: React.FC<{ service: ServiceItem }> = ({ serv
         </div>
       </div>
 
-      <ServiceHeroMedia videoRef={videoRef} autoPlay={!reducedMotion} poster={heroPoster}>
-        <source src="/assets/aistudio/project-management-blue.webm" type="video/webm" />
+      <ServiceHeroMedia videoRef={videoRef} autoPlay poster={heroPoster} preload="auto" extendRightEdge>
         <source src="/assets/aistudio/project-management-blue.mp4" type="video/mp4" />
+        <source src="/assets/aistudio/project-management-blue.webm" type="video/webm" />
       </ServiceHeroMedia>
     </section>
   );

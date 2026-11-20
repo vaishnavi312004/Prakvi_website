@@ -1,5 +1,5 @@
 .relationship-hero {
-  --service-hero-start: 40%;
+  --service-hero-start: 27%;
   --relationship-hero-tail: linear-gradient(to bottom, transparent 87%, color-mix(in srgb, var(--theme-canvas) 45%, transparent) 95%, var(--theme-canvas));
   --relationship-hero-lower-edge: linear-gradient(to bottom, #000 88%, #000e 93%, #0008 97%, transparent);
   --service-hero-fade:

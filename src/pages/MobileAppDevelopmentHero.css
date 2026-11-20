@@ -1,5 +1,5 @@
 .mobile-app-hero {
-  --service-hero-start: 40%;
+  --service-hero-start: 25%;
   --service-hero-fade: linear-gradient(to right, transparent 7%, #0001 12%, #0004 17%, #0009 23%, #000d 28%, black 35%);
   --service-hero-mobile-fade: linear-gradient(to right, transparent, #0007 4%, black 14%);
   display: flex;

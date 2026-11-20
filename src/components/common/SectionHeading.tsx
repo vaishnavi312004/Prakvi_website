@@ -59,7 +59,7 @@ export const SectionHeading: React.FC<SectionHeadingProps> = ({
         </div>
       )}
       <h2 className="font-display text-2xl sm:text-3xl lg:text-4xl font-extrabold leading-tight text-foreground text-balance">
-        {animateWords ? <ScrollRevealText text={title} highlight={highlightWord} /> : renderTitle()}
+        {animateWords ? <ScrollRevealText text={title} highlight={highlightWord} preserveLayout /> : renderTitle()}
       </h2>
       {description && (
         <p className="mt-4 text-base sm:text-lg leading-relaxed text-muted">

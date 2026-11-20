@@ -5,14 +5,23 @@ import { Breadcrumbs } from '../components/common/Breadcrumbs';
 import { SectionHeading } from '../components/common/SectionHeading';
 import { CTASection } from '../components/common/CTASection';
 import { ServiceHeroMedia } from '../components/common/ServiceHeroMedia';
+import { ScrollRevealText } from '../components/common/ScrollRevealText';
 import { PageTransition } from '../components/layout/PageTransition';
+import { scrollToSection } from '../components/layout/SmoothScroll';
 import { IosModal } from '../components/ui/IosModal';
 import { productsData } from '../data/productsData';
+import { hrManagementData } from '../data/hrManagementData';
+import type { ProductItem } from '../types';
 import { ArrowRight, CheckCircle2, Server } from 'lucide-react';
+import { DataAnalyticsSections, dataAnalyticsProcessId } from './DataAnalyticsSections';
+import { HRManagementSections, hrManagementProcessId } from './HRManagementSections';
+import { VendorManagementSections, vendorManagementProcessId } from './VendorManagementSections';
+import { RelationshipManagementSections, relationshipManagementProcessId } from './RelationshipManagementSections';
 import './RelationshipManagementHero.css';
 import './VendorManagementHero.css';
 import './DataAnalyticsHero.css';
 import './HRManagementHero.css';
+import './ServicePageDesign.css';
 
 const videoHeroStyles: Partial<Record<string, string>> = {
   'data-analytics': 'data-analytics-hero',
@@ -21,11 +30,51 @@ const videoHeroStyles: Partial<Record<string, string>> = {
   'vendor-management': 'vendor-hero',
 };
 
+const pageClass = 'min-h-screen overflow-x-hidden pt-20 selection:bg-accent selection:text-white';
+const customProductSections: Record<string, {
+  Sections: React.ComponentType<{ product: ProductItem }>;
+  processId: string;
+  pageClass: string;
+} | undefined> = {
+  'data-analytics': {
+    Sections: DataAnalyticsSections,
+    processId: dataAnalyticsProcessId,
+    pageClass: 'data-analytics-page',
+  },
+  'hr-management-system': {
+    Sections: HRManagementSections,
+    processId: hrManagementProcessId,
+    pageClass: 'hr-management-page',
+  },
+  'vendor-management': {
+    Sections: VendorManagementSections,
+    processId: vendorManagementProcessId,
+    pageClass: 'vendor-management-page',
+  },
+  'relationship-management': {
+    Sections: RelationshipManagementSections,
+    processId: relationshipManagementProcessId,
+    pageClass: 'relationship-management-page',
+  },
+};
+
+function followSectionLink(event: React.MouseEvent<HTMLAnchorElement>) {
+  if (event.button !== 0 || event.metaKey || event.ctrlKey || event.shiftKey || event.altKey) return;
+  const hash = event.currentTarget.hash;
+  const target = document.getElementById(hash.slice(1));
+  if (!target) return;
+  event.preventDefault();
+  event.stopPropagation();
+  window.history.replaceState(window.history.state, '', hash);
+  target.tabIndex = -1;
+  scrollToSection(target);
+}
+
 export const ProductDetailPage: React.FC = () => {
   const reducedMotion = useReducedMotion();
   const { slug } = useParams<{ slug: string }>();
   const heroStyle = slug ? videoHeroStyles[slug] : undefined;
-  const visualOnlyHero = heroStyle === 'hr-management-hero';
+  const isHrManagement = slug === 'hr-management-system';
   const heroVideo = useRef<HTMLVideoElement>(null);
   const [isDemoModalOpen, setIsDemoModalOpen] = useState(false);
   const [isSubmitted, setIsSubmitted] = useState(false);
@@ -52,11 +101,21 @@ export const ProductDetailPage: React.FC = () => {
 
   const stackTabs = product.stackTabs || [];
   const currentStack = stackTabs[activeStackTab] || stackTabs[0];
+  const isDataAnalytics = product.slug === 'data-analytics';
+  const customSections = customProductSections[product.slug];
+  const heroHeading = isHrManagement ? hrManagementData.heroTitle : customSections ? product.tagline : product.name;
+  const heroVideoFile = isDataAnalytics
+    ? 'data-analytics-frozen-blue.mp4'
+    : `${product.slug}.mp4`;
   const heroMedia = heroStyle && (
-    <ServiceHeroMedia key={product.slug} videoRef={heroVideo} autoPlay={!reducedMotion}
+    <ServiceHeroMedia
+      key={product.slug}
+      videoRef={heroVideo}
+      autoPlay={!reducedMotion}
+      extendRightEdge={isDataAnalytics || product.slug === 'vendor-management' || product.slug === 'relationship-management'}
       poster={`${import.meta.env.BASE_URL}videos/${product.slug}-poster.webp`}
       preload={reducedMotion ? 'none' : 'metadata'}>
-      {!reducedMotion && <source src={`${import.meta.env.BASE_URL}videos/${product.slug}.mp4`} type="video/mp4" />}
+      {!reducedMotion && <source src={`${import.meta.env.BASE_URL}videos/${heroVideoFile}`} type="video/mp4" />}
     </ServiceHeroMedia>
   );
 
@@ -70,72 +129,83 @@ export const ProductDetailPage: React.FC = () => {
     }, 2500);
   };
 
-  return (
-    <PageTransition className="min-h-screen overflow-x-hidden pt-20 selection:bg-accent selection:text-white">
-      {/* 1. PRODUCT HERO */}
-      {visualOnlyHero && (
-        <section className="hr-management-hero relative isolate overflow-hidden" aria-label={product.name}>
-          {heroMedia}
-        </section>
-      )}
-      <section className={visualOnlyHero ? 'hr-management-intro bg-canvas' : `hero-clay-canvas py-section relative overflow-hidden${heroStyle ? ` ${heroStyle} isolate` : ''}`}>
-        <div className={`max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10${heroStyle && !visualOnlyHero ? ` ${heroStyle}-content` : ''}`}>
-          <Breadcrumbs
-            items={[
-              { label: 'Products', path: '/products' },
-              { label: product.name },
-            ]}
-          />
+  const hero = (
+    <section className={`hero-clay-canvas py-section relative overflow-hidden${heroStyle ? ` ${heroStyle} isolate` : ''}`}>
+      <div className={`max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10${heroStyle ? ` ${heroStyle}-content` : ''}`}>
+        <Breadcrumbs
+          items={[
+            { label: 'Products', path: '/products' },
+            { label: product.name },
+          ]}
+        />
 
-          <div className={visualOnlyHero ? 'mt-6 max-w-3xl' : heroStyle ? `mt-8 ${heroStyle}-copy` : 'mt-8 grid grid-cols-1 lg:grid-cols-12 gap-10 items-center'}>
-            <div className="lg:col-span-7 space-y-5">
-              <div className="text-xs font-mono font-bold uppercase tracking-[0.2em] text-accent">
-                {product.badge || 'Prakvi Platform'}
-              </div>
+        <div className={heroStyle ? `mt-8 ${heroStyle}-copy` : 'mt-8 grid grid-cols-1 lg:grid-cols-12 gap-10 items-center'}>
+          <div className="lg:col-span-7 space-y-5">
+            {!customSections && <div className="text-xs font-mono font-bold uppercase tracking-[0.2em] text-accent">
+              {product.badge || 'Prakvi Platform'}
+            </div>}
 
-              <h1 className="font-display text-4xl sm:text-5xl font-extrabold text-foreground tracking-tight leading-tight">
-                {product.name}
-              </h1>
+            <h1 className="font-display text-4xl sm:text-5xl font-extrabold text-foreground tracking-tight leading-tight">
+              {customSections ? <ScrollRevealText text={heroHeading} preserveLayout /> : heroHeading}
+            </h1>
 
-              <p className="text-lg sm:text-xl font-semibold text-accent">
-                {product.tagline}
-              </p>
+            {!customSections && <p className="text-lg sm:text-xl font-semibold text-accent">
+              {product.tagline}
+            </p>}
 
-              <p className="text-base text-muted leading-relaxed">{product.fullDesc}</p>
+            <p className="text-base text-muted leading-relaxed">{product.fullDesc}</p>
 
-              <div className="pt-2 flex flex-wrap gap-4">
-                <button
-                  type="button"
-                  onClick={() => setIsDemoModalOpen(true)}
-                  className="btn-primary"
-                >
-                  <span>Request Platform Demo</span>
-                  <ArrowRight className="arrow-shift" aria-hidden="true" />
-                </button>
+            <div className="pt-2 flex flex-wrap gap-4">
+              {customSections ? (
+                <>
+                  <a href="#features" onClick={followSectionLink} className="btn-primary">Explore Services</a>
+                  <a href={`#${customSections.processId}`} onClick={followSectionLink} className="btn-secondary">Our Process</a>
+                </>
+              ) : (
+                <>
+                  <button type="button" onClick={() => setIsDemoModalOpen(true)} className="btn-primary">
+                    <span>Request Platform Demo</span>
+                    <ArrowRight className="arrow-shift" aria-hidden="true" />
+                  </button>
+                  <Link to="/contact" className="btn-secondary">
+                    <span>Schedule Consultation</span>
+                  </Link>
+                </>
+              )}
+            </div>
+          </div>
 
-                <Link to="/contact" className="btn-secondary">
-                  <span>Schedule Consultation</span>
-                </Link>
+          {!heroStyle && (
+            <div className="lg:col-span-5">
+              <div className="clay-card p-3">
+                <img
+                  src={product.image}
+                  alt={product.name}
+                  className="w-full h-72 sm:h-80 object-cover rounded-2xl"
+                  referrerPolicy="no-referrer"
+                />
               </div>
             </div>
-
-            {!heroStyle && (
-              <div className="lg:col-span-5">
-                <div className="clay-card p-3">
-                  <img
-                    src={product.image}
-                    alt={product.name}
-                    className="w-full h-72 sm:h-80 object-cover rounded-2xl"
-                    referrerPolicy="no-referrer"
-                  />
-                </div>
-              </div>
-            )}
-          </div>
+          )}
         </div>
-        {!visualOnlyHero && heroMedia}
-      </section>
+      </div>
+      {heroMedia}
+    </section>
+  );
 
+  if (customSections) {
+    const { Sections } = customSections;
+    return (
+      <PageTransition className={`${pageClass} ${customSections.pageClass} service-design`}>
+        {hero}
+        <Sections product={product} />
+      </PageTransition>
+    );
+  }
+
+  return (
+    <PageTransition className={pageClass}>
+      {hero}
       {/* 2. CAPABILITIES & BENEFITS */}
       <section id="features" className="py-section bg-canvas text-foreground">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 space-y-10">

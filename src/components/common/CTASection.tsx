@@ -4,6 +4,7 @@ import { motion, useReducedMotion } from 'motion/react';
 import { ArrowRight, CheckCircle2, MessageSquare } from 'lucide-react';
 import { ButtonLink } from '../ui/Button';
 import { AboutHorizonCTA } from './AboutHorizonCTA';
+import { ScrollRevealText } from './ScrollRevealText';
 import './CTASection.css';
 
 interface CTASectionProps {
@@ -16,6 +17,7 @@ interface CTASectionProps {
   secondaryButtonLink?: string;
   immersive?: boolean;
   compact?: boolean;
+  animateHeading?: boolean;
 }
 
 export const CTASection: React.FC<CTASectionProps> = ({
@@ -28,6 +30,7 @@ export const CTASection: React.FC<CTASectionProps> = ({
   secondaryButtonLink = '/services',
   immersive = false,
   compact = false,
+  animateHeading = false,
 }) => {
   const reducedMotion = useReducedMotion();
 
@@ -76,7 +79,7 @@ export const CTASection: React.FC<CTASectionProps> = ({
         </div>
 
         <h2 className="mx-auto max-w-4xl font-display text-3xl font-extrabold leading-tight text-foreground text-balance sm:text-4xl lg:text-5xl">
-          {title}
+          {animateHeading && !titleAccent ? <ScrollRevealText text={title} preserveLayout /> : title}
           {titleAccent && (
             <>
               {' '}

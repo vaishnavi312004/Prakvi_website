@@ -10,6 +10,18 @@ export function scrollToTop() {
   else window.scrollTo({ top: 0, behavior: window.matchMedia('(prefers-reduced-motion: reduce)').matches ? 'instant' : 'smooth' });
 }
 
+export function scrollToSection(target: HTMLElement) {
+  const top = window.scrollY + target.getBoundingClientRect().top - 96;
+  const reduced = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+  target.focus({ preventScroll: true });
+  if (activeScroller) {
+    activeScroller.resize();
+    activeScroller.scrollTo(top, { immediate: reduced, force: true });
+  } else {
+    window.scrollTo({ top, behavior: reduced ? 'instant' : 'smooth' });
+  }
+}
+
 export function resetRouteScroll(smoothHash = false) {
   activeScroller?.resize();
   let target: HTMLElement | null = null;

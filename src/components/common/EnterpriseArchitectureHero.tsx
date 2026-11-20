@@ -3,6 +3,7 @@ import { motion, useReducedMotion } from 'motion/react';
 import { ArrowRight } from 'lucide-react';
 import { ServiceItem } from '../../types';
 import { Breadcrumbs } from './Breadcrumbs';
+import { ScrollRevealText } from './ScrollRevealText';
 import { ServiceHeroMedia } from './ServiceHeroMedia';
 
 export const EnterpriseArchitectureHero: React.FC<{ service: ServiceItem }> = ({ service }) => {
@@ -29,7 +30,7 @@ export const EnterpriseArchitectureHero: React.FC<{ service: ServiceItem }> = ({
 
         <div className="enterprise-hero-copy">
           <motion.h1 id="enterprise-hero-title" className="enterprise-hero-title font-display font-extrabold tracking-tight" {...entrance(0.05)}>
-            {service.tagline}
+            <ScrollRevealText text={service.tagline} preserveLayout />
           </motion.h1>
           <motion.p className="enterprise-hero-description" {...entrance(0.21)}>
             {service.fullDesc}

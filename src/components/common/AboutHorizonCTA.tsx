@@ -1,6 +1,7 @@
-import React, { useEffect, useId, useRef, useState, useSyncExternalStore } from 'react';
+import React, { useEffect, useId, useRef, useSyncExternalStore } from 'react';
 import { motion, useInView, useMotionValue, useSpring } from 'motion/react';
 import { ArrowRight, Box, CheckCircle2, MessageSquare, Network, Orbit, Sparkles } from 'lucide-react';
+import { ScrollRevealText } from './ScrollRevealText';
 import { ButtonLink } from '../ui/Button';
 import './AboutHorizonCTA.css';
 
@@ -90,7 +91,6 @@ export function AboutHorizonCTA({ title, subtitle, primaryButtonText, primaryBut
   const headingId = useId();
   const section = useRef<HTMLElement>(null);
   const reduced = useSyncExternalStore(subscribeToMotionPreference, () => window.matchMedia(motionPreference).matches, () => false);
-  const [headingRevealed, setHeadingRevealed] = useState(false);
   const inView = useInView(section);
   const moving = inView && !reduced;
   const pointerX = useMotionValue(0);
@@ -136,10 +136,9 @@ export function AboutHorizonCTA({ title, subtitle, primaryButtonText, primaryBut
       <div className="horizon-content relative mx-auto max-w-6xl text-center">
         <motion.div className="mb-3 text-xs font-bold uppercase tracking-[0.18em] text-accent-text" {...entrance(0, 5)}>Prakvi Techno Solutions</motion.div>
         <div className="horizon-heading-window">
-          <motion.h2 id={headingId} className="mx-auto max-w-4xl font-display text-3xl font-extrabold leading-tight text-foreground text-balance sm:text-4xl lg:text-5xl horizon-heading"
-            {...entrance(0.12, 24)} onViewportEnter={() => setHeadingRevealed(true)} data-revealed={headingRevealed}>
-            {title}
-          </motion.h2>
+          <h2 id={headingId} className="mx-auto max-w-4xl font-display text-3xl font-extrabold leading-tight text-foreground text-balance sm:text-4xl lg:text-5xl horizon-heading">
+            <ScrollRevealText text={title} />
+          </h2>
         </div>
         <motion.p className="mx-auto mt-4 max-w-2xl text-base leading-relaxed text-muted sm:text-lg" {...entrance(0.23)}>{subtitle}</motion.p>
         <div className="horizon-actions mt-8 flex flex-col items-stretch justify-center gap-4 sm:flex-row sm:items-center">

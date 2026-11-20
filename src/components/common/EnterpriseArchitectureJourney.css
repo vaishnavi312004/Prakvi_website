@@ -375,3 +375,21 @@
   .ea-journey-node:is([aria-selected='true'], :hover, :focus-visible) { transform: none; }
 }
 
+.ea-journey[data-extended] { scroll-margin-top: 5rem; }
+.ea-journey[data-extended] .ea-journey-route { height: clamp(32.5rem, 43vw, 38rem); }
+.ea-journey[data-extended] .ea-journey-node { min-height: 6.25rem; }
+.ea-journey[data-extended] .ea-journey-node-position:nth-child(7) {
+  --stage-ink: #246b79; --stage-glass: #e2f7f8; --stage-line: #acd8df; --float-phase: -2.8s;
+}
+.ea-journey[data-extended] .ea-journey-node-position:nth-child(8) {
+  --stage-ink: #92552f; --stage-glass: #faeee3; --stage-line: #dfc5ad; --float-phase: -4.7s;
+}
+@media (max-width: 639px) {
+  .ea-journey[data-extended] .ea-journey-route { height: 36rem; }
+  .ea-journey[data-extended] .ea-journey-node { min-height: 3.6rem; padding-block: 0.45rem; }
+}
+.ea-journey[data-seven='true'] .ea-journey-route { height: clamp(32.5rem, 43vw, 38rem); }
+@media (max-width: 639px) {
+  .ea-journey[data-seven='true'] .ea-journey-route { height: 40.75rem; }
+}
+

@@ -1,5 +1,5 @@
 .digital-marketing-hero {
-  --service-hero-start: 45%;
+  --service-hero-start: 27%;
   --digital-hero-tail: linear-gradient(to bottom, transparent 86%, color-mix(in srgb, var(--theme-canvas) 45%, transparent) 96%, var(--theme-canvas));
   --digital-media-tail: linear-gradient(to bottom, black 89%, #000c 94%, #0007 97%, transparent);
   --service-hero-fade:

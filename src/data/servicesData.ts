@@ -1991,11 +1991,11 @@ const serviceCatalog: ServiceItem[] = [
     shortDesc:
       'Data-driven SEO, PPC advertising, social media growth, content marketing, conversion optimization (CRO), and reputation management.',
     fullDesc:
-      'In today’s fast-paced digital economy, customers are online making buying decisions every second. Prakvi offers end-to-end digital marketing services in India to build a strong, data-driven online presence. From SEO and social media marketing to paid advertising, we help brands connect with the right audience at the right time. Our tailored digital marketing solutions drive measurable growth for startups and enterprises alike.',
+      'In today\'s fast-paced digital economy, customers are online making buying decisions every second. Prakvi offers end-to-end digital marketing services in India to build a strong, data-driven online presence. From SEO and social media marketing to paid advertising, we help brands connect with the right audience at the right time. Our tailored digital marketing solutions drive measurable growth for startups and enterprises alike.',
     iconName: 'Megaphone',
     badge: 'Business Solutions · Growth & SEO',
     offeringsTitle: 'Our Digital Marketing Services',
-    offeringsSubtitle: 'Result-driven strategies engineered to elevate online visibility, engagement, and measurable conversions.',
+    offeringsSubtitle: 'We provide result driven digital marketing strategies to boost your online presence and drive business growth.',
     businessChallenge:
       'Unfocused ad spend, low organic search rankings, and generic messaging fail to reach high-intent decision makers online.',
     howWeHelp:
@@ -2003,32 +2003,37 @@ const serviceCatalog: ServiceItem[] = [
     capabilities: [
       {
         title: 'Search Engine Optimization (SEO)',
-        description: 'Optimize rankings, organic traffic, on-page/off-page authority, and technical site health across competitive search markets.',
+        description: 'We optimize your website for higher search engine rankings, increased organic traffic, and better visibility, ensuring your brand stands out in competitive markets.',
         icon: 'Search',
       },
       {
         title: 'Pay-Per-Click (PPC) Advertising',
-        description: 'Strategic paid search and display campaigns focused on qualified buyer intent and measurable ROI.',
+        description: 'Strategic paid campaigns designed to target your audience effectively, maximize ROI, and drive qualified traffic to your business.',
         icon: 'Target',
       },
       {
         title: 'Social Media Marketing',
-        description: 'Grow engaged communities across Facebook, LinkedIn, Instagram, YouTube, and Twitter with tailored campaigns.',
+        description: 'Engage and grow your audience on platforms like Facebook, LinkedIn, Instagram, and Twitter with compelling content, campaigns, and brand building.',
         icon: 'Share2',
       },
       {
-        title: 'Content & Email Marketing',
-        description: 'Educational blogs, videos, infographics, and automated nurture sequences that educate prospects and convert leads.',
+        title: 'Content Marketing',
+        description: 'From blogs and articles to videos and infographics, we create content that educates, engages, and drives conversions, positioning your brand as an industry leader.',
+        icon: 'PenLine',
+      },
+      {
+        title: 'Email Marketing & Automation',
+        description: 'Nurture leads and retain customers with personalized email campaigns designed to boost engagement and revenue.',
         icon: 'Mail',
       },
       {
         title: 'Conversion Rate Optimization (CRO)',
-        description: 'Analyze behavioral metrics, A/B test landing pages, and refine conversion journeys with data.',
+        description: 'Analyze user behavior, test strategies, and refine web elements to increase conversions using data-driven insights.',
         icon: 'TrendingUp',
       },
       {
         title: 'Online Reputation Management (ORM)',
-        description: 'Proactively strengthen and protect positive brand visibility across key digital platforms.',
+        description: 'Protect and enhance your brand image with proactive strategies that ensure positive visibility across digital platforms.',
         icon: 'ShieldCheck',
       },
     ],
@@ -2050,52 +2055,53 @@ const serviceCatalog: ServiceItem[] = [
       },
     ],
     processTitle: 'Why Choose Prakvi for Digital Marketing in India?',
-    processSubtitle: 'An 8-step campaign methodology built around transparent KPIs and sustained growth.',
+    processSubtitle: 'A proven methodology that ensures successful project delivery',
     deliverySteps: [
       {
         step: '01',
         title: 'Discovery & Strategy',
-        description: 'Understand client goals, target audience segments, and the competitive landscape to build a tailored growth roadmap.',
+        description: 'Understand the client\'s goals, audience, and competitive landscape. This phase lays the groundwork for a tailored roadmap.',
       },
       {
         step: '02',
         title: 'Campaign Planning & Channel Selection',
-        description: 'Design campaigns across SEM, social ads, email marketing, and SEO with clear awareness, lead, or sales objectives.',
+        description: 'Design campaigns across preferred digital channels such as SEM, social media ads, email marketing, and SEO, with clear objectives like awareness, lead generation, or sales.',
       },
       {
         step: '03',
         title: 'Content Creation & Management',
-        description: 'Produce optimized copy, visuals, blogs, and landing assets aligned with SEO best practices and brand guidelines.',
+        description: 'Develop optimized content that resonates with the target audience and aligns with SEO best practices and branding guidelines.',
       },
       {
         step: '04',
         title: 'Advertising Execution',
-        description: 'Launch high-impact PPC and display advertising campaigns across search engines and social platforms.',
+        description: 'Launch pay-per-click (PPC) and display advertising campaigns across search engines and social media platforms, targeting relevant audiences with high impact ads.',
       },
       {
         step: '05',
         title: 'Search Engine Optimization (SEO)',
-        description: 'Execute keyword research, on-page and technical SEO enhancements, local SEO tactics, and authority backlink building.',
+        description: 'Implement on-page and off-page SEO efforts:',
+        points: ['Keyword research', 'Technical SEO improvements', 'Backlink building', 'Local SEO tactics'],
       },
       {
         step: '06',
         title: 'Performance Tracking & Analytics',
-        description: 'Monitor impressions, clicks, conversions, and return on ad spend continuously with live reporting dashboards.',
+        description: 'Use advanced analytics tools to monitor campaign KPIs, such as impressions, clicks, conversions, and return on ad spend, with real-time dashboards and reporting.',
       },
       {
         step: '07',
         title: 'Optimization & Iteration',
-        description: 'Continuously A/B test creatives, refine targeting and bidding, and tune content based on live performance insights.',
+        description: 'Continuously refine campaigns based on data insights. A/B test creatives, adjust targeting and bidding, and fine-tune content for performance gains.',
       },
       {
         step: '08',
         title: 'Reporting & Review',
-        description: 'Deliver regular performance reports with measurable outcomes and plan next-quarter scaling opportunities.',
+        description: 'Provide regular reports with measurable results and insights. Use these to review strategy and plan further steps for sustained growth.',
       },
     ],
     stackTitle: 'Digital Marketing',
     stackSummary:
-      'Prakvi offers comprehensive digital marketing solutions from strategic planning to execution, ensuring your brand achieves maximum online visibility and engagement.',
+      'Prakvi offers comprehensive digital marketing solutions from strategic planning to execution ensuring your brand achieves maximum online visibility and engagement.',
     stackTabs: [
       { label: 'SEO', items: ['On-Page SEO', 'Off-Page SEO', 'Mobile SEO', 'Technical SEO', 'SEO Audit', 'Keyword Research'] },
       { label: 'Social Media', items: ['Facebook Ads', 'Instagram Marketing', 'Twitter Campaigns', 'LinkedIn Outreach', 'YouTube Ads'] },
@@ -2127,11 +2133,11 @@ const serviceCatalog: ServiceItem[] = [
     shortDesc:
       'Native iOS (Swift) & Android (Kotlin), React Native & Flutter cross-platform apps, enterprise workflow apps, PWAs, and ongoing support.',
     fullDesc:
-      'In a mobile-first world, your app is your brand’s direct connection with customers. Prakvi offers end-to-end mobile app development services in India, delivering seamless, engaging, and secure experiences. Whether native iOS, Android, or cross-platform, our expert team combines design, technology, and user-focused strategy to build apps that drive results. From concept to deployment and support, we ensure your app meets market demands and delivers measurable ROI.',
+      'In a mobile-first world, your app is your brand\'s direct connection with customers. Prakvi offers end-to-end mobile app development services in India, delivering seamless, engaging, and secure experiences. Whether native iOS, Android, or cross-platform, our expert team combines design, technology, and user-focused strategy to build apps that drive results. From concept to deployment and support, we ensure your app meets market demands and delivers measurable ROI.',
     iconName: 'Smartphone',
     badge: 'Business Solutions · iOS & Android',
     offeringsTitle: 'Mobile App Development Expertise',
-    offeringsSubtitle: 'End-to-end mobile engineering tailored to consumer, e-commerce, and enterprise audiences.',
+    offeringsSubtitle: 'We offer comprehensive Mobile App Development solutions tailored to your business needs',
     businessChallenge:
       'Slow, inconsistent mobile apps with clunky UX or insecure APIs frustrate users and miss critical engagement opportunities.',
     howWeHelp:
@@ -2139,33 +2145,43 @@ const serviceCatalog: ServiceItem[] = [
     capabilities: [
       {
         title: 'Native Mobile App Development',
-        description: 'High-performance iOS (Swift, Objective-C) and Android (Kotlin, Java) apps built for platform speed and polish.',
+        description: 'We build high-performance native apps for iOS (Swift, Objective-C) and Android (Kotlin, Java) that deliver superior user experiences with optimized speed and functionality.',
         icon: 'Smartphone',
       },
       {
         title: 'Cross-Platform App Development',
-        description: 'Cost-effective, fast-to-market cross-platform builds powered by React Native, Flutter, and Xamarin.',
+        description: 'Maximize reach with cross-platform solutions using React Native, Flutter, and Xamarin, ensuring cost-effective and fast-to-market mobile applications.',
         icon: 'Layers',
       },
       {
         title: 'Enterprise Mobile Apps',
-        description: 'Secure, scalable enterprise applications for workforce automation, collaboration, and field productivity.',
-        icon: 'Briefcase',
+        description: 'Empower businesses with scalable, secure, and data-driven enterprise apps for workflow automation, team collaboration, and productivity enhancement.',
+        icon: 'Building2',
       },
       {
-        title: 'Mobile E-Commerce & PWAs',
-        description: 'Feature-rich mobile commerce with seamless payments, live inventory, and fast Progressive Web / hybrid apps.',
+        title: 'Mobile E-Commerce Solutions',
+        description: 'We develop feature-rich e-commerce apps with seamless payment gateways, real-time inventory management, and AI-powered recommendations to drive sales.',
         icon: 'ShoppingBag',
       },
       {
-        title: 'Mobile App UI/UX & Integrations',
-        description: 'Intuitive interfaces backed by secure backend APIs, cloud services, and AI/ML capabilities.',
-        icon: 'Palette',
+        title: 'Custom Web & Hybrid Mobile Apps',
+        description: 'Utilizing Progressive Web Apps (PWAs) and hybrid frameworks, we create fast, responsive, and engaging mobile experiences that work seamlessly across devices.',
+        icon: 'GitBranch',
+      },
+      {
+        title: 'Mobile App UI/UX Design',
+        description: 'We craft visually appealing, intuitive, and user-friendly interfaces that enhance engagement, reduce friction, and improve app retention.',
+        icon: 'Paintbrush',
+      },
+      {
+        title: 'API & Third-Party Integrations',
+        description: 'We integrate secure APIs, cloud services, AI/ML capabilities, and third-party tools for seamless functionality and enhanced app performance.',
+        icon: 'Plug',
       },
       {
         title: 'Mobile App Maintenance & Support',
-        description: 'Continuous OS updates, security patches, crash monitoring, and feature enhancements post-launch.',
-        icon: 'ShieldCheck',
+        description: 'Ensure long-term success with our ongoing support, security updates, and performance optimizations to keep your app running at peak efficiency.',
+        icon: 'Wrench',
       },
     ],
     businessBenefits: [
@@ -2186,42 +2202,66 @@ const serviceCatalog: ServiceItem[] = [
       },
     ],
     processTitle: 'Why Choose Prakvi for Mobile App Development?',
-    processSubtitle: 'A proven 6-stage mobile engineering lifecycle from concept to post-launch updates.',
+    processSubtitle: 'A proven methodology that ensures successful project delivery',
     deliverySteps: [
       {
         step: '01',
         title: 'Consult & Strategize',
-        description: 'Clarify business objectives, target audience, platform needs (iOS, Android, hybrid), user journeys, and projected ROI.',
+        description: '',
+        points: [
+          'Clarify business objectives, target audience, and platform needs (iOS, Android, hybrid).',
+          'Define functionality, user journeys, and expected ROI.',
+        ],
       },
       {
         step: '02',
         title: 'Design & Prototype',
-        description: 'Create intuitive UI/UX wireframes, mockups, and clickable prototypes for usability testing and early alignment.',
+        description: '',
+        points: [
+          'Create UI/UX wireframes and mockups.',
+          'Build clickable prototypes for usability testing and early alignment.',
+        ],
       },
       {
         step: '03',
         title: 'Architecture & Planning',
-        description: 'Select native vs. hybrid tech stack and finalize backend API integrations, data storage, and security controls.',
+        description: '',
+        points: [
+          'Choose tech stack (native vs hybrid).',
+          'Outline API integrations, data storage, and security considerations.',
+        ],
       },
       {
         step: '04',
         title: 'Development & QA',
-        description: 'Implement modular application code and run thorough unit, integration, and automated testing for reliability.',
+        description: '',
+        points: [
+          'Implement coding in the selected framework.',
+          'Perform unit, integration, and automated testing to ensure reliability.',
+        ],
       },
       {
         step: '05',
         title: 'Deployment',
-        description: 'Prepare production builds for public app stores or private enterprise distribution with full compliance review assistance.',
+        description: '',
+        points: [
+          'Prepare builds for public app stores or internal enterprise distribution.',
+          'Assist in publishing and compliance submission.',
+        ],
       },
       {
         step: '06',
         title: 'Support & Updates',
-        description: 'Provide ongoing bug fixes, OS platform updates, performance optimization, and analytics-informed iterations.',
+        description: '',
+        points: [
+          'Provide ongoing maintenance: bug fixes, platform updates, performance enhancements.',
+          'Offer post-launch optimization based on user feedback and analytics.',
+        ],
       },
     ],
     stackTitle: 'Mobile App Development Services',
     stackSummary:
-      'Delivering intuitive, high-performance mobile solutions that bring your ideas to life and elevate your business by engaging users across platforms.',
+      'Delivering intuitive, high-performance mobile solutions that bring your ideas to life and elevate your business by engaging users across platforms',
     stackTabs: [
       { label: 'iOS', items: ['Swift', 'Objective-C', 'Xcode'] },
       { label: 'Android', items: ['Kotlin', 'Java', 'Android Studio'] },

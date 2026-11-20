@@ -1,9 +1,9 @@
 import React, { useEffect, useRef } from 'react';
 import { motion, useReducedMotion } from 'motion/react';
-import { Link } from 'react-router-dom';
 import { ArrowRight } from 'lucide-react';
 import { ServiceItem } from '../../types';
 import { Breadcrumbs } from './Breadcrumbs';
+import { ScrollRevealText } from './ScrollRevealText';
 import { ServiceHeroMedia } from './ServiceHeroMedia';
 
 export const SupplyChainHero: React.FC<{ service: ServiceItem }> = ({ service }) => {
@@ -33,24 +33,22 @@ export const SupplyChainHero: React.FC<{ service: ServiceItem }> = ({ service })
             {service.badge}
           </div>
           <motion.h1 id="supply-chain-hero-title" className="enterprise-hero-title font-display font-extrabold tracking-tight" {...entrance(0.05)}>
-            {service.title}
+            <ScrollRevealText text={service.tagline} preserveLayout />
           </motion.h1>
-          <motion.p className="enterprise-hero-tagline font-semibold" {...entrance(0.13)}>
-            {service.tagline}
-          </motion.p>
           <motion.p className="enterprise-hero-description" {...entrance(0.21)}>
             {service.fullDesc}
           </motion.p>
           <div className="enterprise-hero-actions flex flex-wrap gap-3 sm:gap-4">
             <motion.div {...entrance(0.3)}>
-              <Link to="/contact" className="btn-primary">
-                <span>Schedule Consultation</span>
+              <a href="#capabilities" className="btn-primary">
+                <span>Explore Services</span>
                 <ArrowRight className="arrow-shift" aria-hidden="true" />
-              </Link>
+              </a>
             </motion.div>
             <motion.div {...entrance(0.38)}>
-              <a href="#capabilities" className="btn-secondary">
-                <span>Explore Service Offerings</span>
+              <a href="#scm-process" className="btn-secondary">
+                <span>Our Process</span>
+                <ArrowRight className="arrow-shift" aria-hidden="true" />
               </a>
             </motion.div>
           </div>

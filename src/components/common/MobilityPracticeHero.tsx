@@ -2,8 +2,10 @@ import React, { useEffect, useRef } from 'react';
 import { motion, useReducedMotion } from 'motion/react';
 import { Link } from 'react-router-dom';
 import { ArrowRight } from 'lucide-react';
+import { mobilityPracticeData } from '../../data/mobilityPracticeData';
 import { ServiceItem } from '../../types';
 import { Breadcrumbs } from './Breadcrumbs';
+import { ScrollRevealText } from './ScrollRevealText';
 import { ServiceHeroMedia } from './ServiceHeroMedia';
 
 export const MobilityPracticeHero: React.FC<{ service: ServiceItem }> = ({ service }) => {
@@ -33,11 +35,13 @@ export const MobilityPracticeHero: React.FC<{ service: ServiceItem }> = ({ servi
             {service.badge}
           </div>
           <motion.h1 id="mobility-hero-title" className="enterprise-hero-title font-display font-extrabold tracking-tight" {...entrance(0.05)}>
-            {service.title}
+            <ScrollRevealText text={mobilityPracticeData.intro.title} preserveLayout />
           </motion.h1>
-          <motion.p className="enterprise-hero-tagline font-semibold" {...entrance(0.13)}>
-            {service.tagline}
-          </motion.p>
+          {service.tagline !== mobilityPracticeData.intro.title && (
+            <motion.p className="enterprise-hero-tagline font-semibold" {...entrance(0.13)}>
+              {service.tagline}
+            </motion.p>
+          )}
           <motion.p className="enterprise-hero-description" {...entrance(0.21)}>
             {service.fullDesc}
           </motion.p>
@@ -56,7 +60,7 @@ export const MobilityPracticeHero: React.FC<{ service: ServiceItem }> = ({ servi
           </div>
         </div>
       </div>
-      <ServiceHeroMedia videoRef={videoRef} autoPlay={!reducedMotion} poster="/assets/aistudio/mobility-practice-poster.webp">
+      <ServiceHeroMedia videoRef={videoRef} autoPlay={!reducedMotion} poster="/assets/aistudio/mobility-practice-poster.webp" extendRightEdge>
         <source src="/assets/aistudio/mobility-practice-connectivity.mp4" type="video/mp4" />
       </ServiceHeroMedia>
     </section>

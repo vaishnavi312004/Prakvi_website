@@ -1,6 +1,7 @@
 import React, { useRef, useSyncExternalStore } from 'react';
 import { AnimatePresence, motion, useInView } from 'motion/react';
 import { companyData } from '../../data/companyData';
+import { ScrollRevealText } from './ScrollRevealText';
 import { VisionAnimation } from './VisionGlobe';
 import { MissionAnimation } from './MissionAnimation';
 import './AboutDirection.css';
@@ -26,29 +27,61 @@ export function AboutDirection() {
       {/* Keep the scroll entrances active on direct visits, where the route skips its initial animation. */}
       <AnimatePresence>
         <div className="about-inner about-direction">
-          {[mission, vision].map((item, index) => (
-            <article key={item.title} className="about-direction-item">
-              <motion.div
-                initial={reduced ? false : index === 0 ? { opacity: 0, y: 18 } : { opacity: 0, scale: 0.92 }}
-                whileInView={{ opacity: 1, y: 0, scale: 1 }}
-                viewport={storyViewport}
-                transition={{ duration: reduced ? 0 : 0.72, delay: reduced ? 0 : 0.12 + index * 0.12, ease }}
-              >
-                {index === 0 ? <MissionAnimation reduced={reduced} /> : <VisionAnimation reduced={reduced} />}
-              </motion.div>
-              <motion.div
-                className="about-direction-copy"
-                initial={reduced ? false : { opacity: 0, y: 23 }}
+          {/* Row 1: Illustrations */}
+          <div className="about-direction-cell mission-visual-cell">
+            <motion.div
+              initial={reduced ? false : { opacity: 0, y: 18 }}
+              whileInView={{ opacity: 1, y: 0 }}
+              viewport={storyViewport}
+              transition={{ duration: reduced ? 0 : 0.72, delay: reduced ? 0 : 0.12, ease }}
+            >
+              <MissionAnimation reduced={reduced} />
+            </motion.div>
+          </div>
+
+          <div className="about-direction-cell vision-visual-cell">
+            <motion.div
+              initial={reduced ? false : { opacity: 0, scale: 0.92 }}
+              whileInView={{ opacity: 1, scale: 1 }}
+              viewport={storyViewport}
+              transition={{ duration: reduced ? 0 : 0.72, delay: reduced ? 0 : 0.24, ease }}
+            >
+              <VisionAnimation reduced={reduced} />
+            </motion.div>
+          </div>
+
+          {/* Row 2: Headings and Descriptions */}
+          <div className="about-direction-cell mission-copy-cell">
+            <div className="about-direction-copy">
+              <h2>
+                <ScrollRevealText text={mission.title} />
+              </h2>
+              <motion.p
+                initial={reduced ? false : { opacity: 0, y: 11 }}
                 whileInView={{ opacity: 1, y: 0 }}
                 viewport={storyViewport}
-                transition={{ duration: reduced ? 0 : 0.64, delay: reduced ? 0 : 0.13, ease }}
+                transition={{ duration: reduced ? 0 : 0.55, delay: reduced ? 0 : 0.23, ease }}
               >
-                <h2>{item.title}</h2>
-                <motion.p initial={reduced ? false : { opacity: 0, y: 11 }} whileInView={{ opacity: 1, y: 0 }}
-                  viewport={storyViewport} transition={{ duration: reduced ? 0 : 0.55, delay: reduced ? 0 : 0.23, ease }}>{item.description}</motion.p>
-              </motion.div>
-            </article>
-          ))}
+                {mission.description}
+              </motion.p>
+            </div>
+          </div>
+
+          <div className="about-direction-cell vision-copy-cell">
+            <div className="about-direction-copy">
+              <h2>
+                <ScrollRevealText text={vision.title} />
+              </h2>
+              <motion.p
+                initial={reduced ? false : { opacity: 0, y: 11 }}
+                whileInView={{ opacity: 1, y: 0 }}
+                viewport={storyViewport}
+                transition={{ duration: reduced ? 0 : 0.55, delay: reduced ? 0 : 0.35, ease }}
+              >
+                {vision.description}
+              </motion.p>
+            </div>
+          </div>
         </div>
       </AnimatePresence>
     </section>

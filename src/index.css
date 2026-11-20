@@ -620,6 +620,8 @@
   }
 
   .mobility-hero {
+    --service-hero-start: 27%;
+    --service-hero-fade: linear-gradient(to right, transparent 7%, #0002 12%, #0006 19%, #000c 26%, black 32%);
     --service-hero-gradient: linear-gradient(109deg, #e1eff9, #cadeed 36%, #9fbfd6 53%, #6695b8 70%, #3b6b94 87%, #335377);
     --service-hero-mobile-gradient: linear-gradient(163deg, #e1eff9, #d3e5f1 53%, #abc9df 68%, #6695b8 84%, #3b6b94);
   }
@@ -704,11 +706,38 @@
     object-fit: contain;
   }
   .supply-chain-hero {
-    --service-hero-start: 33%;
+    --service-hero-start: 28%;
     --service-hero-vertical-space: 0px;
-    --service-hero-fade: linear-gradient(to right, transparent 16%, #0002 20%, #0007 26%, #000c 31%, #000 36%);
+    --service-hero-fade: linear-gradient(to right, transparent 12%, #0002 16%, #0007 23%, #000c 28%, #000 33%);
     --service-hero-gradient: linear-gradient(108deg, #deedf8, #cce1ef 31%, #b9d2e5 45%, #879cb9 56%, #696d89 69%, #575369 83%, #263e5d);
     --service-hero-mobile-gradient: linear-gradient(165deg, #deedf8, #cadeed 52%, #b5c9dd 65%, #7889a7 74%, #575875 84%, #263e5d);
+  }
+  .supply-chain-hero .service-hero-video {
+    -webkit-mask-image: linear-gradient(to right, #000 calc(100% - 1.5rem), transparent);
+    mask-image: linear-gradient(to right, #000 calc(100% - 1.5rem), transparent);
+  }
+  /* Use a color-only edge fill instead of stretching the video's last pixel column. */
+  .supply-chain-hero .service-hero-frame::after {
+    content: "";
+    grid-area: 2 / 2 / 3 / 3;
+    margin-inline-start: -1.5rem;
+    z-index: 0;
+    pointer-events: none;
+    background: linear-gradient(
+      to bottom,
+      #e3a474 0%,
+      #c89169 14%,
+      #927678 28%,
+      #897b84 42%,
+      #975f4d 57%,
+      #624351 72%,
+      #10497b 86%,
+      #0a3969 100%
+    );
+    -webkit-mask-image: linear-gradient(to right, #000, transparent 40%);
+    mask-image: linear-gradient(to right, #000, transparent 40%);
+    -webkit-mask-image: linear-gradient(to right, #000 25%, transparent);
+    mask-image: linear-gradient(to right, #000 25%, transparent);
   }
   @media (max-width: 1023px) {
     .service-video-hero {
@@ -957,10 +986,11 @@
   }
 
   .project-hero {
+    --service-hero-start: 29%;
     --color-muted: #38536f;
     --service-hero-gradient: linear-gradient(106deg, #c8d6e1, #b7cbd9 28%, #a0becd 46%, #679dad 60%, #386e91 75%, #142f50 94%, #0f2848);
     --service-hero-mobile-gradient: linear-gradient(162deg, #c8d6e1, #b4cbd9 50%, #9bbccd 69%, #386e91 84%, #142f50);
-    --service-hero-fade: linear-gradient(to right, transparent 10%, #0002 15%, #0007 22%, #000c 27%, #000 32%);
+    --service-hero-fade: linear-gradient(to right, transparent 7%, #0001 11%, #0006 17%, #000c 24%, #000 31%);
     color: #112238;
   }
   .project-hero .enterprise-hero-copy {
@@ -982,6 +1012,39 @@
   }
   @media (max-width: 1023px) {
     .project-hero .enterprise-hero-copy { width: 100%; max-width: 44rem; }
+  }
+  @media (min-width: 1024px) {
+    .project-hero,
+    .mobility-hero,
+    .supply-chain-hero,
+    .digital-marketing-hero,
+    .mobile-app-hero,
+    .data-analytics-hero,
+    .vendor-hero,
+    .relationship-hero {
+      --service-hero-shift-x: clamp(4rem, 10vw, 12rem);
+      --service-hero-right: var(--service-hero-shift-x);
+    }
+
+    .supply-chain-hero { --service-hero-shift-x: clamp(4rem, 9vw, 11rem); }
+
+    :is(
+      .project-hero,
+      .mobility-hero,
+      .supply-chain-hero,
+      .digital-marketing-hero,
+      .mobile-app-hero,
+      .data-analytics-hero,
+      .vendor-hero,
+      .relationship-hero
+    ) .service-hero-frame {
+      --service-hero-shifted-frame-width: min(
+        calc(100% + var(--service-hero-shift-x)),
+        calc((100cqh - var(--service-hero-vertical-space, 3.5rem)) * 16 / 9 + var(--service-hero-shift-x))
+      );
+      width: var(--service-hero-shifted-frame-width);
+      margin-inline-start: calc(100% - var(--service-hero-shifted-frame-width));
+    }
   }
   .project-content { background: linear-gradient(180deg, var(--theme-canvas), #f0f6fb 29%, #e0effa 59%, var(--theme-canvas)); }
   .project-content .mobility-content-atmosphere {
@@ -1082,6 +1145,39 @@
     .ea-orbit-panel-icon { width: 17px; height: 17px; }
     .ea-orbit-hub { width: 64px; height: 64px; font-size: 0.58rem; gap: 0.3rem; }
     .ea-orbit-hub > svg { width: 17px; height: 17px; }
+  }
+  .ea-carousel-section[data-variant='digital-marketing'] .ea-orbit-stage {
+    --ea-orbit-y: 130px;
+    --ea-panel-height: 86px;
+  }
+  @media (max-width: 1023px) {
+    .ea-carousel-section[data-variant='digital-marketing'] .ea-orbit-stage {
+      --ea-orbit-y: 136px;
+      --ea-panel-width: 142px;
+    }
+  }
+  @media (max-width: 639px) {
+    .ea-carousel-section[data-variant] .ea-category-navigation { overflow: visible; }
+    .ea-carousel-section[data-variant] .ea-category-tabs {
+      min-width: 0;
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+    }
+    .ea-carousel-section[data-variant] .ea-category-tab {
+      min-height: 3.4rem;
+      padding: 0.55rem 0.4rem;
+      font-size: 0.875rem;
+    }
+    .ea-carousel-section[data-variant='mobile-app'] .ea-orbit-stage {
+      --ea-orbit-x: clamp(5.9rem, 28vw, 10.375rem);
+      --ea-orbit-y: 9.5rem;
+      --ea-panel-height: 5.75rem;
+    }
+    .ea-carousel-section[data-variant='digital-marketing'] .ea-orbit-stage {
+      --ea-orbit-x: clamp(93px, 30vw, 174px);
+      --ea-orbit-y: 162px;
+      --ea-panel-width: 84px;
+      --ea-panel-height: 80px;
+    }
   }
   @media (prefers-reduced-motion: reduce) { .ea-orbit-hub::before { animation: none; } }
 
@@ -2004,7 +2100,7 @@ html.lenis {
 /* Masked character rise: keep complete words together while letters reveal. */
 .scroll-title__word { display: inline-block; white-space: nowrap; }
 .scroll-title__mask { display: inline-block; overflow: hidden; vertical-align: bottom; padding-bottom: 0.18em; margin-bottom: -0.18em; }
-.scroll-title__letter { display: inline-block; transform: translateY(115%); transition: transform 480ms cubic-bezier(0.22, 1, 0.36, 1); }
+.scroll-title__letter { display: inline-block; margin-inline-end: var(--scroll-title-letter-spacing, 0px); transform: translateY(115%); transition: transform 480ms cubic-bezier(0.22, 1, 0.36, 1); }
 .scroll-title[data-visible="true"] .scroll-title__letter { transform: translateY(0); transition-delay: var(--title-delay, 0s); }
 @media (prefers-reduced-motion: reduce) {
   .scroll-title__letter { transform: none; transition: none; }

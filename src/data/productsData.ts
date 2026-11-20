@@ -1,5 +1,111 @@
 import { ProductItem } from '../types';
 import { generatedImages } from '../assets/images';
+import { hrManagementData } from './hrManagementData';
+
+export const dataAnalyticsSolutions = [
+  {
+    title: 'Descriptive Analytics',
+    description: 'Understand past trends, patterns, and performance through real-time dashboards and reporting.',
+    icon: 'TrendingUp',
+  },
+  {
+    title: 'Diagnostic Analytics',
+    description: 'Identify the "why" behind business trends, uncover hidden correlations, and optimize operations.',
+    icon: 'Search',
+  },
+  {
+    title: 'Predictive Analytics',
+    description: 'Use AI and machine learning to forecast future outcomes, mitigate risks, and seize new opportunities.',
+    icon: 'BarChart3',
+  },
+  {
+    title: 'Prescriptive Analytics',
+    description: 'Move beyond insights to actionable strategies that enhance efficiency and maximize ROI.',
+    icon: 'Target',
+  },
+  {
+    title: 'Big Data Processing',
+    description: 'Handle large-scale datasets with cloud-powered analytics, ensuring speed, accuracy, and scalability.',
+    icon: 'Server',
+  },
+  {
+    title: 'Self-Service BI',
+    description: 'Empower teams with intuitive data visualization tools and interactive dashboards for informed decision-making.',
+    icon: 'BarChart3',
+  },
+];
+
+export const vendorManagementSolutions = [
+  {
+    title: 'Seamless Vendor Onboarding',
+    description: 'Automate registrations, approvals, and document verification to onboard vendors effortlessly.',
+    icon: 'Users',
+  },
+  {
+    title: 'Centralized Vendor Database',
+    description: 'Maintain a single source of truth with real-time vendor data, contracts, and compliance records.',
+    icon: 'Server',
+  },
+  {
+    title: 'Automated Procurement & Workflows',
+    description: 'Streamline purchase orders, approvals, invoicing, and payments to enhance efficiency.',
+    icon: 'GitBranch',
+  },
+  {
+    title: 'Performance Monitoring & SLA Tracking',
+    description: 'Evaluate vendor KPIs, contract adherence, and service levels with real-time analytics.',
+    icon: 'TrendingUp',
+  },
+  {
+    title: 'Risk & Compliance Management',
+    description: 'Ensure adherence to regulatory standards, mitigate risks and enforce contractual obligations.',
+    icon: 'ShieldCheck',
+  },
+  {
+    title: 'Seamless Integrations',
+    description: 'Connect VMS with ERP, finance, and supply chain systems for end-to-end visibility.',
+    icon: 'Plug',
+  },
+  {
+    title: 'Data-Driven Insights',
+    description: 'Leverage AI-powered analytics for vendor evaluation, cost optimization, and risk assessment.',
+    icon: 'BarChart3',
+  },
+];
+
+export const relationshipManagementSolutions = [
+  {
+    title: 'Sales Automation',
+    description: 'Shorten sales cycles with AI-driven lead scoring, automated follow-ups, and seamless deal tracking.',
+    icon: 'GitBranch',
+  },
+  {
+    title: 'Marketing Automation',
+    description: 'Targeted campaigns, analyze customer behavior, and personalize engagement across multiple channels.',
+    catalogDescription: 'Run targeted campaigns, analyze customer behavior, and personalize engagement across multiple channels.',
+    icon: 'Smartphone',
+  },
+  {
+    title: 'Customer Support & Helpdesk',
+    description: 'Improve response times with ticketing systems, self-service portals, and AI-powered chatbots.',
+    icon: 'Headset',
+  },
+  {
+    title: '360° Customer View',
+    description: 'Gain real-time insights into customer interactions, purchase history, and preferences for smarter decision-making.',
+    icon: 'Users',
+  },
+  {
+    title: 'Cloud-Based & Scalable',
+    description: 'Our CRM solutions grow with your business, ensuring secure, flexible, and on-the-go accessibility.',
+    icon: 'Server',
+  },
+  {
+    title: 'Seamless Integration',
+    description: 'Connect effortlessly with ERP, e-commerce, social media, and third-party applications for a unified workflow.',
+    icon: 'Plug',
+  },
+];
 
 export const productsData: ProductItem[] = [
   {
@@ -10,31 +116,13 @@ export const productsData: ProductItem[] = [
     shortDesc:
       'Collect, process, and interpret complex data with AI-driven algorithms, predictive analytics, and interactive dashboards to uncover patterns and accelerate growth.',
     fullDesc:
-      'In today’s data-driven world, the right insights give your business a competitive edge. Prakvi offers end-to-end data analytics services in India to help organizations collect, process, and interpret complex data for smarter decisions. Using advanced analytics tools, AI-driven algorithms, and industry expertise, we uncover patterns, predict trends, and optimize performance, turning raw data into strategies that drive growth and profitability.',
-    features: [
-      'Descriptive Analytics — Understand past trends, patterns, and performance through real-time dashboards and reporting.',
-      'Diagnostic Analytics — Identify the “why” behind business trends, uncover hidden correlations, and optimize operations.',
-      'Predictive Analytics — Use AI and machine learning to forecast future outcomes, mitigate risks, and seize new opportunities.',
-      'Prescriptive Analytics — Move beyond insights to actionable strategies that enhance efficiency and maximize ROI.',
-      'Big Data Processing — Handle large-scale datasets with cloud-powered analytics, ensuring speed, accuracy, and scalability.',
-      'Self-Service BI — Empower teams with intuitive data visualization tools and interactive dashboards for informed decision-making.',
-    ],
-    benefits: [
-      'Transform raw business data into strategies that drive growth and profitability',
-      'We don’t just generate reports—we architect insightful journeys revealing patterns and predictions',
-      'Cloud-powered analytics engineered for speed, accuracy, and enterprise scalability',
-      'Empower analysts and executives alike with intuitive self-service visualization tools',
-    ],
-    useCases: [
-      'Descriptive & Diagnostic Reporting: Real-time KPI tracking and root-cause operational correlation across departments.',
-      'Predictive Forecasting: Machine learning forecast modeling, regression analysis, and cluster segmentation.',
-      'Enterprise Data Warehousing: Unified ETL processes and schema design on Azure Synapse and AWS Redshift.',
-    ],
-    architecturePoints: [
-      'Data Modeling — Data Architecture, ETL Processes, Data Warehousing, Schema Design',
-      'Predictive Analytics — Forecast Modeling, Machine Learning, Regression Analysis, Cluster Analysis',
-      'Visualization & Cloud — Power BI, Tableau, Google Data Studio, Looker, Python, SQL, R, Azure Synapse, AWS Redshift',
-    ],
+      "In today's data-driven world, the right insights give your business a competitive edge. Prakvi offers end-to-end data analytics services in India to help organizations collect, process, and interpret complex data for smarter decisions. Using advanced analytics tools, AI-driven algorithms, and industry expertise, we uncover patterns, predict trends, and optimize performance, turning raw data into strategies that drive growth and profitability.",
+    features: dataAnalyticsSolutions.map(({ title, description }) =>
+      `${title} — ${description.replace(/"([^"]+)"/g, '“$1”')}`,
+    ),
+    benefits: [],
+    useCases: [],
+    architecturePoints: [],
     deliverySteps: [
       {
         step: '01',
@@ -70,12 +158,12 @@ export const productsData: ProductItem[] = [
         step: '06',
         title: 'Continuous Improvement & Action',
         description:
-          'Our journey doesn’t end at delivery. We enable iterative learning, ongoing optimization, and alignment with evolving business goals, fueling long-term success through data.',
+          "Our journey doesn't end at delivery. We enable iterative learning, ongoing optimization, and alignment with evolving business goals, fueling long-term success through data.",
       },
     ],
     stackTitle: 'Data Analytics – Turning Data into Actionable Insights',
     stackSummary:
-      'Unearth the hidden narratives within your data and transform them into strategic imperatives with Prakvi’s Data Analytics services.',
+      "Unearth the hidden narratives within your data and transform them into strategic imperatives with Prakvi's Data Analytics services. We don't just generate reports, we architect insightful journeys, revealing patterns and predictions that empower you to make informed decisions.",
     stackTabs: [
       {
         label: 'Data Modeling',
@@ -108,11 +196,11 @@ export const productsData: ProductItem[] = [
     id: 'hr-management-system', slug: 'hr-management-system',
     name: 'HR Management System', tagline: 'Simplify the Employee Lifecycle',
     shortDesc: 'Centralize employee records, onboarding, attendance, leave, and HR workflows.',
-    fullDesc: 'Manage people operations in one workspace, from employee onboarding and records to attendance, leave requests, and payroll preparation. Structured approvals and reporting help HR teams coordinate everyday tasks.',
+    fullDesc: hrManagementData.heroDescription,
     features: ['Employee directory and records', 'Onboarding and offboarding workflows', 'Attendance and leave management', 'Payroll input preparation', 'Employee self-service requests', 'HR reports and approval tracking'],
-    benefits: ['Reduce repetitive administration', 'Organize employee information', 'Track requests and approvals'],
-    useCases: ['Employee onboarding', 'Leave administration', 'Workforce reporting'],
-    architecturePoints: ['Role-based access', 'Central employee directory', 'Approval workflows'],
+    benefits: [],
+    useCases: [],
+    architecturePoints: [],
     stats: [{ label: 'Focus', value: 'Employee Lifecycle' }, { label: 'Workflows', value: 'HR Operations' }],
     iconName: 'Users', badge: 'Employee Lifecycle Automation', image: generatedImages.serviceStaffingTeam,
   },
@@ -125,31 +213,10 @@ export const productsData: ProductItem[] = [
       'Centralize vendor data, automate procurement workflows, monitor SLAs, manage contract lifecycles, and strengthen supplier governance.',
     fullDesc:
       'Effective vendor management is key to cost savings and quality assurance. Prakvi offers a comprehensive Vendor Management System (VMS) in India to centralize vendor data, track performance, streamline procurement, and ensure compliance. Our platform supports vendor onboarding, contract renewal, and lifecycle management with automated workflows, real-time analytics, and secure cloud access to reduce risks and strengthen vendor relationships.',
-    features: [
-      'Seamless Vendor Onboarding — Automate registrations, approvals, and document verification to onboard vendors effortlessly.',
-      'Centralized Vendor Database — Maintain a single source of truth with real-time vendor data, contracts, and compliance records.',
-      'Automated Procurement & Workflows — Streamline purchase orders, approvals, invoicing, and payments to enhance efficiency.',
-      'Performance Monitoring & SLA Tracking — Evaluate vendor KPIs, contract adherence, and service levels with real-time analytics.',
-      'Risk & Compliance Management — Ensure adherence to regulatory standards, mitigate risks, and enforce contractual obligations.',
-      'Seamless Integrations — Connect VMS with ERP, finance, and supply chain systems for end-to-end visibility.',
-      'Data-Driven Insights — Leverage AI-powered analytics for vendor evaluation, cost optimization, and risk assessment.',
-    ],
-    benefits: [
-      'Centralizes vendor data, compliance records, and contract lifecycles in one repository',
-      'Automates purchase requests, approvals, invoicing, and renewal alerts',
-      'Evaluates vendor KPIs and SLA adherence with real-time dashboards',
-      'Connects seamlessly with ERP, finance, and supply chain platforms',
-    ],
-    useCases: [
-      'Procurement Automation: Automated purchase requests, supplier onboarding, sourcing workflows, and vendor portals.',
-      'Contract Lifecycle Management: Digital contracts, lifecycle tracking, renewal alerts, and obligation management.',
-      'Performance & Compliance: KPI dashboards, vendor rating systems, performance audits, and risk mitigation tools.',
-    ],
-    architecturePoints: [
-      'Procurement & Vendor Portal — Automated Purchase Requests, Supplier Onboarding, Sourcing Workflow, Automated Approvals',
-      'Contract & Risk Engine — Digital Contracts, Renewal Alerts, Obligation Management, Compliance Tracking',
-      'ERP & Finance Integration — Real-time Insights, Mobile Access, Process Automation, Secure Infrastructure',
-    ],
+    features: vendorManagementSolutions.map(({ title, description }) => `${title} — ${description}`),
+    benefits: [],
+    useCases: [],
+    architecturePoints: [],
     deliverySteps: [
       {
         step: '01',
@@ -227,31 +294,13 @@ export const productsData: ProductItem[] = [
     shortDesc:
       'Centralize customer data, automate sales & marketing workflows, track interactions with a 360° customer view, and boost conversions.',
     fullDesc:
-      'In today’s competitive market, strong relationships with customers and partners are vital. Prakvi’s CRM software in India centralizes customer data, tracks interactions, and personalizes communication to boost loyalty and sales conversions. With real-time analytics, automated workflows, and cloud accessibility, our relationship management solutions help businesses enhance engagement, improve support, and drive long-term growth.',
-    features: [
-      'Sales Automation — Shorten sales cycles with AI-driven lead scoring, automated follow-ups, and seamless deal tracking.',
-      'Marketing Automation — Run targeted campaigns, analyze customer behavior, and personalize engagement across multiple channels.',
-      'Customer Support & Helpdesk — Improve response times with ticketing systems, self-service portals, and AI-powered chatbots.',
-      '360° Customer View — Gain real-time insights into customer interactions, purchase history, and preferences for smarter decision-making.',
-      'Cloud-Based & Scalable — Our CRM solutions grow with your business, ensuring secure, flexible, and on-the-go accessibility.',
-      'Seamless Integration — Connect effortlessly with ERP, e-commerce, social media, and third-party applications for a unified workflow.',
-    ],
-    benefits: [
-      'Centralizes customer data and personalizes outreach to boost loyalty and conversions',
-      'AI-driven lead scoring and automated follow-ups shorten enterprise sales cycles',
-      'Unified 360° visibility across sales, marketing, and support helpdesk interactions',
-      'Seamless integration with HubSpot, Salesforce, Zoho CRM, Dynamics 365, and ERP tools',
-    ],
-    useCases: [
-      'Customer Insights: Behavioral analytics, customer segmentation, and 360° customer view.',
-      'Automation & Workflows: Automated workflows, email campaign automation, lead scoring, and alerts.',
-      'Data Management & Sync: Unified data repository, data privacy compliance, and real-time sync across CRM platforms.',
-    ],
-    architecturePoints: [
-      '360° Customer Insights & Behavioral Segmentation Repository',
-      'Automated Sales, Email Campaign & Lead Scoring Engine',
-      'Multi-Platform Integrations: HubSpot, Salesforce, Zoho CRM, Microsoft Dynamics 365, Freshsales',
-    ],
+      "In today's competitive market, strong relationships with customers and partners are vital. Prakvi's CRM software in India centralizes customer data, tracks interactions, and personalizes communication to boost loyalty and sales conversions. With real-time analytics, automated workflows, and cloud accessibility, our relationship management solutions help businesses enhance engagement, improve support, and drive long-term growth.",
+    features: relationshipManagementSolutions.map(({ title, description, catalogDescription }) =>
+      `${title} — ${catalogDescription ?? description}`,
+    ),
+    benefits: [],
+    useCases: [],
+    architecturePoints: [],
     deliverySteps: [
       {
         step: '01',
@@ -292,7 +341,7 @@ export const productsData: ProductItem[] = [
     ],
     stackTitle: 'Customer Relationship Management (CRM) Tools',
     stackSummary:
-      'Elevate customer engagement through personalized CRM implementation and optimization.',
+      'Elevate customer engagement through personalized CRM implementation and optimization',
     stackTabs: [
       {
         label: 'Customer Insights',

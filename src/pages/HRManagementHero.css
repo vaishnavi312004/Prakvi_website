@@ -1,12 +1,17 @@
 .hr-management-hero {
-  --service-hero-start: 40%;
+  --service-hero-start: 26%;
   --hr-hero-tail: linear-gradient(to bottom, transparent 86%, color-mix(in srgb, var(--theme-canvas) 48%, transparent) 96%, var(--theme-canvas));
   --hr-media-tail: linear-gradient(to bottom, black 88%, #000d 94%, #0006 97%, transparent);
   --service-hero-fade:
-    linear-gradient(to right, transparent 5%, #0001 9%, #0005 14%, #000b 20%, #000e 24%, black 28%),
+    linear-gradient(to right, transparent, #0002 5%, #0008 14%, #000e 23%, black 34%),
     var(--hr-media-tail);
-  --service-hero-mobile-fade: var(--hr-media-tail);
-  min-height: clamp(30rem, 37vw, 46rem);
+  --service-hero-mobile-fade:
+    linear-gradient(to bottom, transparent, #0008 7%, black 16%),
+    var(--hr-media-tail);
+  display: flex;
+  align-items: center;
+  min-height: clamp(36rem, 37vw, 46rem);
+  padding-block: clamp(3rem, 5.5vw, 5.25rem);
   background:
     var(--hr-hero-tail),
     radial-gradient(ellipse 58% 65% at 52% 10%, #f9d5c99c, transparent 82%),
@@ -15,15 +20,31 @@
     linear-gradient(110deg, #fff3ec 4%, #fbe7e8 32%, #f0d0dc 61%, #cf9fab 100%);
 }
 
+.hr-management-hero-content {
+  width: 100%;
+  max-width: none;
+  padding-inline: clamp(1rem, 6vw, 7.25rem);
+}
+.hr-management-hero-copy { width: min(49%, 38rem); }
+.hr-management-hero-copy h1 {
+  color: #172b45;
+  font-size: clamp(2.125rem, 3.25vw, 3.4rem);
+  text-wrap: balance;
+}
+.hr-management-hero-copy .text-muted { color: #354866; }
 .hr-management-hero .service-hero-frame { mask-composite: intersect; }
-.hr-management-intro { padding-block: clamp(1.65rem, 3.7vw, 3.4rem); }
 
 @media (max-width: 1023px) {
   .hr-management-hero {
+    display: block;
     min-height: 0;
+    padding-top: clamp(1.75rem, 5.5vw, 3.75rem);
+    padding-bottom: 0;
     background:
       var(--hr-hero-tail),
       radial-gradient(ellipse 88% 58% at 5% 73%, #ffd9c89e, transparent 82%),
       linear-gradient(148deg, #fff3ec, #f9e3e6 38%, #efccd7 76%, #dba6b2);
   }
+
+  .hr-management-hero-copy { width: 100%; max-width: 38rem; }
 }

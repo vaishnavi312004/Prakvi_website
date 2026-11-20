@@ -1,6 +1,7 @@
 ﻿import React, { useEffect, useId, useRef, useState, useSyncExternalStore } from 'react';
 import { AnimatePresence, motion, stagger, useInView, useScroll, useTransform } from 'motion/react';
 import { ArrowRight, type LucideIcon } from 'lucide-react';
+import { ScrollRevealText } from './ScrollRevealText';
 import './AboutStory.css';
 
 type StoryValue = { title: string; description: string; Icon: LucideIcon };
@@ -126,14 +127,10 @@ export function AboutStory({ title, paragraphs, values }: AboutStoryProps) {
               transition={{ duration: reduced ? 0 : 0.5, ease }}
             >Our Journey</motion.div>
             <div className="about-story-title-reveal">
-              <motion.h2
+              <h2
                 id="about-story-title"
                 className="font-display text-2xl sm:text-3xl lg:text-4xl font-extrabold leading-tight text-foreground text-balance"
-                initial={reduced ? false : { opacity: 0, y: 23 }}
-                whileInView={{ opacity: 1, y: 0 }}
-                viewport={viewport}
-                transition={{ duration: reduced ? 0 : 0.72, delay: reduced ? 0 : 0.065, ease }}
-              >{title}</motion.h2>
+              ><ScrollRevealText text={title} /></h2>
             </div>
             {paragraphs.map((paragraph, index) => (
               <motion.p key={paragraph}

@@ -1,6 +1,7 @@
 ﻿import React, { useEffect, useRef, useState, useSyncExternalStore } from 'react';
 import { AnimatePresence, animate, motion, useInView, useIsPresent, useMotionValue } from 'motion/react';
 import { ArrowLeft, ArrowRight, Pause, Play, type LucideIcon } from 'lucide-react';
+import { ScrollRevealText } from './ScrollRevealText';
 import './RecognitionGallery.css';
 
 type Achievement = { id: string; title: string; description: string; Icon: LucideIcon };
@@ -99,11 +100,10 @@ export function RecognitionGallery({ title, description, items }: { title: strin
       <AnimatePresence>
         <div className="about-inner">
           <div className="recognition-heading">
-            <motion.div initial={reduced ? false : { opacity: 0, y: 14 }} whileInView={{ opacity: 1, y: 0 }}
-              viewport={entranceViewport} transition={{ duration: reduced ? 0 : 0.62, ease }}>
-              <div className="mb-3 text-xs font-bold uppercase tracking-[0.18em] text-accent-text">Milestones</div>
-              <h2 className="font-display text-2xl sm:text-3xl lg:text-4xl font-extrabold leading-tight text-foreground text-balance">{title}</h2>
-            </motion.div>
+            <motion.div className="mb-3 text-xs font-bold uppercase tracking-[0.18em] text-accent-text"
+              initial={reduced ? false : { opacity: 0, y: 14 }} whileInView={{ opacity: 1, y: 0 }}
+              viewport={entranceViewport} transition={{ duration: reduced ? 0 : 0.62, ease }}>Milestones</motion.div>
+            <h2 className="font-display text-2xl sm:text-3xl lg:text-4xl font-extrabold leading-tight text-foreground text-balance"><ScrollRevealText text={title} /></h2>
             <motion.p className="mt-4 text-base sm:text-lg leading-relaxed text-muted" initial={reduced ? false : { opacity: 0 }}
               whileInView={{ opacity: 1 }} viewport={entranceViewport}
               transition={{ duration: reduced ? 0 : 0.62, delay: reduced ? 0 : 0.14, ease }}>{description}</motion.p>

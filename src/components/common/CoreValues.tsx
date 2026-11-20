@@ -1,6 +1,7 @@
 import React, { useCallback, useEffect, useId, useLayoutEffect, useRef, useState, useSyncExternalStore } from 'react';
 import { AnimatePresence, motion, useAnimationFrame, useInView, useMotionValue, useSpring, useTransform, type MotionValue } from 'motion/react';
 import { Pause, Play, type LucideIcon } from 'lucide-react';
+import { ScrollRevealText } from './ScrollRevealText';
 import './CoreValues.css';
 
 type Value = { id: string; title: string; short: string; Icon: LucideIcon };
@@ -199,10 +200,10 @@ export function CoreValues({ values, title, description }: { values: Value[]; ti
       onBlurCapture={event => { if (!event.currentTarget.contains(event.relatedTarget)) setKeyboardFocus(false); }}>
       <div className="about-inner">
         <div className="core-values-heading">
-          <motion.div initial={reduced ? false : { opacity: 0, y: 13 }} whileInView={{ opacity: 1, y: 0 }} viewport={entrance} transition={{ duration: reduced ? 0 : 0.58, ease }}>
-            <div className="mb-3 text-xs font-bold uppercase tracking-[0.18em] text-accent-text">Core Principles</div>
-            <h2 className="font-display text-2xl sm:text-3xl lg:text-4xl font-extrabold leading-tight text-foreground text-balance">{title}</h2>
-          </motion.div>
+          <motion.div className="mb-3 text-xs font-bold uppercase tracking-[0.18em] text-accent-text"
+            initial={reduced ? false : { opacity: 0, y: 13 }} whileInView={{ opacity: 1, y: 0 }} viewport={entrance}
+            transition={{ duration: reduced ? 0 : 0.58, ease }}>Core Principles</motion.div>
+          <h2 className="font-display text-2xl sm:text-3xl lg:text-4xl font-extrabold leading-tight text-foreground text-balance"><ScrollRevealText text={title} /></h2>
           <motion.p className="mt-4 text-base sm:text-lg leading-relaxed text-muted" initial={reduced ? false : { opacity: 0 }} whileInView={{ opacity: 1 }} viewport={entrance} transition={{ duration: reduced ? 0 : 0.58, delay: reduced ? 0 : 0.13, ease }}>{description}</motion.p>
         </div>
         <div className="core-values-layout">

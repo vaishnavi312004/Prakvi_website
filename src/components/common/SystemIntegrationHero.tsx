@@ -4,6 +4,7 @@ import { Link } from 'react-router-dom';
 import { ArrowRight } from 'lucide-react';
 import { ServiceItem } from '../../types';
 import { Breadcrumbs } from './Breadcrumbs';
+import { ScrollRevealText } from './ScrollRevealText';
 import { ServiceHeroMedia } from './ServiceHeroMedia';
 
 export const SystemIntegrationHero: React.FC<{ service: ServiceItem }> = ({ service }) => {
@@ -68,15 +69,8 @@ export const SystemIntegrationHero: React.FC<{ service: ServiceItem }> = ({ serv
             className="enterprise-hero-title font-display font-extrabold tracking-tight"
             {...entrance(0.05)}
           >
-            {service.title}
+            <ScrollRevealText text={service.tagline} preserveLayout />
           </motion.h1>
-
-          <motion.p
-            className="enterprise-hero-tagline font-semibold"
-            {...entrance(0.12)}
-          >
-            {service.tagline}
-          </motion.p>
 
           <motion.p
             className="enterprise-hero-description"
@@ -96,6 +90,9 @@ export const SystemIntegrationHero: React.FC<{ service: ServiceItem }> = ({ serv
               <a href="#capabilities" className="btn-secondary">
                 <span>Explore Service Offerings</span>
               </a>
+            </motion.div>
+            <motion.div {...entrance(0.4)}>
+              <a href="#integration-process" className="btn-secondary">Our Process</a>
             </motion.div>
           </div>
         </div>

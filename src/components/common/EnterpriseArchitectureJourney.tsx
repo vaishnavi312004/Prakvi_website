@@ -1,10 +1,11 @@
 ﻿import React, { useCallback, useEffect, useId, useRef, useState, useSyncExternalStore } from 'react';
-import { AnimatePresence, motion, useAnimationFrame, useInView, useMotionValue } from 'motion/react';
-import { Activity, ArrowUpRight, Cable, Layers3, Network, Pause, Play, Route, ScanSearch, ShieldCheck } from 'lucide-react';
-import type { ServiceItem } from '../../types';
+import { AnimatePresence, motion, useAnimationFrame, useInView, useMotionValue, useScroll } from 'motion/react';
+import { Activity, ArrowUpRight, Cable, ChartColumn, ClipboardList, FileChartColumn, Layers3, Megaphone, Network, Pause, PenLine, Play, Route, ScanSearch, Search, ShieldCheck, SlidersHorizontal, type LucideIcon } from 'lucide-react';
+import { ScrollRevealText } from './ScrollRevealText';
 import './EnterpriseArchitectureJourney.css';
 
 const stepIcons = [ScanSearch, Network, ShieldCheck, Route, Cable, Activity];
+const campaignIcons = [ScanSearch, ClipboardList, PenLine, Megaphone, Search, ChartColumn, SlidersHorizontal, FileChartColumn];
 const stageDuration = 4000;
 const hoverDelay = 650;
 const ease = [0.22, 1, 0.36, 1] as const;
@@ -59,12 +60,67 @@ const portrait: JourneyLayout = {
   finish: 'C229 639 159 659 159 677',
 };
 
-function JourneyPath({ layout, active, moving, revealed, reduced }: {
+const campaignLandscape: JourneyLayout = {
+  width: 800,
+  height: 560,
+  start: 'M18 75',
+  stages: [
+    { x: 178, y: 72, curve: 'C62 96 114 72 178 72' },
+    { x: 605, y: 64, curve: 'C325 67 452 42 605 64' },
+    { x: 605, y: 206, curve: 'C803 78 803 200 605 206' },
+    { x: 195, y: 198, curve: 'C458 223 332 192 195 198' },
+    { x: 178, y: 335, curve: 'C12 192 5 336 178 335' },
+    { x: 605, y: 345, curve: 'C311 318 479 353 605 345' },
+    { x: 605, y: 490, curve: 'C805 337 805 487 605 490' },
+    { x: 195, y: 485, curve: 'C473 505 324 469 195 485' },
+  ],
+  finish: 'C115 476 63 494 18 536',
+};
+
+const campaignPortrait: JourneyLayout = {
+  width: 400,
+  height: 750,
+  start: 'M102 4',
+  stages: Array.from({ length: 8 }, (_, index) => {
+    const x = index % 2 ? 229 : 167;
+    const y = 55 + index * 91;
+    const previousX = index === 0 ? 102 : 396 - x;
+    return { x, y, curve: `C${previousX} ${y - 57} ${x} ${y - 34} ${x} ${y}` };
+  }),
+  finish: 'C229 722 159 735 159 747',
+};
+
+const sevenStepLandscape: JourneyLayout = {
+  ...campaignLandscape,
+  stages: campaignLandscape.stages.slice(0, 7),
+  finish: 'C690 492 750 505 786 534',
+};
+
+const sevenStepPortrait: JourneyLayout = {
+  width: 400,
+  height: 750,
+  start: 'M102 4',
+  stages: Array.from({ length: 7 }, (_, index) => {
+    const x = index % 2 ? 229 : 167;
+    const y = 55 + index * 91;
+    const previousX = index === 0 ? 102 : 396 - x;
+    return { x, y, curve: `C${previousX} ${y - 57} ${x} ${y - 34} ${x} ${y}` };
+  }),
+  finish: 'C229 648 159 671 159 697',
+};
+
+function ScrollTrace({ path, target }: { path: string; target: React.RefObject<HTMLDivElement | null> }) {
+  const { scrollYProgress } = useScroll({ target, offset: ['start 75%', 'end 65%'] });
+  return <motion.path d={path} className="ea-journey-track-active" stroke="#089fdb" style={{ pathLength: scrollYProgress }} />;
+}
+
+function JourneyPath({ layout, active, moving, revealed, reduced, traceTarget }: {
   layout: JourneyLayout;
   active: number;
   moving: boolean;
   revealed: boolean;
   reduced: boolean;
+  traceTarget?: React.RefObject<HTMLDivElement | null>;
 }) {
   const id = useId();
   const svg = useRef<SVGSVGElement>(null);
@@ -107,6 +163,7 @@ function JourneyPath({ layout, active, moving, revealed, reduced }: {
       <g mask={`url(#${id}-reveal)`}>
         <path className="ea-journey-track-aura" d={path} />
         <path className="ea-journey-track" d={path} stroke={`url(#${id}-route)`} />
+        {traceTarget && !reduced && <ScrollTrace path={path} target={traceTarget} />}
         <motion.path key={active} className="ea-journey-track-active" d={activePath} stroke={`url(#${id}-active)`}
           initial={reduced ? false : { opacity: 0 }} animate={{ opacity: 1 }} transition={{ duration: reduced ? 0 : 0.42 }} />
         {!reduced && [0, -4, -8].map(start => (
@@ -132,14 +189,21 @@ function StageClock({ tick }: { tick: (delta: number) => void }) {
 }
 
 interface EnterpriseArchitectureJourneyProps {
+  sectionId?: string;
+  stepsLabel?: string;
+  icons?: LucideIcon[];
+  traceOnScroll?: boolean;
   title: string;
   description: string;
-  steps: ServiceItem['deliverySteps'];
+  steps: { step: string; title: string; description?: string; points?: string[] }[];
 }
 
-export function EnterpriseArchitectureJourney({ title, description, steps }: EnterpriseArchitectureJourneyProps) {
+export function EnterpriseArchitectureJourney({
+  sectionId = 'enterprise-process', stepsLabel, icons: stepIconOverrides, title, description, steps, traceOnScroll,
+}: EnterpriseArchitectureJourneyProps) {
   const id = useId();
   const workspace = useRef<HTMLDivElement>(null);
+  const route = useRef<HTMLDivElement>(null);
   const tabs = useRef<(HTMLButtonElement | null)[]>([]);
   const resumeTimer = useRef<ReturnType<typeof setTimeout> | null>(null);
   const progress = useMotionValue(0);
@@ -155,7 +219,14 @@ export function EnterpriseArchitectureJourney({ title, description, steps }: Ent
   const [pageVisible, setPageVisible] = useState(true);
   const moving = inView && pageVisible && !reduced;
   const advancing = moving && playing && !hovering && !focused && !reading && steps.length > 1;
-  const layout = compact ? portrait : landscape;
+  const extended = steps.length === campaignIcons.length;
+  const sevenStep = steps.length === 7;
+  const layout = sevenStep
+    ? (compact ? sevenStepPortrait : sevenStepLandscape)
+    : extended
+      ? (compact ? campaignPortrait : campaignLandscape)
+      : (compact ? portrait : landscape);
+  const icons = extended ? campaignIcons : stepIconOverrides ?? stepIcons;
 
   useEffect(() => {
     const update = () => setPageVisible(!document.hidden);
@@ -210,13 +281,14 @@ export function EnterpriseArchitectureJourney({ title, description, steps }: Ent
   };
 
   return (
-    <section id="enterprise-process" className="ea-journey" aria-labelledby={`${id}-title`} data-moving={moving}>
+    <section id={sectionId} className="ea-journey" aria-labelledby={`${id}-title`} tabIndex={sectionId !== 'enterprise-process' ? -1 : undefined}
+      data-moving={moving} data-extended={extended || undefined} data-seven={sevenStep || undefined}>
       {/* Scroll reveals run independently from the route entrance on direct visits. */}
       <AnimatePresence>
         <div className="ea-journey-inner">
           <header className="ea-journey-heading">
             <motion.h2 id={`${id}-title`} initial={reduced ? false : { opacity: 0, y: 30 }}
-              whileInView={{ opacity: 1, y: 0 }} viewport={revealViewport} transition={{ duration: reduced ? 0 : 0.63, ease }}>{title}</motion.h2>
+              whileInView={{ opacity: 1, y: 0 }} viewport={revealViewport} transition={{ duration: reduced ? 0 : 0.63, ease }}><ScrollRevealText text={title} preserveLayout /></motion.h2>
             <motion.p initial={reduced ? false : { opacity: 0, y: 13 }}
               whileInView={{ opacity: 1, y: 0 }} viewport={revealViewport} transition={{ duration: reduced ? 0 : 0.62, delay: reduced ? 0 : 0.14, ease }}>{description}</motion.p>
           </header>
@@ -224,12 +296,13 @@ export function EnterpriseArchitectureJourney({ title, description, steps }: Ent
             onFocusCapture={event => setFocused(event.target.matches(':focus-visible'))}
             onBlurCapture={event => { if (!event.currentTarget.contains(event.relatedTarget)) setFocused(false); }}>
             {advancing && <StageClock tick={tick} />}
-            <div className="ea-journey-route">
+            <div className="ea-journey-route" ref={route}>
               <div className="ea-journey-atmosphere" aria-hidden="true"><i /><i /><i /><i /><i /></div>
-              <JourneyPath layout={layout} active={active} moving={moving} reduced={reduced} revealed={revealed} />
-              <div role="tablist" aria-label="Enterprise Architecture stages" aria-orientation={compact ? 'vertical' : 'horizontal'} className="ea-journey-nodes">
+              <JourneyPath layout={layout} active={active} moving={moving} reduced={reduced}
+                revealed={revealed} traceTarget={traceOnScroll ? route : undefined} />
+              <div role="tablist" aria-label={stepsLabel ?? (extended ? 'Digital Marketing process steps' : 'Enterprise Architecture stages')} aria-orientation={compact ? 'vertical' : 'horizontal'} className="ea-journey-nodes">
                 {steps.map((step, index) => {
-                  const Icon = stepIcons[index] ?? Layers3;
+                  const Icon = icons[index] ?? Layers3;
                   const position = layout.stages[index];
                   return (
                     <div className="ea-journey-node-position" key={step.step}
@@ -265,7 +338,7 @@ export function EnterpriseArchitectureJourney({ title, description, steps }: Ent
               <div className="ea-journey-details">
                 {steps.map((step, index) => {
                   const selected = index === active;
-                  const Icon = stepIcons[index] ?? Layers3;
+                  const Icon = icons[index] ?? Layers3;
                   return (
                     <motion.div key={step.step} id={`${id}-detail-${index}`} className="ea-journey-detail" role="tabpanel"
                       aria-labelledby={`${id}-step-${index}`} aria-hidden={!selected} tabIndex={selected ? 0 : -1} inert={!selected}
@@ -280,8 +353,8 @@ export function EnterpriseArchitectureJourney({ title, description, steps }: Ent
                         <motion.span className="ea-journey-detail-number"
                           variants={{ shown: { opacity: 1, y: reduced ? 0 : [9, 0] }, hidden: { opacity: 0, y: reduced ? 0 : -6 } }}>{step.step}</motion.span>
                       </div>
-                      <h3>{step.title}</h3>
-                      <p>{step.description}</p>
+                      <h3><ScrollRevealText text={step.title} preserveLayout /></h3>
+                      {step.description && <p>{step.description}</p>}
                       {step.points?.length ? <ul>{step.points.map(point => (
                         <motion.li key={point} variants={{ shown: { opacity: 1, y: 0 }, hidden: { opacity: 0, y: reduced ? 0 : 6 } }}
                           transition={{ duration: reduced ? 0 : 0.24, ease }}>{point}</motion.li>
